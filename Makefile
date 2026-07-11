@@ -4,9 +4,9 @@ SHELL := /usr/bin/env bash
 help: ## List repository automation commands.
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_.-]+:.*##/ {printf "%-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 status: ## Show working-tree, branch, and recent commit status.
-	@./scripts/codex/status.sh
+	@./scripts/validation/status.sh
 doctor: ## Check local Node, pnpm, Codex and project MCP configuration.
-	@./scripts/codex/doctor.sh
+	@./scripts/validation/doctor.sh
 format-check: ## Verify formatting without rewriting files.
 	pnpm format:check
 check: ## Run formatting, unit tests, and workspace checks.
@@ -25,13 +25,13 @@ build: ## Build all workspaces.
 semgrep: ## Run repository Semgrep rules.
 	pnpm semgrep
 verify: ## Verify a normal code change.
-	@./scripts/codex/verify.sh changed
+	@./scripts/validation/verify.sh changed
 verify-runtime: ## Verify a runtime or boundary change.
-	@./scripts/codex/verify.sh runtime
+	@./scripts/validation/verify.sh runtime
 verify-docs: ## Verify a documentation change.
-	@./scripts/codex/verify.sh docs
+	@./scripts/validation/verify.sh docs
 release: ## Run all local release-readiness gates.
-	@./scripts/codex/verify.sh release
+	@./scripts/validation/verify.sh release
 ci: ## Run the repository CI command.
 	pnpm ci
 dev: ## Start the web workspace development server.

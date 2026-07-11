@@ -7,7 +7,7 @@ module.exports = {
       comment:
         "Every import must resolve through TypeScript or package exports.",
       from: {},
-      to: { couldNotResolve: true },
+      to: { couldNotResolve: true, pathNot: "^server-only$" },
     },
     {
       name: "no-circular-dependencies",
@@ -47,6 +47,34 @@ module.exports = {
       comment: "Application depends on ports, never concrete adapters.",
       from: { path: "^modules/([^/]+)/src/application/" },
       to: { path: "^modules/$1/src/infrastructure/" },
+    },
+    {
+      name: "template-application-has-no-framework-dependencies",
+      severity: "error",
+      comment:
+        "The executable master template must demonstrate a framework-free application layer.",
+      from: {
+        path: "^apps/web/src/master-template/application/",
+        pathNot: "\\.test\\.ts$",
+      },
+      to: {
+        dependencyTypes: [
+          "npm",
+          "npm-dev",
+          "npm-optional",
+          "npm-peer",
+          "npm-no-pkg",
+          "npm-unknown",
+        ],
+      },
+    },
+    {
+      name: "template-application-does-not-depend-on-infrastructure",
+      severity: "error",
+      comment:
+        "The executable master template reaches adapters only through its ports.",
+      from: { path: "^apps/web/src/master-template/application/" },
+      to: { path: "^apps/web/src/master-template/infrastructure/" },
     },
     {
       name: "contracts-are-standalone",

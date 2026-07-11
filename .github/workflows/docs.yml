@@ -5,9 +5,9 @@ on:
     paths:
       - "docs/**"
       - "apps/web/content/docs/**"
-      - "scripts/check-docs.mjs"
-      - "scripts/check-workspaces.mjs"
-      - "scripts/release-check.mjs"
+      - "scripts/validation/check-docs.mjs"
+      - "scripts/validation/check-workspaces.mjs"
+      - "scripts/validation/release-check.mjs"
       - "SECURITY.md"
       - "CONTRIBUTING.md"
 

@@ -15,3 +15,7 @@
 ## 核准與實作門檻
 
 為任一策略領域建立模組前，必須先有：產品 owner、具名 actor 與問題、首個 use case、驗收條件、資料分類、context manifest、application port 與 ADR。跨 context 的資料只可透過 `@a-i/<context>/contracts` 發佈。
+
+`master-template` 與 `sub-template` 是架構展示／複製起點，不是本表所列的 context
+宣告；它們不會填入 `docs/maps/context-map.json`。見
+[`../04-architecture/template-system.md`](../04-architecture/template-system.md)。
