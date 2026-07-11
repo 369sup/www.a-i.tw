@@ -17,7 +17,7 @@
     "ci": "npm run check && npm run docs:check && node scripts/check-boundaries.mjs && npm run build && npm run semgrep"
   },
   "devDependencies": {
-    "eslint": "^9",
+    "eslint": "^10",
     "semgrep": "^0.0.1",
     "turbo": "^2.10.4",
     "typescript": "^5"
