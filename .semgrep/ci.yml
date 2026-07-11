@@ -1,0 +1,13 @@
+rules:
+  - id: no-secret-like-values
+    languages: [javascript, typescript]
+    message: Do not commit credential-like literals; use environment configuration.
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: $KEY = "sk-..."
+          - pattern: $KEY = "ghp_..."
+    paths:
+      exclude:
+        - "/docs/**"
+        - "/*.md"
