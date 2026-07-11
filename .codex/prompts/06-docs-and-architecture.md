@@ -2,7 +2,7 @@
 
 請處理：`<新功能、context、contract、ADR 或文件需求>`。
 
-先讀：`docs/ai-index.md`、`docs/domains/ubiquitous-language.md`、`docs/domains/subdomains.md`、`docs/domains/bounded-contexts.md`、`docs/maps/domain-context-map.md`，再讀對應 ADR、contract、status 與 module 文件。
+先讀：`docs/ai-index.md`、`docs/domains/ubiquitous-language.md`、`docs/domains/subdomains.md`、`docs/domains/bounded-contexts.md`、`docs/domains/context-map.md`，再讀對應 ADR、contract、status 與 module 文件。
 
 - 新 bounded context 只能在 ownership、語言、aggregate、use case、port、adapter、context map 與 public contract 已明確時建立；用既有命令產生骨架：
 

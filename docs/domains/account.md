@@ -1,35 +1,96 @@
 # Account 策略
 
-狀態：Proposed
+狀態：Proposed / 尚待產品 owner 核准
+
 Context 候選：`account`
 Subdomain：Supporting
 
 ## 任務
 
-提供資源歸屬與協作的穩定容器。Account 可代表個人或組織，擁有可路由的命名空間及成員關係；它不等於登入者，也不等於 Repository。
+Account 提供資源歸屬、可路由命名空間與多人協作關係的穩定邊界。Account 可以是
+`personal`、`organization`，並為將來的 `enterprise` governance scope 保留明確擴充點；
+它不是可登入的 Principal、credential，也不是 Repository。
+
+此模型刻意區分「誰執行動作」和「資源屬於誰」。一個 human Principal 可擁有 personal
+Account、加入多個 organization Account，或僅是某個 Repository 的 external collaborator；
+這些關係不可折疊為一個 `user.role` 欄位。
 
 ## 擁有的模型與不變條件
 
-| 模型            | 說明與不變條件                                                                            |
-| --------------- | ----------------------------------------------------------------------------------------- |
-| Account         | 穩定 ID、種類（personal / organization）、生命週期與狀態；刪除採明確的關閉／保留政策。    |
-| Namespace       | 人類可讀 handle 與唯一性規則；重新命名與保留名稱不應改變 Account ID。                     |
-| Membership      | Principal 加入 organization Account 的關係；必有狀態與有效範圍，不能以 profile 欄位取代。 |
-| Account Profile | 顯示名稱、描述與其他非安全公開資料；不得包含 credential 或 access secret。                |
+| 模型             | 說明與不變條件                                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| Account          | 穩定 ID、kind、status 與 lifecycle；rename、transfer 或 profile 修改不得改變 `AccountId`。                   |
+| Namespace        | Account 擁有的人類可讀 handle；同一可路由 scope 內唯一，名稱釋放與保留有明確 policy。                        |
+| Account Profile  | 顯示名稱、描述等非安全資料；不得承載 credential、session secret 或 authorization grant。                     |
+| Membership       | Principal 與 organization Account 的關係事實，具有 invitation／active／suspended／removed 等狀態與時間語意。 |
+| Team             | organization Account 內的成員群組與 maintainer 關係；不是登入 identity、Account 或資源 owner。               |
+| Governance Scope | enterprise 類集中治理容器的候選模型；它治理 organization Account，不直接取代 Repository owner。              |
 
-## 邊界與公開語言
+只有 Account 能宣告其 namespace 可用或其 organization membership 有效。Repository 可以引用
+`AccountId`，但不可從路徑字串推導 owner、複製 member list，或以自己的 collaborator grant
+回寫 Account membership。
 
-- Identity & Access 擁有 Principal 與驗證；Account 僅保存 `PrincipalId` 引用，並發佈 membership facts 供授權判定使用。
-- Repository 只引用 `AccountId` 作為 owner／namespace；不得複製 organization member 清單或以 path string 推導擁有權。
-- Account 不判定 Repository 操作能否執行。它提供成員事實；Identity & Access 結合 scope 與 policy 作出 decision。
+## In scope
+
+- personal／organization Account 的建立、rename、suspension、closure 與可保留的歷史 identity。
+- Account namespace 的保留、唯一性與安全可揭露的解析。
+- organization Membership 的 invitation、acceptance、suspension、removal 與 audit facts。
+- Team membership 與 Team maintainer 的群組管理；Team 只發布關係事實。
+- Resource context 建立或 transfer 前所需的 owner eligibility／namespace availability contract。
+
+## Explicitly out of scope
+
+- Principal、authentication provider linkage、session、credential、token 與 login recovery。
+- Repository identity、visibility、role、direct collaborator、Repository lifecycle 與 repository-specific decision。
+- 把 Organization owner 或 Team maintainer 當成跨資源的全域 administrator。
+- billing、seat、domain verification、IdP provisioning、enterprise-wide policy；除非另有已核准的 use case 與 owner。
+
+## Relationships and authorization facts
+
+Account 發布的是關係事實，不是完整 authorization decision：
+
+```text
+Principal --owns--> personal Account
+Principal --member_of--> organization Account
+Principal --member_of--> Team --within--> organization Account
+Governance Scope --governs--> organization Account
+Account --owns_namespace--> Namespace
+```
+
+Membership 與 Team membership 不會自動給予任何 Repository action。Repository 將在自己的
+scope 中決定某個 active membership／Team 是否導出 role；direct Repository collaborator
+也不必成為 organization member。這使 external collaboration 與最小權限可獨立演進。
+
+## Published language 候選
+
+| 名稱                    | 用途                                   | 不得包含                       |
+| ----------------------- | -------------------------------------- | ------------------------------ |
+| `AccountRefV1`          | 資源 owner 的穩定 reference            | Account profile 或 member list |
+| `NamespaceResolutionV1` | 將有效 handle 解析為 Account reference | lifecycle internals            |
+| `MembershipFactV1`      | 已生效／未生效 membership 的最小事實   | credential、Repository role    |
+| `TeamMembershipFactV1`  | Principal 是否屬於某 Team 的最小事實   | Team 以外的授權推論            |
+| `AccountEligibilityV1`  | 建立或承接 Repository 的 eligibility   | Repository policy              |
+
+發布方與 consumer 需使用版本化 contracts 和 ACL；在 modular monolith 內的同步呼叫也不能
+直接 import Account domain entity 或 persistence model。
 
 ## 首批 use case 候選
 
-1. 建立、重新命名、關閉 personal 或 organization Account。
-2. 邀請、接受、暫停及移除 organization 成員。
-3. 對外查詢可安全揭露的 Account／Namespace。
-4. 為 Repository 建立擁有者與 namespace 參照。
+1. 建立、rename、suspend 或 close personal／organization Account。
+2. 解析可公開查詢的 Account／Namespace，且不洩漏 non-discoverable Account。
+3. 邀請、接受、暫停及移除 organization Membership。
+4. 管理 Team 與 Team membership，發布供 resource context 查詢的關係事實。
+5. 確認 Account 可作為 Repository owner 或 transfer target。
 
-## 延後事項
+## 延後與拆分觸發條件
 
-Team、企業帳戶、billing、席次、網域驗證、組織層級 SSO 與跨組織政策均留待有實際產品需求時評估；不可先將其欄位塞入 Account aggregate。
+Enterprise Account、跨 organization policy、billing、seat、verified domain、SCIM 與 IdP
+group synchronization 暫不併入 Account aggregate。當它們有獨立的治理 owner、compliance
+責任或 lifecycle 時，應成立 Organization／Enterprise Governance context，並以 published
+language 管理它與 Account 的關係。
+
+## 參考與非目標
+
+本策略採用 GitHub 對 user、organization 與 enterprise account 具有不同 ownership 和
+governance 語意的分離方式，但不複製其方案、功能限制或 UI。參考：
+[Types of GitHub accounts](https://docs.github.com/en/get-started/learning-about-github/types-of-github-accounts)。

@@ -10,4 +10,4 @@
 - shadcn 官方元件例外：`packages/ui/src/components/ui/**` 與 `apps/web/components/ui/**` 可保留官方所需的 `as`、primitive wrapper、namespace import 或其他 generated pattern；不要對其套用一般 TypeScript 禁止模式。
 - shadcn 例外不允許放入 Domain/Application 規則、跨 Context 內部依賴或敏感資料；自製業務元件離開上述路徑後恢復一般規則。
 - 不得將 `shared`、`common`、`core`、`utils`、`helpers` 作為未定義 owner 的 dumping ground；不得用 import/export alias 掩蓋命名衝突。
-- 文件讀取順序：`docs/ai-index.md` → `docs/domains/ubiquitous-language.md` → `docs/domains/subdomains.md` → `docs/domains/bounded-contexts.md` → `docs/maps/domain-context-map.md` → 對應 contract/ADR/status。
+- 文件讀取順序：`docs/ai-index.md` → `docs/domains/ubiquitous-language.md` → `docs/domains/subdomains.md` → `docs/domains/bounded-contexts.md` → `docs/domains/context-map.md` → 對應 contract/ADR/status。

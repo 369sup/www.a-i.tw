@@ -61,7 +61,7 @@ they consume the context's application facade or published contracts.
 2. Use GitHub triage to confirm open PRs, reviews, issues, and workflow status;
    treat dated status documents only as historical evidence.
 3. The proposed Identity & Access, Account, and Repository research lives in
-   `docs/01-discovery/` and `docs/domains/`. It is not a runtime context or an
+   `docs/initiatives/identity-access-v1/` and `docs/domains/`. It is not a runtime context or an
    approved product decision until an owner, first use case, acceptance criteria,
    ADR, contract, and context manifest are recorded.
 4. Validate changed documentation with `make verify-docs`; validate runtime or

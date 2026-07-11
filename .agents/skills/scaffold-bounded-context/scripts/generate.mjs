@@ -42,7 +42,7 @@ function replacePlaceholders(directory) {
 
 replacePlaceholders(destination);
 
-const mapPath = join(root, "docs/maps/context-map.json");
+const mapPath = join(root, "docs/domains/context-map.json");
 const map = JSON.parse(readFileSync(mapPath, "utf8"));
 const manifest = JSON.parse(readFileSync(join(destination, "context.json"), "utf8"));
 map.contexts.push(manifest);

@@ -1,36 +1,111 @@
 # Identity & Access 策略
 
-狀態：Proposed
+狀態：Proposed / 尚待產品 owner 核准
+
 Context 候選：`identity-access`
-Subdomain：Generic authentication + Supporting authorization
+Subdomain：Generic authentication；Supporting identity and credential policy
 
 ## 任務
 
-確認行為者身分，維護其可用 session，並在明確範圍內判定請求是否可執行。這個 context 擁有「誰可作為 Principal 行動」與「為何該操作被允許」的語意；它不擁有任何協作資源。
+Identity & Access 負責辨識可提出請求的 **Principal**，驗證其登入或工作負載
+credential，管理可撤銷的 authentication state，並提供可驗證的 principal 與
+authentication context。它回答「誰在請求」與「此 credential 是否可代表該主體」，
+不擁有 Account、Repository 或任何資源範圍的業務授權規則。
+
+這個切分避免將 `User` 同時當作人、登入帳號、組織、資源 owner、token 與
+repository role；那些概念有不同的生命週期、audit attribution 與撤銷條件。
 
 ## 擁有的模型與不變條件
 
-| 模型                    | 說明與不變條件                                                             |
-| ----------------------- | -------------------------------------------------------------------------- |
-| Principal               | 穩定、不可重用的主體識別；人類、服務或自動化 actor 可採相同抽象。          |
-| Authentication Identity | Principal 與驗證方法／外部提供者的連結；一個 Principal 可有多個 identity。 |
-| Session                 | 有效期限、撤銷與驗證狀態皆可審計；session 不承載 Account profile。         |
-| Access Grant            | 對 Principal、scope、capability 與效期的明確授與；拒絕優先且預設拒絕。     |
-| Access Decision         | 針對一項 capability 的可解釋 allow/deny 結果，須能追溯授與或政策來源。     |
+| 模型                    | 說明與不變條件                                                                                                                          |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Principal               | 穩定、不可重用的可歸因 actor；`human` 與 `workload` 是主體種類，不是 Account 種類。                                                     |
+| Authentication Identity | Principal 與本地或外部 authentication provider subject 的 linkage；同一 provider subject 不得同時連結兩個有效 Principal。               |
+| Credential              | 證明或代理 Principal 的 credential metadata、狀態、到期與撤銷資訊；絕不把 secret、private key 或 token plaintext 放入 domain contract。 |
+| Session                 | 具有效期、驗證強度、撤銷狀態與 audit correlation 的 authentication state；不承載 Account profile 或 resource grant。                    |
+| Authentication Context  | 一次請求可安全使用的 Principal reference、authentication method、credential state 與必要 assurance claims。                             |
 
-## 邊界與公開語言
+`PrincipalId` 在停用後仍是歷史 audit 的有效 reference；停用會阻止新的
+authentication，不能改寫既有 attribution。Credential 是 authentication mechanism，
+不是獨立的 Account 或資源權限來源。
 
-- 從 Account 取得 membership facts，從 Repository 取得資源 scope 與協作政策；不直接讀取其 internal storage。
-- 向其他 context 發佈最小且不可變的 `PrincipalId`、驗證狀態、capability decision 與必要的 subject claims。不得發佈 credential、session secret 或 provider token。
-- Account 與 Repository 不可自行實作登入、token 驗證或角色字串比對；它們透過 authorization port 請求 decision。
+## In scope
+
+- human、service 或 automation Principal 的建立、停用與可歸因識別。
+- passwordless、federated provider、API credential 或後續 workload identity 的 adapter-neutral linkage。
+- session／credential 的發行、驗證、到期、撤銷與最低必要 audit metadata。
+- 對 inbound adapter 發布最小 `AuthenticatedPrincipal`，讓 application use case 取得經驗證的 actor。
+- 對 resource context 提供 principal state 與 authentication constraints，例如 principal 是否 active、credential 是否有效、是否滿足指定 assurance。
+
+## Explicitly out of scope
+
+- personal、organization 或 enterprise Account 的 profile、namespace、ownership、membership、Team 與 billing。
+- Repository visibility、role、direct grant、team grant、policy、lifecycle 或 resource decision。
+- 將「已登入」誤當成「可操作某項資源」的 authorization。
+- 密碼、token、private key、provider refresh secret 的序列化、公開 contract 或 log。
+- SAML/OIDC/SCIM provider-specific schema；它們只能由 infrastructure adapter 翻譯為本 context 的語言。
+
+## Authorization boundary
+
+Authentication 與 authorization 必須分開：
+
+```text
+Identity & Access: authenticate Principal and validate credential context
+Account:           publish membership / team relationship facts
+Repository:        evaluate repository-scoped action against roles, grants and policy
+```
+
+Repository 的 application layer 可向 Identity & Access 查詢 authentication context，並向
+Account 查詢已發布的關係事實；它必須自行擁有 `repository:*` action 的 allow/deny
+decision 及其 reason code。Identity & Access 不可讀取 Repository internal storage，也
+不可維護通用的 `repository-admin` 字串角色。
+
+概念上的有效存取為：
+
+```text
+Allowed(principal, credential, action, repository) =
+  PrincipalActive
+  ∧ CredentialValid
+  ∧ AuthenticationConstraintSatisfied
+  ∧ RepositoryVisibilityAndGrantPermit
+  ∧ RepositoryPolicyPermits
+```
+
+前半段由 Identity & Access 提供事實；後半段由 Repository 擁有。這是 target
+responsibility model，不是目前 runtime 行為。
+
+## Published language 候選
+
+在 context 核准並建立 `contracts` entrypoint 前，只能視為設計草案：
+
+| 名稱                          | 用途                            | 不得包含                              |
+| ----------------------------- | ------------------------------- | ------------------------------------- |
+| `PrincipalRefV1`              | 跨 context 指向 actor           | profile、provider subject、credential |
+| `AuthenticatedPrincipalV1`    | inbound use case 的已驗證 actor | session secret、token、raw claims     |
+| `PrincipalStatusV1`           | active／suspended 等可授權事實  | provider-specific failure detail      |
+| `AuthenticationRequirementV1` | resource 請求的最低驗證需求     | resource role 或 grant                |
+
+契約 owner、版本、錯誤與資料分類須在建立第一個 runtime context 時補入
+[`../contracts/`](../contracts/README.md)，不得從本文件直接產生 API。
 
 ## 首批 use case 候選
 
-1. 註冊／連結／解除驗證身分。
-2. 建立、更新與撤銷 session。
-3. 對 `account:*` 或 `repository:*` scope 評估 capability。
-4. 授與、到期或撤銷可審計的 access grant。
+1. 註冊、連結或解除 Authentication Identity。
+2. 驗證 credential，建立、更新與撤銷 Session。
+3. 停用 Principal，拒絕其後續 authentication，同時保留 audit attribution。
+4. 向已核准的 resource application port 回覆最小 authentication context。
 
-## 延後事項
+## 延後與拆分觸發條件
 
-MFA、passkey、SCIM、企業 SSO、delegation、break-glass access 與完整 audit export 均不屬於首切片；它們必須以既有 Principal、grant 與 decision contract 演進。
+MFA、passkey、delegation、break-glass access、SCIM provisioning、enterprise SSO、完整
+audit export 與 policy DSL 都不屬於首切片。當 workforce lifecycle、IdP group sync、
+enterprise-wide policy 或 compliance retention 有獨立 owner、語言與變更節奏時，應評估
+拆出 Identity Governance context，而不是擴張此 context 去管理 Account 或 Repository。
+
+## 參考與非目標
+
+本策略借鑑 GitHub 將可登入 user account、organization／enterprise account 與 app
+installation identity 分開處理的產品語意；它不重製 GitHub 的帳戶類型、token 格式或 API。
+GitHub 對帳戶分類與 app authentication 的說明是研究證據，不是本產品的規格：
+[Types of GitHub accounts](https://docs.github.com/en/get-started/learning-about-github/types-of-github-accounts)、
+[About authentication with a GitHub App](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/about-authentication-with-a-github-app)。

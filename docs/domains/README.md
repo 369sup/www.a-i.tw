@@ -2,15 +2,15 @@
 
 狀態：Proposed / 尚待產品 owner 核准
 
-本目錄定義產品語意與 bounded-context 候選邊界，並非 runtime module 宣告。在核准 owner、產品問題與首個 use case 前，`docs/maps/context-map.json` 必須保持空白，也不得建立 `modules/<context>`。
+本目錄定義產品語意與 bounded-context 候選邊界，並非 runtime module 宣告。在核准 owner、產品問題與首個 use case 前，`docs/domains/context-map.json` 必須保持空白，也不得建立 `modules/<context>`。
 
-| 策略領域                                    | Context 候選      | 主要責任                                  | 分類                 |
-| ------------------------------------------- | ----------------- | ----------------------------------------- | -------------------- |
-| [Identity & Access](identity-and-access.md) | `identity-access` | Principal、驗證、session、access decision | Generic / Supporting |
-| [Account](account.md)                       | `account`         | 個人／組織帳戶、命名空間、成員關係        | Supporting           |
-| [Repository](repository.md)                 | `repository`      | 受控工作空間、可見性、生命週期與協作政策  | Core candidate       |
+| 策略領域                                    | Context 候選      | 主要責任                                                      | 明確不擁有                                                               | 分類                 |
+| ------------------------------------------- | ----------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------- |
+| [Identity & Access](identity-and-access.md) | `identity-access` | Principal、authentication identity、credential／session state | Account、membership、Repository role 與 resource decision                | Generic / Supporting |
+| [Account](account.md)                       | `account`         | Account、namespace、membership、Team relationship             | login credential、Repository lifecycle 與 resource decision              | Supporting           |
+| [Repository](repository.md)                 | `repository`      | 受控工作空間、visibility、repository role／grant、lifecycle   | Principal authentication、Account roster、Git／code-related capabilities | Core candidate       |
 
-共同的命名與禁止用語在 [`ubiquitous-language.md`](ubiquitous-language.md)。關係與依賴方向在 [`../maps/domain-context-map.md`](../maps/domain-context-map.md)。
+共同的命名與禁止用語在 [`ubiquitous-language.md`](ubiquitous-language.md)。關係、契約方向與 ACL 在 [`context-map.md`](context-map.md)。三份策略文件是 target model，不是已存在的 runtime module、API 或 access control implementation。
 
 ## 核准與實作門檻
 

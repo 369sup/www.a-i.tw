@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const contextsRoot = "modules";
-const mapPath = "docs/maps/context-map.json";
+const mapPath = "docs/domains/context-map.json";
 const errors = [];
 
 function readJson(path) {

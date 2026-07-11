@@ -1,0 +1,12 @@
+---
+title: 帳戶
+description: Account、namespace 與成員關係的目標邊界。
+---
+
+# 帳戶
+
+> Proposed：此頁描述目標產品模型，而非已可使用的帳戶功能。
+
+Account 是資源 owner 與 namespace 容器，可代表個人或組織。它可管理組織的 Membership 與 Team 關係，但不管理登入 credential、session 或 Repository 的資源角色。
+
+Repository 可以引用 Account 的穩定識別，但不複製 Account 成員清單或以路徑字串推導 owner。

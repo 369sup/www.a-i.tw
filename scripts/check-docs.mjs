@@ -3,8 +3,11 @@ import { existsSync, readFileSync } from "node:fs";
 const required = [
   "docs/README.md",
   "docs/ai-index.md",
-  "docs/maps/domain-context-map.md",
-  "docs/04-architecture/overview.md",
+  "docs/glossary.md",
+  "docs/domains/context-map.md",
+  "docs/architecture/overview.md",
+  "docs/decisions/README.md",
+  "docs/contracts/README.md",
 ];
 
 const missing = required.filter((file) => !existsSync(file));

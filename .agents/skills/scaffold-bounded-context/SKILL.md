@@ -19,7 +19,7 @@ pnpm generate:context \
 ```
 
 The generator creates a workspace under `modules/`, registers the exact same
-manifest in `docs/maps/context-map.json`, and provides empty public entrypoints.
+manifest in `docs/domains/context-map.json`, and provides empty public entrypoints.
 It intentionally does not invent aggregates, entities, repositories, events, or
 use cases. After generation, define the first public contract and run
 `pnpm arch:check` before adding runtime behavior.
