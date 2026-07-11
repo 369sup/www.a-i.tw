@@ -1,0 +1,12 @@
+project_name: www.a-i.tw
+language: typescript
+root_path: .
+ignored_paths:
+  - node_modules
+  - .next
+  - apps/web/.source
+  - .turbo
+  - coverage
+source_roots:
+  - apps/web
+  - packages

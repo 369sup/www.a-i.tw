@@ -1,6 +1,6 @@
 # www.a-i.tw
 
-Next.js 16 + shadcn UI application using a Domain-Driven Modular Monolith with Hexagonal Architecture.
+Next.js 16 + shadcn UI monorepo using a Domain-Driven Modular Monolith with Hexagonal Architecture.
 
 ## Development
 
@@ -9,7 +9,16 @@ npm install
 npm run dev
 ```
 
-Quality gates: `npm run check`, `npm run build`, and `npm run semgrep`.
+Quality gates: `npm run check`, `npm run build`, `npm run docs:check`, and `npm run semgrep`.
+
+## Workspace map
+
+- `apps/web`: the deployable Next.js product and `/docs` Fumadocs surface
+- `packages/ui`: shared shadcn primitives and presentation utilities
+- `packages/eslint-config`: shared Next.js lint configuration
+- `packages/typescript-config`: shared TypeScript bases
+- `docs/`: internal governance, ADRs, contracts, runbooks, and production evidence
+- `scripts/`: repository checks and release gates
 
 ## Architecture
 

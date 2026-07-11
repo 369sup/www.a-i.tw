@@ -1,0 +1,17 @@
+name: Feature request
+description: 提出一個可驗證的產品或工程需求
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 要解決的問題
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 驗收條件
+    validations:
+      required: true

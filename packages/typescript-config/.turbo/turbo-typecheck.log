@@ -1,0 +1,5 @@
+
+> @a-i/typescript-config@0.1.0 typecheck
+> node -e "console.log('typescript config package has no TypeScript sources')"
+
+typescript config package has no TypeScript sources

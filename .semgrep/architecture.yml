@@ -1,0 +1,9 @@
+rules:
+  - id: domain-must-not-import-frameworks
+    languages: [typescript]
+    message: Domain code must remain framework-agnostic; use an application port or adapter.
+    severity: ERROR
+    pattern-regex: "from [\\\"'](next|react|@/app|@/components)"
+    paths:
+      include:
+        - "/apps/web/src/modules/**/domain/**"
