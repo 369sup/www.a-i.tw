@@ -1,7 +1,3 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextTs from "eslint-config-next/typescript";
+import config from "@a-i/eslint-config/base";
 
-export default defineConfig([
-  ...nextTs,
-  globalIgnores(["dist/**", "build/**"]),
-]);
+export default config;
