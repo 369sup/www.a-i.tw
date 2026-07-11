@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "exports": {
+    "./base": "./base.mjs",
     "./next": "./next.mjs"
   },
   "peerDependencies": {
@@ -12,6 +13,7 @@
   "scripts": {
     "lint": "node -e \"console.log('eslint config package validated')\"",
     "typecheck": "node -e \"console.log('eslint config package has no TypeScript sources')\"",
-    "check": "npm run lint && npm run typecheck"
+    "test": "node -e \"console.log('No eslint config tests yet')\"",
+    "check": "pnpm lint && pnpm typecheck"
   }
 }

@@ -15,7 +15,9 @@ if (missing.length > 0) {
 
 const index = readFileSync("docs/ai-index.md", "utf8");
 if (!index.includes("唯一入口")) {
-  console.error("docs/ai-index.md must state that it is the single AI routing entrypoint.");
+  console.error(
+    "docs/ai-index.md must state that it is the single AI routing entrypoint.",
+  );
   process.exit(1);
 }
 

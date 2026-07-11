@@ -1,7 +1,7 @@
 # Repository workflow command policy
 #
 # Protect source history, production systems, credentials, and reviewability.
-# Read-only inspection, npm ci, and project validation remain available.
+# Read-only inspection, pnpm install, and project validation remain available.
 
 prefix_rule(
     pattern = ["git", "reset", "--hard"],
@@ -172,6 +172,12 @@ prefix_rule(
 )
 
 prefix_rule(
+    pattern = ["pnpm", "publish"],
+    decision = "forbidden",
+    justification = "This repository is not authorized for implicit package publication.",
+)
+
+prefix_rule(
     pattern = ["npm", "unpublish"],
     decision = "forbidden",
     justification = "Unpublishing a package is destructive and can break downstream consumers.",
@@ -191,6 +197,12 @@ prefix_rule(
 
 prefix_rule(
     pattern = ["npm", "run", "lint", "--", "--fix"],
+    decision = "prompt",
+    justification = "Repository-wide automatic lint fixes may alter unrelated files and require diff review.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "lint", "--", "--fix"],
     decision = "prompt",
     justification = "Repository-wide automatic lint fixes may alter unrelated files and require diff review.",
 )

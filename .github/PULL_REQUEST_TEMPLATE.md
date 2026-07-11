@@ -8,8 +8,8 @@
 
 ## 驗證
 
-- [ ] `npm run check`
-- [ ] `npm run build`
-- [ ] `npm run semgrep`
+- [ ] `pnpm check`
+- [ ] `pnpm build`
+- [ ] `pnpm semgrep`
 
 ## 風險與回滾

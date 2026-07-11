@@ -3,7 +3,9 @@ const forbidden = Object.keys(process.env).filter((key) =>
 );
 
 if (forbidden.length > 0 && process.env.CI === "true") {
-  console.error(`Sensitive environment names are not accepted by this check: ${forbidden.join(", ")}`);
+  console.error(
+    `Sensitive environment names are not accepted by this check: ${forbidden.join(", ")}`,
+  );
   process.exit(1);
 }
 

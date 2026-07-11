@@ -74,3 +74,9 @@ prefix_rule(
     decision = "prompt",
     justification = "Documentation generation can modify tracked content, contracts, navigation, or generated source files.",
 )
+
+prefix_rule(
+    pattern = ["pnpm", "docs:generate"],
+    decision = "prompt",
+    justification = "Documentation generation can modify tracked content, contracts, navigation, or generated source files.",
+)

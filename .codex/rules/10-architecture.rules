@@ -11,13 +11,31 @@ prefix_rule(
 )
 
 prefix_rule(
+    pattern = ["pnpm", "add"],
+    decision = "prompt",
+    justification = "Review dependency ownership, layer coupling, workspace scope, lockfile impact, and Vercel/Turbo compatibility before adding a package.",
+)
+
+prefix_rule(
     pattern = ["npm", "uninstall"],
     decision = "prompt",
     justification = "Removing a dependency may break adapters, generated content, public contracts, or workspace boundaries.",
 )
 
 prefix_rule(
+    pattern = ["pnpm", "remove"],
+    decision = "prompt",
+    justification = "Removing a dependency may break adapters, generated content, public contracts, or workspace boundaries.",
+)
+
+prefix_rule(
     pattern = ["npm", "update"],
+    decision = "prompt",
+    justification = "Dependency updates may change framework, SDK, build, lint, or deployment behavior.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "update"],
     decision = "prompt",
     justification = "Dependency updates may change framework, SDK, build, lint, or deployment behavior.",
 )

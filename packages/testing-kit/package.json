@@ -1,0 +1,20 @@
+{
+  "name": "@a-i/testing-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@a-i/eslint-config": "workspace:*",
+    "@a-i/typescript-config": "workspace:*",
+    "typescript": "^5"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node -e \"console.log('No testing-kit tests yet')\"",
+    "check": "pnpm lint && pnpm typecheck"
+  }
+}

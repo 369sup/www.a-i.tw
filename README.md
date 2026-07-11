@@ -5,11 +5,12 @@ Next.js 16 + shadcn UI monorepo using a Domain-Driven Modular Monolith with Hexa
 ## Development
 
 ```bash
-npm install
-npm run dev
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-Quality gates: `npm run check`, `npm run build`, `npm run docs:check`, and `npm run semgrep`.
+Quality gates: `pnpm check`, `pnpm arch:check`, `pnpm build`, `pnpm docs:check`, and `pnpm semgrep`.
 
 ## Workspace map
 
@@ -17,6 +18,9 @@ Quality gates: `npm run check`, `npm run build`, `npm run docs:check`, and `npm 
 - `packages/ui`: shared shadcn primitives and presentation utilities
 - `packages/eslint-config`: shared Next.js lint configuration
 - `packages/typescript-config`: shared TypeScript bases
+- `packages/testing-kit`: deterministic Clock and ID-generator test doubles
+- `modules/`: bounded-context workspace packages, created only through the approved scaffold
+- `tests/e2e`: Playwright product-flow tests
 - `docs/`: internal governance, ADRs, contracts, runbooks, and production evidence
 - `scripts/`: repository checks and release gates
 
@@ -32,3 +36,21 @@ Each bounded context owns its domain language and exposes cross-context behavior
 - `.github/`: CI, ownership, issue, and pull request conventions
 - `.semgrep/`: security scanning rules
 - `components.json` and `lib/utils.ts`: shadcn component configuration
+
+## Creating a bounded context
+
+The repository does not keep a live example context. Once the context owner,
+domain, subdomain, and type are approved, generate the empty but verified
+workspace:
+
+```bash
+pnpm generate:context \
+  --context <kebab-case-name> \
+  --domain <domain-name> \
+  --subdomain <subdomain-name> \
+  --type <core|supporting|generic> \
+  --owner <owner>
+```
+
+Then define the first use case and run `pnpm arch:check` before exposing it to
+the web application.

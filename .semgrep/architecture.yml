@@ -6,4 +6,4 @@ rules:
     pattern-regex: "from [\\\"'](next|react|@/app|@/components)"
     paths:
       include:
-        - "/apps/web/src/modules/**/domain/**"
+        - "/modules/**/src/domain/**"

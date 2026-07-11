@@ -1,0 +1,7 @@
+{
+  "extends": "@a-i/typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
+}

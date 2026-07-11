@@ -1,11 +1,19 @@
 import { readFileSync } from "node:fs";
 
 const root = JSON.parse(readFileSync("package.json", "utf8"));
-const required = ["apps/*", "packages/*"];
-const missing = required.filter((workspace) => !root.workspaces?.includes(workspace));
+const workspace = readFileSync("pnpm-workspace.yaml", "utf8");
+const required = ["apps/*", "modules/*", "packages/*", "tests/*"];
+const missing = required.filter(
+  (entry) => !workspace.includes(`- \"${entry}\"`),
+);
 
 if (missing.length > 0) {
-  console.error(`Missing workspace patterns: ${missing.join(", ")}`);
+  console.error(`Missing pnpm workspace patterns: ${missing.join(", ")}`);
+  process.exit(1);
+}
+
+if (root.packageManager !== "pnpm@10.34.5") {
+  console.error("packageManager must pin pnpm@10.34.5.");
   process.exit(1);
 }
 

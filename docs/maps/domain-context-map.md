@@ -10,3 +10,6 @@
 - `Platform`：部署、可觀測性與交付工具（operations owner）。
 
 以上是規劃中的 strategic map，不是 runtime 實作證明；新增 context 前必須補 ADR 與 application contract。
+
+機器可驗證的 runtime Context Map 位於 [`context-map.json`](context-map.json)。它目前為空，
+直到第一個已核准的 bounded context 透過 generator 建立為止。
