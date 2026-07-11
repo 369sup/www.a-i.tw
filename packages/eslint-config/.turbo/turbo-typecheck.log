@@ -1,5 +1,0 @@
-
-> @a-i/eslint-config@0.1.0 typecheck
-> node -e "console.log('eslint config package has no TypeScript sources')"
-
-eslint config package has no TypeScript sources

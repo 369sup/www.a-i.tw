@@ -1,5 +1,0 @@
-
-> @a-i/eslint-config@0.1.0 lint
-> node -e "console.log('eslint config package validated')"
-
-eslint config package validated
