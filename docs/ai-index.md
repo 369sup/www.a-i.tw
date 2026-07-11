@@ -5,6 +5,7 @@
 | 問題                    | 入口                             | 產出                               |
 | ----------------------- | -------------------------------- | ---------------------------------- |
 | 使用者問題與研究        | `01-discovery/`                  | problem brief、research note       |
+| 策略領域與產品模型      | `domains/`、`maps/`              | vocabulary、boundary、context map  |
 | 需求與驗收              | `02-product/`                    | PRD、scope、acceptance criteria    |
 | UX/UI 與可及性          | `03-design/`                     | flow、wireframe、design decision   |
 | 模組、邊界、資料所有權  | `04-architecture/`、`maps/`      | context map、ADR、boundary note    |

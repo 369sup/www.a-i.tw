@@ -27,7 +27,13 @@
     "semgrep": "mkdir -p /tmp/www-ai-semgrep-home && env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY HOME=/tmp/www-ai-semgrep-home semgrep scan --config .semgrep/ci.yml --config .semgrep/architecture.yml --exclude '**/.next/**' --exclude '**/.source/**' --error --metrics=off apps modules packages scripts",
     "docs:check": "node scripts/check-docs.mjs && node scripts/check-workspaces.mjs",
     "release:check": "node scripts/release-check.mjs",
-    "ci": "pnpm check && pnpm docs:check && pnpm release:check && pnpm arch:check && pnpm build && pnpm semgrep"
+    "ci": "pnpm check && pnpm docs:check && pnpm release:check && pnpm arch:check && pnpm build && pnpm semgrep",
+    "task:status": "bash scripts/codex/status.sh",
+    "task:doctor": "bash scripts/codex/doctor.sh",
+    "task:verify": "bash scripts/codex/verify.sh changed",
+    "task:verify:runtime": "bash scripts/codex/verify.sh runtime",
+    "task:verify:docs": "bash scripts/codex/verify.sh docs",
+    "task:release": "bash scripts/codex/verify.sh release"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",

@@ -5,11 +5,14 @@
 
 ## Evidence
 
-- GitHub default branch is `main`; no open issues were present during this
-  assessment.
-- Three independent Dependabot pull requests remain open: React, React DOM, and
-  `@types/node`. They are mergeable, but require their own CI evidence before
-  merge.
+- GitHub default branch is `main`. A connector-backed inspection on 2026-07-11
+  found no open issues or pull requests reachable for `369sup/www.a-i.tw`.
+  Re-run GitHub triage before a release; remote state is intentionally not
+  inferred from this dated document.
+- The local `main` checkout was aligned with `origin/main` when assessed. The
+  reusable `make status` / `pnpm task:status` command reports branch, upstream,
+  ahead/behind counts, and origin so unpublished commits cannot be mistaken for
+  a clean worktree.
 - The deployable app currently exposes the stock Next.js landing page and an
   internal Fumadocs surface. No product PRD, approved user problem, bounded
   context, application contract, persistence model, or production integration
@@ -43,8 +46,24 @@ packages/                 shared UI, configuration, and deterministic test kits
 tests/                    architecture and end-to-end product evidence
 docs/                     product decisions, contracts, runbooks, and status
 scripts/                  machine-enforced repository gates
+.codex/                   Codex guidance, prompt, profile, and MCP templates
+scripts/codex/            repeatable local status, diagnostics, and validation
 ```
 
 Create `modules/<bounded-context>` only via `pnpm generate:context` after the
 product-model decision is approved. Keep routes and UI free of business rules;
 they consume the context's application facade or published contracts.
+
+## Follow-through order
+
+1. Run `make doctor` and `make status` before starting work; resolve any
+   ahead/behind divergence before using a release gate.
+2. Use GitHub triage to confirm open PRs, reviews, issues, and workflow status;
+   treat dated status documents only as historical evidence.
+3. The proposed Identity & Access, Account, and Repository research lives in
+   `docs/01-discovery/` and `docs/domains/`. It is not a runtime context or an
+   approved product decision until an owner, first use case, acceptance criteria,
+   ADR, contract, and context manifest are recorded.
+4. Validate changed documentation with `make verify-docs`; validate runtime or
+   boundary changes with `make verify-runtime`; use `make release` before
+   publishing a release candidate.

@@ -1,5 +1,5 @@
 # Subdomains
 
-狀態：Current / pending owner
+狀態：Proposed / pending owner
 
-目前沒有已核准的 Core、Supporting 或 Generic subdomain 分類。任何功能設計應先補上分類與責任，再進入 tactical model。
+首批策略分類為：Identity & Access 的 authentication 是 Generic、authorization 是 Supporting；Account 是 Supporting；Repository 是 Core candidate。分類仍待產品 owner 依差異化策略核准，特別是 Repository 是否為核心能力。任何功能設計應先補上分類與責任，再進入 tactical model。
