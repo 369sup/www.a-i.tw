@@ -5,3 +5,7 @@ packages:
   - "tests/*"
 
 sharedWorkspaceLockfile: true
+saveWorkspaceProtocol: rolling
+disallowWorkspaceCycles: true
+failIfNoMatch: true
+packageManagerStrictVersion: true
