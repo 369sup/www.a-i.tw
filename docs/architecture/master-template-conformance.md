@@ -12,7 +12,7 @@ subdomain，不是第二個 Context 或 workspace package。
 apps/web/src/
 ├── app/architecture/master-template/      # Next.js inbound route adapters
 ├── app/@modal/(...)architecture/          # intercepted-modal inbound adapter
-├── master-template/ux/                    # form and UI adapters
+├── modules/master-template/src/presentation/ # form and UI adapters
 ├── server/composition/master-template.ts   # server-only adapter wiring
 └── modules/master-template/                # application core
     ├── src/domain/                         # no framework or infrastructure imports

@@ -6,3 +6,5 @@
 
 Template 中的 type 僅示範 application port 與 result；在 owner、版本與資料分類核准前，
 它們不是 public contract。
+
+Strategic contract flow is Identity & Access `PrincipalRefV1` → Account, Account relationship/enterprise governance facts → Repository, then Repository decision → Experience. Each flow remains proposed until a named owner, consumer, compatibility policy, data classification and verification exist.

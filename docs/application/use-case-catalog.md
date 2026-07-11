@@ -1,11 +1,11 @@
 # Use case catalog
 
-狀態：Proposed
+狀態：Approved first vertical slice
 
-| Context           | Candidate use cases                                            | Approval condition                                |
-| ----------------- | -------------------------------------------------------------- | ------------------------------------------------- |
-| Identity & Access | link identity; authenticate; revoke session; suspend Principal | product actor and assurance requirement           |
-| Account           | create/rename/suspend Account; manage membership/Team          | ownership and collaboration acceptance criteria   |
-| Repository        | create/rename/archive/transfer; manage visibility and grants   | non-code Repository container acceptance criteria |
+| Context           | Candidate use cases                                          | Approval condition                                 |
+| ----------------- | ------------------------------------------------------------ | -------------------------------------------------- |
+| Identity & Access | select demo Principal; authenticate; revoke session          | an active Principal is required for mutation       |
+| Account           | create personal/organization Account; resolve by handle      | normalized unique handle and active owner          |
+| Repository        | create/list/get/rename/archive; manage visibility and grants | valid owner, unique owner/name and access decision |
 
-這是探索清單，不是 application API 或 implementation backlog。每一 use case 需補 command/query、authorization、transaction、errors、ports 與 acceptance criteria。
+第一階段使用 in-memory adapters，讓上述流程可由產品 UX 完整操作。Repository transfer、Team、enterprise governance、production credential 與持久化延後；UI 不得自行重做授權或 invariant。

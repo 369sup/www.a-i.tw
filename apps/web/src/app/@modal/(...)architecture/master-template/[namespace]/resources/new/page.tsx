@@ -1,4 +1,4 @@
-import { CreateResourceDialog } from "@/src/master-template/ux/create-resource-dialog";
+import { CreateResourceDialog } from "@/src/modules/master-template/src/presentation/create-resource-dialog";
 
 export default async function NewResourceModal({
   params,

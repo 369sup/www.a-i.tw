@@ -92,7 +92,7 @@ module.exports = {
       comment: "App-local contexts cannot import another context's internals.",
       from: { path: "^apps/web/src/modules/([^/]+)/src/" },
       to: {
-        path: "^apps/web/src/modules/[^/]+/src/(domain|application|contracts|infrastructure|composition)\\.?(ts)?",
+        path: "^apps/web/src/modules/[^/]+/src/(domain|application|infrastructure)(/|\\.)|^apps/web/src/modules/[^/]+/src/composition\\.ts$",
         pathNot: "^apps/web/src/modules/$1/src/",
       },
     },
@@ -140,7 +140,9 @@ module.exports = {
         path: "^apps/web/(app|components|src/(?!modules/))",
         pathNot: "^apps/web/src/server/composition/",
       },
-      to: { path: "^apps/web/src/modules/[^/]+/src/" },
+      to: {
+        path: "^apps/web/src/modules/[^/]+/src/(domain|application|contracts|infrastructure)(/|\\.)|^apps/web/src/modules/[^/]+/src/(composition|public)\\.ts$",
+      },
     },
     {
       name: "technical-packages-do-not-depend-on-contexts",

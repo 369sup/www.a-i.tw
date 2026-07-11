@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 
 const sourceExtensions = new Set([".ts", ".tsx"]);
 const importPattern =
@@ -18,78 +18,61 @@ function walk(directory, files) {
   }
 }
 
-function moduleDirectories(root) {
-  const modulesRoot = join(root, "modules");
+function contextDirectories(root) {
+  const modulesRoot = join(root, "apps/web/src/modules");
   if (!existsSync(modulesRoot)) return [];
-
   return readdirSync(modulesRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => ({
       name: entry.name,
       path: join(modulesRoot, entry.name),
       manifest: readJson(join(modulesRoot, entry.name, "context.json")),
-      packageJson: readJson(join(modulesRoot, entry.name, "package.json")),
     }));
 }
 
-function referencedModules(content) {
-  return [...content.matchAll(importPattern)].map((match) => match[1]);
+function resolveAppAlias(root, specifier) {
+  if (!specifier.startsWith("@/")) return undefined;
+  return resolve(root, "apps/web", specifier.slice(2));
 }
 
 export function checkCrossContextImports(root = process.cwd()) {
-  const modules = moduleDirectories(root);
-  const packageToModule = new Map(
-    modules.map((module) => [module.packageJson.name, module]),
-  );
+  const contexts = contextDirectories(root);
   const errors = [];
-
-  for (const module of modules) {
+  for (const context of contexts) {
     const files = [];
-    const sourceRoot = join(module.path, "src");
-    if (existsSync(sourceRoot)) walk(sourceRoot, files);
-
+    walk(join(context.path, "src"), files);
     for (const file of files) {
       const content = readFileSync(file, "utf8");
-      for (const specifier of referencedModules(content)) {
-        if (specifier.startsWith(".")) {
-          const target = resolve(dirname(file), specifier);
-          const targetModule = modules.find((candidate) => {
-            const moduleRelativePath = relative(candidate.path, target);
-            return moduleRelativePath && !moduleRelativePath.startsWith("..");
-          });
+      for (const match of content.matchAll(importPattern)) {
+        const specifier = match[1];
+        const target = specifier.startsWith(".")
+          ? resolve(file, "..", specifier)
+          : resolveAppAlias(root, specifier);
+        if (!target) continue;
+        const targetContext = contexts.find((candidate) => {
+          const path = relative(candidate.path, target);
+          return path && !path.startsWith("..");
+        });
+        if (!targetContext || targetContext.name === context.name) continue;
 
-          if (targetModule && targetModule.name !== module.name) {
-            errors.push(
-              `${file} uses a relative cross-context import to ${targetModule.name}; use ${targetModule.packageJson.name}/contracts instead.`,
-            );
-          }
-          continue;
-        }
-
-        const targetModule = packageToModule.get(
-          specifier.split("/").slice(0, 2).join("/"),
-        );
-        if (!targetModule || targetModule.name === module.name) continue;
-
-        const expectedSpecifier = `${targetModule.packageJson.name}/contracts`;
-        if (specifier !== expectedSpecifier) {
+        const targetRelative = relative(targetContext.path, target);
+        if (!/^src\/contracts\//.test(targetRelative)) {
           errors.push(
-            `${file} imports ${specifier}; cross-context imports must use ${expectedSpecifier}.`,
+            `${file} imports ${specifier}; cross-context imports may target only ${targetContext.name}/src/contracts/.`,
           );
           continue;
         }
-
-        const hasRelationship = module.manifest.relationships.some(
-          (relationship) => relationship.target === targetModule.name,
-        );
-        if (!hasRelationship) {
+        if (
+          !context.manifest.relationships.some(
+            (relationship) => relationship.target === targetContext.name,
+          )
+        ) {
           errors.push(
-            `${file} imports ${expectedSpecifier} without a Context Map relationship from ${module.name} to ${targetModule.name}.`,
+            `${file} imports ${targetContext.name} contracts without a Context Map relationship.`,
           );
         }
       }
     }
   }
-
   return errors;
 }

@@ -12,6 +12,75 @@
       },
       "owner": "www.a-i.tw Architecture Team",
       "relationships": []
+    },
+    {
+      "context": "identity-access",
+      "package": "@a-i/web",
+      "domain": "Identity and Access",
+      "subdomain": {
+        "name": "identity-access",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": [
+        {
+          "downstream": "account",
+          "pattern": "open-host-service",
+          "contract": "PrincipalRefV1"
+        },
+        {
+          "downstream": "repository",
+          "pattern": "open-host-service",
+          "contract": "PrincipalRefV1"
+        }
+      ]
+    },
+    {
+      "context": "account",
+      "package": "@a-i/web",
+      "domain": "Account Management",
+      "subdomain": {
+        "name": "account",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": [
+        {
+          "target": "identity-access",
+          "upstream": "identity-access",
+          "pattern": "published-language",
+          "contract": "PrincipalRefV1"
+        },
+        {
+          "downstream": "repository",
+          "pattern": "customer-supplier",
+          "contract": "AccountRefV1"
+        }
+      ]
+    },
+    {
+      "context": "repository",
+      "package": "@a-i/web",
+      "domain": "Repository Governance",
+      "subdomain": {
+        "name": "repository",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": [
+        {
+          "target": "identity-access",
+          "upstream": "identity-access",
+          "pattern": "anti-corruption-layer",
+          "contract": "PrincipalRefV1"
+        },
+        {
+          "target": "account",
+          "upstream": "account",
+          "pattern": "anti-corruption-layer",
+          "contract": "AccountEligibilityV1"
+        }
+      ]
     }
   ]
 }

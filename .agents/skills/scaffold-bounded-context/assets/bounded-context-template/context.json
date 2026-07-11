@@ -1,6 +1,6 @@
 {
   "context": "__CONTEXT__",
-  "package": "@a-i/__CONTEXT__",
+  "package": "@a-i/web",
   "domain": "__DOMAIN__",
   "subdomain": {
     "name": "__SUBDOMAIN__",

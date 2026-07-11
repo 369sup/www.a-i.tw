@@ -3,8 +3,8 @@
 狀態：Current — formal template bounded context.
 
 本專案採單一 deployable 的 modular monolith。正式產品 Context 預設為
-`modules/<context>` workspace；`master-template` 是受 Context Map 約束、刻意 app-local 的
-reference Context，位於 `apps/web/src/modules/<context>`，不提供跨 Context package API。
+`apps/web/src/modules/<context>` app-local Context；`master-template` 與產品 Context
+共用同一套邊界，不提供跨 Context implementation API。
 它具有 supporting subdomain `sub-template`。
 
 | Template          | Location                                                | Purpose                                 | Runtime status        |

@@ -2,8 +2,8 @@
 
 本專案採 Domain-Driven Modular Monolith with Hexagonal Architecture。每個 Bounded Context
 都有 Domain、Application、Infrastructure、Contracts 與 Composition 的清楚責任；正式產品
-Context 預設位於 `modules/<bounded-context>` workspace。現存的 `master-template` 是受
-Context Map 約束的 app-local reference Context，位於 `apps/web/src/modules/`：它不作為
+Context 一律位於 `apps/web/src/modules/<bounded-context>`。現存的 `master-template`
+與產品 Context 使用相同 app-local 邊界：它不作為
 跨 Context package 發佈，仍遵守相同的依賴方向。`apps/web` 是目前唯一部署入口；route
 與 UI 只負責 inbound adapter 與 rendering。
 

@@ -38,7 +38,7 @@ function inspectFixture(name: string): Violation[] {
       ruleConfig,
       "--output-type",
       "json",
-      "modules",
+      "apps",
     ],
     {
       cwd: temporaryDirectory,
@@ -71,15 +71,15 @@ describe("architecture dependency rules", () => {
   });
 
   it.each([
-    ["domain-imports-application", "domain-does-not-depend-outward"],
+    ["domain-imports-application", "app-local-domain-does-not-depend-outward"],
     [
       "application-imports-infrastructure",
-      "application-does-not-depend-on-infrastructure",
+      "app-local-application-does-not-depend-on-infrastructure",
     ],
-    ["cross-context-internal", "no-cross-context-internal-imports"],
-    ["contracts-import-domain", "contracts-are-standalone"],
+    ["cross-context-internal", "no-app-local-cross-context-internal-imports"],
+    ["contracts-import-domain", "app-local-contracts-are-standalone"],
     ["circular-domain", "no-circular-dependencies"],
-    ["domain-imports-core", "domain-has-no-external-dependencies"],
+    ["domain-imports-core", "app-local-domain-has-no-external-dependencies"],
   ])("rejects %s with %s", (fixture, rule) => {
     const violations = inspectFixture(fixture);
 
@@ -92,12 +92,9 @@ function writeContext(
   name: string,
   relationships: Array<{ target: string }> = [],
 ) {
-  const directory = join(root, "modules", name);
+  const directory = join(root, "apps/web/src/modules", name);
   mkdirSync(join(directory, "src", "application"), { recursive: true });
-  writeFileSync(
-    join(directory, "package.json"),
-    JSON.stringify({ name: `@a-i/${name}` }),
-  );
+  mkdirSync(join(directory, "src", "contracts"), { recursive: true });
   writeFileSync(
     join(directory, "context.json"),
     JSON.stringify({ context: name, relationships }),
@@ -113,7 +110,7 @@ describe("cross-context import checker", () => {
     writeContext(root, "beta");
     writeFileSync(
       join(alpha, "src", "application", "use-case.ts"),
-      'import type { BetaContract } from "@a-i/beta/contracts";\nexport type Value = BetaContract;',
+      'import type { BetaContract } from "@/src/modules/beta/src/contracts/public";\nexport type Value = BetaContract;',
     );
 
     expect(checkCrossContextImports(root)).toEqual([]);
@@ -126,11 +123,11 @@ describe("cross-context import checker", () => {
     writeContext(root, "beta");
     writeFileSync(
       join(alpha, "src", "application", "use-case.ts"),
-      'import type { BetaContract } from "../../../beta/src/contracts/public";\nexport type Value = BetaContract;',
+      'import type { BetaContract } from "@/src/modules/beta/src/domain/private";\nexport type Value = BetaContract;',
     );
 
     expect(checkCrossContextImports(root)).toEqual([
-      expect.stringContaining("relative cross-context import"),
+      expect.stringContaining("cross-context imports may target only"),
     ]);
   });
 
@@ -141,7 +138,7 @@ describe("cross-context import checker", () => {
     writeContext(root, "beta");
     writeFileSync(
       join(alpha, "src", "application", "use-case.ts"),
-      'import type { BetaContract } from "@a-i/beta/contracts";\nexport type Value = BetaContract;',
+      'import type { BetaContract } from "@/src/modules/beta/src/contracts/public";\nexport type Value = BetaContract;',
     );
 
     expect(checkCrossContextImports(root)).toEqual([

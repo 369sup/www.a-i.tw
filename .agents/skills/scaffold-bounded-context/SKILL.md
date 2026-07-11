@@ -18,8 +18,11 @@ pnpm generate:context \
   --owner <owner>
 ```
 
-The generator creates a workspace under `modules/`, registers the exact same
-manifest in `docs/domains/context-map.json`, and provides empty public entrypoints.
+The generator creates an app-local Context under `apps/web/src/modules/`,
+registers the exact same manifest in `docs/domains/context-map.json`, and
+provides empty public entrypoints. All Contexts belong to the single
+`@a-i/web` deployable package; boundaries are enforced by manifests, imports,
+contracts and architecture tests rather than workspace packages.
 It intentionally does not invent aggregates, entities, repositories, events, or
 use cases. After generation, define the first public contract and run
 `pnpm arch:check` before adding runtime behavior.

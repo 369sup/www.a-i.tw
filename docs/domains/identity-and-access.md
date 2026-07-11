@@ -10,7 +10,7 @@ Subdomain：Generic authentication；Supporting identity and credential policy
 Identity & Access 負責辨識可提出請求的 **Principal**，驗證其登入或工作負載
 credential，管理可撤銷的 authentication state，並提供可驗證的 principal 與
 authentication context。它回答「誰在請求」與「此 credential 是否可代表該主體」，
-不擁有 Account、Repository 或任何資源範圍的業務授權規則。
+不擁有 Account、Repository 或任何資源範圍的業務授權規則。Identity & Access 可向 Account 提供最小 `PrincipalRefV1` 與 authentication eligibility；它不能建立 Account、Membership、Team 或 enterprise governance relationship。
 
 這個切分避免將 `User` 同時當作人、登入帳號、組織、資源 owner、token 與
 repository role；那些概念有不同的生命週期、audit attribution 與撤銷條件。
@@ -51,7 +51,7 @@ Authentication 與 authorization 必須分開：
 
 ```text
 Identity & Access: authenticate Principal and validate credential context
-Account:           publish membership / team relationship facts
+Account:           establish personal/organization/enterprise ownership and publish membership / Team relationship facts
 Repository:        evaluate repository-scoped action against roles, grants and policy
 ```
 

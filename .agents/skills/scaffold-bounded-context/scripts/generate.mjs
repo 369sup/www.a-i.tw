@@ -19,7 +19,7 @@ if (!["core", "supporting", "generic"].includes(args.type)) {
   throw new Error("--type must be core, supporting, or generic.");
 }
 
-const destination = join(root, "modules", args.context);
+const destination = join(root, "apps/web/src/modules", args.context);
 if (existsSync(destination)) throw new Error(`Context already exists: ${args.context}.`);
 
 cpSync(template, destination, { recursive: true });
@@ -48,4 +48,4 @@ const manifest = JSON.parse(readFileSync(join(destination, "context.json"), "utf
 map.contexts.push(manifest);
 writeFileSync(mapPath, `${JSON.stringify(map, null, 2)}\n`);
 
-console.log(`Created @a-i/${args.context}. Define its public language, then run pnpm arch:check.`);
+console.log(`Created @a-i/web app-local Context ${args.context}. Define its public language, then run pnpm arch:check.`);

@@ -1,0 +1,23 @@
+{
+  "context": "account",
+  "package": "@a-i/web",
+  "domain": "Account Management",
+  "subdomain": {
+    "name": "account",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": [
+    {
+      "target": "identity-access",
+      "upstream": "identity-access",
+      "pattern": "published-language",
+      "contract": "PrincipalRefV1"
+    },
+    {
+      "downstream": "repository",
+      "pattern": "customer-supplier",
+      "contract": "AccountRefV1"
+    }
+  ]
+}

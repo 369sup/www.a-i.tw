@@ -1,0 +1,24 @@
+{
+  "context": "repository",
+  "package": "@a-i/web",
+  "domain": "Repository Governance",
+  "subdomain": {
+    "name": "repository",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": [
+    {
+      "target": "identity-access",
+      "upstream": "identity-access",
+      "pattern": "anti-corruption-layer",
+      "contract": "PrincipalRefV1"
+    },
+    {
+      "target": "account",
+      "upstream": "account",
+      "pattern": "anti-corruption-layer",
+      "contract": "AccountEligibilityV1"
+    }
+  ]
+}

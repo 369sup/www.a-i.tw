@@ -41,7 +41,7 @@ acceptance criteria, and public contract in the product and architecture docs.
 
 ```text
 apps/web/                 deployable presentation and composition root
-modules/<bounded-context>/ domain, application, contracts, infrastructure
+apps/web/src/modules/<bounded-context>/ domain, application, contracts, infrastructure
 packages/                 shared UI, configuration, and deterministic test kits
 tests/                    architecture and end-to-end product evidence
 docs/                     product decisions, contracts, runbooks, and status
@@ -53,7 +53,7 @@ scripts/migration/        reviewable one-off migrations
 scripts/validation/       repeatable local status, diagnostics, and validation
 ```
 
-Create `modules/<bounded-context>` only via `pnpm generate:context` after the
+Create `apps/web/src/modules/<bounded-context>` only via `pnpm generate:context` after the
 product-model decision is approved. Keep routes and UI free of business rules;
 they consume the context's application facade or published contracts.
 

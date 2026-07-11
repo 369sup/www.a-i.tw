@@ -5,12 +5,31 @@ const contextsRoot = "apps/web/src/modules";
 const appPackagePath = "apps/web/package.json";
 const mapPath = "docs/domains/context-map.json";
 const errors = [];
+const requiredPaths = [
+  "AGENTS.md",
+  "README.md",
+  "context.json",
+  "src/domain",
+  "src/application",
+  "src/contracts/public.ts",
+  "src/infrastructure",
+  "src/public.ts",
+  "src/composition.ts",
+  "tests",
+];
+const forbiddenContextFiles = [
+  "package.json",
+  "tsconfig.json",
+  "eslint.config.mjs",
+  "vitest.config.ts",
+];
 
 function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
 const map = readJson(mapPath);
+const appPackage = readJson(appPackagePath);
 const mapped = new Map(
   map.contexts.map((context) => [context.context, context]),
 );
@@ -23,18 +42,26 @@ const directories = existsSync(contextsRoot)
 for (const name of directories) {
   const directory = join(contextsRoot, name);
   const manifestPath = join(directory, "context.json");
-  const packagePath = appPackagePath;
-
-  if (!existsSync(manifestPath) || !existsSync(packagePath)) {
-    errors.push(
-      `${name} must contain context.json and the app package manifest.`,
-    );
+  if (!existsSync(manifestPath)) {
+    errors.push(`${name} must contain context.json.`);
     continue;
   }
 
+  for (const required of requiredPaths) {
+    if (!existsSync(join(directory, required))) {
+      errors.push(`${name} is missing standard Context path: ${required}.`);
+    }
+  }
+  for (const forbidden of forbiddenContextFiles) {
+    if (existsSync(join(directory, forbidden))) {
+      errors.push(
+        `${name} is app-local and must inherit @a-i/web configuration; remove ${forbidden}.`,
+      );
+    }
+  }
+
   const manifest = readJson(manifestPath);
-  const packageJson = readJson(packagePath);
-  const required = [
+  const requiredFields = [
     "context",
     "package",
     "domain",
@@ -42,15 +69,16 @@ for (const name of directories) {
     "owner",
     "relationships",
   ];
-  const missing = required.filter((field) => !manifest[field]);
-
+  const missing = requiredFields.filter(
+    (field) => manifest[field] === undefined,
+  );
   if (missing.length > 0)
     errors.push(`${name} context.json is missing: ${missing.join(", ")}.`);
   if (manifest.context !== name)
     errors.push(`${name} context name must match its directory.`);
-  if (manifest.package !== packageJson.name)
+  if (manifest.package !== appPackage.name)
     errors.push(`${name} package must match apps/web/package.json name.`);
-  if (!/[a-z][a-z0-9-]*/.test(manifest.context ?? ""))
+  if (!/^[a-z][a-z0-9-]*$/.test(manifest.context ?? ""))
     errors.push(`${name} has an invalid context name.`);
   if (
     !manifest.subdomain ||
@@ -76,7 +104,7 @@ for (const name of directories) {
 for (const name of mapped.keys()) {
   if (!directories.includes(name))
     errors.push(
-      `${name} exists in the Context Map without a module workspace.`,
+      `${name} exists in the Context Map without an app-local module.`,
     );
 }
 
@@ -85,4 +113,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log("Context manifests match the Context Map.");
+console.log("App-local Contexts match the standard tree and Context Map.");

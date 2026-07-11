@@ -1,4 +1,4 @@
-import { CreateResourcePage } from "@/src/master-template/ux/create-resource-page";
+import { CreateResourcePage } from "@/src/modules/master-template/src/presentation/create-resource-page";
 
 export default async function NewResourcePage({
   params,
