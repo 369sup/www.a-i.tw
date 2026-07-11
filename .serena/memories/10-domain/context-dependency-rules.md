@@ -12,16 +12,18 @@ Cross-context interaction uses explicit public contracts, ports, events, or publ
 
 - Flag direct imports into another context's domain, application, or infrastructure internals.
 - Prefer a contract, port, facade, adapter, or anti-corruption layer to direct technical coupling.
+- A shared-looking type or file path is not a Shared Kernel. Require explicit owner and approval before sharing a model.
 
 ## Source Locations
 
 - `modules/`
 - `packages/`
 - `apps/web/`
+- `apps/web/src/modules/`
 
 ## Related Documents
 
-- `docs/04-architecture/dependency-rules.md`
+- `docs/architecture/dependency-rules.md`
 - `docs/contracts/README.md`
 
 ## Related Memories

@@ -14,9 +14,9 @@ Formal architecture truth remains in `docs/`; memories only index the relevant s
 
 ## Source Locations
 
-- `docs/04-architecture/`
+- `docs/architecture/`
 - `docs/domains/`
-- `docs/maps/`
+- `docs/domains/`
 
 ## Related Documents
 

@@ -19,7 +19,7 @@ Identity & Access is a proposed strategic context. It owns access-decision langu
 
 ## Related Documents
 
-- `docs/maps/domain-context-map.md`
+- `docs/domains/context-map.md`
 
 ## Related Memories
 

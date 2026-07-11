@@ -21,7 +21,7 @@ Memories are version-controlled navigation artifacts. They point to formal docs 
 
 ## Related Documents
 
-- `docs/07-operations/serena-memory-policy.md`
+- `docs/runbooks/serena-memory-policy.md`
 
 ## Related Memories
 

@@ -19,7 +19,7 @@ Select validation from change risk; do not treat this memory as a command log.
 
 ## Related Documents
 
-- `docs/06-quality/README.md`
+- `docs/engineering/README.md`
 
 ## Related Memories
 

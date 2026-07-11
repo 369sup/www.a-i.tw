@@ -19,7 +19,7 @@ Repository is a proposed strategic context for product resource-container govern
 
 ## Related Documents
 
-- `docs/maps/domain-context-map.md`
+- `docs/domains/context-map.md`
 
 ## Related Memories
 

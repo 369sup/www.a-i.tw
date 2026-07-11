@@ -1,0 +1,11 @@
+{
+  "context": "master-template",
+  "package": "@a-i/web",
+  "domain": "Template Management",
+  "subdomain": {
+    "name": "sub-template",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Architecture Team",
+  "relationships": []
+}

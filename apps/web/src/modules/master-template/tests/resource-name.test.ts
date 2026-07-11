@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { ResourceName } from "./resource-name";
+import { ResourceName } from "../src/domain/resource-name";
 
 describe("ResourceName", () => {
   it("normalizes valid names", () => {

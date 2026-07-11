@@ -22,7 +22,7 @@ Public package exports and published contracts define supported cross-context co
 ## Related Documents
 
 - `docs/contracts/README.md`
-- `docs/04-architecture/dependency-rules.md`
+- `docs/architecture/dependency-rules.md`
 
 ## Related Memories
 

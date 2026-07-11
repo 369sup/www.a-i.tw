@@ -18,7 +18,7 @@ Completion requires evidence, a diff review, and status updates only after verif
 
 ## Related Documents
 
-- `docs/06-quality/README.md`
+- `docs/engineering/README.md`
 
 ## Related Memories
 

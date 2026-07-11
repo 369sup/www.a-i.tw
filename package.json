@@ -25,7 +25,7 @@
     "arch:check": "pnpm arch:manifests && pnpm arch:exports && pnpm arch:workspaces && pnpm arch:cross-context && pnpm arch:imports && pnpm arch:rules:test",
     "turbo": "turbo run",
     "semgrep": "mkdir -p /tmp/www-ai-semgrep-home && env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY HOME=/tmp/www-ai-semgrep-home semgrep scan --config .semgrep/ci.yml --config .semgrep/architecture.yml --exclude '**/.next/**' --exclude '**/.source/**' --error --metrics=off apps modules packages scripts",
-    "docs:check": "node scripts/validation/check-docs.mjs && node scripts/validation/check-workspaces.mjs",
+    "docs:check": "node scripts/validation/check-docs.mjs && node scripts/validation/check-links.mjs && node scripts/validation/check-workspaces.mjs",
     "release:check": "node scripts/validation/release-check.mjs",
     "ci": "pnpm check && pnpm docs:check && pnpm release:check && pnpm arch:check && pnpm build && pnpm semgrep",
     "task:status": "bash scripts/validation/status.sh",

@@ -19,7 +19,7 @@ Account is a proposed strategic context. It owns account and membership facts bu
 
 ## Related Documents
 
-- `docs/maps/domain-context-map.md`
+- `docs/domains/context-map.md`
 
 ## Related Memories
 

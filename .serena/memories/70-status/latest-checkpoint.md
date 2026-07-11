@@ -21,7 +21,7 @@ The project has a tracked memory hierarchy and a formal Serena memory policy. St
 ## Related Documents
 
 - `docs/status/initialization.md`
-- `docs/07-operations/serena-memory-policy.md`
+- `docs/runbooks/serena-memory-policy.md`
 
 ## Related Memories
 

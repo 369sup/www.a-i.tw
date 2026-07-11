@@ -20,8 +20,8 @@ Read ownership and dependency memories, map public symbols, analyze references a
 
 ## Related Documents
 
-- `docs/04-architecture/dependency-rules.md`
-- `docs/maps/domain-context-map.md`
+- `docs/architecture/dependency-rules.md`
+- `docs/domains/context-map.md`
 
 ## Related Memories
 

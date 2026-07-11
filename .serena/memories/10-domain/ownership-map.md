@@ -21,7 +21,7 @@ Identity & Access owns principal, credential/session, and access-decision langua
 
 ## Related Documents
 
-- `docs/maps/domain-context-map.md`
+- `docs/domains/context-map.md`
 
 ## Related Memories
 

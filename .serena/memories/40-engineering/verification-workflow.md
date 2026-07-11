@@ -20,7 +20,7 @@ Run language-server diagnostics first, then focused tests and repository checks 
 
 ## Related Documents
 
-- `docs/06-quality/README.md`
+- `docs/engineering/README.md`
 
 ## Related Memories
 

@@ -16,11 +16,11 @@ Identity & Access, Account, and Repository are strategic candidate contexts, not
 ## Source Locations
 
 - `docs/domains/`
-- `docs/maps/context-map.json`
+- `docs/domains/context-map.json`
 
 ## Related Documents
 
-- `docs/maps/domain-context-map.md`
+- `docs/domains/context-map.md`
 - `docs/domains/bounded-contexts.md`
 
 ## Related Memories

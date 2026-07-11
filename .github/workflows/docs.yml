@@ -6,6 +6,7 @@ on:
       - "docs/**"
       - "apps/web/content/docs/**"
       - "scripts/validation/check-docs.mjs"
+      - "scripts/validation/check-links.mjs"
       - "scripts/validation/check-workspaces.mjs"
       - "scripts/validation/release-check.mjs"
       - "SECURITY.md"

@@ -20,7 +20,7 @@ No shared kernel is approved. Shared-looking paths or names do not grant univers
 
 ## Related Documents
 
-- `docs/04-architecture/dependency-rules.md`
+- `docs/architecture/dependency-rules.md`
 
 ## Related Memories
 

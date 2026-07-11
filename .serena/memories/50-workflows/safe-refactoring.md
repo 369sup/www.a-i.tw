@@ -21,7 +21,7 @@ Confirm one target, declaration, references, implementations, owner, public surf
 
 ## Related Documents
 
-- `docs/04-architecture/dependency-rules.md`
+- `docs/architecture/dependency-rules.md`
 - `docs/contracts/README.md`
 
 ## Related Memories

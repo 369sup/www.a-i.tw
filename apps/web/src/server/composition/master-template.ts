@@ -1,13 +1,13 @@
 import "server-only";
 
-import { createMasterTemplateModule } from "@/src/master-template/composition";
+import { createMasterTemplateModule } from "@/src/modules/master-template/src/composition";
 import {
   DemoAccessDecision,
   DemoNamespaceReference,
   randomIdGenerator,
   systemClock,
-} from "@/src/master-template/infrastructure/demo-adapters";
-import { InMemoryResourceStore } from "@/src/master-template/infrastructure/in-memory-resource-store";
+} from "@/src/modules/master-template/src/infrastructure/demo-adapters";
+import { InMemoryResourceStore } from "@/src/modules/master-template/src/infrastructure/in-memory-resource-store";
 
 type MasterTemplateApplication = ReturnType<typeof createMasterTemplateModule>;
 

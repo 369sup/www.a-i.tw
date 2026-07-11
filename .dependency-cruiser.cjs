@@ -42,21 +42,11 @@ module.exports = {
       to: { path: "^modules/$1/src/(application|contracts|infrastructure)/" },
     },
     {
-      name: "application-does-not-depend-on-infrastructure",
-      severity: "error",
-      comment: "Application depends on ports, never concrete adapters.",
-      from: { path: "^modules/([^/]+)/src/application/" },
-      to: { path: "^modules/$1/src/infrastructure/" },
-    },
-    {
-      name: "template-application-has-no-framework-dependencies",
+      name: "app-local-domain-has-no-external-dependencies",
       severity: "error",
       comment:
-        "The executable master template must demonstrate a framework-free application layer.",
-      from: {
-        path: "^apps/web/src/master-template/application/",
-        pathNot: "\\.test\\.ts$",
-      },
+        "App-local bounded-context Domain code must remain framework free.",
+      from: { path: "^apps/web/src/modules/[^/]+/src/domain/" },
       to: {
         dependencyTypes: [
           "npm",
@@ -65,16 +55,53 @@ module.exports = {
           "npm-peer",
           "npm-no-pkg",
           "npm-unknown",
+          "core",
         ],
       },
     },
     {
-      name: "template-application-does-not-depend-on-infrastructure",
+      name: "app-local-domain-does-not-depend-outward",
       severity: "error",
       comment:
-        "The executable master template reaches adapters only through its ports.",
-      from: { path: "^apps/web/src/master-template/application/" },
-      to: { path: "^apps/web/src/master-template/infrastructure/" },
+        "App-local Domain cannot depend on Application or Infrastructure.",
+      from: { path: "^apps/web/src/modules/([^/]+)/src/domain/" },
+      to: {
+        path: "^apps/web/src/modules/$1/src/(application|contracts|infrastructure)/",
+      },
+    },
+    {
+      name: "app-local-application-does-not-depend-on-infrastructure",
+      severity: "error",
+      comment: "App-local Application reaches adapters only through ports.",
+      from: { path: "^apps/web/src/modules/([^/]+)/src/application/" },
+      to: { path: "^apps/web/src/modules/$1/src/infrastructure/" },
+    },
+    {
+      name: "app-local-contracts-are-standalone",
+      severity: "error",
+      comment:
+        "App-local contracts cannot expose Domain, Application, or Infrastructure internals.",
+      from: { path: "^apps/web/src/modules/([^/]+)/src/contracts/" },
+      to: {
+        path: "^apps/web/src/modules/$1/src/(domain|application|infrastructure)/",
+      },
+    },
+    {
+      name: "no-app-local-cross-context-internal-imports",
+      severity: "error",
+      comment: "App-local contexts cannot import another context's internals.",
+      from: { path: "^apps/web/src/modules/([^/]+)/src/" },
+      to: {
+        path: "^apps/web/src/modules/[^/]+/src/(domain|application|contracts|infrastructure|composition)\\.?(ts)?",
+        pathNot: "^apps/web/src/modules/$1/src/",
+      },
+    },
+    {
+      name: "application-does-not-depend-on-infrastructure",
+      severity: "error",
+      comment: "Application depends on ports, never concrete adapters.",
+      from: { path: "^modules/([^/]+)/src/application/" },
+      to: { path: "^modules/$1/src/infrastructure/" },
     },
     {
       name: "contracts-are-standalone",
@@ -105,6 +132,17 @@ module.exports = {
       to: { path: "^modules/[^/]+/src/" },
     },
     {
+      name: "apps-use-app-local-composition-root",
+      severity: "error",
+      comment:
+        "Routes and UI reach app-local contexts only through server composition.",
+      from: {
+        path: "^apps/web/(app|components|src/(?!modules/))",
+        pathNot: "^apps/web/src/server/composition/",
+      },
+      to: { path: "^apps/web/src/modules/[^/]+/src/" },
+    },
+    {
       name: "technical-packages-do-not-depend-on-contexts",
       severity: "error",
       comment:
@@ -114,7 +152,7 @@ module.exports = {
     },
   ],
   options: {
-    doNotFollow: { path: "node_modules" },
+    doNotFollow: { path: "node_modules|\\.next" },
     tsPreCompilationDeps: true,
     enhancedResolveOptions: {
       exportsFields: ["exports"],

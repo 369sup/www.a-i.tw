@@ -3,7 +3,8 @@ rules:
     languages: [typescript]
     message: Domain code must remain framework-agnostic; use an application port or adapter.
     severity: ERROR
-    pattern-regex: "from [\\\"'](next|react|@/app|@/components)"
+    pattern-regex: "(?:from|import)[^\\n]*[\\\"'](?:next|react|@/app|@/components)(?:/|[\\\"'])"
     paths:
       include:
         - "/modules/**/src/domain/**"
+        - "/apps/web/src/modules/**/src/domain/**"

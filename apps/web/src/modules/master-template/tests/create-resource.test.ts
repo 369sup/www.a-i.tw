@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { createCreateResource } from "./create-resource";
-import type { ResourceStore } from "./ports";
+import { createCreateResource } from "../src/application/create-resource";
+import type { ResourceStore } from "../src/application/ports";
 
 function createStore(): ResourceStore & { saved: number } {
   return {

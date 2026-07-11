@@ -19,7 +19,7 @@ The workspace is a Linux TypeScript monorepo with a Next.js delivery application
 
 ## Related Documents
 
-- `docs/04-architecture/overview.md`
+- `docs/architecture/overview.md`
 
 ## Related Memories
 

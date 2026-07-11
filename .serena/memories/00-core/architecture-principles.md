@@ -6,23 +6,25 @@ Summarize durable architectural constraints before symbol-level analysis.
 
 ## Summary
 
-Domain owns business rules and does not depend on delivery frameworks, databases, or SDKs. Application orchestrates use cases through ports. Infrastructure implements ports. UI and route handlers are delivery adapters.
+This repository uses a Domain-Driven Modular Monolith with Hexagonal Architecture and Ports and Adapters. Domain owns business rules and does not depend on delivery frameworks, databases, or SDKs. Application owns use cases, inbound ports, and outbound ports. Infrastructure implements outbound ports. UI, route handlers, Server Actions, jobs, and tests are inbound adapters; only a server-side composition root wires concrete adapters.
 
 ## Rules
 
 - Cross-context interaction uses explicit contracts, ports, events, or consumer-owned adapters.
 - Do not infer ownership solely from a file path or shared-looking name.
+- Keep each Bounded Context model internally consistent. Resolve disagreement from code/tests and Context Map manifests before relying on canonical docs; memories and copied skills are navigation aids only.
 
 ## Source Locations
 
 - `modules/`
 - `apps/web/`
+- `apps/web/src/modules/`
 - `packages/`
 
 ## Related Documents
 
-- `docs/04-architecture/dependency-rules.md`
-- `docs/04-architecture/ports-and-adapters.md`
+- `docs/architecture/dependency-rules.md`
+- `docs/architecture/ports-and-adapters.md`
 
 ## Related Memories
 
@@ -32,4 +34,4 @@ Domain owns business rules and does not depend on delivery frameworks, databases
 ## Last Verified
 
 - Date: 2026-07-11
-- Evidence: architecture dependency rules.
+- Evidence: architecture dependency rules, ports-and-adapters policy, and architecture gates.

@@ -1,7 +1,8 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const contextsRoot = "modules";
+const contextsRoot = "apps/web/src/modules";
+const appPackagePath = "apps/web/package.json";
 const mapPath = "docs/domains/context-map.json";
 const errors = [];
 
@@ -22,10 +23,12 @@ const directories = existsSync(contextsRoot)
 for (const name of directories) {
   const directory = join(contextsRoot, name);
   const manifestPath = join(directory, "context.json");
-  const packagePath = join(directory, "package.json");
+  const packagePath = appPackagePath;
 
   if (!existsSync(manifestPath) || !existsSync(packagePath)) {
-    errors.push(`${name} must contain context.json and package.json.`);
+    errors.push(
+      `${name} must contain context.json and the app package manifest.`,
+    );
     continue;
   }
 
@@ -46,7 +49,7 @@ for (const name of directories) {
   if (manifest.context !== name)
     errors.push(`${name} context name must match its directory.`);
   if (manifest.package !== packageJson.name)
-    errors.push(`${name} package must match package.json name.`);
+    errors.push(`${name} package must match apps/web/package.json name.`);
   if (!/[a-z][a-z0-9-]*/.test(manifest.context ?? ""))
     errors.push(`${name} has an invalid context name.`);
   if (

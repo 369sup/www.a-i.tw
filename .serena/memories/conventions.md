@@ -19,7 +19,7 @@ Read the architecture and engineering memories before changing code or documenta
 
 ## Related Documents
 
-- `docs/04-architecture/dependency-rules.md`
+- `docs/architecture/dependency-rules.md`
 
 ## Related Memories
 

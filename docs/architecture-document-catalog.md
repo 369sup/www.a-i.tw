@@ -37,4 +37,4 @@ This is the index for the strategic-document baseline. It routes the 30 required
 | 29  | Technical Debt Register            | [`status/architecture-debt-register.md`](status/architecture-debt-register.md)                 | Current                       |
 | 30  | Context Migration Roadmap          | [`roadmap/context-migration-roadmap.md`](roadmap/context-migration-roadmap.md)                 | Proposed                      |
 
-`docs/decisions/` remains the only ADR location; `docs/adr/` is deliberately not created to avoid duplicate decision records.
+`docs/decisions/` remains the only ADR location; the legacy ADR directory is deliberately absent to avoid duplicate decision records.

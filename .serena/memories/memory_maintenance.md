@@ -18,7 +18,7 @@ Use numbered, source-backed memories and `mem:` links; temporary investigation b
 
 ## Related Documents
 
-- `docs/07-operations/serena-memory-policy.md`
+- `docs/runbooks/serena-memory-policy.md`
 
 ## Related Memories
 
