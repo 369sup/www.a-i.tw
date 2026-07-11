@@ -11,3 +11,4 @@
 - shadcn 例外不允許放入 Domain/Application 規則、跨 Context 內部依賴或敏感資料；自製業務元件離開上述路徑後恢復一般規則。
 - 不得將 `shared`、`common`、`core`、`utils`、`helpers` 作為未定義 owner 的 dumping ground；不得用 import/export alias 掩蓋命名衝突。
 - 文件讀取順序：`docs/ai-index.md` → `docs/domains/ubiquitous-language.md` → `docs/domains/subdomains.md` → `docs/domains/bounded-contexts.md` → `docs/domains/context-map.md` → 對應 contract/ADR/status。
+- Serena 已由 `.codex/config.toml` 以 `--project-from-cwd --context=codex` 啟用，且必須安裝並執行於 WSL 的 Ubuntu（使用 Linux 的 `serena`、Python、Node 與 PATH，絕不呼叫 Windows executable）。處理 TypeScript/JavaScript 等可由語言伺服器理解的程式符號時，先呼叫 `serena.initial_instructions`，再用 Serena 的符號工具定位、追蹤引用與執行跨檔案 refactor；純文字、文件、設定、Git 狀態與小型局部修改則維持原生檔案或 shell 工具。不可為了「使用 Serena」而跳過本檔的架構、文件與驗證要求。
