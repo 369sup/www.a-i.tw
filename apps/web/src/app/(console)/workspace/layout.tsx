@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { Route } from "next";
 import { ShieldCheck } from "lucide-react";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export default function WorkspaceLayout({
         <div className="flex items-center gap-3">
           <Link
             className="inline-flex items-center gap-1.5 text-xs font-medium hover:underline"
-            href="/docs"
+            href={"/docs" as Route}
           >
             <BookOpen className="size-3.5" />
             Docs

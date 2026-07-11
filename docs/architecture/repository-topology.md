@@ -19,6 +19,11 @@
 
 公開文件位於 `apps/web/content/docs`，由 Fumadocs 發布；內部 canonical governance 位於 `docs`。兩者可互相連結，但不可複製成兩份 owner 相同的規範。
 
+`apps/web/src/app` 只允許兩種 audience route group：`(public)` 與 `(console)`。
+公開網站、Fumadocs 與公開 transport adapter 屬於 `(public)`；產品工作區、平行路由、
+intercepted modal 與內部可操作工具屬於 `(console)`。不得以 Bounded Context、產品來源或
+template 名稱建立第三種 route group。
+
 ## Forbidden parallel structures
 
 - root `modules/`：產品 Context 唯一位置是 `apps/web/src/modules/`。

@@ -27,7 +27,7 @@ Next.js Route or intercepted `@modal` slot
   → `apps/web/src/server/composition/` composition root
 ```
 
-目前可執行 slice 的入口為 `/architecture/master-template/:namespace/resources`。Route、
+目前可執行 Template UX 的唯一入口為 `/templates`。Route、
 Server Action 與 modal 都是 inbound adapter；它們只轉換 transport 資料、呼叫 application
 use case，並將穩定 result 映射成 UI/HTTP 行為。
 

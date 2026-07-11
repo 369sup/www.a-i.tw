@@ -10,6 +10,6 @@
 
 - [ ] `pnpm check`
 - [ ] `pnpm build`
-- [ ] `pnpm semgrep`
+- [ ] `pnpm task:verify:all`
 
 ## 風險與回滾

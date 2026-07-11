@@ -27,6 +27,8 @@ route、database table、SDK 或 package 名稱反推 Domain。
 ```text
 apps/web/src/
 ├── app/                                  # Next.js inbound routing only
+│   ├── (public)/                         # public site, docs and public endpoints
+│   └── (console)/                        # product workspaces and parallel routes
 ├── presentation/<experience>/            # cross-context inbound adapters
 ├── server/composition/                    # only concrete adapter wiring root
 └── modules/<bounded-context>/
