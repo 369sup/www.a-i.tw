@@ -30,6 +30,7 @@
     "ci": "pnpm check && pnpm docs:check && pnpm release:check && pnpm arch:check && pnpm build && pnpm semgrep",
     "task:status": "bash scripts/validation/status.sh",
     "task:doctor": "bash scripts/validation/doctor.sh",
+    "mcp:doctor": "bash scripts/validation/mcp-doctor.sh",
     "task:verify": "bash scripts/validation/verify.sh changed",
     "task:verify:runtime": "bash scripts/validation/verify.sh runtime",
     "task:verify:docs": "bash scripts/validation/verify.sh docs",
