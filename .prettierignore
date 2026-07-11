@@ -1,5 +1,6 @@
 node_modules/
 .agents/skills/
+.serena/
 .next/
 .turbo/
 coverage/

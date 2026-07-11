@@ -5,3 +5,4 @@ These repository-specific workflow skills complement globally installed Codex sk
 - `repo-explore-first`: inspect rules, ownership, and dependency direction before editing.
 - `architecture-boundary-audit`: review imports and contracts against DDD + Hexagonal boundaries.
 - `repo-docs-maintenance`: maintain the canonical design-to-production documentation tree.
+- `serena-semantic-workflow`: choose Serena language-server tools for symbol discovery, references, diagnostics, and symbol-level refactors.
