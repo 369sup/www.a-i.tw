@@ -24,4 +24,4 @@
 - Serena 用於語言伺服器可理解的程式符號、實作、引用、診斷與安全重構；文字、文件、設定與 Git 工作仍優先使用原生工具。開始 Serena 工作時先讀 `initial_instructions`。
 - 每次修改後先檢視 `git diff` 與 `git status --short`，只驗證本次變更範圍；runtime 或架構邊界改動再跑完整必要門檻。
 
-可從 `make help` 查看專案操作入口；`scripts/codex/` 的腳本供人與 agent 共用。
+可從 `make help` 查看專案操作入口；`scripts/validation/` 的腳本供人與 agent 共用。

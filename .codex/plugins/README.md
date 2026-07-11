@@ -35,9 +35,12 @@ Desktop 連線身分，不放進專案 MCP 設定或任何 credential 檔案。
 
 本 repository 已設定 `mcp_servers.serena`，因此 plugin 僅封裝自動觸發的 skill，不重複啟動第二個 Serena server。Serena 必須安裝與執行於 Windows 11 的 WSL Ubuntu，不可混用 Windows Python、Node 或 `serena.exe`。透過 `.agents/plugins/marketplace.json` 安裝後，請開啟新的 Codex task 以載入 skill；MCP 仍由受信任的專案 `.codex/config.toml` 啟動。
 
-Codex Desktop 會把 Windows 的 `CODEX_HOME` 傳進 WSL；其中包含 Windows path 的 marketplace snapshot，Linux CLI 無法解析。這不是 snapshot 損毀，WSL 終端應使用下列 wrapper，使 Linux CLI 使用 `~/.codex`：
+Codex Desktop 會把 Windows 的 `CODEX_HOME` 傳進 WSL；其中包含 Windows path 的 marketplace snapshot，Linux CLI 無法解析。這不是 snapshot 損毀。直接從 WSL terminal 使用 CLI 時，必須用下列 wrapper；它會明確設定 Linux `CODEX_HOME` 為 `$HOME/.codex`（或 `CODEX_WSL_HOME`），而非共用 Windows state：
 
 ```bash
-scripts/codex/wsl-codex.sh plugin marketplace list
-scripts/codex/wsl-codex.sh plugin list
+scripts/validation/wsl-codex.sh plugin marketplace list
+scripts/validation/wsl-codex.sh plugin list
+pnpm task:doctor
 ```
+
+Desktop 自己啟動的 task 保持使用 Desktop 的 host-managed state 與 connector；wrapper 只適用於 WSL terminal 直接執行 `codex` 的情境。這兩個 runtime 共享 repository 的 `AGENTS.md`、`.codex/`、skills 與 marketplace，而不共享 OS-specific user state。

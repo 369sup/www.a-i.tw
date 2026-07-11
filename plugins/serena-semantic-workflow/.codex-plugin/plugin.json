@@ -1,6 +1,6 @@
 {
   "name": "serena-semantic-workflow",
-  "version": "0.1.0",
+  "version": "0.1.0+codex.20260711142115",
   "description": "Automatic Serena LSP workflow for symbol discovery, diagnostics, and safe refactors.",
   "author": {
     "name": "Local developer"

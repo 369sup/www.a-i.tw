@@ -47,7 +47,10 @@ tests/                    architecture and end-to-end product evidence
 docs/                     product decisions, contracts, runbooks, and status
 scripts/                  machine-enforced repository gates
 .codex/                   Codex guidance, prompt, profile, and MCP templates
-scripts/codex/            repeatable local status, diagnostics, and validation
+scripts/architecture/     boundary and dependency enforcement
+scripts/generators/       deterministic project scaffolding
+scripts/migration/        reviewable one-off migrations
+scripts/validation/       repeatable local status, diagnostics, and validation
 ```
 
 Create `modules/<bounded-context>` only via `pnpm generate:context` after the

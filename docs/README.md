@@ -11,7 +11,11 @@ packages/
 ├── ui/                 # shared shadcn primitives
 ├── eslint-config/      # shared lint config
 └── typescript-config/  # shared TS config
-scripts/                # repository checks and release gates
+scripts/
+├── architecture/        # architecture boundary and workspace checks
+├── generators/          # deterministic repository scaffolding generators
+├── migration/           # one-off, reviewable data or structure migrations
+└── validation/          # documentation, release, environment, and local task gates
 docs/
 ├── 01-discovery/       # 問題、使用者、研究與假設
 ├── 02-product/         # vision、PRD、roadmap、驗收條件

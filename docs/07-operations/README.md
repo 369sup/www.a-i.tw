@@ -5,3 +5,4 @@
 ## Runbooks
 
 - [WSL workspace recovery](wsl-workspace-recovery.md)：處理唯讀掛載、Corepack 快取與 architecture gate 的環境復原。
+- [Serena memory policy](serena-memory-policy.md)：正式文件與 AI 導航記憶的責任邊界及維護程序。
