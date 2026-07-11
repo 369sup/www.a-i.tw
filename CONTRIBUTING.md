@@ -1,8 +1,21 @@
-# 貢獻指南
+# Contributing
 
-1. 先閱讀 `AGENTS.md`、`docs/README.md` 與相關 bounded context 文件。
-2. 建立小而可審查的變更；若涉及邊界、資料所有權或公開 contract，新增或更新 ADR。
-3. 提交前執行 `npm run check`、`npm run build`、`npm run semgrep`。
-4. Pull request 必須說明範圍、架構影響、驗證、風險與回滾方式。
+## Before opening a pull request
 
-提交訊息建議使用 Conventional Commits，例如 `feat: add account overview`。
+1. Keep the dependency direction `UI / Infrastructure -> Application -> Domain`.
+2. Do not add business behaviour until its owner, bounded context, contract, and
+   acceptance criteria are documented.
+3. Run `pnpm run ci` locally. For a focused change, run the smallest relevant
+   workspace checks first, then the full gate before requesting review.
+
+## Pull request expectations
+
+Describe the user or operational outcome, the affected ownership boundary, and
+the verification evidence. Do not commit credentials, generated `.next` output,
+or local `.codex/config.toml` settings.
+
+## Dependency updates
+
+Review Dependabot changes independently. Runtime-coupled packages such as
+`react` and `react-dom` should be updated and verified together when their
+release line requires matching versions.

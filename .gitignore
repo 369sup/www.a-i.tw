@@ -40,6 +40,9 @@ test-results/
 # env files (can opt-in for committing if needed)
 .env*
 
+# local Codex/MCP connection settings
+.codex/config.toml
+
 # vercel
 .vercel
 

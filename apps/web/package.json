@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "fumadocs-mdx && tsc --noEmit",
+    "typecheck": "fumadocs-mdx && next typegen && tsc --noEmit",
     "test": "vitest --configLoader runner run",
     "test:coverage": "vitest --configLoader runner run --coverage",
     "check": "pnpm lint && pnpm typecheck"

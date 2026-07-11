@@ -7,6 +7,9 @@ on:
       - "apps/web/content/docs/**"
       - "scripts/check-docs.mjs"
       - "scripts/check-workspaces.mjs"
+      - "scripts/release-check.mjs"
+      - "SECURITY.md"
+      - "CONTRIBUTING.md"
 
 permissions:
   contents: read
@@ -25,3 +28,4 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm docs:check
+      - run: pnpm release:check

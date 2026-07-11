@@ -1,7 +1,18 @@
-# Security Policy
+# Security policy
 
-請勿在 issue 或 pull request 公開 token、credential、個人資料或生產資料。
+## Reporting a vulnerability
 
-發現安全問題時，請透過私下的 security contact 通知維護者，提供影響範圍、重現步驟與建議修補方式；在修補前不要公開細節。
+Do not open a public issue for a suspected vulnerability. Contact the repository
+owner privately through the GitHub account that owns this repository, including
+affected paths, reproduction steps, impact, and any suggested mitigation.
 
-每次變更應通過 `npm run semgrep`。依賴更新應檢查 lockfile 與 `npm audit` 結果，避免以 `--force` 直接解決未理解的相依性衝突。
+## Supported baseline
+
+Security fixes are applied to the current `main` branch. Pull requests run the
+repository CI, Semgrep, and CodeQL workflows; scheduled security checks provide
+additional coverage between changes.
+
+## Sensitive data
+
+Never commit credentials, API keys, private keys, or production data. Local
+environment files and Codex connection settings are intentionally ignored.

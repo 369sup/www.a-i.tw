@@ -26,7 +26,8 @@
     "turbo": "turbo run",
     "semgrep": "mkdir -p /tmp/www-ai-semgrep-home && env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY HOME=/tmp/www-ai-semgrep-home semgrep scan --config .semgrep/ci.yml --config .semgrep/architecture.yml --exclude '**/.next/**' --exclude '**/.source/**' --error --metrics=off apps modules packages scripts",
     "docs:check": "node scripts/check-docs.mjs && node scripts/check-workspaces.mjs",
-    "ci": "pnpm check && pnpm docs:check && pnpm arch:check && pnpm build && pnpm semgrep"
+    "release:check": "node scripts/release-check.mjs",
+    "ci": "pnpm check && pnpm docs:check && pnpm release:check && pnpm arch:check && pnpm build && pnpm semgrep"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",
