@@ -22,6 +22,11 @@ Domain Vision
 public-language decision，不得建立 runtime Context。戰略文件描述 why/ownership；不得以
 route、database table、SDK 或 package 名稱反推 Domain。
 
+目前產品 capability migration 固定依序為 Membership、Team、Team-based Repository
+Access、Issue、Label／Assignment、Discussion、Star／Collection、Activity／Notification、
+Discovery、Contribution Graph。順序只核准下一個 implementation gate，不代表後續
+capability 已存在；每一步都必須重新滿足 Definition of Ready。
+
 ## 2. Runtime structure
 
 ```text
@@ -64,6 +69,12 @@ Presentation / Infrastructure ---> Application ---> Domain
 
 Consumer Application ---> consumer-owned Port / ACL ---> Provider Contract
 ```
+
+Membership slice 的 mapping 是：workspace form／Server Action 為 inbound adapter；Account
+Application 擁有 invite／accept／remove use cases 與 store Ports；Account Domain 擁有
+Invitation 與 Membership invariants；in-memory stores 為 outbound adapters；product workspace
+composition 是唯一 wiring root；Repository 只透過 `AccountDirectoryGateway` 消費
+`MembershipFactV1`。
 
 - Domain 只依賴同一 Domain，不 import framework、SDK、Application、Contracts 或 Infrastructure。
 - Application 擁有 use case 與 inbound/outbound Ports；不 import concrete adapter。

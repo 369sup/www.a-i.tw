@@ -27,4 +27,9 @@ Do not store full source files, broad diffs, command logs, chat history, duplica
 
 ## Tool Policy
 
+Every new Codex task begins with `serena.initial_instructions` and
+`serena.get_current_config`. The handshake confirms the active WSL project and Codex
+context; it does not authorize memory writes. Afterward, use symbol tools for code and
+native file tools for Markdown, JSON, TOML and Git-only work.
+
 Use memories for navigation, symbol tools for code entities, file tools for documents/configuration, pattern search for non-symbol text, and shell commands for validation. Before a cross-context change, establish owner, public contract, dependency direction, and reference impact.

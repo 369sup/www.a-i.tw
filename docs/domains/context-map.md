@@ -14,7 +14,7 @@ Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organi
 
 - `Product`：產品問題、需求與驗收語意。
 - `Identity & Access`：已實作 in-memory Principal 與 session baseline；production credential/provider 延後。
-- `Account`：已實作 personal／organization Account 與 namespace baseline；Team、enterprise governance 延後。
+- `Account`：已實作 personal／organization Account、namespace 與 in-memory Membership lifecycle；Team、enterprise governance 延後。
 - `Repository`：已實作 visibility、role／grant、access decision 與 archive lifecycle；Git/code 排除。
 - `Experience`：Next.js route、shadcn UI 與 view model（presentation owner）。
 - `Platform`：部署、可觀測性與交付工具（operations owner）。

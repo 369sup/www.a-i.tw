@@ -27,6 +27,43 @@ export async function createAccountAction(formData: FormData) {
   revalidatePath("/workspace", "layout");
 }
 
+export async function inviteOrganizationMemberAction(formData: FormData) {
+  const { identity, memberships } = await getProductWorkspace();
+  const session = await identity.currentPrincipal();
+  if (!session) throw new Error("Authentication required.");
+  const invitee = (await identity.listPrincipals()).find(
+    (principal) => principal.principalId === value(formData, "principalId"),
+  );
+  if (!invitee) throw new Error("Principal not found.");
+  return memberships.invite({
+    accountId: value(formData, "accountId"),
+    actor: session.principal,
+    invitee,
+  });
+}
+
+export async function acceptOrganizationInvitationAction(formData: FormData) {
+  const { identity, memberships } = await getProductWorkspace();
+  const session = await identity.currentPrincipal();
+  if (!session) throw new Error("Authentication required.");
+  return memberships.accept({
+    invitationId: value(formData, "invitationId"),
+    principal: session.principal,
+  });
+}
+
+export async function removeOrganizationMemberAction(formData: FormData) {
+  const { identity, memberships } = await getProductWorkspace();
+  const session = await identity.currentPrincipal();
+  if (!session) throw new Error("Authentication required.");
+  await memberships.remove({
+    accountId: value(formData, "accountId"),
+    principalId: value(formData, "principalId"),
+    actor: session.principal,
+  });
+  revalidatePath("/workspace", "layout");
+}
+
 export async function createRepositoryAction(formData: FormData) {
   const { identity, repositories } = await getProductWorkspace();
   const session = await identity.currentPrincipal();

@@ -8,6 +8,7 @@
 - 優先最小可行修改；不要在未授權下 push、deploy、delete、reset、rebase。
 - 完成 runtime 變更後執行 `pnpm check`、`pnpm build`、`pnpm semgrep`。
 - 修改業務程式碼前，先確認 Domain、Subdomain、Bounded Context、Owner、Ubiquitous Language、Aggregate、Use Case、Ports、Adapters、Context Map 與 Public Contract；缺少時先標記架構缺口，不得自行補造語意。
+- 產品行為或 boundary 變更必須依 `docs/engineering/semantic-development-workflow.md` 的 G0-G7 執行：語意核准 → canonical 文件／memory 導航 → owner／path → scaffold → Domain／Application／Ports → Adapters／composition／inbound → verification evidence。不得越級。
 - `.codex/rules/*.rules` 只控制 command execution policy；DDD、TypeScript、文件與命名判斷由本檔與根/子目錄 `AGENTS.md` 負責。
 - shadcn 官方元件例外：`packages/ui/src/components/ui/**` 與 `apps/web/components/ui/**` 可保留官方所需的 `as`、primitive wrapper、namespace import 或其他 generated pattern；不要對其套用一般 TypeScript 禁止模式。
 - shadcn 例外不允許放入 Domain/Application 規則、跨 Context 內部依賴或敏感資料；自製業務元件離開上述路徑後恢復一般規則。
@@ -15,4 +16,4 @@
 - Context 唯一位置是 `apps/web/src/modules/<context>`；internal subdomain 必須在 manifest 宣告並位於 `src/subdomains/<name>`。禁止 root `modules/` 與水平 `packages/application`、`contracts`、`domain`、`foundation`、`infrastructure`。
 - 文件讀取順序：`docs/ai-index.md` → `docs/domains/ubiquitous-language.md` → `docs/domains/subdomains.md` → `docs/domains/bounded-contexts.md` → `docs/domains/context-map.md` → 對應 contract/ADR/status。
 - 遇到文件、memory、skills、生成器或平行調查結果分歧時，以目前程式碼/測試與 Context Map manifest 為事實，再以 canonical `docs/` 判定政策；Serena memory 與 upstream skill 僅供導航，必須修正而非用來覆寫事實。平行工作預設唯讀，任何相同檔案或相依決策由主 agent 統一修改與驗證。
-- Serena 已由 `.codex/config.toml` 以 `--project-from-cwd --context=codex` 啟用，且必須安裝並執行於 WSL 的 Ubuntu（使用 Linux 的 `serena`、Python、Node 與 PATH，絕不呼叫 Windows executable）。處理 TypeScript/JavaScript 等可由語言伺服器理解的程式符號時，先呼叫 `serena.initial_instructions`，再用 Serena 的符號工具定位、追蹤引用與執行跨檔案 refactor；純文字、文件、設定、Git 狀態與小型局部修改則維持原生檔案或 shell 工具。不可為了「使用 Serena」而跳過本檔的架構、文件與驗證要求。
+- 每個新的 Codex task 都先呼叫 `serena.initial_instructions` 與 `serena.get_current_config`，確認目前 WSL repository 已啟用；文件、規劃或 Git-only task 也不得省略這個 handshake。Serena 由 `.codex/config.toml` 以 `--project-from-cwd --context=codex` 啟用，且必須使用 WSL Ubuntu 的 Linux `serena`、Python、Node 與 PATH。處理 TypeScript/JavaScript 程式符號時，再用 Serena 符號工具定位、追蹤引用與執行 refactor；純文字、文件、設定與 Git 操作則在 handshake 後使用原生工具。

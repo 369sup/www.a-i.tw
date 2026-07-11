@@ -1,9 +1,5 @@
 import type { PrincipalRefV1 } from "@/src/modules/identity-access/src/contracts/public";
-import type {
-  AccountEligibilityV1,
-  AccountRefV1,
-  MembershipFactV1,
-} from "../contracts/public";
+import type { AccountEligibilityV1, AccountRefV1 } from "../contracts/public";
 import {
   createAccount,
   type Account,
@@ -21,10 +17,6 @@ export interface AccountService {
   listAccounts(): Promise<AccountRefV1[]>;
   resolve(accountId: string): Promise<AccountRefV1 | undefined>;
   eligibility(accountId: string): Promise<AccountEligibilityV1 | undefined>;
-  membership(
-    accountId: string,
-    principalId: string,
-  ): Promise<MembershipFactV1 | undefined>;
   create(input: {
     principal: PrincipalRefV1;
     handle: string;
@@ -53,12 +45,6 @@ export function createAccountService(
           canOwnRepository: account.status === "active",
         }
       );
-    },
-    async membership(accountId, principalId) {
-      const account = await store.find(accountId);
-      return account?.ownerPrincipalId === principalId
-        ? { accountId, principalId, role: "owner" }
-        : undefined;
     },
     async create(input) {
       if (input.principal.status !== "active")

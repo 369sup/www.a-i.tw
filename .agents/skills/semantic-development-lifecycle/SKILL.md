@@ -1,0 +1,14 @@
+---
+name: semantic-development-lifecycle
+description: Enforce the repository workflow from approved product semantics through docs, ownership, scaffold, inside-out implementation, composition, and verification.
+---
+
+Read `docs/engineering/semantic-development-workflow.md` completely and execute its
+G0-G7 gates in order for every product behavior or architecture-boundary change.
+Do not scaffold before semantics, canonical documents, owner and path are approved.
+Do not implement Infrastructure or UI before Domain invariants and Application Ports.
+Use the existing `repo-explore-first`, `repo-docs-maintenance`,
+`serena-semantic-workflow`, `scaffold-bounded-context`,
+`architecture-boundary-audit`, and `verification` skills only at the gate where
+their responsibility applies. Report evidence for every completed gate and mark
+unmet gates as blocked instead of skipping them.

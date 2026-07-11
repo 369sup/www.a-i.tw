@@ -2,18 +2,19 @@
 
 這個目錄存放可直接貼入 Codex 的專案提示詞。它們以本專案的 DDD、Hexagonal Architecture 與既有 command policy 為準；不是 shell script，也不會繞過 `.codex/rules/` 的保護。
 
-| 提示詞                                                             | 適用情境                                          |
-| ------------------------------------------------------------------ | ------------------------------------------------- |
-| [`01-orient.md`](01-orient.md)                                     | 新工作開始前，快速取得正確的專案、文件與 Git 狀態 |
-| [`02-implement.md`](02-implement.md)                               | 實作一個已清楚定義的功能或修正                    |
-| [`03-verify.md`](03-verify.md)                                     | 依改動範圍跑最小且足夠的品質驗證                  |
-| [`04-github-triage.md`](04-github-triage.md)                       | 查看目前分支、PR、issue、review 與 GitHub Actions |
-| [`05-ci-repair.md`](05-ci-repair.md)                               | 定位並修正 GitHub Actions 或本機品質門檻失敗      |
-| [`06-docs-and-architecture.md`](06-docs-and-architecture.md)       | 新增 context、調整邊界、contract 或文件           |
-| [`07-openai-research.md`](07-openai-research.md)                   | 規劃或修改 OpenAI API 整合，使用官方資料核實      |
-| [`08-release-readiness.md`](08-release-readiness.md)               | 產出可發布前的證據、風險與待確認事項              |
-| [`09-parallel-work.md`](09-parallel-work.md)                       | 可獨立且可平行的調查、測試或審查工作              |
-| [`10-serena-semantic-workflow.md`](10-serena-semantic-workflow.md) | 程式符號探索、跨檔案引用分析與安全重構            |
+| 提示詞                                                                         | 適用情境                                               |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| [`01-orient.md`](01-orient.md)                                                 | 新工作開始前，快速取得正確的專案、文件與 Git 狀態      |
+| [`02-implement.md`](02-implement.md)                                           | 實作一個已清楚定義的功能或修正                         |
+| [`03-verify.md`](03-verify.md)                                                 | 依改動範圍跑最小且足夠的品質驗證                       |
+| [`04-github-triage.md`](04-github-triage.md)                                   | 查看目前分支、PR、issue、review 與 GitHub Actions      |
+| [`05-ci-repair.md`](05-ci-repair.md)                                           | 定位並修正 GitHub Actions 或本機品質門檻失敗           |
+| [`06-docs-and-architecture.md`](06-docs-and-architecture.md)                   | 新增 context、調整邊界、contract 或文件                |
+| [`07-openai-research.md`](07-openai-research.md)                               | 規劃或修改 OpenAI API 整合，使用官方資料核實           |
+| [`08-release-readiness.md`](08-release-readiness.md)                           | 產出可發布前的證據、風險與待確認事項                   |
+| [`09-parallel-work.md`](09-parallel-work.md)                                   | 可獨立且可平行的調查、測試或審查工作                   |
+| [`10-serena-semantic-workflow.md`](10-serena-semantic-workflow.md)             | 程式符號探索、跨檔案引用分析與安全重構                 |
+| [`11-semantic-development-lifecycle.md`](11-semantic-development-lifecycle.md) | 語意、文件、路徑、scaffold、inside-out 開發與驗證 gate |
 
 ## 共通原則
 

@@ -14,4 +14,5 @@ export type MembershipFactV1 = Readonly<{
   accountId: string;
   principalId: string;
   role: "member" | "owner";
+  status: "active" | "removed";
 }>;

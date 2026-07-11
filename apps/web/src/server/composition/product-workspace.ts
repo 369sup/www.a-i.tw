@@ -1,7 +1,14 @@
 import "server-only";
 
-import { createAccountService } from "@/src/modules/account/src/public";
-import { InMemoryAccountStore } from "@/src/modules/account/src/composition";
+import {
+  createAccountService,
+  createMembershipService,
+} from "@/src/modules/account/src/public";
+import {
+  InMemoryAccountStore,
+  InMemoryMembershipInvitationStore,
+  InMemoryMembershipStore,
+} from "@/src/modules/account/src/composition";
 import { createIdentityAccessService } from "@/src/modules/identity-access/src/public";
 import {
   InMemoryPrincipalStore,
@@ -40,34 +47,40 @@ function createProductWorkspace() {
     new InMemorySessionStore(),
     () => new Date(),
   );
-  const accounts = createAccountService(
-    new InMemoryAccountStore([
-      {
-        id: "account-ada",
-        handle: "ada",
-        displayName: "Ada Lovelace",
-        kind: "personal",
-        status: "active",
-        ownerPrincipalId: "principal-ada",
-      },
-      {
-        id: "account-analytical",
-        handle: "analytical-engine",
-        displayName: "Analytical Engine",
-        kind: "organization",
-        status: "active",
-        ownerPrincipalId: "principal-ada",
-      },
-      {
-        id: "account-grace",
-        handle: "grace",
-        displayName: "Grace Hopper",
-        kind: "personal",
-        status: "active",
-        ownerPrincipalId: "principal-grace",
-      },
-    ]),
-    nextId("account"),
+  const accountStore = new InMemoryAccountStore([
+    {
+      id: "account-ada",
+      handle: "ada",
+      displayName: "Ada Lovelace",
+      kind: "personal",
+      status: "active",
+      ownerPrincipalId: "principal-ada",
+    },
+    {
+      id: "account-analytical",
+      handle: "analytical-engine",
+      displayName: "Analytical Engine",
+      kind: "organization",
+      status: "active",
+      ownerPrincipalId: "principal-ada",
+    },
+    {
+      id: "account-grace",
+      handle: "grace",
+      displayName: "Grace Hopper",
+      kind: "personal",
+      status: "active",
+      ownerPrincipalId: "principal-grace",
+    },
+  ]);
+  const accounts = createAccountService(accountStore, nextId("account"));
+  const memberships = createMembershipService(
+    accountStore,
+    new InMemoryMembershipStore(),
+    new InMemoryMembershipInvitationStore(),
+    nextId("membership"),
+    nextId("invitation"),
+    () => new Date(),
   );
   const repositories = createRepositoryService(
     new InMemoryRepositoryStore([
@@ -94,11 +107,11 @@ function createProductWorkspace() {
     {
       eligibility: (id) => accounts.eligibility(id),
       membership: (accountId, principalId) =>
-        accounts.membership(accountId, principalId),
+        memberships.membership(accountId, principalId),
     },
     nextId("repository"),
   );
-  return { identity, accounts, repositories };
+  return { identity, accounts, memberships, repositories };
 }
 
 type ProductWorkspace = ReturnType<typeof createProductWorkspace>;

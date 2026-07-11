@@ -32,7 +32,7 @@ docs/
 ├── evidence/            # 驗證結果，不放規範
 ├── status/              # 有日期的現況快照與 closure gate
 ├── roadmap/             # Context 與 modularization 的演進順序
-└── templates/           # 可重用文件模板
+└── templates/           # repository 文件模板；程式腳手架資產屬於對應 `.agents/skills/*/assets`
 ```
 
 ## 使用順序

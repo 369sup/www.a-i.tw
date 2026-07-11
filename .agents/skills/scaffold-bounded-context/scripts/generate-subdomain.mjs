@@ -1,4 +1,5 @@
 import {
+  cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -37,17 +38,24 @@ const internalSubdomains = manifest.internalSubdomains ?? [];
 if (internalSubdomains.some((entry) => entry.name === args.subdomain))
   throw new Error(`Internal subdomain is already declared: ${args.subdomain}.`);
 
-for (const directory of ["domain", "application", "infrastructure"]) {
-  mkdirSync(join(subdomainRoot, directory), { recursive: true });
-  writeFileSync(
-    join(subdomainRoot, directory, "README.md"),
-    `# ${directory}\n\nOwned by the ${args.subdomain} internal ${args.type} subdomain.\n`,
-  );
-}
-writeFileSync(
-  join(subdomainRoot, "README.md"),
-  `# ${args.subdomain}\n\nInternal ${args.type} subdomain of ${args.context}. It is not a separate Bounded Context.\n`,
+const templateRoot = join(
+  root,
+  ".agents/skills/scaffold-bounded-context/assets/internal-subdomain-template",
 );
+cpSync(templateRoot, subdomainRoot, { recursive: true });
+for (const relativePath of [
+  "README.md",
+  "application/README.md",
+  "domain/README.md",
+  "infrastructure/README.md",
+]) {
+  const path = join(subdomainRoot, relativePath);
+  const content = readFileSync(path, "utf8")
+    .replaceAll("{{context}}", args.context)
+    .replaceAll("{{subdomain}}", args.subdomain)
+    .replaceAll("{{type}}", args.type);
+  writeFileSync(path, content);
+}
 writeFileSync(
   join(subdomainRoot, "composition.ts"),
   "// Export a composition factory only after the first approved use case defines its Ports.\nexport {};\n",
@@ -69,4 +77,3 @@ writeFileSync(mapPath, `${JSON.stringify(map, null, 2)}\n`);
 console.log(
   `Created internal ${args.type} subdomain ${args.context}/${args.subdomain}. Define its first use case, then run pnpm arch:check.`,
 );
-

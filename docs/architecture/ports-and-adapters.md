@@ -13,6 +13,12 @@ case、input/result mapping 與 Port；Infrastructure 只能實作 outbound Port
 composition root 是唯一組裝 concrete adapter 的位置，且不得把它 re-export 給 Domain、Application
 或 Client Component。
 
+Organization Membership 遵循同一規則：Account Application 定義 Membership 與 Invitation
+store Ports，Domain 定義邀請、接受、移除不變條件，Infrastructure 實作 process-local
+in-memory adapters，workspace Server Actions 只映射 transport，product workspace composition
+root 負責接線。Repository 不得 import Account internals，只能經 consumer-owned ACL Port
+消費 `MembershipFactV1`。
+
 `master-template` 已用 in-memory adapter 作為可測試的 reference Context；它證明 port wiring，
 不代表 production persistence 或已發佈的跨 Context contract。建立 production integration 前仍須
 完成 Context owner、資料分類、契約與相容性決策。
