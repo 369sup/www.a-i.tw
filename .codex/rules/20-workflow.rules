@@ -64,6 +64,78 @@ prefix_rule(
 )
 
 prefix_rule(
+    pattern = ["gh", "auth", "status"],
+    decision = "allow",
+    justification = "Checking GitHub CLI authentication is read-only and helps diagnose repository access.",
+)
+
+prefix_rule(
+    pattern = ["gh", "repo", "view"],
+    decision = "allow",
+    justification = "Viewing repository metadata is read-only and needed for GitHub workflow inspection.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "list"],
+    decision = "allow",
+    justification = "Listing pull requests is read-only and supports review and CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "view"],
+    decision = "allow",
+    justification = "Viewing pull request details is read-only and supports review and CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "checks"],
+    decision = "allow",
+    justification = "Reading pull request checks is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "status"],
+    decision = "allow",
+    justification = "Reading pull request status is read-only and supports local workflow orientation.",
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", "list"],
+    decision = "allow",
+    justification = "Listing issues is read-only and supports triage.",
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", "view"],
+    decision = "allow",
+    justification = "Viewing issue details is read-only and supports triage.",
+)
+
+prefix_rule(
+    pattern = ["gh", "run", "list"],
+    decision = "allow",
+    justification = "Listing workflow runs is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "run", "view"],
+    decision = "allow",
+    justification = "Viewing workflow run details and logs is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "workflow", "list"],
+    decision = "allow",
+    justification = "Listing workflows is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "workflow", "view"],
+    decision = "allow",
+    justification = "Viewing workflow details is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
     pattern = ["gh", "pr", "create"],
     decision = "prompt",
     justification = "Creating a pull request publishes scope, architecture impact, and validation claims.",
