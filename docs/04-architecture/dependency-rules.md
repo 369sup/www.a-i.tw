@@ -12,7 +12,7 @@ Context 必須有 `context.json`，並與 `docs/maps/context-map.json` 的同一
 - pnpm workspace 與 `workspace:*`：明確 package dependency。
 - `package.json#exports`：只公開 application facade、published contracts 與 composition。
 - dependency-cruiser：`modules/*` 內的 layer direction、cross-context internals 與 circular dependency。
-- architecture scripts：exports、Context Map 與 package manifest 一致性。
+- architecture scripts：exports、Context Map、package manifest 與 cross-context import 一致性。
 - Semgrep：高訊號 framework import pattern。
 
 這些工具驗證結構，不能替代 Aggregate、owner 或 ubiquitous language 的設計判斷。
