@@ -16,8 +16,6 @@ This repository uses a Domain-Driven Modular Monolith with Hexagonal Architectur
 
 ## Source Locations
 
-- `modules/`
-- `apps/web/`
 - `apps/web/src/modules/`
 - `packages/`
 
@@ -33,5 +31,5 @@ This repository uses a Domain-Driven Modular Monolith with Hexagonal Architectur
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: architecture dependency rules, ports-and-adapters policy, and architecture gates.
+- Date: 2026-07-12
+- Evidence: app-local Context manifests, topology gate, dependency rules and architecture tests.

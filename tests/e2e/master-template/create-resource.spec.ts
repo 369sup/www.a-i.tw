@@ -11,7 +11,7 @@ test("the template workspace renders list, preview, and editor slots together", 
   ).toBeVisible();
   await expect(
     page.getByRole("region", { name: "Sub-template preview" }),
-  ).toContainText("landing-page");
+  ).toContainText("Landing page");
   await expect(
     page.getByRole("region", { name: "Sub-template editor" }),
   ).toBeVisible();

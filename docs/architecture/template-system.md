@@ -7,10 +7,10 @@
 共用同一套邊界，不提供跨 Context implementation API。
 它具有 supporting subdomain `sub-template`。
 
-| Template          | Location                                                | Purpose                                 | Runtime status        |
-| ----------------- | ------------------------------------------------------- | --------------------------------------- | --------------------- |
-| `master-template` | `apps/web/src/modules/master-template`                  | Template Management bounded context     | formal runtime module |
-| `sub-template`    | `apps/web/src/modules/master-template/src/sub-template` | Master Template 的 supporting subdomain | internal capability   |
+| Template          | Location                                                           | Purpose                                 | Runtime status        |
+| ----------------- | ------------------------------------------------------------------ | --------------------------------------- | --------------------- |
+| `master-template` | `apps/web/src/modules/master-template`                             | Template Management bounded context     | formal runtime module |
+| `sub-template`    | `apps/web/src/modules/master-template/src/subdomains/sub-template` | Master Template 的 supporting subdomain | internal capability   |
 
 ## Master template
 

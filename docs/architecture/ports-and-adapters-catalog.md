@@ -1,7 +1,16 @@
 # Ports and Adapters catalog
 
-狀態：Current / intentionally empty
+狀態：Current / in-memory baseline
 
-No production port or adapter is approved. When one is introduced, record owning Context, direction, business
-responsibility, contract, input/output classification, failure behavior, idempotency, timeout/retry and concrete adapter.
-Port names describe needed capability, never a database, framework or SDK.
+| Context / subdomain | Application-owned outbound Port                                  | Current adapter                    | Composition owner           |
+| ------------------- | ---------------------------------------------------------------- | ---------------------------------- | --------------------------- |
+| Identity & Access   | `PrincipalStore`, `SessionStore`                                 | in-memory Principal/session stores | product workspace root      |
+| Account             | `AccountStore`                                                   | `InMemoryAccountStore`             | product workspace root      |
+| Repository          | `RepositoryStore`, `AccessGrantStore`, `AccountDirectoryGateway` | in-memory stores + Account ACL     | product workspace root      |
+| Master Template     | resource, namespace, access, clock and id Ports                  | demo/in-memory adapters            | master-template root        |
+| Sub Template        | `SubTemplateCatalog`                                             | `InMemorySubTemplateCatalog`       | Master Template composition |
+
+Inbound adapters are Next.js pages, parallel slots, forms and Server Actions.
+Port names describe business-needed capability, never a database, framework or
+SDK. Production adapters must document timeout, retry, idempotency, data
+classification and failure mapping.

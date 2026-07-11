@@ -1,8 +1,10 @@
 # 首批策略領域
 
-狀態：Proposed / 尚待產品 owner 核准
+狀態：Accepted in-memory baseline / production extensions proposed
 
-本目錄定義產品語意與 bounded-context 候選邊界，並非產品 runtime module 宣告。產品候選在核准 owner、產品問題與首個 use case 前，不得加入 `docs/domains/context-map.json` 或建立正式 Context；已核准的 app-local reference Context 依其 manifest 與 Context Map 判定，不受此候選限制。
+本目錄定義產品語意、已核准 Bounded Context 與後續候選能力。Runtime existence 由
+`context-map.json`、Context manifest 與驗證證據共同判定；Proposed extension 不得被
+route 或程式碼視為已核准需求。
 
 | 策略領域                                    | Context 候選      | 主要責任                                                                                           | 明確不擁有                                                               | 分類                 |
 | ------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------- |

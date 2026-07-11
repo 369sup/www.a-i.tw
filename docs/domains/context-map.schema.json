@@ -30,6 +30,20 @@
             }
           },
           "owner": { "type": "string", "minLength": 1 },
+          "internalSubdomains": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "type"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]*$"
+                },
+                "type": { "enum": ["core", "supporting", "generic"] }
+              }
+            }
+          },
           "relationships": { "type": "array" }
         }
       }

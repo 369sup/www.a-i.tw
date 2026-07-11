@@ -6,7 +6,7 @@ Record only the most recent verified Serena navigation baseline.
 
 ## Summary
 
-The project has a tracked memory hierarchy and a formal Serena memory policy. Strategic domain contexts remain unverified as runtime modules; use formal documents and code/tests for current-state claims.
+The project has a tracked memory hierarchy and a formal Serena memory policy. Identity & Access, Account and Repository are verified app-local runtime Contexts. Master Template owns the internal Sub Template supporting subdomain. Formal documents and runtime tests remain authoritative over this navigation memory.
 
 ## Rules
 
@@ -30,5 +30,5 @@ The project has a tracked memory hierarchy and a formal Serena memory policy. St
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: memory hierarchy bootstrap and formal policy.
+- Date: 2026-07-12
+- Evidence: Context manifests, standard tree, product E2E and architecture gates.

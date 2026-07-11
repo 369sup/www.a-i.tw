@@ -1,6 +1,6 @@
 # Data ownership matrix
 
-狀態：Target
+狀態：Current logical ownership / in-memory storage
 
 | Data concept                                                                | Sole owner        | Consumers may receive              |
 | --------------------------------------------------------------------------- | ----------------- | ---------------------------------- |

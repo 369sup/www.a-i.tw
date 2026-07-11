@@ -1,14 +1,15 @@
 # Business rule and invariant catalog
 
-狀態：Proposed
+狀態：Current baseline / extensions proposed
 
-現有候選不變條件的 canonical detail 在 `identity-and-access.md`、`account.md`、`repository.md`。
-正式規則進入本表前必須有 owner、scope、trigger、enforcement point、violation outcome 與驗證。
+| Rule                                                  | Owner                    | Enforcement            | Evidence                  | Status   |
+| ----------------------------------------------------- | ------------------------ | ---------------------- | ------------------------- | -------- |
+| Disabled Principal cannot authenticate                | Identity & Access        | Domain policy          | identity service test     | Current  |
+| Account handle is normalized and unique               | Account                  | Domain + Application   | Account test              | Current  |
+| Only active owner Account may create Repository       | Account + Repository ACL | Repository Application | product E2E               | Current  |
+| Repository name is unique in owner namespace          | Repository               | Domain + Application   | service behavior          | Current  |
+| Archived Repository rejects mutation except unarchive | Repository               | authorization + Domain | test + E2E                | Current  |
+| Owner is not stored as collaborator grant             | Repository               | authorization policy   | Repository test           | Current  |
+| Enterprise does not become Repository owner           | Account                  | not implemented        | product decision required | Proposed |
 
-| Candidate rule                                                              | Owner             | Status   |
-| --------------------------------------------------------------------------- | ----------------- | -------- |
-| Principal identity is stable and not reused                                 | Identity & Access | Proposed |
-| Namespace is unique in its routable scope                                   | Account           | Proposed |
-| Enterprise governs organizations but does not become their Repository owner | Account           | Proposed |
-| Repository name is unique within owner namespace                            | Repository        | Proposed |
-| Archive retains identity and makes resource read-only                       | Repository        | Proposed |
+新增規則必須記錄 owner、scope、trigger、enforcement point、violation outcome 與 test。

@@ -1,8 +1,9 @@
 # Capabilities
 
-狀態：Proposed / pending product owner approval
+狀態：Accepted baseline / advanced capabilities proposed
 
-首批候選能力如下；它們是產品探索範圍，尚非已承諾功能或公開 API。
+本表同時區分已驗證的 in-memory baseline 與尚未核准的 advanced capability；不得以候選
+列推導 runtime。
 
 | Capability                        | 目的                                                                         | 長期 owner        |
 | --------------------------------- | ---------------------------------------------------------------------------- | ----------------- |

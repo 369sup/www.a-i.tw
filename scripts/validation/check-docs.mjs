@@ -6,6 +6,9 @@ const required = [
   "docs/glossary.md",
   "docs/domains/context-map.md",
   "docs/architecture/overview.md",
+  "docs/architecture/ddd-hexagonal-standard.md",
+  "docs/architecture/architecture-governance.json",
+  "docs/architecture-document-catalog.md",
   "docs/decisions/README.md",
   "docs/contracts/README.md",
 ];

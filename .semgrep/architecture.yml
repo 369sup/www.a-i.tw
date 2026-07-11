@@ -6,5 +6,5 @@ rules:
     pattern-regex: "(?:from|import)[^\\n]*[\\\"'](?:next|react|@/app|@/components)(?:/|[\\\"'])"
     paths:
       include:
-        - "/modules/**/src/domain/**"
         - "/apps/web/src/modules/**/src/domain/**"
+        - "/apps/web/src/modules/**/src/subdomains/**/domain/**"

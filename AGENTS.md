@@ -14,5 +14,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Cross-context interaction must use an approved published contract, Port, event, or anti-corruption adapter. Never import another context's Domain, Application, Infrastructure, or composition internals.
 - When files, documents, memories, or parallel investigations disagree, prefer current runtime evidence and Context Map manifests, then canonical `docs/`; treat Serena memories and copied upstream skills as navigation aids that must be corrected rather than authoritative sources.
 - Read `docs/README.md` and `docs/ai-index.md` before adding a module, ADR, contract, or production runbook.
+- `docs/architecture/ddd-hexagonal-standard.md` is the canonical runtime and governance standard. The 30 required architecture concerns are registered in `docs/architecture/architecture-governance.json`; runtime or boundary changes must keep that registry, its canonical documents, Fumadocs statements, manifests and tests aligned.
+- Product Contexts live only at `apps/web/src/modules/<context>`. Internal subdomains require `context.json.internalSubdomains` and `src/subdomains/<name>`. Root `modules/` and horizontal `packages/{application,contracts,domain,foundation,infrastructure}` are forbidden.
 - Keep repository-specific agent skills in `.agents/skills/` and Codex rules in `.codex/rules/`.
 - Run `pnpm check`, `pnpm build`, and `pnpm semgrep` for changes that affect runtime or boundaries.

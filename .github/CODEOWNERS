@@ -1,2 +1,6 @@
-* @your-org/engineering
-docs/ @your-org/engineering
+* @369sup
+/apps/web/src/modules/ @369sup
+/docs/ @369sup
+/.agents/ @369sup
+/.codex/ @369sup
+/.github/ @369sup

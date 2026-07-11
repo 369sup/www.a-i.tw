@@ -3,9 +3,15 @@
   "package": "@a-i/web",
   "domain": "Template Management",
   "subdomain": {
-    "name": "sub-template",
+    "name": "template-management",
     "type": "supporting"
   },
+  "internalSubdomains": [
+    {
+      "name": "sub-template",
+      "type": "supporting"
+    }
+  ],
   "owner": "www.a-i.tw Architecture Team",
   "relationships": []
 }

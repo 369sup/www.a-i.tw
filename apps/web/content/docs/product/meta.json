@@ -1,4 +1,4 @@
 {
   "title": "產品",
-  "pages": ["overview", "identity-and-access", "accounts"]
+  "pages": ["overview", "identity-and-access", "accounts", "repositories"]
 }

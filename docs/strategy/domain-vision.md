@@ -1,10 +1,16 @@
 # Domain vision
 
-狀態：Proposed / pending product owner approval
+狀態：Baseline / reviewed 2026-07-12
 
-此文件擁有產品領域願景：目標 actor、待解決問題、成功訊號、差異化與明確 non-goals。首批
-探索的假設是，協作型產品需要分開 Principal、Account 與 Repository：人或 workload 透過 Principal 被歸因；personal、organization 與 enterprise Account 提供不同層次的 ownership 與 governance；Repository 保有資源範圍的政策決策。
+本產品將可歸因的 Principal、資源 ownership Account 與協作政策 Repository 分離，
+讓 authentication、組織關係與 resource authorization 能獨立演進，而不是折疊成
+`user.role`。
 
-首個產品切片必須能回答「誰正操作、哪個 Account／organization 擁有資源、是否受 enterprise governance 約束、Repository 是否允許該 action」，而非以單一 `user.role` 近似。尚未核准特定客群、商業成果或首個使用案例。
+目前 in-memory slice 驗證三個問題：誰正在操作、哪個 Account 擁有資源、Repository
+是否允許該 action。成功訊號是模型能明確解釋 access decision、維持 owner namespace
+與 archive invariant，且 Context 可在不共享 Aggregate 的前提下協作。
 
-在核准前，不得以 starter UI、GitHub metadata 或此摘要推導 runtime 行為。
+Non-goals 包含 Git/code、production credential provider、durable persistence、billing、
+enterprise governance 與完整 collaboration suite。特定客群與商業成果仍需 Product owner
+決策。不得以 Fumadocs、GitHub metadata 或 route 推導超出 Context manifest、use case
+catalog 與 runtime tests 的行為。

@@ -1,12 +1,17 @@
 # Subdomain classification
 
-狀態：Proposed / pending product owner approval
+狀態：Baseline / reviewed 2026-07-12
 
-| Subdomain                      | Candidate Context | Class          | Change driver                        | Build / buy / integrate            |
-| ------------------------------ | ----------------- | -------------- | ------------------------------------ | ---------------------------------- |
-| Authentication                 | Identity & Access | Generic        | credential and provider requirements | Integrate behind ports             |
-| Identity and credential policy | Identity & Access | Supporting     | attribution and assurance rules      | Build policy; integrate mechanisms |
-| Account ownership              | Account           | Supporting     | ownership and collaboration rules    | Build                              |
-| Repository governance          | Repository        | Core candidate | product differentiation              | Build if approved                  |
+| Subdomain                | Context           | Class               | Change driver             | Build / buy / integrate |
+| ------------------------ | ----------------- | ------------------- | ------------------------- | ----------------------- |
+| Authentication mechanism | Identity & Access | Generic             | provider and assurance    | Integrate behind Ports  |
+| Identity policy          | Identity & Access | Supporting          | attribution/session rules | Build                   |
+| Account ownership        | Account           | Supporting          | ownership and namespace   | Build                   |
+| Repository governance    | Repository        | Core                | product differentiation   | Build                   |
+| Template management      | Master Template   | Supporting          | architecture reference    | Build                   |
+| Sub Template             | Master Template   | Supporting internal | catalog/content rules     | Build internally        |
 
-`Repository` remains a core candidate, not an approved Core Domain. Reclassification requires a product-owner decision and ADR when it changes a Context boundary.
+`Sub Template` is declared by `master-template.context.json.internalSubdomains`;
+it is not a second Bounded Context. Enterprise governance、Membership、Team 與
+Repository transfer remain unclassified extensions until product evidence exists.
+Reclassification requires Product owner review and an ADR when boundaries change.

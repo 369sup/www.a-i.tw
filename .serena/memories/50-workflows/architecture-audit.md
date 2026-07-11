@@ -15,8 +15,8 @@ Read ownership and dependency memories, map public symbols, analyze references a
 
 ## Source Locations
 
-- `modules/`
-- `apps/web/`
+- `apps/web/src/modules/`
+- `apps/web/src/server/composition/`
 
 ## Related Documents
 
@@ -30,5 +30,5 @@ Read ownership and dependency memories, map public symbols, analyze references a
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: Serena semantic workflow policy.
+- Date: 2026-07-12
+- Evidence: Serena semantic workflow and architecture fitness functions.

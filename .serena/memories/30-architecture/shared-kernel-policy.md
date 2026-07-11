@@ -16,7 +16,7 @@ No shared kernel is approved. Shared-looking paths or names do not grant univers
 ## Source Locations
 
 - `packages/`
-- `modules/`
+- `apps/web/src/modules/`
 
 ## Related Documents
 
@@ -29,5 +29,5 @@ No shared kernel is approved. Shared-looking paths or names do not grant univers
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: project Codex rules and dependency policy.
+- Date: 2026-07-12
+- Evidence: topology gate, package policy and shared-kernel policy.

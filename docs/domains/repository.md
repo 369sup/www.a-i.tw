@@ -1,8 +1,8 @@
 # Repository 策略
 
-狀態：Proposed / 尚待產品 owner 核准
+狀態：Accepted non-code Repository governance baseline
 
-Context 候選：`repository`
+Runtime Context：`repository`
 Subdomain：Core candidate
 
 ## 任務

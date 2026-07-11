@@ -16,9 +16,7 @@ Cross-context interaction uses explicit public contracts, ports, events, or publ
 
 ## Source Locations
 
-- `modules/`
 - `packages/`
-- `apps/web/`
 - `apps/web/src/modules/`
 
 ## Related Documents
@@ -33,5 +31,5 @@ Cross-context interaction uses explicit public contracts, ports, events, or publ
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: dependency rules and contract policy.
+- Date: 2026-07-12
+- Evidence: cross-context checker, Context Map and contract policy.

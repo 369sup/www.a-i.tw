@@ -18,7 +18,7 @@ apps/web/src/
     ├── src/domain/                         # no framework or infrastructure imports
     ├── src/application/                    # inbound use cases and outbound ports
     ├── src/infrastructure/                 # outbound port adapters; no re-exports
-    └── src/sub-template/                   # supporting-subdomain internals
+    └── src/subdomains/sub-template/        # declared supporting-subdomain internals
 ```
 
 ## Enforced responsibilities

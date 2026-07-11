@@ -1,0 +1,24 @@
+---
+title: Bounded Contexts
+description: 專案採用的 Domain-Driven Modular Monolith 與 Hexagonal 邊界。
+---
+
+# Domain-Driven Modular Monolith
+
+單一 `@a-i/web` application 依產品能力組成 app-local Bounded Context：
+
+- Identity & Access
+- Account
+- Repository
+- Master Template reference Context
+
+每個 Context 位於 `apps/web/src/modules/<context>`，內含 Domain、Application、
+Contracts、Infrastructure 與 Composition。Domain 不知道 Next.js、React、database 或
+external SDK；Application 擁有 use cases 與 Ports；Infrastructure 實作 outbound Ports；
+route、UI 與 Server Action 是 inbound adapters。
+
+跨 Context 只能消費 versioned published contracts。具體 adapters 只在
+`apps/web/src/server/composition` 組裝。內部 supporting subdomain 必須在 manifest
+宣告並位於 `src/subdomains/<name>`。
+
+內部 canonical ADR、Context Map 與 enforcement 細節留在 repository root `docs/`。

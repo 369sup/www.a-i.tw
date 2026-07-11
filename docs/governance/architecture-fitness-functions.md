@@ -1,11 +1,12 @@
 # Architecture fitness functions
 
-狀態：Target / partial automation
+狀態：Current / automated baseline
 
-| Rule                         | Current verification        | Gap                                    |
-| ---------------------------- | --------------------------- | -------------------------------------- |
-| Layer direction              | dependency-cruiser, Semgrep | add Context-specific negative tests    |
-| Public exports only          | package exports checks      | no modules yet                         |
-| Context map / manifest match | architecture scripts        | no active Context                      |
-| Contract ownership           | documentation review        | add compatibility tests when published |
-| No cross-context internals   | import graph checks         | no runtime graph yet                   |
+| Rule                         | Current verification         | Gap                                   |
+| ---------------------------- | ---------------------------- | ------------------------------------- |
+| Repository topology          | `arch:topology`              | ADR review for new categories         |
+| Layer direction              | dependency-cruiser, Semgrep  | extend with new adapter categories    |
+| Public entrypoints           | `arch:exports`               | compatibility tests if externalized   |
+| Context map / manifest match | `arch:manifests`             | owner review for relationship changes |
+| Internal subdomain structure | manifest and standard tree   | add contract versioning when shared   |
+| No cross-context internals   | import graph + fixture tests | none for current runtime graph        |

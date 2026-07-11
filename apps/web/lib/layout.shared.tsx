@@ -7,8 +7,8 @@ export function baseOptions(): BaseLayoutProps {
     },
     links: [
       {
-        text: "首頁",
-        url: "/",
+        text: "產品工作區",
+        url: "/workspace",
       },
     ],
   };

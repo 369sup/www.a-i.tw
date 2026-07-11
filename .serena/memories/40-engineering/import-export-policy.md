@@ -6,7 +6,7 @@ Guide semantic checks for imports, public surfaces, and naming conflicts.
 
 ## Summary
 
-Public package exports and published contracts define supported cross-context consumption. Import aliases must not conceal a naming or ownership conflict.
+App-local `src/contracts/public.ts` files define supported cross-context consumption. Context public and composition entrypoints are app-internal; import aliases must not conceal a naming or ownership conflict.
 
 ## Rules
 
@@ -16,7 +16,7 @@ Public package exports and published contracts define supported cross-context co
 ## Source Locations
 
 - `package.json`
-- `modules/`
+- `apps/web/src/modules/`
 - `packages/`
 
 ## Related Documents
@@ -31,5 +31,5 @@ Public package exports and published contracts define supported cross-context co
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: package export and architecture checks.
+- Date: 2026-07-12
+- Evidence: app-local public-entrypoint and cross-context import checks.

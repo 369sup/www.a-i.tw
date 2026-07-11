@@ -15,9 +15,8 @@ Confirm one target, declaration, references, implementations, owner, public surf
 
 ## Source Locations
 
-- `modules/`
 - `packages/`
-- `apps/web/`
+- `apps/web/src/modules/`
 
 ## Related Documents
 
@@ -31,5 +30,5 @@ Confirm one target, declaration, references, implementations, owner, public surf
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: Serena usage policy.
+- Date: 2026-07-12
+- Evidence: Serena usage policy and app-local topology.

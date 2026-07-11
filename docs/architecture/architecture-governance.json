@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "standard": "docs/architecture/ddd-hexagonal-standard.md",
+  "concerns": [
+    {
+      "id": 1,
+      "concern": "Domain Vision",
+      "path": "docs/strategy/domain-vision.md",
+      "owner": "Product",
+      "lifecycle": "baseline",
+      "evidenceRequired": false
+    },
+    {
+      "id": 2,
+      "concern": "Business Capability Map",
+      "path": "docs/strategy/business-capability-map.md",
+      "owner": "Product",
+      "lifecycle": "baseline",
+      "evidenceRequired": false
+    },
+    {
+      "id": 3,
+      "concern": "Subdomain Classification",
+      "path": "docs/domains/subdomain-classification.md",
+      "owner": "Product + Architecture",
+      "lifecycle": "baseline",
+      "evidenceRequired": false
+    },
+    {
+      "id": 4,
+      "concern": "Bounded Context Catalog",
+      "path": "docs/domains/bounded-context-catalog.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 5,
+      "concern": "Ubiquitous Language Glossary",
+      "path": "docs/domains/ubiquitous-language.md",
+      "owner": "Context owners",
+      "lifecycle": "baseline",
+      "evidenceRequired": false
+    },
+    {
+      "id": 6,
+      "concern": "Context Map",
+      "path": "docs/domains/context-map.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 7,
+      "concern": "Context Integration Contracts",
+      "path": "docs/contracts",
+      "owner": "Provider Context owners",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 8,
+      "concern": "Context Dependency Policy",
+      "path": "docs/architecture/context-dependency-policy.md",
+      "owner": "Architecture",
+      "lifecycle": "accepted",
+      "evidenceRequired": true
+    },
+    {
+      "id": 9,
+      "concern": "Upstream-Downstream Matrix",
+      "path": "docs/domains/upstream-downstream-matrix.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 10,
+      "concern": "Module Catalog",
+      "path": "docs/architecture/module-catalog.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 11,
+      "concern": "Module Boundary Policy",
+      "path": "docs/architecture/module-boundary-policy.md",
+      "owner": "Architecture",
+      "lifecycle": "accepted",
+      "evidenceRequired": true
+    },
+    {
+      "id": 12,
+      "concern": "Module Dependency Graph",
+      "path": "docs/architecture/module-dependency-map.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 13,
+      "concern": "Shared Kernel Policy",
+      "path": "docs/architecture/shared-kernel-policy.md",
+      "owner": "Architecture",
+      "lifecycle": "none-approved",
+      "evidenceRequired": false
+    },
+    {
+      "id": 14,
+      "concern": "Ports and Adapters Catalog",
+      "path": "docs/architecture/ports-and-adapters-catalog.md",
+      "owner": "Context owners",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 15,
+      "concern": "Adapter Ownership Policy",
+      "path": "docs/architecture/adapter-ownership-policy.md",
+      "owner": "Architecture",
+      "lifecycle": "accepted",
+      "evidenceRequired": true
+    },
+    {
+      "id": 16,
+      "concern": "Composition Root Strategy",
+      "path": "docs/architecture/composition-root.md",
+      "owner": "Platform + Architecture",
+      "lifecycle": "accepted",
+      "evidenceRequired": true
+    },
+    {
+      "id": 17,
+      "concern": "Aggregate Catalog",
+      "path": "docs/domains/aggregate-catalog.md",
+      "owner": "Context owners",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 18,
+      "concern": "Business Rules / Invariant Catalog",
+      "path": "docs/domains/business-rule-catalog.md",
+      "owner": "Context owners",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 19,
+      "concern": "Domain Event Catalog",
+      "path": "docs/domains/domain-event-catalog.md",
+      "owner": "Context owners",
+      "lifecycle": "none-approved",
+      "evidenceRequired": false
+    },
+    {
+      "id": 20,
+      "concern": "Use Case Catalog",
+      "path": "docs/application/use-case-catalog.md",
+      "owner": "Context owners",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 21,
+      "concern": "Data Ownership Matrix",
+      "path": "docs/data/data-ownership-matrix.md",
+      "owner": "Context owners",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 22,
+      "concern": "Transaction Boundary Policy",
+      "path": "docs/data/transaction-boundary-policy.md",
+      "owner": "Architecture",
+      "lifecycle": "accepted",
+      "evidenceRequired": true
+    },
+    {
+      "id": 23,
+      "concern": "Read Model / Query Strategy",
+      "path": "docs/data/read-model-strategy.md",
+      "owner": "Architecture",
+      "lifecycle": "accepted",
+      "evidenceRequired": true
+    },
+    {
+      "id": 24,
+      "concern": "Architecture Decision Records",
+      "path": "docs/decisions",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 25,
+      "concern": "Context Boundary Audit",
+      "path": "docs/status/context-boundary-dependency-audit.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 26,
+      "concern": "Context Boundary Alignment",
+      "path": "docs/status/context-boundary-alignment.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 27,
+      "concern": "Ownership Matrix",
+      "path": "docs/governance/ownership-matrix.md",
+      "owner": "Product + Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 28,
+      "concern": "Architecture Fitness Functions",
+      "path": "docs/governance/architecture-fitness-functions.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 29,
+      "concern": "Technical Debt Register",
+      "path": "docs/status/architecture-debt-register.md",
+      "owner": "Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    },
+    {
+      "id": 30,
+      "concern": "Context Migration Roadmap",
+      "path": "docs/roadmap/context-migration-roadmap.md",
+      "owner": "Product + Architecture",
+      "lifecycle": "current",
+      "evidenceRequired": true
+    }
+  ]
+}

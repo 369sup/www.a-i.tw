@@ -7,7 +7,8 @@ server-only app composition root; UI routes and Server Actions remain inbound
 adapters.
 
 - Domain: Template Management
-- Subdomain: sub-template (supporting)
+- Primary subdomain: template-management (supporting)
+- Internal subdomain: sub-template (supporting)
 - Owner: www.a-i.tw Architecture Team
 
 The current vertical slice is intentionally in-memory. The module composition

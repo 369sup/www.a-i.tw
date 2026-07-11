@@ -1,8 +1,8 @@
 # Account 策略
 
-狀態：Proposed / 尚待產品 owner 核准
+狀態：Accepted personal/organization Account baseline
 
-Context 候選：`account`
+Runtime Context：`account`
 Subdomain：Supporting
 
 ## 任務

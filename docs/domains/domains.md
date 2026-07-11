@@ -1,5 +1,9 @@
 # Domains
 
-狀態：Proposed / pending owner
+狀態：Accepted baseline / extensions proposed
 
-專案採 Domain-Driven Modular Monolith。首批策略 inventory 為 Identity & Access、Account（personal、organization、enterprise）與 Repository；詳情見 [`README.md`](README.md)。這些是待核准的產品模型，不是已存在的 runtime domain。不得從 route、資料表或 UI 推導 domain；新增 domain 前需建立 owner、subdomain 與 context map 證據。
+專案採 Domain-Driven Modular Monolith。Identity & Access、Account 與 Repository 已是
+app-local runtime Context，具備可驗證的 in-memory baseline。Enterprise governance、
+production authentication、durable persistence 與 Repository transfer 等仍是 Proposed
+extension。不得從 route、資料表或 UI 推導新 Domain；新增 Domain 或 internal subdomain
+前需建立 owner、classification、manifest 與 Context Map 證據。

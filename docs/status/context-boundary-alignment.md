@@ -1,5 +1,14 @@
 # Context boundary alignment
 
-狀態：Current / pending owner
+狀態：Current / aligned on 2026-07-12
 
-目前沒有 runtime bounded context 可供對齊。Boundary debt 必須記錄 Issue、Current Owner、Target Owner、Temporary Guard、Affected Files、Runtime Impact、Migration Risk、Next Action 與 Status。
+| Context           | Manifest owner    | Runtime location                       | Public language          | Composition          | Alignment |
+| ----------------- | ----------------- | -------------------------------------- | ------------------------ | -------------------- | --------- |
+| Identity & Access | Product Team      | `apps/web/src/modules/identity-access` | Principal/session facts  | product workspace    | Aligned   |
+| Account           | Product Team      | `apps/web/src/modules/account`         | Account/membership facts | product workspace    | Aligned   |
+| Repository        | Product Team      | `apps/web/src/modules/repository`      | Repository/access facts  | product workspace    | Aligned   |
+| Master Template   | Architecture Team | `apps/web/src/modules/master-template` | none cross-context       | master-template root | Aligned   |
+| Sub Template      | Architecture Team | declared internal subdomain            | internal only            | Master Template      | Aligned   |
+
+Evidence: Context Map equality, topology gate, cross-context checker,
+dependency-cruiser, architecture fixtures and E2E.

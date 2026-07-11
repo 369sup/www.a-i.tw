@@ -1,6 +1,6 @@
 # Domain context map
 
-狀態：Approved / in-memory vertical slice
+狀態：Current / approved in-memory vertical slice
 
 Identity & Access、Account 與 Repository 已核准為 runtime bounded contexts，owner 均為 `www.a-i.tw Product Team`。第一階段以同步、in-process published language 與 context-owned ACL 協作；in-memory adapters 是明確的示範交付限制，不宣稱 production durability。
 
@@ -13,9 +13,9 @@ Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organi
 ## 初始策略
 
 - `Product`：產品問題、需求與驗收語意。
-- `Identity & Access`：Principal、authentication identity、credential／session state 與 authentication context（尚未實作）。
-- `Account`：personal／organization／enterprise 帳戶、命名空間、membership、Team 與 governance relationship（尚未實作）。
-- `Repository`：受控工作空間、visibility、repository role／grant、resource decision 與 lifecycle（尚未實作）。
+- `Identity & Access`：已實作 in-memory Principal 與 session baseline；production credential/provider 延後。
+- `Account`：已實作 personal／organization Account 與 namespace baseline；Team、enterprise governance 延後。
+- `Repository`：已實作 visibility、role／grant、access decision 與 archive lifecycle；Git/code 排除。
 - `Experience`：Next.js route、shadcn UI 與 view model（presentation owner）。
 - `Platform`：部署、可觀測性與交付工具（operations owner）。
 
@@ -41,6 +41,8 @@ Repository Role. `Repository` evaluates its resource-scoped decision from the fa
 No Shared Kernel, cross-context entity import, shared ORM model or cross-context transaction is
 approved for these candidates.
 
-以上是規劃中的 strategic map，不是 runtime 實作證明；新增 context 前必須補 ADR、application contract 與 owner。機器可驗證的 runtime Context Map 位於 [`context-map.json`](context-map.json)，目前只登錄 app-local `master-template` reference Context；產品候選在核准並建立 module 前不得加入。
+Strategic relationship 由本文件擁有；runtime existence 由
+[`context-map.json`](context-map.json)、各 Context manifest、imports 與 tests 共同證明。
+新增 Context 或 internal subdomain 前必須完成 architecture standard 的 Definition of Ready。
 
 新增關係時必須指定 Customer/Supplier、Conformist、ACL、Open Host Service、Published Language、Shared Kernel、Partnership 或 Separate Ways，並記錄契約 owner、版本與失敗處理。

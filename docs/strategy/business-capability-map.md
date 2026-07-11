@@ -1,14 +1,16 @@
 # Business capability map
 
-狀態：Proposed
+狀態：Baseline / runtime scope annotated
 
-| Capability                       | Candidate owner   | Classification       | Scope                                                                   |
-| -------------------------------- | ----------------- | -------------------- | ----------------------------------------------------------------------- |
-| Identity and authentication      | Identity & Access | Generic / Supporting | Principal、credential、session                                          |
-| Account ownership and governance | Account           | Supporting           | personal／organization／enterprise Account、namespace、membership、Team |
-| Repository governance            | Repository        | Core candidate       | Repository container、visibility、grant、lifecycle                      |
+| Capability                             | Owner                          | Classification         | Current scope                            | Runtime  |
+| -------------------------------------- | ------------------------------ | ---------------------- | ---------------------------------------- | -------- |
+| Principal attribution and demo session | Identity & Access              | Supporting             | active/disabled Principal, session       | Current  |
+| Authentication provider                | Identity & Access              | Generic                | assurance/provider requirements          | Proposed |
+| Account ownership                      | Account                        | Supporting             | personal/organization, handle, namespace | Current  |
+| Repository governance                  | Repository                     | Core                   | visibility, lifecycle, grants, decisions | Current  |
+| Template catalog reference             | Master Template / Sub Template | Supporting             | list/get catalog                         | Current  |
+| Enterprise, Team and Membership        | Account                        | Unclassified extension | not approved                             | Proposed |
 
-Git／code、commits、branches、PR、Actions、packages、billing 與通知不在首批範圍。每項能力
-enterprise governance 是 Account 的候選能力：管理 organization 關係及 policy scope，但不授與 Repository action。
-
-需在 owner、變動率與 build/buy/integrate 決策核准後才可拆成 runtime Context。
+Git/code、commits、branches、PR、Actions、packages、billing 與 notifications are out
+of the current product scope. New capability requires owner、classification、
+change driver、build/buy/integrate decision and Context impact.

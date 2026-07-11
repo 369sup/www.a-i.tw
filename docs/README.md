@@ -13,8 +13,6 @@ packages/
 └── typescript-config/  # shared TS config
 scripts/
 ├── architecture/        # architecture boundary and workspace checks
-├── generators/          # deterministic repository scaffolding generators
-├── migration/           # one-off, reviewable data or structure migrations
 └── validation/          # documentation, release, environment, and local task gates
 docs/
 ├── product/             # 長期產品模型、能力與 roadmap

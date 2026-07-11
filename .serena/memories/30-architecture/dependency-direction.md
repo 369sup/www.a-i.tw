@@ -16,9 +16,8 @@ The intended direction is `UI / Infrastructure -> Application -> Domain`. Domain
 
 ## Source Locations
 
-- `modules/`
-- `apps/web/`
 - `apps/web/src/modules/`
+- `apps/web/src/server/composition/`
 - `.dependency-cruiser.cjs`
 
 ## Related Documents
@@ -32,5 +31,5 @@ The intended direction is `UI / Infrastructure -> Application -> Domain`. Domain
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: dependency-cruiser, Semgrep, and architecture gates.
+- Date: 2026-07-12
+- Evidence: dependency-cruiser, Semgrep, app-local fixtures and architecture gates.

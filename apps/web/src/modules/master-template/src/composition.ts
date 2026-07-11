@@ -8,6 +8,8 @@ import type {
   NamespaceReferencePort,
   ResourceStore,
 } from "./application/ports";
+import { createSubTemplateModule } from "./subdomains/sub-template/composition";
+import type { SubTemplateCatalog } from "./subdomains/sub-template/application/ports";
 
 export type MasterTemplateDependencies = {
   access: AccessDecisionPort;
@@ -15,6 +17,7 @@ export type MasterTemplateDependencies = {
   ids: IdGenerator;
   namespaces: NamespaceReferencePort;
   resources: ResourceStore;
+  subTemplates: SubTemplateCatalog;
 };
 
 export function createMasterTemplateModule(
@@ -24,5 +27,6 @@ export function createMasterTemplateModule(
     createResource: createCreateResource(dependencies),
     getResource: createGetResource(dependencies.resources),
     listResources: createListResources(dependencies.resources),
+    subTemplates: createSubTemplateModule(dependencies.subTemplates),
   };
 }

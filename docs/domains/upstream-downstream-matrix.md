@@ -1,6 +1,6 @@
 # Upstream–downstream matrix
 
-狀態：Target
+狀態：Current baseline
 
 | Upstream          | Downstream | Supplies                                            | Pattern                                      | Downstream responsibility                        |
 | ----------------- | ---------- | --------------------------------------------------- | -------------------------------------------- | ------------------------------------------------ |

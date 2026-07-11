@@ -1,6 +1,6 @@
 # Use case catalog
 
-狀態：Approved first vertical slice
+狀態：Current / approved first vertical slice
 
 | Context           | Candidate use cases                                          | Approval condition                                 |
 | ----------------- | ------------------------------------------------------------ | -------------------------------------------------- |

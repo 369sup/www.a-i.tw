@@ -1,11 +1,8 @@
 import Link from "next/link";
+import { getMasterTemplateApplication } from "@/src/server/composition/master-template";
 
-const templates = [
-  { id: "landing-page", title: "Landing page" },
-  { id: "release-notes", title: "Release notes" },
-];
-
-export default function TemplateList() {
+export default async function TemplateList() {
+  const templates = await getMasterTemplateApplication().subTemplates.list();
   return (
     <section
       aria-label="Sub-template list"
@@ -20,6 +17,9 @@ export default function TemplateList() {
               href={`/templates/${template.id}`}
             >
               {template.title}
+              <span className="ml-2 text-xs text-zinc-500">
+                {template.status}
+              </span>
             </Link>
           </li>
         ))}

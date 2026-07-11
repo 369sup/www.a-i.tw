@@ -80,6 +80,10 @@ describe("architecture dependency rules", () => {
     ["contracts-import-domain", "app-local-contracts-are-standalone"],
     ["circular-domain", "no-circular-dependencies"],
     ["domain-imports-core", "app-local-domain-has-no-external-dependencies"],
+    [
+      "internal-subdomain-domain-imports-core",
+      "internal-subdomain-domain-has-no-external-dependencies",
+    ],
   ])("rejects %s with %s", (fixture, rule) => {
     const violations = inspectFixture(fixture);
 

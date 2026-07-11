@@ -1,7 +1,20 @@
 # Module dependency map
 
-狀態：Current / intentionally empty
+狀態：Current / verified app-local graph
 
-There are no runtime modules to graph. Once a Context is scaffolded, this document must show public package edges,
-contract version, direction, cycle status and verification command. The target domain relationship is in
-[`../domains/context-map.md`](../domains/context-map.md), not a runtime import graph.
+```text
+Identity & Access contracts ──> Account application
+Identity & Access contracts ──> Repository application
+Account contracts ────────────> Repository application
+
+apps/web/src/server/composition
+  ├── identity-access composition
+  ├── account composition
+  ├── repository composition
+  └── master-template composition
+         └── sub-template internal subdomain composition
+```
+
+All cross-context arrows consume provider `src/contracts/public.ts`. No Context
+imports another Context's Domain、Application、Infrastructure or Composition.
+Experience reaches application facades only through the app composition root.

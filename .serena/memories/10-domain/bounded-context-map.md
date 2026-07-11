@@ -6,12 +6,13 @@ Route analysis to the correct bounded-context definition before inspecting symbo
 
 ## Summary
 
-Identity & Access, Account, and Repository are strategic candidate contexts, not declared runtime modules. Experience owns presentation and Platform owns operations. A runtime context needs an approved owner, use case, contract, ADR, and evidence.
+Identity & Access, Account, and Repository are approved app-local runtime Contexts owned by the www.a-i.tw Product Team. Master Template is an Architecture Team reference Context with a declared internal `sub-template` supporting subdomain. Experience owns presentation and Platform owns operations.
 
 ## Rules
 
 - Do not treat a name match as proof that two symbols share an owner.
 - Do not create or move a domain model until ownership and public interaction are explicit.
+- Internal subdomains require a manifest declaration and `src/subdomains/<name>` structure.
 
 ## Source Locations
 
@@ -30,5 +31,5 @@ Identity & Access, Account, and Repository are strategic candidate contexts, not
 
 ## Last Verified
 
-- Date: 2026-07-11
-- Evidence: strategic domain context map.
+- Date: 2026-07-12
+- Evidence: runtime Context Map, manifests, module tree and architecture gates.

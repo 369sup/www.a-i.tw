@@ -1,6 +1,6 @@
 # Ownership matrix
 
-狀態：Target
+狀態：Current baseline
 
 | Concern                             | Owner             | Decision boundary                               |
 | ----------------------------------- | ----------------- | ----------------------------------------------- |
@@ -10,4 +10,7 @@
 | delivery UI and view model          | Experience        | presentation only                               |
 | deployment and observability        | Platform          | operations only                                 |
 
-Product, technical, contract and data owners must be named before any candidate Context becomes active.
+Runtime Context owner is recorded in each `context.json`. Product Team owns the
+three product Contexts; Architecture Team owns Master Template and Sub Template.
+Technical package and topology ownership is recorded in `packages/AGENTS.md`
+and CODEOWNERS.

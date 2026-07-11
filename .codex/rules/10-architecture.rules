@@ -80,3 +80,51 @@ prefix_rule(
 # Generated official components may use `as`, primitive wrappers, namespace
 # imports, or other framework-required patterns. Review only their target
 # workspace and ensure no domain/application behavior is added there.
+
+prefix_rule(
+    pattern = ["pnpm", "generate:context"],
+    decision = "allow",
+    justification = "The repository generator is the only supported Context scaffold and is guarded by manifests, topology checks, and architecture tests.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "generate:subdomain"],
+    decision = "allow",
+    justification = "The internal-subdomain generator synchronizes the standard tree, Context manifest, and runtime Context Map.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "modules"],
+    decision = "forbidden",
+    justification = "Root modules is a forbidden parallel Context location; use apps/web/src/modules through pnpm generate:context.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/domain"],
+    decision = "forbidden",
+    justification = "A global domain package recreates a horizontal layer and bypasses Bounded Context ownership.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/application"],
+    decision = "forbidden",
+    justification = "Application use cases and Ports belong to their owning Bounded Context.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/contracts"],
+    decision = "forbidden",
+    justification = "Published contracts are provider-Context owned and cannot be moved to a global package.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/foundation"],
+    decision = "forbidden",
+    justification = "Foundation has no business owner and would become an ungoverned shared kernel.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/infrastructure"],
+    decision = "forbidden",
+    justification = "Infrastructure adapters implement Context-owned Ports and remain inside the owning Context.",
+)

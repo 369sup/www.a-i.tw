@@ -8,6 +8,7 @@ import {
   systemClock,
 } from "@/src/modules/master-template/src/infrastructure/demo-adapters";
 import { InMemoryResourceStore } from "@/src/modules/master-template/src/infrastructure/in-memory-resource-store";
+import { InMemorySubTemplateCatalog } from "@/src/modules/master-template/src/subdomains/sub-template/infrastructure/in-memory-sub-template-catalog";
 
 type MasterTemplateApplication = ReturnType<typeof createMasterTemplateModule>;
 
@@ -24,6 +25,22 @@ export function getMasterTemplateApplication() {
         ids: randomIdGenerator,
         namespaces: new DemoNamespaceReference(),
         resources: new InMemoryResourceStore(),
+        subTemplates: new InMemorySubTemplateCatalog([
+          {
+            id: "landing-page",
+            title: "Landing page",
+            content:
+              "# Landing page\n\nIntroduce a product with a focused offer.",
+            status: "active",
+          },
+          {
+            id: "release-notes",
+            title: "Release notes",
+            content:
+              "# Release notes\n\nSummarize changes and migration impact.",
+            status: "active",
+          },
+        ]),
       });
   }
   return globalForMasterTemplate.masterTemplateApplication;

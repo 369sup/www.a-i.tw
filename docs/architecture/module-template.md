@@ -24,6 +24,13 @@ apps/web/
 │           │   │   └── public.ts             # versioned Published Language only
 │           │   ├── infrastructure/           # outbound adapter implementations
 │           │   ├── presentation/             # optional context-owned inbound adapters
+│           │   ├── subdomains/               # optional declared internal subdomains
+│           │   │   └── <subdomain>/
+│           │   │       ├── README.md
+│           │   │       ├── domain/
+│           │   │       ├── application/
+│           │   │       ├── infrastructure/
+│           │   │       └── composition.ts
 │           │   ├── public.ts                 # application facade
 │           │   └── composition.ts            # adapter exports for app composition root
 │           └── tests/                        # domain and application tests
@@ -51,6 +58,9 @@ Cross-context consumer ──consumer-owned Port / ACL──> provider contracts
 - Context `src/presentation` 可包含 context-owned page、form 與 Server Action adapter；
   跨 Context Experience 放在 app-owned `src/presentation/<experience>`。兩者只能經 server
   composition root 取得 application facade。Route 只組合或轉交 presentation。
+- Context 內部 supporting capability 只有在 manifest 的 `internalSubdomains` 宣告後，
+  才能建立 `src/subdomains/<name>`。其內維持自己的 Domain、Application、Ports 與
+  Infrastructure，不得將模型或 catalog 留在 route。
 - 跨 Context 禁止引用 Domain、Application、Infrastructure 或 Composition。
 - Context 不得擁有自己的 `package.json`、`tsconfig.json`、lint 或 test runner 設定；它們繼承 `@a-i/web`。
 - 禁止新增 root `modules/<context>` runtime 位置或依技術 layer 建立全域 `services`、`models`、`repositories`。

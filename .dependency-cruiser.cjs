@@ -77,6 +77,61 @@ module.exports = {
       to: { path: "^apps/web/src/modules/$1/src/infrastructure/" },
     },
     {
+      name: "internal-subdomain-domain-has-no-external-dependencies",
+      severity: "error",
+      comment: "Internal subdomain Domain code must remain framework free.",
+      from: {
+        path: "^apps/web/src/modules/[^/]+/src/subdomains/[^/]+/domain/",
+      },
+      to: {
+        dependencyTypes: [
+          "npm",
+          "npm-dev",
+          "npm-optional",
+          "npm-peer",
+          "npm-no-pkg",
+          "npm-unknown",
+          "core",
+        ],
+      },
+    },
+    {
+      name: "internal-subdomain-domain-does-not-depend-outward",
+      severity: "error",
+      comment:
+        "Internal subdomain Domain cannot depend on its Application or Infrastructure.",
+      from: {
+        path: "^apps/web/src/modules/([^/]+)/src/subdomains/([^/]+)/domain/",
+      },
+      to: {
+        path: "^apps/web/src/modules/$1/src/subdomains/$2/(application|infrastructure)/",
+      },
+    },
+    {
+      name: "internal-subdomain-application-does-not-depend-on-infrastructure",
+      severity: "error",
+      comment:
+        "Internal subdomain Application owns Ports and cannot use adapters.",
+      from: {
+        path: "^apps/web/src/modules/([^/]+)/src/subdomains/([^/]+)/application/",
+      },
+      to: {
+        path: "^apps/web/src/modules/$1/src/subdomains/$2/infrastructure/",
+      },
+    },
+    {
+      name: "internal-subdomain-does-not-import-parent-internals",
+      severity: "error",
+      comment:
+        "An internal subdomain collaborates through an owned Port, not parent internals.",
+      from: {
+        path: "^apps/web/src/modules/([^/]+)/src/subdomains/[^/]+/",
+      },
+      to: {
+        path: "^apps/web/src/modules/$1/src/(domain|application|infrastructure)/",
+      },
+    },
+    {
       name: "app-local-contracts-are-standalone",
       severity: "error",
       comment:

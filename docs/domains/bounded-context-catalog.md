@@ -1,6 +1,6 @@
 # Bounded Context catalog
 
-狀態：Approved product contexts; one app-local reference Context exists
+狀態：Current / approved runtime Contexts
 
 | Context           | Purpose                                | Owns                                      | Does not own                          | Lifecycle |
 | ----------------- | -------------------------------------- | ----------------------------------------- | ------------------------------------- | --------- |

@@ -1,8 +1,8 @@
 # Identity & Access 策略
 
-狀態：Proposed / 尚待產品 owner 核准
+狀態：Accepted in-memory Principal/session baseline
 
-Context 候選：`identity-access`
+Runtime Context：`identity-access`
 Subdomain：Generic authentication；Supporting identity and credential policy
 
 ## 任務

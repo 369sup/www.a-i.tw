@@ -26,3 +26,16 @@ contracts and architecture tests rather than workspace packages.
 It intentionally does not invent aggregates, entities, repositories, events, or
 use cases. After generation, define the first public contract and run
 `pnpm arch:check` before adding runtime behavior.
+
+For an approved internal subdomain of an existing Context, run:
+
+```bash
+pnpm generate:subdomain \
+  --context <existing-context> \
+  --subdomain <kebab-case-name> \
+  --type <core|supporting|generic>
+```
+
+This creates `src/subdomains/<name>` and atomically updates the Context
+manifest and runtime Context Map. Do not create internal subdomain folders by
+hand.

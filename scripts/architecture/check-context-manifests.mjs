@@ -86,6 +86,35 @@ for (const name of directories) {
   ) {
     errors.push(`${name} must declare a valid subdomain type.`);
   }
+  for (const subdomain of manifest.internalSubdomains ?? []) {
+    const subdomainRoot = join(directory, "src/subdomains", subdomain.name);
+    for (const required of [
+      "README.md",
+      "domain",
+      "application",
+      "infrastructure",
+      "composition.ts",
+    ]) {
+      if (!existsSync(join(subdomainRoot, required))) {
+        errors.push(
+          `${name} internal subdomain ${subdomain.name} is missing: ${required}.`,
+        );
+      }
+    }
+  }
+  const subdomainsRoot = join(directory, "src/subdomains");
+  if (existsSync(subdomainsRoot)) {
+    const declared = new Set(
+      (manifest.internalSubdomains ?? []).map((subdomain) => subdomain.name),
+    );
+    for (const entry of readdirSync(subdomainsRoot, { withFileTypes: true })) {
+      if (entry.isDirectory() && !declared.has(entry.name)) {
+        errors.push(
+          `${name} has undeclared internal subdomain folder: ${entry.name}.`,
+        );
+      }
+    }
+  }
   if (
     ["pending", "todo", "unknown", "example"].includes(
       String(manifest.owner).toLowerCase(),

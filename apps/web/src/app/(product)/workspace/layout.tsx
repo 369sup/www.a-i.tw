@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { ShieldCheck } from "lucide-react";
+import { BookOpen } from "lucide-react";
+import Link from "next/link";
 
 export default function WorkspaceLayout({
   children,
@@ -21,9 +23,18 @@ export default function WorkspaceLayout({
           </span>
           <strong className="text-sm">a-i workspace</strong>
         </div>
-        <span className="text-xs text-muted-foreground">
-          In-memory product model
-        </span>
+        <div className="flex items-center gap-3">
+          <Link
+            className="inline-flex items-center gap-1.5 text-xs font-medium hover:underline"
+            href="/docs"
+          >
+            <BookOpen className="size-3.5" />
+            Docs
+          </Link>
+          <span className="text-xs text-muted-foreground">
+            In-memory product model
+          </span>
+        </div>
       </header>
       {children}
       <div className="grid min-h-[calc(100vh-3.5rem)] border-b bg-background lg:grid-cols-[15rem_minmax(24rem,1fr)_22rem]">
