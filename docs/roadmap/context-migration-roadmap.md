@@ -10,11 +10,16 @@
 6. **Completed in-memory slice**: Issue → Label → Assignment in Issues with Repository participation ACL.
 7. **Completed in-memory baseline**: Password mock Login, browser Session, Identity Resolution, Account Profile, Actor/Scope distinction and Personal Dashboard gate.
 8. **Completed baseline**: minimal Request Envelope plus distributed Repository Capability Context resolver and owner decision.
-9. **Next identity gate**: production provider, durable session revocation, 2FA/passkey/device/IdP security verification.
-10. **Research before implementation**: Projects, Discussions, Social Graph, Notifications, Search,
+9. **Completed first slice**: Projects with typed Issue/Draft Items, Account owner and Issue directory ACLs.
+10. **Completed first slice**: Enterprise Governance affiliation and Repository visibility constraints.
+11. **Next identity gate**: production provider, durable session revocation, 2FA/passkey/device/IdP security verification.
+12. **Research before implementation**: Discussions, Knowledge, Community Safety, Social Graph, Notifications, Search,
     Apps, Billing, Sponsors, Audit and Support must each pass G1-G3; no capability family automatically
     becomes a Context and no universal Context Service is allowed.
-11. **Extraction gate**: only independent deployment, scaling, compliance,
+13. **Target Context sequence**: Discussions → Knowledge → Community Safety → Social Graph → Subscription &
+    Notification → Search & Discovery → Integration Ecosystem → Identity Governance → Entitlement & Licensing →
+    Billing & Cost → Sponsorship → Audit & Compliance. Order may change only with documented product evidence.
+14. **Extraction gate**: only independent deployment, scaling, compliance,
     ownership or release-cadence evidence permits service/workspace extraction.
 
 Each step requires entry evidence, rollback, compatibility impact and exit verification.

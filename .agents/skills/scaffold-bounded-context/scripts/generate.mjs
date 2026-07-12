@@ -9,7 +9,16 @@ const args = Object.fromEntries(
     return pairs;
   }, []),
 );
-const required = ["context", "domain", "subdomain", "type", "owner"];
+const required = [
+  "context",
+  "domain",
+  "subdomain",
+  "type",
+  "owner",
+  "problem",
+  "first-use-case",
+  "source-of-truth",
+];
 const missing = required.filter((key) => !args[key]);
 
 if (missing.length > 0) throw new Error(`Missing required options: ${missing.join(", ")}.`);
@@ -23,6 +32,12 @@ const destination = join(root, "apps/web/src/modules", args.context);
 if (existsSync(destination)) throw new Error(`Context already exists: ${args.context}.`);
 
 cpSync(template, destination, { recursive: true });
+const sourceOfTruth = args["source-of-truth"]
+  .split(",")
+  .map((value) => value.trim())
+  .filter(Boolean);
+if (sourceOfTruth.length === 0)
+  throw new Error("--source-of-truth requires at least one model name.");
 
 function replacePlaceholders(directory) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -35,7 +50,12 @@ function replacePlaceholders(directory) {
         .replaceAll("__SUBDOMAIN__", args.subdomain)
         .replaceAll("__TYPE__", args.type)
         .replaceAll("__OWNER__", args.owner);
-      writeFileSync(path, content);
+      const enriched = content
+        .replaceAll("__PROBLEM__", args.problem)
+        .replaceAll("__FIRST_USE_CASE__", args["first-use-case"])
+        .replaceAll("__SOURCE_OF_TRUTH__", JSON.stringify(sourceOfTruth))
+        .replaceAll("__VERIFIED_AT__", new Date().toISOString().slice(0, 10));
+      writeFileSync(path, enriched);
     }
   }
 }

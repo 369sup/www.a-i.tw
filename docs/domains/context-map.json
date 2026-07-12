@@ -8,12 +8,18 @@
       "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Identity and Access",
-      "subdomain": { "name": "identity-access", "type": "supporting" },
+      "subdomain": {
+        "name": "identity-access",
+        "type": "supporting"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Authenticate a principal and maintain session attribution without deciding product authorization.",
       "firstUseCase": "Authenticate a demo credential and resolve the active principal session.",
       "sourceOfTruth": ["Principal", "Session"],
-      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": []
     },
     {
@@ -22,7 +28,10 @@
       "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Account Management",
-      "subdomain": { "name": "account", "type": "core" },
+      "subdomain": {
+        "name": "account",
+        "type": "core"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Own personal and organization namespaces, profiles, memberships and organization teams.",
       "firstUseCase": "Create an account and manage organization membership.",
@@ -33,7 +42,10 @@
         "OrganizationMembership",
         "OrganizationTeam"
       ],
-      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": [
         {
           "upstream": "identity-access",
@@ -54,12 +66,18 @@
       "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Repository Governance",
-      "subdomain": { "name": "repository", "type": "core" },
+      "subdomain": {
+        "name": "repository",
+        "type": "core"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Govern a non-code Repository workspace, its owner, visibility, lifecycle and resource-scoped access.",
       "firstUseCase": "Create and access a Repository owned by an eligible Account.",
       "sourceOfTruth": ["Repository", "RepositoryAccessGrant"],
-      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": [
         {
           "upstream": "identity-access",
@@ -82,6 +100,17 @@
           "consistency": "synchronous",
           "failureMode": "deny-unavailable-account-facts",
           "status": "current"
+        },
+        {
+          "upstream": "enterprise-governance",
+          "downstream": "repository",
+          "pattern": "customer-supplier + published-language + anti-corruption-layer",
+          "contract": "EnterpriseRepositoryGovernanceApiV1",
+          "consumerPort": "EnterpriseRepositoryGovernance",
+          "consumerAcl": "EnterpriseRepositoryGovernanceAdapter",
+          "consistency": "synchronous",
+          "failureMode": "fail-closed-on-unavailable-governance-constraints",
+          "status": "current"
         }
       ]
     },
@@ -91,7 +120,10 @@
       "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Issues",
-      "subdomain": { "name": "issues", "type": "core" },
+      "subdomain": {
+        "name": "issues",
+        "type": "core"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Track repository-scoped work with Issue identity, lifecycle, labels, assignment and collaboration relationships.",
       "firstUseCase": "Create, classify, assign and close an Issue after authoritative Repository participation approval.",
@@ -102,7 +134,10 @@
         "Milestone",
         "IssueDependency"
       ],
-      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": [
         {
           "upstream": "identity-access",
@@ -134,12 +169,18 @@
       "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Projects",
-      "subdomain": { "name": "projects", "type": "core" },
+      "subdomain": {
+        "name": "projects",
+        "type": "core"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Plan external work-item references without taking ownership of Issue truth.",
       "firstUseCase": "Add an existing Issue reference to an account-owned Project.",
       "sourceOfTruth": ["Project", "ProjectItem", "DraftItem"],
-      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": [
         {
           "upstream": "account",
@@ -171,7 +212,10 @@
       "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Discussions",
-      "subdomain": { "name": "discussions", "type": "core" },
+      "subdomain": {
+        "name": "discussions",
+        "type": "core"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Host repository-scoped open-ended community conversation distinct from Issue work state.",
       "firstUseCase": "Create a repository Discussion and mark an eligible answer.",
@@ -188,7 +232,10 @@
       "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Notifications",
-      "subdomain": { "name": "notifications", "type": "supporting" },
+      "subdomain": {
+        "name": "notifications",
+        "type": "supporting"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Represent recipient attention and Inbox triage independently of source resource truth.",
       "firstUseCase": "Create and triage an in-memory Notification.",
@@ -205,7 +252,10 @@
       "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Search",
-      "subdomain": { "name": "search", "type": "supporting" },
+      "subdomain": {
+        "name": "search",
+        "type": "supporting"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Index and retrieve non-code resource projections without becoming their source of truth.",
       "firstUseCase": "Index and query an in-memory visibility-filtered Search Document.",
@@ -222,7 +272,10 @@
       "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Activity Feed",
-      "subdomain": { "name": "activity-feed", "type": "supporting" },
+      "subdomain": {
+        "name": "activity-feed",
+        "type": "supporting"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Present recipient-scoped activity projections without owning source transactions.",
       "firstUseCase": "Append and list an in-memory Feed Item for a recipient.",
@@ -239,7 +292,10 @@
       "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Audit",
-      "subdomain": { "name": "audit", "type": "supporting" },
+      "subdomain": {
+        "name": "audit",
+        "type": "supporting"
+      },
       "owner": "www.a-i.tw Product Team",
       "problem": "Preserve append-only administrative evidence without becoming a business event bus.",
       "firstUseCase": "Append and query an in-memory Audit Entry.",
@@ -249,6 +305,40 @@
         "verifiedAt": "2026-07-12"
       },
       "relationships": []
+    },
+    {
+      "context": "enterprise-governance",
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Enterprise Governance",
+      "subdomain": {
+        "name": "enterprise-governance",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Govern multiple Organizations with Enterprise-scoped affiliations and enforceable policy constraints without owning their resources.",
+      "firstUseCase": "Affiliate an Organization and restrict Public Repository creation and visibility changes.",
+      "sourceOfTruth": [
+        "Enterprise",
+        "EnterpriseOwnerAssignment",
+        "EnterpriseOrganizationAffiliation",
+        "RepositoryVisibilityPolicy"
+      ],
+      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "relationships": [
+        {
+          "upstream": "account",
+          "downstream": "enterprise-governance",
+          "pattern": "customer-supplier + published-language + anti-corruption-layer",
+          "contract": "AccountDirectoryApiV1",
+          "consumerPort": "OrganizationDirectory",
+          "consumerAcl": "OrganizationDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-or-inactive-organization",
+          "status": "current"
+        }
+      ]
     }
   ]
 }

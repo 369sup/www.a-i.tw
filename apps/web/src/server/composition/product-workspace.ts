@@ -22,9 +22,15 @@ import {
 import { createRepositoryService } from "@/src/modules/repository/public-api";
 import {
   AccountDirectoryAdapter,
+  EnterpriseRepositoryGovernanceAdapter,
   InMemoryAccessGrantStore,
   InMemoryRepositoryStore,
 } from "@/src/modules/repository/composition";
+import { createEnterpriseGovernanceService } from "@/src/modules/enterprise-governance/public-api";
+import {
+  InMemoryEnterpriseStore,
+  OrganizationDirectoryAdapter,
+} from "@/src/modules/enterprise-governance/composition";
 import { createIssuesService } from "@/src/modules/issues/public-api";
 import {
   InMemoryIssueNumberSequence,
@@ -149,6 +155,19 @@ function createProductWorkspace() {
     new InMemoryTeamStore(),
     nextId("team"),
   );
+  const accountDirectoryApi = {
+    eligibility: (id: string) => accounts.eligibility(id),
+    membership: (accountId: string, principalId: string) =>
+      memberships.membership(accountId, principalId),
+    teamMemberships: (accountId: string, principalId: string) =>
+      teams.memberships(accountId, principalId),
+  };
+  const enterpriseGovernance = createEnterpriseGovernanceService(
+    new InMemoryEnterpriseStore(),
+    new OrganizationDirectoryAdapter(accountDirectoryApi),
+    nextId("enterprise"),
+    () => new Date(),
+  );
   const repositories = createRepositoryService(
     new InMemoryRepositoryStore([
       {
@@ -169,13 +188,8 @@ function createProductWorkspace() {
       },
     ]),
     new InMemoryAccessGrantStore(),
-    new AccountDirectoryAdapter({
-      eligibility: (id) => accounts.eligibility(id),
-      membership: (accountId, principalId) =>
-        memberships.membership(accountId, principalId),
-      teamMemberships: (accountId, principalId) =>
-        teams.memberships(accountId, principalId),
-    }),
+    new AccountDirectoryAdapter(accountDirectoryApi),
+    new EnterpriseRepositoryGovernanceAdapter(enterpriseGovernance),
     nextId("repository"),
   );
   const issues = createIssuesService(
@@ -188,13 +202,7 @@ function createProductWorkspace() {
   );
   const projects = createProjectsService(
     new InMemoryProjectStore(),
-    new AccountOwnerDirectoryAdapter({
-      eligibility: (id) => accounts.eligibility(id),
-      membership: (accountId, principalId) =>
-        memberships.membership(accountId, principalId),
-      teamMemberships: (accountId, principalId) =>
-        teams.memberships(accountId, principalId),
-    }),
+    new AccountOwnerDirectoryAdapter(accountDirectoryApi),
     new IssueDirectoryAdapter(issues),
     nextId("project"),
   );
@@ -227,6 +235,7 @@ function createProductWorkspace() {
     profiles,
     memberships,
     teams,
+    enterpriseGovernance,
     repositories,
     issues,
     projects,

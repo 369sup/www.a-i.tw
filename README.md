@@ -80,13 +80,14 @@ Canonical architecture and documentation routing:
 
 ## Current Bounded Contexts
 
-| Context           | Domain                | Type       | Responsibility                                                   |
-| ----------------- | --------------------- | ---------- | ---------------------------------------------------------------- |
-| `identity-access` | Identity and Access   | Supporting | Principal identity and foundational identity contracts           |
-| `account`         | Account Management    | Core       | Accounts, memberships, invitations, and teams                    |
-| `repository`      | Repository Governance | Core       | Repository scope, roles, grants, and access decisions            |
-| `issues`          | Issues                | Core       | Issues inside repository collaboration scope                     |
-| `projects`        | Projects              | Core       | Account-owned planning of typed Issue references and Draft Items |
+| Context                 | Domain                | Type       | Responsibility                                                       |
+| ----------------------- | --------------------- | ---------- | -------------------------------------------------------------------- |
+| `identity-access`       | Identity and Access   | Supporting | Principal identity and foundational identity contracts               |
+| `account`               | Account Management    | Core       | Accounts, memberships, invitations, and teams                        |
+| `repository`            | Repository Governance | Core       | Repository scope, roles, grants, and access decisions                |
+| `issues`                | Issues                | Core       | Issues inside repository collaboration scope                         |
+| `projects`              | Projects              | Core       | Account-owned planning of typed Issue references and Draft Items     |
+| `enterprise-governance` | Enterprise Governance | Core       | Cross-Organization affiliation and Repository visibility constraints |
 
 `master-template` is an engineering reference template, not a product Bounded Context, product
 capability or world-model node.
@@ -104,7 +105,10 @@ pnpm generate:context \
   --domain <domain-name> \
   --subdomain <subdomain-name> \
   --type <core|supporting|generic> \
-  --owner <owner>
+  --owner <owner> \
+  --problem <approved-problem> \
+  --first-use-case <approved-use-case> \
+  --source-of-truth <comma-separated-models>
 ```
 
 Then define the first use case and run:

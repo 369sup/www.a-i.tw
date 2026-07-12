@@ -1,28 +1,22 @@
 # Latest Checkpoint
 
-## Purpose
+GitHub non-code target is documented as 19 logical Contexts without treating unimplemented targets as runtime. Approved app-local Contexts are Identity & Access, Account, Enterprise Governance, Repository, Issues and Projects. Prototype Contexts remain explicitly marked.
 
-Record only the most recent verified Serena navigation baseline.
+Latest slice:
+- Enterprise, owner assignment, Organization affiliation and Repository visibility policy.
+- Account eligibility -> Enterprise consumer ACL.
+- Enterprise constraints -> Repository consumer ACL.
+- Repository remains final authorization owner.
+- Context generator now requires problem, first use case, source of truth and runtime evidence.
 
-## Summary
-
-Identity & Access, Account, Repository and Issues remain verified app-local Contexts. Login/Profile baseline remains current. The latest slice adds a minimal RequestEnvelopeV1 plus a distributed RepositoryCapabilityContextV1 resolver. There is no universal Context Service: Experience owns consumer-shaped view types, server composition alone translates provider facades, and Repository owns authorization decisions. The Inspector renders Actor, Scope, Owner, Capability, Action and Decision. Other capability resolvers, Enterprise governance, production identity and durable sessions remain Planned.
-
-## Verification
-
-- Serena diagnostics: clean.
-- pnpm check: 25/25; 20 web tests passed, 1 todo.
-- docs and architecture gates passed; 164 app modules, 266 dependencies, 11 architecture tests.
+Verification:
+- Web typecheck passed.
+- Web tests: 24 files passed, 1 skipped; 38 tests passed, 1 todo.
+- Docs checks passed.
+- Architecture checks passed: 13 tests, 257 modules, 432 dependencies, no violations.
 - Next.js 16.2.10 build passed.
-- Semgrep: 0 findings over 117 targets.
-- Playwright: 4/4 passed.
+- Repository-wide check remains blocked by 213 pre-existing Prettier files.
+- Semgrep is unavailable because the Windows host lacks the executable and the script is POSIX-only.
 
-## Related Documents
-
-- `docs/evidence/2026-07-12-repository-capability-context.md`
-- `docs/status/2026-07-12-request-context-30-concern-closure.md`
-- `docs/decisions/0007-request-context-orchestration.md`
-
-## Last Verified
-
-- Date: 2026-07-12
+Canonical status: `docs/status/2026-07-12-github-ddd-alignment.md`
+Last verified: 2026-07-12

@@ -22,6 +22,7 @@ import {
 } from "../../../domain/repository/aggregates/repository";
 import type { RepositoryPrincipal } from "../ports/inbound/repository-principal";
 import type { AccountDirectory } from "../ports/outbound/account-directory.port";
+import type { EnterpriseRepositoryGovernance } from "../ports/outbound/enterprise-repository-governance.port";
 
 export interface RepositoryStore {
   list(): Promise<Repository[]>;
@@ -93,6 +94,7 @@ export function createRepositoryService(
   store: RepositoryStore,
   grants: AccessGrantStore,
   accounts: AccountDirectory,
+  enterpriseGovernance: EnterpriseRepositoryGovernance,
   nextId: () => string,
 ): RepositoryService {
   async function decision(
@@ -195,6 +197,15 @@ export function createRepositoryService(
       );
       if (membership?.role !== "owner")
         throw new Error("Only an account owner can create repositories.");
+      if (input.visibility === "public") {
+        const constraints = await enterpriseGovernance.constraintsForOwner(
+          input.ownerAccountId,
+        );
+        if (constraints.publicRepositoryCreation === "forbidden")
+          throw new Error(
+            "Enterprise policy forbids Public Repository creation.",
+          );
+      }
       const repository = createRepository({
         id: nextId(),
         ownerAccountId: input.ownerAccountId,
@@ -228,6 +239,15 @@ export function createRepositoryService(
         "repository:change-visibility",
         principal,
       );
+      if (visibility === "public") {
+        const constraints = await enterpriseGovernance.constraintsForOwner(
+          repository.ownerAccountId,
+        );
+        if (constraints.publicVisibilityChange === "forbidden")
+          throw new Error(
+            "Enterprise policy forbids Public Repository visibility.",
+          );
+      }
       const updated = changeVisibility(repository, visibility);
       await store.save(updated);
       return toRef(updated);

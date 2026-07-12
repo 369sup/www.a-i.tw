@@ -6,7 +6,8 @@
 | --------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------- |
 | Identity & Access     | `PrincipalStore`, `CredentialVerifier`, token-keyed `SessionStore`                          | mock password verifier + in-memory stores                | product workspace root      |
 | Account               | `AccountStore`, `ProfileStore`, `MembershipStore`, `MembershipInvitationStore`, `TeamStore` | in-memory Account, Profile, Membership and Team adapters | product workspace root      |
-| Repository            | `RepositoryStore`, `AccessGrantStore`, `AccountDirectory`                                   | in-memory stores + `AccountDirectoryAdapter`             | product workspace root      |
+| Enterprise Governance | `EnterpriseStore`, `OrganizationDirectory`                                                  | in-memory store + `OrganizationDirectoryAdapter`         | product workspace root      |
+| Repository            | `RepositoryStore`, `AccessGrantStore`, `AccountDirectory`, `EnterpriseRepositoryGovernance` | in-memory stores + Account/Enterprise ACL adapters       | product workspace root      |
 | Issues                | `IssueStore`, `LabelStore`, `IssueNumberSequence`, `RepositoryParticipation`                | in-memory stores + `RepositoryParticipationAdapter`      | product workspace root      |
 | Projects              | `ProjectStore`, `AccountOwnerDirectory`, `IssueDirectory`                                   | in-memory store + consumer-side ACL adapters             | product workspace root      |
 | Repository Experience | `AccountContextPort`, `RepositoryContextPort`                                               | Account/Repository facade adapters                       | repository-context root     |

@@ -15,7 +15,10 @@ pnpm generate:context \
   --domain <domain-name> \
   --subdomain <subdomain-name> \
   --type <core|supporting|generic> \
-  --owner <owner>
+  --owner <owner> \
+  --problem <approved-problem> \
+  --first-use-case <approved-use-case> \
+  --source-of-truth <comma-separated-models>
 ```
 
 The generator creates an app-local Context under `apps/web/src/modules/` using the ADR 0008 target topology: layer first, declared subdomain second, tactical pattern/use case third. It creates `public-api.ts` and `composition/index.ts`; ownership-free shared directories are forbidden.

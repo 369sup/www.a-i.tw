@@ -35,6 +35,17 @@
       "consistency": "synchronous",
       "failureMode": "deny-unavailable-account-facts",
       "status": "current"
+    },
+    {
+      "upstream": "enterprise-governance",
+      "downstream": "repository",
+      "pattern": "customer-supplier + published-language + anti-corruption-layer",
+      "contract": "EnterpriseRepositoryGovernanceApiV1",
+      "consumerPort": "EnterpriseRepositoryGovernance",
+      "consumerAcl": "EnterpriseRepositoryGovernanceAdapter",
+      "consistency": "synchronous",
+      "failureMode": "fail-closed-on-unavailable-governance-constraints",
+      "status": "current"
     }
   ]
 }

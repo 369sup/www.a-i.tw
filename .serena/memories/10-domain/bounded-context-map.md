@@ -1,39 +1,15 @@
 # Bounded Context Map
 
-## Purpose
+Identity & Access, Account, Enterprise Governance, Repository, Issues and Projects are approved app-local product Contexts. Discussions, Notifications, Search, Activity Feed and Audit remain prototypes. Master Template is an architecture fixture outside the product Context Map.
 
-Route analysis to the correct bounded-context definition before inspecting symbols.
+Current Enterprise edges:
+- Account -> Enterprise Governance via `AccountDirectoryApiV1`, consumer `OrganizationDirectory` and `OrganizationDirectoryAdapter`.
+- Enterprise Governance -> Repository via `EnterpriseRepositoryGovernanceApiV1`, consumer `EnterpriseRepositoryGovernance` and `EnterpriseRepositoryGovernanceAdapter`.
+- Enterprise policy only constrains capability; Repository owns final decisions.
 
-## Summary
-
-Identity & Access, Account, Repository and Issues are approved app-local runtime Contexts owned by the www.a-i.tw Product Team. Issues is downstream of Identity & Access and Repository through published contracts and its own ACL. Master Template is an Architecture Team reference Context with declared internal Sub Template.
-
-## Rules
-
-- Do not treat a name match as proof that symbols share an owner.
-- Cross-context consumers use provider contracts and consumer-owned ACLs.
-- Do not create or move a Domain model until ownership and public interaction are explicit.
-- Internal subdomains require manifest declaration and the standard path.
-- Canonical Context Map manifests and runtime override this navigation memory.
-
-## Source Locations
-
+Canonical sources:
 - `docs/domains/context-map.json`
+- `docs/domains/context-map.md`
 - `apps/web/src/modules/*/context.json`
 
-## Related Documents
-
-- `docs/domains/context-map.md`
-- `docs/domains/bounded-context-catalog.md`
-- `docs/status/2026-07-12-issues-30-concern-closure.md`
-
-## Related Memories
-
-- `mem:10-domain/ownership-map`
-- `mem:10-domain/context-dependency-rules`
-- `mem:20-contexts/issues`
-
-## Last Verified
-
-- Date: 2026-07-12
-- Evidence: manifest equality, module tree, cross-context checks and architecture gates.
+Last verified: 2026-07-12 with manifest equality, cross-context checks and architecture gates.

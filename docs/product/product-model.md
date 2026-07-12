@@ -23,33 +23,61 @@ constrained by Relationships, Grants, Policy, Entitlement and Request Facts
 
 ## Semantic classification
 
-| Type                  | GitHub language                                                                                                    | Architecture meaning                                      |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
-| Product Context       | Identity & Access, Account, Repository, Issues, Projects, Discussions, Notifications, Search, Activity Feed, Audit | Current app-local runtime owners                          |
-| Context candidate     | Apps, Billing, Sponsors, Support                                                                                   | Proposed until G1-G3 approves owner and first use case    |
-| Relationship family   | Membership, Team membership, Follow, Star, Watch, Subscribe, Mention, Assignment                                   | Owner-published directed facts                            |
-| Control plane         | Authentication, Authorization, Policy, Entitlement, Audit, Integration                                             | Cross-cutting responsibility, not automatically a Context |
-| Governance boundary   | User/Organization/Enterprise account, Team, Repository, Project, Cost center, App installation                     | Scope classification, not one aggregate type              |
-| Experience surface    | Profile, Dashboard, Feed, Inbox, Explore, Command Palette, Web, Mobile                                             | Consumer-facing route or read model                       |
-| Architecture language | Port, Adapter, ACL, query result, view model, projection, composition root                                         | Never promoted into GitHub product language               |
+| Type                  | GitHub language                                                                                                                           | Architecture meaning                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Product Context       | Identity & Access, Account, Enterprise Governance, Repository, Issues, Projects, Discussions, Notifications, Search, Activity Feed, Audit | Approved or prototype app-local owners                    |
+| Context candidate     | Apps, Billing, Sponsors, Support                                                                                                          | Proposed until G1-G3 approves owner and first use case    |
+| Relationship family   | Membership, Team membership, Follow, Star, Watch, Subscribe, Mention, Assignment                                                          | Owner-published directed facts                            |
+| Control plane         | Authentication, Authorization, Policy, Entitlement, Audit, Integration                                                                    | Cross-cutting responsibility, not automatically a Context |
+| Governance boundary   | User/Organization/Enterprise account, Team, Repository, Project, Cost center, App installation                                            | Scope classification, not one aggregate type              |
+| Experience surface    | Profile, Dashboard, Feed, Inbox, Explore, Command Palette, Web, Mobile                                                                    | Consumer-facing route or read model                       |
+| Architecture language | Port, Adapter, ACL, query result, view model, projection, composition root                                                                | Never promoted into GitHub product language               |
 
 ## Current runtime
 
-| Context           | Current ownership                                                                      |
-| ----------------- | -------------------------------------------------------------------------------------- |
-| Identity & Access | Principal, authentication identity, credential verification and in-memory Session      |
-| Account           | Personal/Organization Account, Profile, Membership, Invitation and Organization Team   |
-| Repository        | Repository identity, ownership, visibility, role, grant, lifecycle and access decision |
-| Issues            | Issue, Issue Number, open/closed state, Label, Assignment and Assignee                 |
-| Projects          | Project and Project Item references                                                    |
-| Discussions       | Repository Discussion and accepted Answer reference                                    |
-| Notifications     | Notification reason and Inbox state                                                    |
-| Search            | Access-filtered non-code Search Documents and Result Set                               |
-| Activity Feed     | Recipient-scoped Feed Items                                                            |
-| Audit             | Immutable administrative observations and structured query                             |
+| Context               | Current ownership                                                                       |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| Identity & Access     | Principal, authentication identity, credential verification and in-memory Session       |
+| Account               | Personal/Organization Account, Profile, Membership, Invitation and Organization Team    |
+| Enterprise Governance | Enterprise, Organization affiliation, owner assignment and Repository visibility policy |
+| Repository            | Repository identity, ownership, visibility, role, grant, lifecycle and access decision  |
+| Issues                | Issue, Issue Number, open/closed state, Label, Assignment and Assignee                  |
+| Projects              | Project and Project Item references                                                     |
+| Discussions           | Prototype Discussion record                                                             |
+| Notifications         | Prototype Notification and Inbox state                                                  |
+| Search                | Prototype non-code Search Document and Result Set                                       |
+| Activity Feed         | Prototype recipient-scoped Feed Item                                                    |
+| Audit                 | Prototype administrative observation                                                    |
 
 Everything else in the non-code catalog is Research or Proposed. Presence in GitHub does not make local
 runtime Current.
+
+## Complete target Context inventory
+
+The GitHub non-code target contains 19 logical Contexts. This is a migration target, not a claim that all are runtime:
+
+1. Account & Profile
+2. Authentication & Federation
+3. Enterprise Governance
+4. Organization Directory
+5. Authorization & Policy
+6. Repository Workspace
+7. Issue Management
+8. Project Planning
+9. Discussions
+10. Knowledge
+11. Community Safety
+12. Social Graph
+13. Search & Discovery
+14. Subscription & Notification
+15. Integration Ecosystem
+16. Entitlement & Licensing
+17. Billing & Cost
+18. Sponsorship
+19. Audit & Compliance
+
+Existing `identity-access` and `account` modules currently contain the approved first slices of targets 1, 2 and 4.
+Extraction into additional Contexts requires independent lifecycle, invariants and integration evidence.
 
 ## Required distinctions
 

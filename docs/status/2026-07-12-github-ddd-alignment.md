@@ -11,16 +11,19 @@
 - Repository 不再複製 Account handle，且 collaboration action 已細化為 Issue capabilities。
 - Issues 的 Label 與 Assignment 不再受 blanket closed-state rule；Dependency 會驗證存在性、scope、duplicate 與 cycle。
 - Projects 已完成第一個 approved slice：Account-owned Project、typed Issue reference、Draft Item、Account owner ACL 與 Issue directory ACL。
+- Enterprise Governance 已成為獨立 approved Context：擁有 Enterprise、owner assignment、Organization affiliation 與 Repository visibility policy；Repository 透過 consumer ACL 消費 constraint 並保留最終決策。
+- 完整 GitHub 非 Code 目標已固定為 19 個邏輯 Context；未完成者只列 roadmap，不建立空殼 runtime。
+- Bounded Context generator 現在強制 problem、first use case、source of truth、lifecycle 與 runtime evidence。
 - Context public API 不得輸出 Domain 或 Infrastructure internals；architecture gate 已自動檢查。
 
 ## Verification
 
-- `pnpm arch:check`: passed, including 13 architecture tests and a 245-module dependency graph.
+- `pnpm arch:check`: passed, including 13 architecture tests and a 257-module / 432-dependency graph.
 - `pnpm docs:check`: passed.
 - `pnpm --filter @a-i/web typecheck`: passed.
-- `pnpm --filter @a-i/web test -- --run`: 22 passed, 1 skipped; 34 tests passed and 1 todo.
+- `pnpm --filter @a-i/web test -- --run`: 24 passed, 1 skipped; 38 tests passed and 1 todo.
 - `pnpm build`: passed.
-- `pnpm check`: blocked by the repository-wide pre-existing Prettier baseline (222 files), before Turbo checks run.
+- `pnpm check`: blocked by the repository-wide pre-existing Prettier baseline (213 files), before Turbo checks run.
 - `pnpm semgrep`: unavailable on this Windows host; the package script is POSIX-only and no `semgrep` executable is installed.
 
 Discussions、Notifications、Search、Activity Feed 與 Audit 仍是 prototype。Integration Events、

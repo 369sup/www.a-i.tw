@@ -2,17 +2,18 @@
 
 狀態：Current / approved in-memory vertical slice
 
-Identity & Access、Account、Repository、Issues 與 Projects 已核准為 runtime bounded contexts，owner 均為
+Identity & Access、Account、Enterprise Governance、Repository、Issues 與 Projects 已核准為 runtime bounded contexts，owner 均為
 `www.a-i.tw Product Team`。第一階段以同步、in-process published language 與
 context-owned ACL 協作；in-memory adapters 是明確的示範交付限制。
 
 ## Strategic Context Map
 
-此 Map 有八個策略節點：Product、Identity & Access、Account、Repository、Issues、Projects、Experience
-及 Platform。五個產品 Context 已核准；Experience 與 Platform
+此 Map 有九個策略節點：Product、Identity & Access、Account、Enterprise Governance、Repository、Issues、Projects、Experience
+及 Platform。六個產品 Context 已核准；Experience 與 Platform
 仍是 app 與 operations owner，不建模為產品 Context。
 
-Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organization；不登入、不承載 credential、不直接授與 Repository action。
+Enterprise Governance 是獨立 Context：它關聯並治理多個 Organization；不登入、不承載 credential、
+不擁有 Repository，也不回傳最終 Repository authorization decision。
 
 世界模型中的 Identity、Authorization、Policy、Capability、Event、Notification、Search、Audit
 與 Integration 是橫切責任分類，不自動構成新的 Context 或中央服務。實際 fact、decision、event
@@ -23,7 +24,8 @@ Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organi
 
 - `Product`：產品問題、需求與驗收語意。
 - `Identity & Access`：已實作 in-memory Principal 與 session baseline；production credential/provider 延後。
-- `Account`：已實作 personal／organization Account、namespace、Membership 與 Team lifecycle；enterprise governance 延後。
+- `Account`：已實作 personal／organization Account、namespace、Membership 與 Team lifecycle。
+- `Enterprise Governance`：已實作 Enterprise、Organization affiliation、owner assignment 與 Repository visibility policy。
 - `Repository`：已實作 visibility、direct/Team role grant、access decision 與 archive lifecycle；Git/code 排除。
 - `Issues`：已實作 Issue、Issue Number、open/closed state、Label 與 Assignment。
 - `Projects`：已實作 Account-owned Project、typed Issue reference、Draft Item 與 owner／Issue validation。
@@ -42,23 +44,28 @@ Repository ──RepositoryCollaborationScopeV1 / RepositoryParticipationDecisio
 Identity & Access ──PrincipalRefV1──> Issues
 Account ──AccountDirectoryApiV1──> Projects ACL
 Issues ──IssueDirectoryApiV1──> Projects ACL
+Account ──AccountDirectoryApiV1──> Enterprise Governance ACL
+Enterprise Governance ──EnterpriseRepositoryGovernanceApiV1──> Repository ACL
 ```
 
-| Upstream          | Downstream | Pattern                                                        | Contract / ACL owner                                                                | Consistency and failure semantics                                                                                                                  |
-| ----------------- | ---------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identity & Access | Account    | Open Host Service + Published Language                         | Identity & Access owns minimal principal facts; Account owns membership translation | invalid or unavailable authentication facts cannot create or activate a relationship                                                               |
-| Identity & Access | Repository | Open Host Service + Published Language; Repository owns an ACL | Identity & Access owns authentication facts; Repository owns translation            | synchronous in-process call is permitted after approval; unavailable／invalid context denies mutation safely and is not a Repository role decision |
-| Account           | Repository | Customer/Supplier + Published Language; Repository owns an ACL | Account owns relationship／eligibility facts; Repository owns translation           | membership／Team changes may require projection freshness policy; stale or unavailable facts must not become implicit grants                       |
-| Repository        | Experience | Open Host Service + Published Language                         | Repository owns access-decision contract                                            | UI is an inbound adapter; it cannot reimplement role or visibility checks                                                                          |
-| Identity & Access | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Identity owns PrincipalRefV1; Issues owns actor/assignee translation                | missing or disabled Principal facts deny mutation                                                                                                  |
-| Repository        | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Repository owns collaboration decisions; Issues owns participation translation      | unavailable scope or denied decision fails closed                                                                                                  |
-| Account           | Projects   | Customer/Supplier + Published Language; Projects owns an ACL   | Account owns Membership role facts; Projects owns owner translation                 | missing or non-owner Membership rejects Project mutation                                                                                           |
-| Issues            | Projects   | Customer/Supplier + Published Language; Projects owns an ACL   | Issues owns minimal Issue references; Projects owns planning translation            | unknown Issue references are rejected; Projects never copies Issue truth                                                                           |
+| Upstream              | Downstream            | Pattern                                                        | Contract / ACL owner                                                                | Consistency and failure semantics                                                                                                                  |
+| --------------------- | --------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Identity & Access     | Account               | Open Host Service + Published Language                         | Identity & Access owns minimal principal facts; Account owns membership translation | invalid or unavailable authentication facts cannot create or activate a relationship                                                               |
+| Identity & Access     | Repository            | Open Host Service + Published Language; Repository owns an ACL | Identity & Access owns authentication facts; Repository owns translation            | synchronous in-process call is permitted after approval; unavailable／invalid context denies mutation safely and is not a Repository role decision |
+| Account               | Repository            | Customer/Supplier + Published Language; Repository owns an ACL | Account owns relationship／eligibility facts; Repository owns translation           | membership／Team changes may require projection freshness policy; stale or unavailable facts must not become implicit grants                       |
+| Repository            | Experience            | Open Host Service + Published Language                         | Repository owns access-decision contract                                            | UI is an inbound adapter; it cannot reimplement role or visibility checks                                                                          |
+| Identity & Access     | Issues                | Open Host Service + Published Language; Issues owns an ACL     | Identity owns PrincipalRefV1; Issues owns actor/assignee translation                | missing or disabled Principal facts deny mutation                                                                                                  |
+| Repository            | Issues                | Open Host Service + Published Language; Issues owns an ACL     | Repository owns collaboration decisions; Issues owns participation translation      | unavailable scope or denied decision fails closed                                                                                                  |
+| Account               | Projects              | Customer/Supplier + Published Language; Projects owns an ACL   | Account owns Membership role facts; Projects owns owner translation                 | missing or non-owner Membership rejects Project mutation                                                                                           |
+| Issues                | Projects              | Customer/Supplier + Published Language; Projects owns an ACL   | Issues owns minimal Issue references; Projects owns planning translation            | unknown Issue references are rejected; Projects never copies Issue truth                                                                           |
+| Account               | Enterprise Governance | Customer/Supplier + Published Language; Enterprise owns an ACL | Account owns Organization eligibility; Enterprise owns affiliation translation      | inactive or unavailable Organization rejects affiliation                                                                                           |
+| Enterprise Governance | Repository            | Customer/Supplier + Published Language; Repository owns an ACL | Enterprise owns constraints; Repository owns final decision                         | unavailable constraints fail closed; unaffiliated owner receives no Enterprise restriction                                                         |
 
 Runtime enforcement uses `AccountDirectoryAdapter` in Repository Infrastructure and
 `RepositoryParticipationAdapter` in Issues Infrastructure, and `AccountOwnerDirectoryAdapter` plus
 `IssueDirectoryAdapter` in Projects Infrastructure. Consumer Application layers depend only on their local
 Ports and Principal input types; provider facade instances are injected by app server composition.
+Enterprise integration uses `OrganizationDirectoryAdapter` and `EnterpriseRepositoryGovernanceAdapter` under the same rule.
 
 `Identity & Access` does not return a `repository:*` decision. `Account` does not return a
 Repository Role. `Repository` evaluates its resource-scoped decision from the facts it consumes.

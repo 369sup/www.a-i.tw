@@ -1,1 +1,1 @@
-{"context":"__CONTEXT__","package":"@a-i/web","domain":"__DOMAIN__","subdomain":{"name":"__SUBDOMAIN__","type":"__TYPE__"},"owner":"__OWNER__","relationships":[]}
+{"context":"__CONTEXT__","kind":"product","lifecycle":"prototype","package":"@a-i/web","domain":"__DOMAIN__","subdomain":{"name":"__SUBDOMAIN__","type":"__TYPE__"},"owner":"__OWNER__","problem":"__PROBLEM__","firstUseCase":"__FIRST_USE_CASE__","sourceOfTruth":__SOURCE_OF_TRUTH__,"runtimeEvidence":{"status":"in-memory-prototype","verifiedAt":"__VERIFIED_AT__"},"relationships":[]}
