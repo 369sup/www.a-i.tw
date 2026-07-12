@@ -6,7 +6,7 @@ Route analysis to the correct bounded-context definition before inspecting symbo
 
 ## Summary
 
-Identity & Access, Account, Repository and Work Management are approved app-local runtime Contexts owned by the www.a-i.tw Product Team. Work Management is downstream of Identity & Access and Repository through published contracts and its own ACL. Master Template is an Architecture Team reference Context with declared internal Sub Template.
+Identity & Access, Account, Repository and Issues are approved app-local runtime Contexts owned by the www.a-i.tw Product Team. Issues is downstream of Identity & Access and Repository through published contracts and its own ACL. Master Template is an Architecture Team reference Context with declared internal Sub Template.
 
 ## Rules
 

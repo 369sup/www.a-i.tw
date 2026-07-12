@@ -32,8 +32,8 @@ Identity & Access ──AuthenticatedPrincipalV1──> Repository
 Account ──Published Language: MembershipFactV1 / TeamMembershipFactV1──> Repository
 Account ──Published Language: AccountEligibilityV1 / AccountRefV1──> Repository
 Repository ──Published Language: RepositoryAccessDecisionV1──> Experience / application use cases
-Repository ──RepositoryCollaborationScopeV1 / RepositoryParticipationDecisionV1──> Work Management ACL
-Identity & Access ──PrincipalRefV1──> Work Management
+Repository ──RepositoryCollaborationScopeV1 / RepositoryParticipationDecisionV1──> Issues ACL
+Identity & Access ──PrincipalRefV1──> Issues
 ```
 
 | Upstream          | Downstream | Pattern                                                        | Contract / ACL owner                                                                | Consistency and failure semantics                                                                                                                  |
@@ -54,9 +54,9 @@ Strategic relationship 由本文件擁有；runtime existence 由
 
 新增關係時必須指定 Customer/Supplier、Conformist、ACL、Open Host Service、Published Language、Shared Kernel、Partnership 或 Separate Ways，並記錄契約 owner、版本與失敗處理。
 
-## Work Management relationship
+## Issues relationship
 
-`Work Management` 擁有 Issue、Label 與 Assignment，並作為 Repository 的 downstream。
-關係是 Repository Open Host Service + Published Language，Work Management 擁有 ACL；
+`Issues` 擁有 Issue、Label 與 Assignment，並作為 Repository 的 downstream。
+關係是 Repository Open Host Service + Published Language，Issues 擁有 ACL；
 它只消費穩定 Repository reference/scope/access decision，不 import Repository internals。
 此 edge 由 ADR 0005 與版本化 contract 核准；runtime manifest 由 scaffold gate 登錄。

@@ -13,9 +13,9 @@
 | Account             | Team                  | Team id              | organization-only; unique name; active members only                   | one Team                     |
 | Repository          | Repository            | Repository id        | owner/name unique; archived mutation restrictions                     | one Repository               |
 | Repository          | Access Grant          | Repository + subject | Principal/Team subject; owner is not a grant; centralized role policy | one grant                    |
-| Work Management     | Issue                 | Issue id             | repository number unique; explicit open/closed transitions            | one Issue                    |
-| Work Management     | Label                 | Label id             | normalized name unique per Repository                                 | one Label                    |
-| Work Management     | Assignment            | Issue + Principal    | eligible Principal; one active pair                                   | one Issue mutation           |
+| Issues     | Issue                 | Issue id             | repository number unique; explicit open/closed transitions            | one Issue                    |
+| Issues     | Label                 | Label id             | normalized name unique per Repository                                 | one Label                    |
+| Issues     | Assignment            | Issue + Principal    | eligible Principal; one active pair                                   | one Issue mutation           |
 | Master Template     | Resource              | Resource id          | normalized name unique in namespace                                   | one Resource                 |
 | Sub Template        | Sub Template          | Sub-template id      | valid id and non-empty title                                          | read-only catalog entry      |
 

@@ -6,7 +6,7 @@ Record only the most recent verified Serena navigation baseline.
 
 ## Summary
 
-Identity & Access, Account, Repository and Work Management remain verified app-local Contexts. Login/Profile baseline remains current. The latest slice adds a minimal RequestEnvelopeV1 plus a distributed RepositoryCapabilityContextV1 resolver. There is no universal Context Service: Experience owns consumer-shaped view types, server composition alone translates provider facades, and Repository owns authorization decisions. The Inspector renders Actor, Scope, Owner, Capability, Action and Decision. Other capability resolvers, Enterprise governance, production identity and durable sessions remain Planned.
+Identity & Access, Account, Repository and Issues remain verified app-local Contexts. Login/Profile baseline remains current. The latest slice adds a minimal RequestEnvelopeV1 plus a distributed RepositoryCapabilityContextV1 resolver. There is no universal Context Service: Experience owns consumer-shaped view types, server composition alone translates provider facades, and Repository owns authorization decisions. The Inspector renders Actor, Scope, Owner, Capability, Action and Decision. Other capability resolvers, Enterprise governance, production identity and durable sessions remain Planned.
 
 ## Verification
 

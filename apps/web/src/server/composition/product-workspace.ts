@@ -24,7 +24,7 @@ import {
   InMemoryAccessGrantStore,
   InMemoryRepositoryStore,
 } from "@/src/modules/repository/src/composition";
-import { createWorkManagementService } from "@/src/modules/work-management/src/public";
+import { createIssuesService } from "@/src/modules/work-management/src/public";
 import {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,
@@ -144,7 +144,7 @@ function createProductWorkspace() {
     },
     nextId("repository"),
   );
-  const workManagement = createWorkManagementService(
+  const issues = createIssuesService(
     new InMemoryIssueStore(),
     new InMemoryLabelStore(),
     new InMemoryIssueNumberSequence(),
@@ -164,7 +164,7 @@ function createProductWorkspace() {
     memberships,
     teams,
     repositories,
-    workManagement,
+    issues,
   };
 }
 

@@ -2,4 +2,4 @@ export {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,
   InMemoryLabelStore,
-} from "./infrastructure/in-memory-work-management";
+} from "./infrastructure/in-memory-issues";

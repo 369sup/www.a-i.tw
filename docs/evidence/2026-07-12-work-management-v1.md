@@ -1,16 +1,16 @@
-# Work Management v1 verification
+# Issues v1 verification
 
 日期：2026-07-12
 
 Story: authenticated Repository participant creates an Issue, classifies it with a Label, assigns an eligible
-Principal and closes/reopens the work item through Work Management use cases.
+Principal and closes/reopens the work item through Issues use cases.
 
 ## Boundary evidence
 
-- Work Management Domain imports no framework or foreign Context.
+- Issues Domain imports no framework or foreign Context.
 - Application owns stores, sequence and Repository participation ACL Ports.
 - Cross-context imports target Identity/Repository contracts only.
-- In-memory adapters implement Work Management Ports.
+- In-memory adapters implement Issues Ports.
 - Concrete ACL and adapters are wired only in server composition.
 - Server Actions and Server Components are inbound adapters.
 

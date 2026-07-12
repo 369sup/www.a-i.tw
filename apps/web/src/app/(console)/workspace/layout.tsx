@@ -1,14 +1,6 @@
 import type { ReactNode } from "react";
-import type { Route } from "next";
-import { ShieldCheck } from "lucide-react";
-import { BookOpen } from "lucide-react";
-import Link from "next/link";
-import { logoutAction } from "@/src/presentation/auth/actions";
 import { requireAuthentication } from "@/src/server/auth/session";
-import {
-  AccountRepositoryMenu,
-  NotificationInboxButton,
-} from "@/src/presentation/navigation/account-repository-menu";
+import { GlobalHeader } from "@/src/presentation/navigation/global-header";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
 
 export default async function WorkspaceLayout({
@@ -24,46 +16,22 @@ export default async function WorkspaceLayout({
 }) {
   const authentication = await requireAuthentication();
   const workspace = getProductWorkspace();
-  const [accountItems, repositoryItems] = await Promise.all([
-    workspace.accounts.listAccounts(),
-    workspace.repositories.listVisible(authentication.principal),
-  ]);
+  const accountItems = await workspace.accounts.listAccounts();
+  const activeAccount = accountItems.find(
+    (account) =>
+      account.kind === "personal" &&
+      account.handle === authentication.principal.handle,
+  );
   return (
     <main className="min-h-screen bg-muted/30">
-      <header className="flex h-14 items-center justify-between border-b bg-background px-4 lg:px-6">
-        <div className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-md bg-foreground text-background">
-            <ShieldCheck className="size-4" />
-          </span>
-          <strong className="text-sm">a-i workspace</strong>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link
-            className="inline-flex items-center gap-1.5 text-xs font-medium hover:underline"
-            href={"/docs" as Route}
-          >
-            <BookOpen className="size-3.5" />
-            Docs
-          </Link>
-          <NotificationInboxButton />
-          <AccountRepositoryMenu
-            accounts={accountItems}
-            currentDisplayName={authentication.principal.displayName}
-            currentHandle={authentication.principal.handle}
-            repositories={repositoryItems}
-          />
-          <form action={logoutAction}>
-            <button
-              className="text-xs font-medium hover:underline"
-              type="submit"
-            >
-              Logout
-            </button>
-          </form>
-        </div>
-      </header>
+      <GlobalHeader
+        accounts={accountItems}
+        activeAccountId={activeAccount?.accountId}
+        currentDisplayName={authentication.principal.displayName}
+        currentHandle={authentication.principal.handle}
+      />
       {children}
-      <div className="grid min-h-[calc(100vh-3.5rem)] border-b bg-background lg:grid-cols-[15rem_minmax(24rem,1fr)_22rem]">
+      <div className="grid min-h-[calc(100vh-3.75rem)] border-b bg-background lg:grid-cols-[15rem_minmax(24rem,1fr)_22rem]">
         <aside
           aria-label="Account rail"
           className="border-b lg:border-r lg:border-b-0"

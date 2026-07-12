@@ -9,7 +9,7 @@
 | Account Membership | invite, accept and remove organization Membership                          | owner invites/removes; invitee accepts before expiry          |
 | Account Team       | create Team; add and remove active organization members                    | organization owner manages Team membership                    |
 | Repository         | create/list/get/rename/archive; manage visibility and grants               | valid owner, unique owner/name and access decision            |
-| Work Management    | create/list/close/reopen Issue; create/apply/remove Label; assign/unassign | Repository participation decision and scope invariants        |
+| Issues    | create/list/close/reopen Issue; create/apply/remove Label; assign/unassign | Repository participation decision and scope invariants        |
 | Experience Context | resolve RequestContext and registered Capability for one Repository action | authenticated Actor; server-resolved resource; owner decision |
 
 第一階段使用 in-memory adapters，讓上述流程可由產品 UX 完整操作。Repository direct/Team grants

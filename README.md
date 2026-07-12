@@ -86,7 +86,7 @@ Canonical architecture and documentation routing:
 | `identity-access` | Identity and Access | Supporting | Principal identity and foundational identity contracts |
 | `account` | Account Management | Core | Accounts, memberships, invitations, and teams |
 | `repository` | Repository Governance | Core | Repository scope, roles, grants, and access decisions |
-| `work-management` | Work Management | Core | Work management inside repository collaboration scope |
+| `work-management` | Issues | Core | Work management inside repository collaboration scope |
 
 ## Creating a Bounded Context
 

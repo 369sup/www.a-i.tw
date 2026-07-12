@@ -1,4 +1,4 @@
-# Work Management Context
+# Issues Context
 
 ## Purpose
 
@@ -6,7 +6,7 @@ Route analysis of repository-scoped Issue, Label and Assignment language.
 
 ## Summary
 
-Work Management is a verified app-local core Context owned by the www.a-i.tw Product Team. It owns Issue identity/number/lifecycle, Label classification and Assignment responsibility. Repository remains upstream governance owner; Work Management consumes collaboration scope and participation decisions through its own ACL.
+Issues is a verified app-local core Context owned by the www.a-i.tw Product Team. It owns Issue identity/number/lifecycle, Label classification and Assignment responsibility. Repository remains upstream governance owner; Issues consumes collaboration scope and participation decisions through its own ACL.
 
 ## Rules
 

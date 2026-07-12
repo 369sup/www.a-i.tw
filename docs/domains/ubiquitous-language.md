@@ -44,11 +44,11 @@
 | 儲存庫角色     | Repository Role         | Repository scope 內的 capability bundle。                                                                       | Repository             | role                           | organization role、global role      |
 | 儲存庫存取授與 | Repository Access Grant | 將 Principal、Team 或基線來源連結至 Repository Role 的資源範圍關係。                                            | Repository             | grant                          | credential、Membership              |
 | 有效存取       | Effective Access        | 由 verified principal、relationship fact、Repository role／policy 與 lifecycle 產生的特定 action 結果。         | Repository             | access decision                | login status、single role           |
-| 工作項目       | Issue                   | Repository scope 內具有穩定 identity、number 與 open/closed lifecycle 的可追蹤工作。                            | Work Management        | work item                      | Git issue、ticket row               |
-| 工作編號       | Issue Number            | 單一 Repository scope 內單調配置的人類可讀序號；不是 Issue identity。                                           | Work Management        | issue number                   | IssueId、array index                |
-| 分類標籤       | Label                   | Repository scope 內名稱唯一的工作分類；不代表 status 或 permission。                                            | Work Management        | classification                 | role、status、free tag              |
-| 責任指派       | Assignment              | Issue 與 eligible Principal 之間可撤銷的工作責任關係。                                                          | Work Management        | assignee relationship          | membership、repository grant        |
-| 負責人         | Assignee                | 持有 active Assignment 的 Principal；authentication 本身不構成 eligibility。                                    | Work Management        | responsible principal          | owner、member                       |
+| 工作項目       | Issue                   | Repository scope 內具有穩定 identity、number 與 open/closed lifecycle 的可追蹤工作。                            | Issues        | work item                      | Git issue、ticket row               |
+| 工作編號       | Issue Number            | 單一 Repository scope 內單調配置的人類可讀序號；不是 Issue identity。                                           | Issues        | issue number                   | IssueId、array index                |
+| 分類標籤       | Label                   | Repository scope 內名稱唯一的工作分類；不代表 status 或 permission。                                            | Issues        | classification                 | role、status、free tag              |
+| 責任指派       | Assignment              | Issue 與 eligible Principal 之間可撤銷的工作責任關係。                                                          | Issues        | assignee relationship          | membership、repository grant        |
+| 負責人         | Assignee                | 持有 active Assignment 的 Principal；authentication 本身不構成 eligibility。                                    | Issues        | responsible principal          | owner、member                       |
 
 新增 Entity、Value Object、Aggregate、Use Case 或公開 contract 前，必須在本表定義中文名稱、正式 Code Name、定義、Owner Context、允許同義詞、禁止詞與相關概念。
 

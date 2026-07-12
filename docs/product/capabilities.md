@@ -22,5 +22,5 @@ Git data、commits、branches、pull requests、Actions、packages、billing 執
 Label／Assignment → Discussion → Star／Collection → Activity／Notification → Discovery →
 Contribution Graph；Membership、Team 與 Team-based Repository Access 已進入 in-memory runtime，下一個 gate 是 Issue。
 
-`Issue + Label + Assignment` 已由 `Work Management` Context 提供 in-memory runtime；下一批能力
+`Issue + Label + Assignment` 已由 `Issues` Context 提供 in-memory runtime；下一批能力
 必須重新完成 30-concern impact audit 與 G1-G3 才可進入 scaffold。

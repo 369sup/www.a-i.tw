@@ -1,4 +1,4 @@
 export {
-  createWorkManagementService,
-  type WorkManagementService,
-} from "./application/work-management-service";
+  createIssuesService,
+  type IssuesService,
+} from "./application/issues-service";

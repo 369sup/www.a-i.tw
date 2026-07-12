@@ -49,7 +49,7 @@ export type IssueSummary = Readonly<{
   assigneePrincipalIds: readonly string[];
 }>;
 export type LabelSummary = Readonly<Label>;
-export interface WorkManagementService {
+export interface IssuesService {
   list(
     repositoryId: string,
     principal: PrincipalRefV1,
@@ -85,14 +85,14 @@ export interface WorkManagementService {
     actor: PrincipalRefV1;
   }): Promise<IssueSummary>;
 }
-export function createWorkManagementService(
+export function createIssuesService(
   issues: IssueStore,
   labels: LabelStore,
   sequence: IssueNumberSequence,
   repositories: RepositoryParticipationGateway,
   nextIssueId: () => string,
   nextLabelId: () => string,
-): WorkManagementService {
+): IssuesService {
   const requireAllowed = async (
     repositoryId: string,
     principal: PrincipalRefV1,

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { createWorkManagementService } from "../src/application/work-management-service";
+import { createIssuesService } from "../src/application/issues-service";
 import {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,
   InMemoryLabelStore,
-} from "../src/infrastructure/in-memory-work-management";
+} from "../src/infrastructure/in-memory-issues";
 
-describe("work-management", () => {
+describe("issues", () => {
   const owner = {
     principalId: "owner",
     handle: "owner",
@@ -14,7 +14,7 @@ describe("work-management", () => {
     status: "active" as const,
   };
   const service = () =>
-    createWorkManagementService(
+    createIssuesService(
       new InMemoryIssueStore(),
       new InMemoryLabelStore(),
       new InMemoryIssueNumberSequence(),

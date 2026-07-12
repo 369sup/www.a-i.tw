@@ -6,8 +6,8 @@
 Identity & Access contracts ──> Account application
 Identity & Access contracts ──> Repository application
 Account contracts ────────────> Repository application
-Identity & Access contracts ──> Work Management application
-Repository contracts ─────────> Work Management application (consumer ACL)
+Identity & Access contracts ──> Issues application
+Repository contracts ─────────> Issues application (consumer ACL)
 
 apps/web/src/server/composition
   ├── identity-access composition

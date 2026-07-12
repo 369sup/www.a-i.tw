@@ -11,7 +11,7 @@
 | Repository governance                  | Repository                     | Core           | visibility, lifecycle, grants, decisions   | Current           |
 | Template catalog reference             | Master Template / Sub Template | Supporting     | list/get catalog                           | Current           |
 | Team and team-based Repository access  | Account + Repository           | Core extension | Team roster and resource-scoped Team grant | Current in-memory |
-| Issue, Label and Assignment            | Work Management                | Core extension | repository-scoped work lifecycle           | Current in-memory |
+| Issue, Label and Assignment            | Issues                | Core extension | repository-scoped work lifecycle           | Current in-memory |
 
 Git/code、commits、branches、PR、Actions、packages、billing 與 notifications are out
 of the current product scope. New capability requires owner、classification、

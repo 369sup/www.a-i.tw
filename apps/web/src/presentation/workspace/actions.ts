@@ -134,25 +134,25 @@ export async function updateRepositoryAction(formData: FormData) {
   revalidatePath("/workspace", "layout");
 }
 
-export async function updateWorkItemAction(formData: FormData) {
-  const { identity, workManagement } = getProductWorkspace();
+export async function updateIssueAction(formData: FormData) {
+  const { identity, issues } = getProductWorkspace();
   const session = await requireAuthentication();
   const intent = value(formData, "intent");
   if (intent === "create-issue")
-    await workManagement.createIssue({
+    await issues.createIssue({
       repositoryId: value(formData, "repositoryId"),
       title: value(formData, "title"),
       body: value(formData, "body"),
       actor: session.principal,
     });
   if (intent === "close-issue" || intent === "reopen-issue")
-    await workManagement.setClosed({
+    await issues.setClosed({
       issueId: value(formData, "issueId"),
       closed: intent === "close-issue",
       actor: session.principal,
     });
   if (intent === "create-label")
-    await workManagement.createLabel({
+    await issues.createLabel({
       repositoryId: value(formData, "repositoryId"),
       name: value(formData, "name"),
       color: value(formData, "color"),
@@ -160,7 +160,7 @@ export async function updateWorkItemAction(formData: FormData) {
       actor: session.principal,
     });
   if (intent === "apply-label")
-    await workManagement.setLabel({
+    await issues.setLabel({
       issueId: value(formData, "issueId"),
       labelId: value(formData, "labelId"),
       applied: true,
@@ -171,7 +171,7 @@ export async function updateWorkItemAction(formData: FormData) {
       (item) => item.principalId === value(formData, "principalId"),
     );
     if (!principal) throw new Error("Principal not found.");
-    await workManagement.setAssignee({
+    await issues.setAssignee({
       issueId: value(formData, "issueId"),
       principal,
       assigned: true,

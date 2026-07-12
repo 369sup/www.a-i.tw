@@ -4,7 +4,7 @@ import { requireAuthentication } from "@/src/server/auth/session";
 import { resolveRepositoryCapabilityContext } from "@/src/server/composition/repository-capability-context";
 import {
   updateRepositoryAction,
-  updateWorkItemAction,
+  updateIssueAction,
 } from "@/src/presentation/workspace/actions";
 import {
   buttonClass,
@@ -21,7 +21,7 @@ export default async function InspectorSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, repositories, workManagement } = getProductWorkspace();
+  const { identity, repositories, issues } = getProductWorkspace();
   const [session, principals] = await Promise.all([
     requireAuthentication(),
     identity.listPrincipals(),
@@ -44,7 +44,7 @@ export default async function InspectorSlot({
         })
       : undefined;
   const work = repositoryId
-    ? await workManagement
+    ? await issues
         .list(repositoryId, session.principal)
         .catch(() => undefined)
     : undefined;
@@ -150,7 +150,7 @@ export default async function InspectorSlot({
           {work ? (
             <section className="space-y-4 border-t p-4">
               <h2 className="text-sm font-semibold">Issues</h2>
-              <form action={updateWorkItemAction} className="space-y-2">
+              <form action={updateIssueAction} className="space-y-2">
                 <input type="hidden" name="intent" value="create-issue" />
                 <input type="hidden" name="repositoryId" value={repositoryId} />
                 <input
@@ -169,7 +169,7 @@ export default async function InspectorSlot({
                 </button>
               </form>
               <form
-                action={updateWorkItemAction}
+                action={updateIssueAction}
                 className="space-y-2 border-t pt-3"
               >
                 <input type="hidden" name="intent" value="create-label" />
@@ -208,7 +208,7 @@ export default async function InspectorSlot({
                       {issue.status} · {issue.assigneePrincipalIds.length}{" "}
                       assignees · {issue.labelIds.length} labels
                     </p>
-                    <form action={updateWorkItemAction} className="mt-2">
+                    <form action={updateIssueAction} className="mt-2">
                       <input
                         type="hidden"
                         name="issueId"
@@ -229,7 +229,7 @@ export default async function InspectorSlot({
                     </form>
                     {work.labels.length > 0 ? (
                       <form
-                        action={updateWorkItemAction}
+                        action={updateIssueAction}
                         className="mt-2 flex gap-2"
                       >
                         <input
@@ -255,7 +255,7 @@ export default async function InspectorSlot({
                       </form>
                     ) : null}
                     <form
-                      action={updateWorkItemAction}
+                      action={updateIssueAction}
                       className="mt-2 flex gap-2"
                     >
                       <input type="hidden" name="intent" value="assign" />

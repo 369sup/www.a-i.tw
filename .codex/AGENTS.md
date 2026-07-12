@@ -3,6 +3,7 @@
 ## Tool Selection And Fast Startup
 
 - This file is the repository-level execution contract for Codex. Keep startup small: read this file and the root `AGENTS.md`, inspect the task-relevant path, then stop when ownership, boundary, contract, and verification are known.
+- On Windows, if the terminal runner reports `CreateProcessAsUserW failed: 5` or `Access denied` while starting `pwsh.exe`, treat it as a shell-launch failure rather than a repository permission failure. Continue through Serena MCP for file and symbol operations; for shell verification explicitly use `powershell.exe` or `cmd.exe` as the shell. Do not retry the same blocked `pwsh.exe` launch repeatedly.
 - Do not preload `docs/README.md`, `docs/ai-index.md`, the architecture catalog, or every skill. Route to them only when the task table or an unresolved ownership/contract question requires it.
 - Use every Serena tool exposed in the live session when it is relevant. The repository must not assume a fixed Serena tool list: discover available tools at runtime and fall back to native file/Git tools only for prose, configuration, unsupported languages, or when Serena is unavailable.
 - At the start of every task, attempt the Serena handshake (`initial_instructions`, `get_current_config`; activate this project if needed). A missing or unavailable Serena server is a capability limitation, not a reason to stop an otherwise safe task.

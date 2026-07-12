@@ -9,11 +9,11 @@
 | Account ownership          | Account                   | Supporting          | ownership and namespace            | Build                   |
 | Organization relationships | Account                   | Core extension      | Membership and Team lifecycle      | Build                   |
 | Repository governance      | Repository                | Core                | product differentiation            | Build                   |
-| Work tracking candidate    | Work Management candidate | Core extension      | Issue lifecycle and responsibility | Build after approval    |
+| Work tracking candidate    | Issues candidate | Core extension      | Issue lifecycle and responsibility | Build after approval    |
 | Template management        | Master Template           | Supporting          | architecture reference             | Build                   |
 | Sub Template               | Master Template           | Supporting internal | catalog/content rules              | Build internally        |
 
 `Sub Template` is declared by `master-template.context.json.internalSubdomains`;
 it is not a second Bounded Context. Membership and Team are classified runtime extensions. Enterprise governance and
-Repository transfer remain unclassified extensions; Work Management remains a selected candidate until G2-G3 approval.
+Repository transfer remain unclassified extensions; Issues remains a selected candidate until G2-G3 approval.
 Reclassification requires Product owner review and an ADR when boundaries change.

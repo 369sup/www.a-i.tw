@@ -1,7 +1,7 @@
 {
   "context": "work-management",
   "package": "@a-i/web",
-  "domain": "Work Management",
+  "domain": "Issues",
   "subdomain": {
     "name": "work-management",
     "type": "core"

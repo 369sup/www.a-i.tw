@@ -17,9 +17,9 @@
 | Repository name is unique in owner namespace                    | Repository               | Domain + Application   | service behavior          | Current  |
 | Archived Repository rejects mutation except unarchive           | Repository               | authorization + Domain | test + E2E                | Current  |
 | Owner is not stored as collaborator grant                       | Repository               | authorization policy   | Repository test           | Current  |
-| Issue number is unique within Repository scope                  | Work Management          | Application + sequence | Work Management tests     | Current  |
-| Closed Issue rejects Label and Assignment mutation              | Work Management          | Domain                 | Work Management tests     | Current  |
-| Assignee requires Repository participation eligibility          | Work Management ACL      | Application            | denied-path test          | Current  |
+| Issue number is unique within Repository scope                  | Issues          | Application + sequence | Issues tests     | Current  |
+| Closed Issue rejects Label and Assignment mutation              | Issues          | Domain                 | Issues tests     | Current  |
+| Assignee requires Repository participation eligibility          | Issues ACL      | Application            | denied-path test          | Current  |
 | Enterprise does not become Repository owner                     | Account                  | not implemented        | product decision required | Proposed |
 
 新增規則必須記錄 owner、scope、trigger、enforcement point、violation outcome 與 test。

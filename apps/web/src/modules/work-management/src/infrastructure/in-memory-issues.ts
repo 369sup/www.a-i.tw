@@ -2,7 +2,7 @@ import type {
   IssueNumberSequence,
   IssueStore,
   LabelStore,
-} from "../application/work-management-service";
+} from "../application/issues-service";
 import type { Issue } from "../domain/issue";
 import type { Label } from "../domain/label";
 export class InMemoryIssueStore implements IssueStore {

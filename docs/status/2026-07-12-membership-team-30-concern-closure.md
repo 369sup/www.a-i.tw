@@ -7,8 +7,8 @@ canonical owner 文件已同步；`Reviewed — no impact` 表示已檢查且政
 
 |   # | Concern                    | Disposition          | Evidence                                         |
 | --: | -------------------------- | -------------------- | ------------------------------------------------ |
-|   1 | Domain Vision              | Updated              | current slice and next Work Management problem   |
-|   2 | Business Capability Map    | Updated              | Team access Current; Work Management Proposed    |
+|   1 | Domain Vision              | Updated              | current slice and next Issues problem   |
+|   2 | Business Capability Map    | Updated              | Team access Current; Issues Proposed    |
 |   3 | Subdomain Classification   | Updated              | Account relationship extension classified        |
 |   4 | Bounded Context Catalog    | Updated              | Account owns Membership/Team                     |
 |   5 | Ubiquitous Language        | Updated              | Team fact and grant language                     |
@@ -36,7 +36,7 @@ canonical owner 文件已同步；`Reviewed — no impact` 表示已檢查且政
 |  27 | Ownership Matrix           | Reviewed — no impact | Account/Repository owners unchanged              |
 |  28 | Fitness Functions          | Updated              | contract shape and memory freshness gaps         |
 |  29 | Technical Debt             | Updated              | roster cleanup and browser E2E                   |
-|  30 | Migration Roadmap          | Updated              | Work Management selected next                    |
+|  30 | Migration Roadmap          | Updated              | Issues selected next                    |
 
 ## Serena evidence
 
