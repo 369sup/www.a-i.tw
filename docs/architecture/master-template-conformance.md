@@ -2,9 +2,9 @@
 
 狀態：Current
 
-`master-template` 是 `apps/web/src/modules/master-template` 的 app-local、受 Context Map
-約束的 Bounded Context；它不是跨 Context package。`sub-template` 是它的 supporting
-subdomain，不是第二個 Context 或 workspace package。
+`master-template` 是 `apps/web/src/modules/master-template` 的 app-local architecture fixture，
+由 `reference-fixtures.json` 管理而不進入產品 Context Map。它用完整 hexagon 驗證 scaffold、
+route 與 composition 規則；`sub-template` 是 fixture-internal capability。
 
 ## Required structure
 

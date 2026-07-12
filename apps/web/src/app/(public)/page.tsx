@@ -2,9 +2,7 @@ import Link from "next/link";
 import { FolderGit2, LogIn } from "lucide-react";
 import { currentAuthentication } from "@/src/server/auth/session";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
-import {
-  GlobalHeader,
-} from "@/src/presentation/navigation/global-header";
+import { GlobalHeader } from "@/src/presentation/navigation/global-header";
 import { RepositoryRail } from "@/src/presentation/navigation/repository-rail";
 
 export default async function Home() {
@@ -44,9 +42,15 @@ export default async function Home() {
   ]);
   const activeAccount = accountItems.find(
     (account) =>
-      account.kind === "personal" &&
-      account.handle === authentication.principal.handle,
+      account.personalPrincipalId === authentication.principal.principalId,
   );
+  const navigationRepositories = repositoryItems.map((repository) => ({
+    ...repository,
+    ownerHandle:
+      accountItems.find(
+        (account) => account.accountId === repository.ownerAccountId,
+      )?.handle ?? repository.ownerAccountId,
+  }));
   return (
     <main className="min-h-screen bg-muted/30">
       <GlobalHeader
@@ -58,7 +62,7 @@ export default async function Home() {
       <div className="flex flex-col lg:flex-row">
         <RepositoryRail
           activeAccountId={activeAccount?.accountId}
-          repositories={repositoryItems}
+          repositories={navigationRepositories}
         />
         <section className="min-w-0 flex-1 px-4 py-6 lg:px-12 xl:px-20">
           <div className="mx-auto max-w-4xl">
@@ -68,20 +72,36 @@ export default async function Home() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     Workspace update
                   </p>
-                  <h1 className="mt-2 text-2xl font-semibold">Welcome to your dashboard</h1>
+                  <h1 className="mt-2 text-2xl font-semibold">
+                    Welcome to your dashboard
+                  </h1>
                   <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                    Organize accounts, repositories, and collaborative work from one place.
+                    Organize accounts, repositories, and collaborative work from
+                    one place.
                   </p>
                 </div>
-                <Link className="rounded-md px-2 py-1 text-muted-foreground hover:bg-muted" href="/">
+                <Link
+                  className="rounded-md px-2 py-1 text-muted-foreground hover:bg-muted"
+                  href="/"
+                >
                   ×
                 </Link>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                <Link className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700" href={activeAccount ? `/workspace?account=${activeAccount.accountId}` : "/workspace"}>
+                <Link
+                  className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+                  href={
+                    activeAccount
+                      ? `/workspace?account=${activeAccount.accountId}`
+                      : "/workspace"
+                  }
+                >
                   Open workspace
                 </Link>
-                <Link className="rounded-md border px-3 py-2 text-sm font-medium hover:bg-muted" href="/settings/organizations">
+                <Link
+                  className="rounded-md border px-3 py-2 text-sm font-medium hover:bg-muted"
+                  href="/settings/organizations"
+                >
                   Manage organizations
                 </Link>
               </div>
@@ -90,23 +110,44 @@ export default async function Home() {
             <div className="mt-8 flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-semibold">Home</h2>
-                <p className="mt-1 text-sm text-muted-foreground">Your recent workspace resources</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Your recent workspace resources
+                </p>
               </div>
-              <Link className="text-sm font-medium text-muted-foreground hover:text-foreground" href="/workspace">
+              <Link
+                className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                href="/workspace"
+              >
                 View all
               </Link>
             </div>
             <div className="mt-4 overflow-hidden rounded-lg border bg-background">
-              {repositoryItems.length > 0 ? repositoryItems.map((repository) => (
-                <Link className="flex items-center gap-3 border-b p-4 last:border-b-0 hover:bg-muted" href={`/workspace?account=${repository.ownerAccountId}&repository=${repository.repositoryId}`} key={repository.repositoryId}>
-                  <FolderGit2 className="size-4 text-muted-foreground" />
-                  <span className="min-w-0 flex-1">
-                    <strong className="block truncate text-sm">{repository.ownerHandle}/{repository.name}</strong>
-                    <span className="block truncate text-sm text-muted-foreground">{repository.description || "No description"}</span>
-                  </span>
-                  <span className="rounded-full border px-2 py-0.5 text-xs">{repository.visibility}</span>
-                </Link>
-              )) : <p className="p-6 text-sm text-muted-foreground">No repositories yet.</p>}
+              {navigationRepositories.length > 0 ? (
+                navigationRepositories.map((repository) => (
+                  <Link
+                    className="flex items-center gap-3 border-b p-4 last:border-b-0 hover:bg-muted"
+                    href={`/workspace?account=${repository.ownerAccountId}&repository=${repository.repositoryId}`}
+                    key={repository.repositoryId}
+                  >
+                    <FolderGit2 className="size-4 text-muted-foreground" />
+                    <span className="min-w-0 flex-1">
+                      <strong className="block truncate text-sm">
+                        {repository.ownerHandle}/{repository.name}
+                      </strong>
+                      <span className="block truncate text-sm text-muted-foreground">
+                        {repository.description || "No description"}
+                      </span>
+                    </span>
+                    <span className="rounded-full border px-2 py-0.5 text-xs">
+                      {repository.visibility}
+                    </span>
+                  </Link>
+                ))
+              ) : (
+                <p className="p-6 text-sm text-muted-foreground">
+                  No repositories yet.
+                </p>
+              )}
             </div>
           </div>
         </section>

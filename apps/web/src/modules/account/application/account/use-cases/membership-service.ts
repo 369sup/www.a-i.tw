@@ -54,22 +54,31 @@ export function createMembershipService(
   nextInvitationId: () => string,
   clock: () => Date,
 ): MembershipService {
-  const ownerFact = async (accountId: string, principalId: string) => {
+  const accountOwnerFact = async (accountId: string, principalId: string) => {
     const account = await accounts.find(accountId);
-    return account?.ownerPrincipalId === principalId
-      ? ({ accountId, principalId, role: "owner", status: "active" } as const)
+    return account?.kind === "personal" && account.principalId === principalId
+      ? ({
+          membershipId: `personal:${accountId}`,
+          accountId,
+          principalId,
+          role: "owner",
+          status: "active",
+        } as const)
       : undefined;
   };
   const requireOwner = async (accountId: string, principalId: string) => {
-    if (!(await ownerFact(accountId, principalId)))
+    if ((await thisMembership(accountId, principalId))?.role !== "owner")
       throw new Error("Organization owner permission is required.");
+  };
+  const thisMembership = async (accountId: string, principalId: string) => {
+    const personalOwner = await accountOwnerFact(accountId, principalId);
+    if (personalOwner) return personalOwner;
+    const membership = await memberships.find(accountId, principalId);
+    return membership && toFact(membership);
   };
   return {
     async membership(accountId, principalId) {
-      const owner = await ownerFact(accountId, principalId);
-      if (owner) return owner;
-      const membership = await memberships.find(accountId, principalId);
-      return membership && toFact(membership);
+      return thisMembership(accountId, principalId);
     },
     async invite(input) {
       const account = await accounts.find(input.accountId);
@@ -96,6 +105,7 @@ export function createMembershipService(
         accountId: input.accountId,
         invitedPrincipalId: input.invitee.principalId,
         invitedByPrincipalId: input.actor.principalId,
+        role: "member",
         invitedAt: now.toISOString(),
         expiresAt: new Date(now.getTime() + 7 * 86_400_000).toISOString(),
       });
@@ -119,6 +129,7 @@ export function createMembershipService(
         id: nextMembershipId(),
         accountId: accepted.accountId,
         principalId: accepted.invitedPrincipalId,
+        role: accepted.role,
         joinedAt: acceptedAt,
       });
       await invitations.save(accepted);
@@ -132,6 +143,13 @@ export function createMembershipService(
         input.principalId,
       );
       if (!membership) throw new Error("Active membership not found.");
+      if (membership.role === "owner") {
+        const owners = (await memberships.list(input.accountId)).filter(
+          (candidate) => candidate.role === "owner",
+        );
+        if (owners.length <= 1)
+          throw new Error("An Organization must retain at least one owner.");
+      }
       await memberships.save(
         removeMembership(membership, clock().toISOString()),
       );
@@ -141,9 +159,10 @@ export function createMembershipService(
 
 function toFact(membership: Membership): MembershipFactV1 {
   return {
+    membershipId: membership.id,
     accountId: membership.accountId,
     principalId: membership.principalId,
-    role: "member",
+    role: membership.role,
     status: membership.status,
   };
 }

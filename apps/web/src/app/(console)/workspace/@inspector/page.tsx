@@ -21,11 +21,15 @@ export default async function InspectorSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, repositories, issues } = getProductWorkspace();
-  const [session, principals] = await Promise.all([
+  const { identity, accounts, repositories, issues } = getProductWorkspace();
+  const [session, principals, accountItems] = await Promise.all([
     requireAuthentication(),
     identity.listPrincipals(),
+    accounts.listAccounts(),
   ]);
+  const principalLabel = (principalId: string) =>
+    accountItems.find((account) => account.personalPrincipalId === principalId)
+      ?.displayName ?? principalId;
   const repositoryId =
     typeof query.repository === "string" ? query.repository : undefined;
   const result = repositoryId
@@ -44,9 +48,7 @@ export default async function InspectorSlot({
         })
       : undefined;
   const work = repositoryId
-    ? await issues
-        .list(repositoryId, session.principal)
-        .catch(() => undefined)
+    ? await issues.list(repositoryId, session.principal).catch(() => undefined)
     : undefined;
   return (
     <div>
@@ -132,7 +134,7 @@ export default async function InspectorSlot({
                 )
                 .map((item) => (
                   <option key={item.principalId} value={item.principalId}>
-                    {item.displayName}
+                    {principalLabel(item.principalId)}
                   </option>
                 ))}
             </select>
@@ -270,7 +272,7 @@ export default async function InspectorSlot({
                             key={principal.principalId}
                             value={principal.principalId}
                           >
-                            {principal.displayName}
+                            {principalLabel(principal.principalId)}
                           </option>
                         ))}
                       </select>

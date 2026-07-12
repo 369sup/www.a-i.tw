@@ -4,6 +4,7 @@ import { join } from "node:path";
 const contextsRoot = "apps/web/src/modules";
 const appPackagePath = "apps/web/package.json";
 const mapPath = "docs/domains/context-map.json";
+const fixturesPath = "docs/architecture/reference-fixtures.json";
 const migrationPath = "docs/architecture/context-topology-migration.json";
 const errors = [];
 const legacyRequiredPaths = [
@@ -43,11 +44,15 @@ function readJson(path) {
 }
 
 const map = readJson(mapPath);
+const fixtures = readJson(fixturesPath);
 const migration = readJson(migrationPath);
 const legacyContexts = new Set(migration.legacyContexts);
 const appPackage = readJson(appPackagePath);
 const mapped = new Map(
   map.contexts.map((context) => [context.context, context]),
+);
+const registeredFixtures = new Map(
+  fixtures.fixtures.map((fixture) => [fixture.context, fixture]),
 );
 const directories = existsSync(contextsRoot)
   ? readdirSync(contextsRoot, { withFileTypes: true })
@@ -81,10 +86,16 @@ for (const name of directories) {
   const manifest = readJson(manifestPath);
   const requiredFields = [
     "context",
+    "kind",
+    "lifecycle",
     "package",
     "domain",
     "subdomain",
     "owner",
+    "problem",
+    "firstUseCase",
+    "sourceOfTruth",
+    "runtimeEvidence",
     "relationships",
   ];
   const missing = requiredFields.filter(
@@ -103,6 +114,32 @@ for (const name of directories) {
     !["core", "supporting", "generic"].includes(manifest.subdomain.type)
   ) {
     errors.push(`${name} must declare a valid subdomain type.`);
+  }
+  if (!Array.isArray(manifest.sourceOfTruth) || !manifest.sourceOfTruth.length)
+    errors.push(`${name} must declare at least one sourceOfTruth model.`);
+  if (
+    !manifest.runtimeEvidence?.status ||
+    !manifest.runtimeEvidence?.verifiedAt
+  )
+    errors.push(`${name} must declare runtimeEvidence status and verifiedAt.`);
+  for (const relationship of manifest.relationships ?? []) {
+    for (const field of [
+      "upstream",
+      "downstream",
+      "pattern",
+      "contract",
+      "consumerPort",
+      "consumerAcl",
+      "consistency",
+      "failureMode",
+      "status",
+    ])
+      if (!relationship[field])
+        errors.push(`${name} relationship is missing ${field}.`);
+    if (relationship.downstream !== name)
+      errors.push(
+        `${name} may register only relationships where it is downstream.`,
+      );
   }
   for (const subdomain of legacyContexts.has(name)
     ? (manifest.internalSubdomains ?? [])
@@ -143,11 +180,20 @@ for (const name of directories) {
     errors.push(`${name} cannot use a placeholder owner.`);
   }
 
-  const mapEntry = mapped.get(name);
-  if (!mapEntry) errors.push(`${name} is missing from ${mapPath}.`);
-  else if (JSON.stringify(mapEntry) !== JSON.stringify(manifest)) {
-    errors.push(`${name} differs from its Context Map entry.`);
-  }
+  if (manifest.kind === "product") {
+    const mapEntry = mapped.get(name);
+    if (!mapEntry) errors.push(`${name} is missing from ${mapPath}.`);
+    else if (JSON.stringify(mapEntry) !== JSON.stringify(manifest))
+      errors.push(`${name} differs from its Context Map entry.`);
+  } else if (manifest.kind === "architecture-fixture") {
+    if (!registeredFixtures.has(name))
+      errors.push(`${name} is missing from ${fixturesPath}.`);
+    if (mapped.has(name))
+      errors.push(
+        `${name} is an architecture fixture and cannot be in the product Context Map.`,
+      );
+  } else
+    errors.push(`${name} must declare kind product or architecture-fixture.`);
 }
 
 for (const name of mapped.keys()) {
@@ -156,6 +202,11 @@ for (const name of mapped.keys()) {
       `${name} exists in the Context Map without an app-local module.`,
     );
 }
+for (const name of registeredFixtures.keys())
+  if (!directories.includes(name))
+    errors.push(
+      `${name} is registered as a fixture without a module directory.`,
+    );
 
 if (errors.length > 0) {
   console.error(errors.join("\n"));

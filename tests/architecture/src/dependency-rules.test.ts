@@ -94,7 +94,7 @@ describe("architecture dependency rules", () => {
 function writeContext(
   root: string,
   name: string,
-  relationships: Array<{ target: string }> = [],
+  relationships: Array<{ upstream: string; downstream: string }> = [],
 ) {
   const directory = join(root, "apps/web/src/modules", name);
   mkdirSync(join(directory, "application", name, "use-cases"), {
@@ -116,7 +116,9 @@ describe("cross-context import checker", () => {
   it("allows a consumer Infrastructure integration to import approved Published Language", () => {
     const root = mkdtempSync(join(tmpdir(), "www-ai-contract-import-"));
     temporaryDirectories.push(root);
-    const alpha = writeContext(root, "alpha", [{ target: "beta" }]);
+    const alpha = writeContext(root, "alpha", [
+      { upstream: "beta", downstream: "alpha" },
+    ]);
     writeContext(root, "beta");
     writeFileSync(
       join(
@@ -136,7 +138,9 @@ describe("cross-context import checker", () => {
   it("rejects a relative import that bypasses a Context package export", () => {
     const root = mkdtempSync(join(tmpdir(), "www-ai-relative-import-"));
     temporaryDirectories.push(root);
-    const alpha = writeContext(root, "alpha", [{ target: "beta" }]);
+    const alpha = writeContext(root, "alpha", [
+      { upstream: "beta", downstream: "alpha" },
+    ]);
     writeContext(root, "beta");
     writeFileSync(
       join(
@@ -180,7 +184,9 @@ describe("cross-context import checker", () => {
   it("rejects a new Application-to-provider contract dependency", () => {
     const root = mkdtempSync(join(tmpdir(), "www-ai-application-import-"));
     temporaryDirectories.push(root);
-    const alpha = writeContext(root, "alpha", [{ target: "beta" }]);
+    const alpha = writeContext(root, "alpha", [
+      { upstream: "beta", downstream: "alpha" },
+    ]);
     writeContext(root, "beta");
     writeFileSync(
       join(alpha, "application", "alpha", "use-cases", "use-case.ts"),

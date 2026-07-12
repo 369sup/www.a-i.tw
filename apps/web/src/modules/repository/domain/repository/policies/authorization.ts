@@ -18,13 +18,17 @@ export type RepositoryAccessDecision = Readonly<{
 }>;
 
 export type RepositoryAction =
-  | "read"
-  | "participate"
-  | "rename"
-  | "change-visibility"
-  | "archive"
-  | "unarchive"
-  | "manage-access";
+  | "repository:read"
+  | "repository:rename"
+  | "repository:change-visibility"
+  | "repository:archive"
+  | "repository:unarchive"
+  | "repository:manage-access"
+  | "issue:read"
+  | "issue:create"
+  | "issue:comment"
+  | "issue:triage"
+  | "issue:manage";
 const rank: Record<RepositoryRole, number> = {
   read: 1,
   write: 2,
@@ -32,13 +36,17 @@ const rank: Record<RepositoryRole, number> = {
   admin: 4,
 };
 const required: Record<RepositoryAction, RepositoryRole> = {
-  read: "read",
-  participate: "write",
-  rename: "maintain",
-  "change-visibility": "admin",
-  archive: "admin",
-  unarchive: "admin",
-  "manage-access": "admin",
+  "repository:read": "read",
+  "repository:rename": "maintain",
+  "repository:change-visibility": "admin",
+  "repository:archive": "admin",
+  "repository:unarchive": "admin",
+  "repository:manage-access": "admin",
+  "issue:read": "read",
+  "issue:create": "write",
+  "issue:comment": "write",
+  "issue:triage": "write",
+  "issue:manage": "admin",
 };
 
 export function decideRepositoryAccess(input: {
@@ -50,11 +58,16 @@ export function decideRepositoryAccess(input: {
   teamIds?: readonly string[];
 }): RepositoryAccessDecision {
   if (
-    !["read", "unarchive"].includes(input.action) &&
+    !["repository:read", "issue:read", "repository:unarchive"].includes(
+      input.action,
+    ) &&
     input.repository.status === "archived"
   )
     return { allowed: false, reason: "archived" };
-  if (input.action === "read" && input.repository.visibility === "public")
+  if (
+    ["repository:read", "issue:read"].includes(input.action) &&
+    input.repository.visibility === "public"
+  )
     return { allowed: true, reason: "public-read", effectiveRole: "read" };
   if (!input.principalId) return { allowed: false, reason: "unauthenticated" };
   if (input.principalId === input.ownerPrincipalId)

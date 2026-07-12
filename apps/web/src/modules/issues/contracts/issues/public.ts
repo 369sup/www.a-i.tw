@@ -1,4 +1,8 @@
-// This context has no additional published language for Pull route queries yet.
-// Route query results remain consumer-shaped Experience contracts until an owning
-// Issues use case and its source facts are approved.
-export {};
+export type IssueRefV1 = Readonly<{
+  issueId: string;
+  repositoryId: string;
+}>;
+
+export interface IssueDirectoryApiV1 {
+  findIssueRef(issueId: string): Promise<IssueRefV1 | undefined>;
+}

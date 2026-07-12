@@ -1,5 +1,7 @@
 {
   "context": "master-template",
+  "kind": "architecture-fixture",
+  "lifecycle": "fixture",
   "package": "@a-i/web",
   "domain": "Template Management",
   "subdomain": {
@@ -13,5 +15,12 @@
     }
   ],
   "owner": "www.a-i.tw Architecture Team",
+  "problem": "Verify scaffold and Hexagonal Architecture conformance without claiming product ownership.",
+  "firstUseCase": "Create and inspect a reference resource through the full hexagon.",
+  "sourceOfTruth": ["ReferenceResource", "SubTemplate"],
+  "runtimeEvidence": {
+    "status": "fixture",
+    "verifiedAt": "2026-07-12"
+  },
   "relationships": []
 }

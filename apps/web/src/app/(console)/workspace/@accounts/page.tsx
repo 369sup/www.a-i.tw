@@ -84,7 +84,7 @@ export default async function AccountsSlot({
             {teamItems.map((team) => (
               <li key={team.teamId}>
                 <strong className="text-foreground">{team.name}</strong> ·{" "}
-                {team.memberPrincipalIds.length} members
+                {team.memberMembershipIds.length} members
               </li>
             ))}
           </ul>
@@ -121,7 +121,10 @@ export default async function AccountsSlot({
                     key={principal.principalId}
                     value={principal.principalId}
                   >
-                    {principal.displayName}
+                    {items.find(
+                      (account) =>
+                        account.personalPrincipalId === principal.principalId,
+                    )?.displayName ?? principal.principalId}
                   </option>
                 ))}
               </select>

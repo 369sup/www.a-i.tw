@@ -8,14 +8,10 @@ import {
 
 const owner = {
   principalId: "p-owner",
-  handle: "owner",
-  displayName: "Owner",
   status: "active" as const,
 };
 const invitee = {
   principalId: "p-member",
-  handle: "member",
-  displayName: "Member",
   status: "active" as const,
 };
 
@@ -26,21 +22,27 @@ function fixture() {
       {
         id: "org",
         handle: "org",
-        displayName: "Org",
         kind: "organization",
         status: "active",
-        ownerPrincipalId: owner.principalId,
       },
       {
         id: "personal",
         handle: "owner",
-        displayName: "Owner",
         kind: "personal",
         status: "active",
-        ownerPrincipalId: owner.principalId,
+        principalId: owner.principalId,
       },
     ]),
-    new InMemoryMembershipStore(),
+    new InMemoryMembershipStore([
+      {
+        id: "owner-membership",
+        accountId: "org",
+        principalId: owner.principalId,
+        role: "owner",
+        status: "active",
+        joinedAt: "2026-07-01T00:00:00.000Z",
+      },
+    ]),
     new InMemoryMembershipInvitationStore(),
     () => `membership-${++id}`,
     () => `invitation-${++id}`,
@@ -93,5 +95,15 @@ describe("organization membership", () => {
     await expect(
       service.membership("org", invitee.principalId),
     ).resolves.toBeUndefined();
+  });
+
+  it("protects the last organization owner", async () => {
+    await expect(
+      fixture().remove({
+        accountId: "org",
+        principalId: owner.principalId,
+        actor: owner,
+      }),
+    ).rejects.toThrow("retain at least one owner");
   });
 });

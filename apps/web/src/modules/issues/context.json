@@ -1,5 +1,7 @@
 {
   "context": "issues",
+  "kind": "product",
+  "lifecycle": "approved",
   "package": "@a-i/web",
   "domain": "Issues",
   "subdomain": {
@@ -7,18 +9,38 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Track repository-scoped work with Issue identity, lifecycle, labels, assignment and collaboration relationships.",
+  "firstUseCase": "Create, classify, assign and close an Issue after authoritative Repository participation approval.",
+  "sourceOfTruth": [
+    "Issue",
+    "Label",
+    "IssueComment",
+    "Milestone",
+    "IssueDependency"
+  ],
+  "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
   "relationships": [
     {
-      "target": "identity-access",
       "upstream": "identity-access",
-      "pattern": "anti-corruption-layer",
-      "contract": "PrincipalRefV1"
+      "downstream": "issues",
+      "pattern": "open-host-service + published-language",
+      "contract": "PrincipalRefV1",
+      "consumerPort": "IssuePrincipal",
+      "consumerAcl": "AppCompositionPrincipalMapper",
+      "consistency": "synchronous",
+      "failureMode": "deny-inactive-principal",
+      "status": "current"
     },
     {
-      "target": "repository",
       "upstream": "repository",
-      "pattern": "anti-corruption-layer",
-      "contract": "RepositoryCollaborationScopeV1, RepositoryParticipationDecisionV1"
+      "downstream": "issues",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryParticipationApiV1",
+      "consumerPort": "RepositoryParticipation",
+      "consumerAcl": "RepositoryParticipationAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-or-forbidden-repository",
+      "status": "current"
     }
   ]
 }

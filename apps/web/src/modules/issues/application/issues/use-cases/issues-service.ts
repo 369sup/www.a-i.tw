@@ -44,6 +44,9 @@ export type IssueSummary = Readonly<{
 }>;
 export type LabelSummary = Readonly<Label>;
 export interface IssuesService {
+  findIssueRef(
+    issueId: string,
+  ): Promise<Readonly<{ issueId: string; repositoryId: string }> | undefined>;
   list(
     repositoryId: string,
     principal: IssuePrincipal,
@@ -112,15 +115,21 @@ export function createIssuesService(
     return issue;
   };
   return {
+    async findIssueRef(issueId) {
+      const issue = await issues.find(issueId);
+      return issue
+        ? { issueId: issue.id, repositoryId: issue.repositoryId }
+        : undefined;
+    },
     async list(repositoryId, principal) {
-      await requireAllowed(repositoryId, principal, "read");
+      await requireAllowed(repositoryId, principal, "issue:read");
       return {
         issues: (await issues.list(repositoryId)).map(issueSummary),
         labels: await labels.list(repositoryId),
       };
     },
     async createIssue(input) {
-      await requireAllowed(input.repositoryId, input.actor, "triage");
+      await requireAllowed(input.repositoryId, input.actor, "issue:create");
       const issue = createIssue({
         id: nextIssueId(),
         repositoryId: input.repositoryId,
@@ -133,13 +142,13 @@ export function createIssuesService(
     },
     async setClosed(input) {
       const issue = await requiredIssue(input.issueId);
-      await requireAllowed(issue.repositoryId, input.actor, "triage");
+      await requireAllowed(issue.repositoryId, input.actor, "issue:triage");
       const updated = input.closed ? closeIssue(issue) : reopenIssue(issue);
       await issues.save(updated);
       return issueSummary(updated);
     },
     async createLabel(input) {
-      await requireAllowed(input.repositoryId, input.actor, "manage");
+      await requireAllowed(input.repositoryId, input.actor, "issue:manage");
       const label = createLabel({
         id: nextLabelId(),
         repositoryId: input.repositoryId,
@@ -162,7 +171,7 @@ export function createIssuesService(
       const label = await labels.find(input.labelId);
       if (!label || label.repositoryId !== issue.repositoryId)
         throw new Error("Label is outside the Issue Repository scope.");
-      await requireAllowed(issue.repositoryId, input.actor, "triage");
+      await requireAllowed(issue.repositoryId, input.actor, "issue:triage");
       const updated = input.applied
         ? applyLabel(issue, label.id)
         : removeLabel(issue, label.id);
@@ -171,8 +180,8 @@ export function createIssuesService(
     },
     async setAssignee(input) {
       const issue = await requiredIssue(input.issueId);
-      await requireAllowed(issue.repositoryId, input.actor, "triage");
-      await requireAllowed(issue.repositoryId, input.principal, "read");
+      await requireAllowed(issue.repositoryId, input.actor, "issue:triage");
+      await requireAllowed(issue.repositoryId, input.principal, "issue:read");
       const updated = input.assigned
         ? assignIssue(issue, input.principal.principalId)
         : unassignIssue(issue, input.principal.principalId);

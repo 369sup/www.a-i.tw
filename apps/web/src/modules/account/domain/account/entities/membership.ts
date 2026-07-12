@@ -2,6 +2,7 @@ export type Membership = Readonly<{
   id: string;
   accountId: string;
   principalId: string;
+  role: "owner" | "member";
   status: "active" | "removed";
   joinedAt: string;
   removedAt?: string;
@@ -12,6 +13,7 @@ export type MembershipInvitation = Readonly<{
   accountId: string;
   invitedPrincipalId: string;
   invitedByPrincipalId: string;
+  role: "owner" | "member";
   status: "pending" | "accepted";
   invitedAt: string;
   expiresAt: string;

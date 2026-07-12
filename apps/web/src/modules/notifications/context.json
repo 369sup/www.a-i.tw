@@ -1,5 +1,7 @@
 {
   "context": "notifications",
+  "kind": "product",
+  "lifecycle": "prototype",
   "package": "@a-i/web",
   "domain": "Notifications",
   "subdomain": {
@@ -7,5 +9,12 @@
     "type": "supporting"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Represent recipient attention and Inbox triage independently of source resource truth.",
+  "firstUseCase": "Create and triage an in-memory Notification.",
+  "sourceOfTruth": ["Notification", "InboxState"],
+  "runtimeEvidence": {
+    "status": "in-memory-prototype",
+    "verifiedAt": "2026-07-12"
+  },
   "relationships": []
 }

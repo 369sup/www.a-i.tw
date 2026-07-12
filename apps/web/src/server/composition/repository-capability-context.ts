@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { AuthenticatedPrincipalV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
+import type { AuthenticationView } from "@/src/presentation/request-context/request-envelope";
 import {
   createRepositoryCapabilityContextResolver,
   type RepositoryCapabilityKey,
@@ -8,7 +8,7 @@ import {
 import { getProductWorkspace } from "./product-workspace";
 
 export async function resolveRepositoryCapabilityContext(input: {
-  authentication: AuthenticatedPrincipalV1;
+  authentication: AuthenticationView;
   activeScopeAccountId: string;
   repositoryId: string;
   capabilityKey: RepositoryCapabilityKey;

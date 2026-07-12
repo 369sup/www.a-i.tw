@@ -10,7 +10,6 @@ describe("repository governance", () => {
   const repository = createRepository({
     id: "r-1",
     ownerAccountId: "a-1",
-    ownerHandle: "ada",
     name: "Ideas",
     description: "",
     visibility: "private",
@@ -21,7 +20,7 @@ describe("repository governance", () => {
         repository,
         principalId: "p-1",
         ownerPrincipalId: "p-1",
-        action: "manage-access",
+        action: "repository:manage-access",
         grants: [],
       }),
     ).toEqual({ allowed: true, reason: "owner", effectiveRole: "admin" });
@@ -37,7 +36,7 @@ describe("repository governance", () => {
         repository,
         principalId: "p-member",
         ownerPrincipalId: "p-owner",
-        action: "read",
+        action: "repository:read",
         teamIds: ["team-research"],
         grants: [
           {

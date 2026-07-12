@@ -150,12 +150,7 @@ export function createRepositoryService(
           allowed: false,
           reason: "denied",
         };
-      const action: RepositoryAction =
-        input.action === "read"
-          ? "read"
-          : input.action === "triage"
-            ? "participate"
-            : "manage-access";
+      const action: RepositoryAction = input.action;
       const result = await decision(repository, action, input.principal);
       const reason =
         result.reason === "owner"
@@ -178,14 +173,14 @@ export function createRepositoryService(
     async listVisible(principal) {
       const visible: RepositoryRefV1[] = [];
       for (const repository of await store.list())
-        if ((await decision(repository, "read", principal)).allowed)
+        if ((await decision(repository, "repository:read", principal)).allowed)
           visible.push(toRef(repository));
       return visible;
     },
     async get(repositoryId, principal) {
       const repository = await store.find(repositoryId);
       if (!repository) return undefined;
-      const result = await decision(repository, "read", principal);
+      const result = await decision(repository, "repository:read", principal);
       return result.allowed
         ? { repository: toRef(repository), decision: result }
         : undefined;
@@ -203,7 +198,6 @@ export function createRepositoryService(
       const repository = createRepository({
         id: nextId(),
         ownerAccountId: input.ownerAccountId,
-        ownerHandle: eligibility.account.handle,
         name: input.name,
         description: input.description,
         visibility: input.visibility,
@@ -220,7 +214,7 @@ export function createRepositoryService(
     },
     async rename(repositoryId, name, principal) {
       const repository = await required(store, repositoryId);
-      await requireAllowed(repository, "rename", principal);
+      await requireAllowed(repository, "repository:rename", principal);
       const updated = renameRepository(repository, name);
       if (await store.findByOwnerAndName(updated.ownerAccountId, updated.name))
         throw new Error("Repository name already exists in this namespace.");
@@ -229,7 +223,11 @@ export function createRepositoryService(
     },
     async setVisibility(repositoryId, visibility, principal) {
       const repository = await required(store, repositoryId);
-      await requireAllowed(repository, "change-visibility", principal);
+      await requireAllowed(
+        repository,
+        "repository:change-visibility",
+        principal,
+      );
       const updated = changeVisibility(repository, visibility);
       await store.save(updated);
       return toRef(updated);
@@ -238,7 +236,7 @@ export function createRepositoryService(
       const repository = await required(store, repositoryId);
       await requireAllowed(
         repository,
-        archived ? "archive" : "unarchive",
+        archived ? "repository:archive" : "repository:unarchive",
         principal,
       );
       const updated = archived
@@ -249,7 +247,7 @@ export function createRepositoryService(
     },
     async grant(repositoryId, granteePrincipalId, role, principal) {
       const repository = await required(store, repositoryId);
-      await requireAllowed(repository, "manage-access", principal);
+      await requireAllowed(repository, "repository:manage-access", principal);
       await grants.save({
         repositoryId,
         subject: { type: "principal", principalId: granteePrincipalId },
@@ -258,7 +256,7 @@ export function createRepositoryService(
     },
     async grantTeam(repositoryId, teamId, role, principal) {
       const repository = await required(store, repositoryId);
-      await requireAllowed(repository, "manage-access", principal);
+      await requireAllowed(repository, "repository:manage-access", principal);
       await grants.save({
         repositoryId,
         subject: { type: "team", teamId },
@@ -277,7 +275,6 @@ function toRef(repository: Repository): RepositoryRefV1 {
   return {
     repositoryId: repository.id,
     ownerAccountId: repository.ownerAccountId,
-    ownerHandle: repository.ownerHandle,
     name: repository.name,
     description: repository.description,
     visibility: repository.visibility,

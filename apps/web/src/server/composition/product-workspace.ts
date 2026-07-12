@@ -33,7 +33,11 @@ import {
   RepositoryParticipationAdapter,
 } from "@/src/modules/issues/composition";
 import { createProjectsService } from "@/src/modules/projects/public-api";
-import { InMemoryProjectStore } from "@/src/modules/projects/composition";
+import {
+  AccountOwnerDirectoryAdapter,
+  InMemoryProjectStore,
+  IssueDirectoryAdapter,
+} from "@/src/modules/projects/composition";
 import { createDiscussionsService } from "@/src/modules/discussions/public-api";
 import { InMemoryDiscussionStore } from "@/src/modules/discussions/composition";
 import { createNotificationsService } from "@/src/modules/notifications/public-api";
@@ -52,20 +56,17 @@ function createProductWorkspace() {
     new InMemoryPrincipalStore([
       {
         id: "principal-ada",
-        handle: "ada",
-        displayName: "Ada Lovelace",
+        kind: "user",
         status: "active",
       },
       {
         id: "principal-grace",
-        handle: "grace",
-        displayName: "Grace Hopper",
+        kind: "user",
         status: "active",
       },
       {
         id: "principal-linus",
-        handle: "linus",
-        displayName: "Linus Torvalds",
+        kind: "user",
         status: "active",
       },
     ]),
@@ -78,44 +79,65 @@ function createProductWorkspace() {
     {
       id: "account-ada",
       handle: "ada",
-      displayName: "Ada Lovelace",
       kind: "personal",
       status: "active",
-      ownerPrincipalId: "principal-ada",
+      principalId: "principal-ada",
     },
     {
       id: "account-analytical",
       handle: "analytical-engine",
-      displayName: "Analytical Engine",
       kind: "organization",
       status: "active",
-      ownerPrincipalId: "principal-ada",
     },
     {
       id: "account-grace",
       handle: "grace",
-      displayName: "Grace Hopper",
       kind: "personal",
       status: "active",
-      ownerPrincipalId: "principal-grace",
+      principalId: "principal-grace",
     },
   ]);
-  const accounts = createAccountService(accountStore, nextId("account"));
-  const profiles = createProfileService(
+  const profileStore = new InMemoryProfileStore([
+    {
+      accountId: "account-ada",
+      displayName: "Ada Lovelace",
+      bio: "Exploring product semantics and collaborative systems.",
+      location: "London",
+      websiteUrl: "https://www.a-i.tw",
+    },
+    {
+      accountId: "account-analytical",
+      displayName: "Analytical Engine",
+      bio: "Organization governance and product planning.",
+    },
+    {
+      accountId: "account-grace",
+      displayName: "Grace Hopper",
+      bio: "Building reliable collaborative systems.",
+    },
+  ]);
+  const membershipStore = new InMemoryMembershipStore([
+    {
+      id: "membership-analytical-ada",
+      accountId: "account-analytical",
+      principalId: "principal-ada",
+      role: "owner",
+      status: "active",
+      joinedAt: new Date(0).toISOString(),
+    },
+  ]);
+  const accounts = createAccountService(
     accountStore,
-    new InMemoryProfileStore([
-      {
-        accountId: "account-ada",
-        displayName: "Ada Lovelace",
-        bio: "Exploring product semantics and collaborative systems.",
-        location: "London",
-        websiteUrl: "https://www.a-i.tw",
-      },
-    ]),
+    profileStore,
+    membershipStore,
+    nextId("account"),
+    nextId("membership"),
+    () => new Date(),
   );
+  const profiles = createProfileService(accountStore, profileStore);
   const memberships = createMembershipService(
     accountStore,
-    new InMemoryMembershipStore(),
+    membershipStore,
     new InMemoryMembershipInvitationStore(),
     nextId("membership"),
     nextId("invitation"),
@@ -132,7 +154,6 @@ function createProductWorkspace() {
       {
         id: "repository-notes",
         ownerAccountId: "account-ada",
-        ownerHandle: "ada",
         name: "research-notes",
         description: "A private space for early product research.",
         visibility: "private",
@@ -141,7 +162,6 @@ function createProductWorkspace() {
       {
         id: "repository-roadmap",
         ownerAccountId: "account-analytical",
-        ownerHandle: "analytical-engine",
         name: "product-roadmap",
         description: "Planning and governance for the organization.",
         visibility: "public",
@@ -168,6 +188,14 @@ function createProductWorkspace() {
   );
   const projects = createProjectsService(
     new InMemoryProjectStore(),
+    new AccountOwnerDirectoryAdapter({
+      eligibility: (id) => accounts.eligibility(id),
+      membership: (accountId, principalId) =>
+        memberships.membership(accountId, principalId),
+      teamMemberships: (accountId, principalId) =>
+        teams.memberships(accountId, principalId),
+    }),
+    new IssueDirectoryAdapter(issues),
     nextId("project"),
   );
   const discussions = createDiscussionsService(

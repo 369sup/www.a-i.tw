@@ -1,34 +1,58 @@
-export type AccountKind = "personal" | "organization";
 export type AccountStatus = "active" | "suspended";
 
-export type Account = Readonly<{
+type AccountBase = Readonly<{
   id: string;
   handle: string;
-  displayName: string;
-  kind: AccountKind;
   status: AccountStatus;
-  ownerPrincipalId: string;
 }>;
+
+export type PersonalAccount = AccountBase &
+  Readonly<{
+    kind: "personal";
+    principalId: string;
+  }>;
+
+export type Organization = AccountBase &
+  Readonly<{
+    kind: "organization";
+  }>;
+
+export type Account = PersonalAccount | Organization;
+export type AccountKind = Account["kind"];
 
 export function normalizeHandle(value: string): string {
   const handle = value.trim().toLowerCase();
-  if (!/^[a-z0-9](?:[a-z0-9-]{0,37}[a-z0-9])?$/.test(handle)) {
+  if (!/^[a-z0-9](?:[a-z0-9-]{0,37}[a-z0-9])?$/.test(handle))
     throw new Error(
       "Account handle must use letters, numbers, or single hyphens.",
     );
-  }
   return handle;
 }
 
-export function createAccount(
-  input: Omit<Account, "handle" | "status"> & { handle: string },
-): Account {
-  const displayName = input.displayName.trim();
-  if (!displayName) throw new Error("Account display name is required.");
+export function createPersonalAccount(input: {
+  id: string;
+  handle: string;
+  principalId: string;
+}): PersonalAccount {
+  if (!input.principalId)
+    throw new Error("Personal Account principal is required.");
   return {
-    ...input,
-    displayName,
+    id: input.id,
     handle: normalizeHandle(input.handle),
+    principalId: input.principalId,
+    kind: "personal",
+    status: "active",
+  };
+}
+
+export function createOrganization(input: {
+  id: string;
+  handle: string;
+}): Organization {
+  return {
+    id: input.id,
+    handle: normalizeHandle(input.handle),
+    kind: "organization",
     status: "active",
   };
 }

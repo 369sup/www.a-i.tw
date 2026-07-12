@@ -1,5 +1,7 @@
 {
   "context": "repository",
+  "kind": "product",
+  "lifecycle": "approved",
   "package": "@a-i/web",
   "domain": "Repository Governance",
   "subdomain": {
@@ -7,18 +9,32 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Govern a non-code Repository workspace, its owner, visibility, lifecycle and resource-scoped access.",
+  "firstUseCase": "Create and access a Repository owned by an eligible Account.",
+  "sourceOfTruth": ["Repository", "RepositoryAccessGrant"],
+  "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
   "relationships": [
     {
-      "target": "identity-access",
       "upstream": "identity-access",
-      "pattern": "anti-corruption-layer",
-      "contract": "PrincipalRefV1"
+      "downstream": "repository",
+      "pattern": "open-host-service + published-language",
+      "contract": "PrincipalRefV1",
+      "consumerPort": "RepositoryPrincipal",
+      "consumerAcl": "AppCompositionPrincipalMapper",
+      "consistency": "synchronous",
+      "failureMode": "deny-inactive-principal",
+      "status": "current"
     },
     {
-      "target": "account",
       "upstream": "account",
-      "pattern": "anti-corruption-layer",
-      "contract": "AccountEligibilityV1, MembershipFactV1, TeamMembershipFactV1"
+      "downstream": "repository",
+      "pattern": "customer-supplier + published-language + anti-corruption-layer",
+      "contract": "AccountDirectoryApiV1",
+      "consumerPort": "AccountDirectory",
+      "consumerAcl": "AccountDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-account-facts",
+      "status": "current"
     }
   ]
 }

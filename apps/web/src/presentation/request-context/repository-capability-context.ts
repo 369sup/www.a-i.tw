@@ -16,14 +16,18 @@ type AccountScopeView = Readonly<{
 type RepositoryView = Readonly<{
   repositoryId: string;
   ownerAccountId: string;
-  ownerHandle: string;
   name: string;
   description: string;
   visibility: "public" | "private";
   status: "active" | "archived";
 }>;
 
-type RepositoryAction = "read" | "triage" | "manage";
+type RepositoryAction =
+  | "issue:read"
+  | "issue:create"
+  | "issue:comment"
+  | "issue:triage"
+  | "issue:manage";
 
 type RepositoryDecisionView = Readonly<{
   repositoryId: string;
@@ -68,10 +72,10 @@ export interface RepositoryContextPort {
 const capabilities: Readonly<
   Record<RepositoryCapabilityKey, RepositoryAction>
 > = {
-  "repository.overview": "read",
-  "issue.read": "read",
-  "issue.create": "triage",
-  "issue.manage": "manage",
+  "repository.overview": "issue:read",
+  "issue.read": "issue:read",
+  "issue.create": "issue:create",
+  "issue.manage": "issue:manage",
 };
 
 export function createRepositoryCapabilityContextResolver(

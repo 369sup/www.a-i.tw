@@ -2,8 +2,10 @@
 
 狀態：Current in-memory vertical slice
 
-Project is a User- or Organization-owned planning and access boundary. Repository may link to Project
-but does not own it.
+Project is a Personal Account- or Organization-owned planning boundary. The current slice stores typed
+Issue references and Draft Items. It validates Account ownership and Issue existence through
+consumer-owned Application Ports and Projects Infrastructure ACL adapters. It never owns or copies
+Issue lifecycle, title, assignment, labels, or Repository authorization.
 
 | Language     | Meaning                                                 |
 | ------------ | ------------------------------------------------------- |
@@ -15,4 +17,5 @@ but does not own it.
 | Workflow     | Project-owned automation                                |
 | Insight      | Chart or aggregate over Project data                    |
 
-Pull Request item semantics are excluded. A Projects Context requires G1-G3 before scaffold.
+Pull Request item semantics are excluded. Fields, Views, Iterations, Workflows, Insights, templates and
+delivery UI remain planned; they are not implied by the approved first vertical slice.

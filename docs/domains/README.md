@@ -18,6 +18,7 @@ route 或程式碼視為已核准需求。
 
 為任一策略領域建立模組前，必須先有：產品 owner、具名 actor 與問題、首個 use case、驗收條件、資料分類、context manifest、application port 與 ADR。跨 context 的資料只可透過 `@a-i/<context>/contracts` 發佈。
 
-`master-template` 是已登錄於 [`context-map.json`](context-map.json) 的 app-local reference
-Context，不是本表中的產品 Context 候選；`sub-template` 是其內部 supporting subdomain。見
+`master-template` 是登錄於
+[`../architecture/reference-fixtures.json`](../architecture/reference-fixtures.json) 的 app-local architecture fixture，
+不屬於產品 Context Map；`sub-template` 是其 fixture-internal capability。見
 [`../architecture/template-system.md`](../architecture/template-system.md)。

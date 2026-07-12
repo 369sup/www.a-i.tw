@@ -9,6 +9,9 @@ import type {
 
 export class InMemoryMembershipStore implements MembershipStore {
   private readonly items = new Map<string, Membership>();
+  constructor(seed: readonly Membership[] = []) {
+    seed.forEach((membership) => this.items.set(membership.id, membership));
+  }
   async list(accountId: string) {
     return [...this.items.values()].filter(
       (item) => item.accountId === accountId && item.status === "active",

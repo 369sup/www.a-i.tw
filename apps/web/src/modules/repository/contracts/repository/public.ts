@@ -3,7 +3,6 @@ export type RepositoryRoleV1 = "read" | "write" | "maintain" | "admin";
 export type RepositoryRefV1 = Readonly<{
   repositoryId: string;
   ownerAccountId: string;
-  ownerHandle: string;
   name: string;
   description: string;
   visibility: RepositoryVisibilityV1;
@@ -28,7 +27,12 @@ export type RepositoryCollaborationScopeV1 = Readonly<{
   status: "active" | "archived";
 }>;
 
-export type RepositoryParticipationActionV1 = "read" | "triage" | "manage";
+export type RepositoryParticipationActionV1 =
+  | "issue:read"
+  | "issue:create"
+  | "issue:comment"
+  | "issue:triage"
+  | "issue:manage";
 export type RepositoryParticipationDecisionV1 = Readonly<{
   repositoryId: string;
   principalId: string;
@@ -45,8 +49,6 @@ export interface RepositoryParticipationApiV1 {
     repositoryId: string;
     principal: Readonly<{
       principalId: string;
-      handle: string;
-      displayName: string;
       status: "active" | "disabled";
     }>;
     action: RepositoryParticipationActionV1;

@@ -29,10 +29,6 @@ export function createIssue(
   };
 }
 
-function requireOpen(issue: Issue) {
-  if (issue.status !== "open")
-    throw new Error("Closed Issues cannot be changed.");
-}
 export function closeIssue(issue: Issue): Issue {
   if (issue.status === "closed") return issue;
   return { ...issue, status: "closed" };
@@ -42,17 +38,14 @@ export function reopenIssue(issue: Issue): Issue {
   return { ...issue, status: "open" };
 }
 export function applyLabel(issue: Issue, labelId: string): Issue {
-  requireOpen(issue);
   return issue.labelIds.includes(labelId)
     ? issue
     : { ...issue, labelIds: [...issue.labelIds, labelId] };
 }
 export function removeLabel(issue: Issue, labelId: string): Issue {
-  requireOpen(issue);
   return { ...issue, labelIds: issue.labelIds.filter((id) => id !== labelId) };
 }
 export function assignIssue(issue: Issue, principalId: string): Issue {
-  requireOpen(issue);
   return issue.assigneePrincipalIds.includes(principalId)
     ? issue
     : {
@@ -61,7 +54,6 @@ export function assignIssue(issue: Issue, principalId: string): Issue {
       };
 }
 export function unassignIssue(issue: Issue, principalId: string): Issue {
-  requireOpen(issue);
   return {
     ...issue,
     assigneePrincipalIds: issue.assigneePrincipalIds.filter(

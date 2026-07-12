@@ -2,7 +2,7 @@ export type Team = Readonly<{
   id: string;
   accountId: string;
   name: string;
-  memberPrincipalIds: readonly string[];
+  memberMembershipIds: readonly string[];
 }>;
 
 export function normalizeTeamName(value: string): string {
@@ -13,31 +13,31 @@ export function normalizeTeamName(value: string): string {
 }
 
 export function createTeam(
-  input: Omit<Team, "name" | "memberPrincipalIds"> & { name: string },
+  input: Omit<Team, "name" | "memberMembershipIds"> & { name: string },
 ): Team {
   return {
     ...input,
     name: normalizeTeamName(input.name),
-    memberPrincipalIds: [],
+    memberMembershipIds: [],
   };
 }
 
-export function addTeamMember(team: Team, principalId: string): Team {
-  if (team.memberPrincipalIds.includes(principalId))
-    throw new Error("Principal is already a Team member.");
+export function addTeamMember(team: Team, membershipId: string): Team {
+  if (team.memberMembershipIds.includes(membershipId))
+    throw new Error("Membership is already assigned to the Team.");
   return {
     ...team,
-    memberPrincipalIds: [...team.memberPrincipalIds, principalId],
+    memberMembershipIds: [...team.memberMembershipIds, membershipId],
   };
 }
 
-export function removeTeamMember(team: Team, principalId: string): Team {
-  if (!team.memberPrincipalIds.includes(principalId))
-    throw new Error("Principal is not a Team member.");
+export function removeTeamMember(team: Team, membershipId: string): Team {
+  if (!team.memberMembershipIds.includes(membershipId))
+    throw new Error("Membership is not assigned to the Team.");
   return {
     ...team,
-    memberPrincipalIds: team.memberPrincipalIds.filter(
-      (id) => id !== principalId,
+    memberMembershipIds: team.memberMembershipIds.filter(
+      (id) => id !== membershipId,
     ),
   };
 }

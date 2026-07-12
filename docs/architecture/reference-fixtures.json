@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "fixtures": [
+    {
+      "context": "master-template",
+      "path": "apps/web/src/modules/master-template",
+      "owner": "www.a-i.tw Architecture Team",
+      "purpose": "Executable Hexagonal Architecture and scaffold conformance fixture"
+    }
+  ]
+}

@@ -8,9 +8,10 @@
 | Account               | `AccountStore`, `ProfileStore`, `MembershipStore`, `MembershipInvitationStore`, `TeamStore` | in-memory Account, Profile, Membership and Team adapters | product workspace root      |
 | Repository            | `RepositoryStore`, `AccessGrantStore`, `AccountDirectory`                                   | in-memory stores + `AccountDirectoryAdapter`             | product workspace root      |
 | Issues                | `IssueStore`, `LabelStore`, `IssueNumberSequence`, `RepositoryParticipation`                | in-memory stores + `RepositoryParticipationAdapter`      | product workspace root      |
+| Projects              | `ProjectStore`, `AccountOwnerDirectory`, `IssueDirectory`                                   | in-memory store + consumer-side ACL adapters             | product workspace root      |
 | Repository Experience | `AccountContextPort`, `RepositoryContextPort`                                               | Account/Repository facade adapters                       | repository-context root     |
-| Master Template       | resource, namespace, access, clock and id Ports                                             | demo/in-memory adapters                                  | master-template root        |
-| Sub Template          | `SubTemplateCatalog`                                                                        | `InMemorySubTemplateCatalog`                             | Master Template composition |
+| Architecture fixture  | resource, namespace, access, clock and id Ports                                             | demo/in-memory adapters                                  | master-template root        |
+| Fixture sub-template  | `SubTemplateCatalog`                                                                        | `InMemorySubTemplateCatalog`                             | Master Template composition |
 
 Inbound adapters are Next.js pages, parallel slots, forms and Server Actions.
 Port names describe business-needed capability, never a database, framework or

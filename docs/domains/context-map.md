@@ -2,14 +2,14 @@
 
 狀態：Current / approved in-memory vertical slice
 
-Identity & Access、Account、Repository 與 Issues 已核准為 runtime bounded contexts，owner 均為
+Identity & Access、Account、Repository、Issues 與 Projects 已核准為 runtime bounded contexts，owner 均為
 `www.a-i.tw Product Team`。第一階段以同步、in-process published language 與
 context-owned ACL 協作；in-memory adapters 是明確的示範交付限制。
 
 ## Strategic Context Map
 
-此 Map 有七個策略節點：Product、Identity & Access、Account、Repository、Issues、Experience
-及 Platform。四個產品 Context 已登錄 runtime `context-map.json`；Experience 與 Platform
+此 Map 有八個策略節點：Product、Identity & Access、Account、Repository、Issues、Projects、Experience
+及 Platform。五個產品 Context 已核准；Experience 與 Platform
 仍是 app 與 operations owner，不建模為產品 Context。
 
 Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organization；不登入、不承載 credential、不直接授與 Repository action。
@@ -26,6 +26,7 @@ Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organi
 - `Account`：已實作 personal／organization Account、namespace、Membership 與 Team lifecycle；enterprise governance 延後。
 - `Repository`：已實作 visibility、direct/Team role grant、access decision 與 archive lifecycle；Git/code 排除。
 - `Issues`：已實作 Issue、Issue Number、open/closed state、Label 與 Assignment。
+- `Projects`：已實作 Account-owned Project、typed Issue reference、Draft Item 與 owner／Issue validation。
 - `Experience`：Next.js route、shadcn UI 與 view model（presentation owner）。
 - `Platform`：部署、可觀測性與交付工具（operations owner）。
 
@@ -39,6 +40,8 @@ Account ──Published Language: AccountEligibilityV1 / AccountRefV1──> Rep
 Repository ──Published Language: RepositoryAccessDecisionV1──> Experience / application use cases
 Repository ──RepositoryCollaborationScopeV1 / RepositoryParticipationDecisionV1──> Issues ACL
 Identity & Access ──PrincipalRefV1──> Issues
+Account ──AccountDirectoryApiV1──> Projects ACL
+Issues ──IssueDirectoryApiV1──> Projects ACL
 ```
 
 | Upstream          | Downstream | Pattern                                                        | Contract / ACL owner                                                                | Consistency and failure semantics                                                                                                                  |
@@ -49,9 +52,12 @@ Identity & Access ──PrincipalRefV1──> Issues
 | Repository        | Experience | Open Host Service + Published Language                         | Repository owns access-decision contract                                            | UI is an inbound adapter; it cannot reimplement role or visibility checks                                                                          |
 | Identity & Access | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Identity owns PrincipalRefV1; Issues owns actor/assignee translation                | missing or disabled Principal facts deny mutation                                                                                                  |
 | Repository        | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Repository owns collaboration decisions; Issues owns participation translation      | unavailable scope or denied decision fails closed                                                                                                  |
+| Account           | Projects   | Customer/Supplier + Published Language; Projects owns an ACL   | Account owns Membership role facts; Projects owns owner translation                 | missing or non-owner Membership rejects Project mutation                                                                                           |
+| Issues            | Projects   | Customer/Supplier + Published Language; Projects owns an ACL   | Issues owns minimal Issue references; Projects owns planning translation            | unknown Issue references are rejected; Projects never copies Issue truth                                                                           |
 
 Runtime enforcement uses `AccountDirectoryAdapter` in Repository Infrastructure and
-`RepositoryParticipationAdapter` in Issues Infrastructure. Consumer Application layers depend only on their local
+`RepositoryParticipationAdapter` in Issues Infrastructure, and `AccountOwnerDirectoryAdapter` plus
+`IssueDirectoryAdapter` in Projects Infrastructure. Consumer Application layers depend only on their local
 Ports and Principal input types; provider facade instances are injected by app server composition.
 
 `Identity & Access` does not return a `repository:*` decision. `Account` does not return a
@@ -72,14 +78,13 @@ Strategic relationship 由本文件擁有；runtime existence 由
 它只消費穩定 Repository reference/scope/access decision，不 import Repository internals。
 此 edge 由 ADR 0005 與版本化 contract 核准；runtime manifest 由 scaffold gate 登錄。
 
-## Expanded runtime Contexts
+## Prototype Contexts
 
-- Projects owns Project and Project Item references.
 - Discussions owns Repository Discussion and accepted Answer references.
 - Notifications owns Notification reason and Inbox triage state.
 - Search owns non-code Search Documents, query and visibility-filtered Result Sets.
 - Activity Feed owns recipient-scoped Feed Items.
 - Audit owns immutable Audit Entries and structured query.
 
-These Contexts currently expose independent in-memory vertical slices. They do not share Domain models,
-Infrastructure stores or cross-context transactions; future integrations require explicit Published Language edges.
+These Contexts expose isolated in-memory prototypes only. They are not approved semantic slices and do not
+gain cross-context edges until owner, invariants, Published Language, failure semantics and tests are approved.

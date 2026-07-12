@@ -1,5 +1,7 @@
 {
   "context": "discussions",
+  "kind": "product",
+  "lifecycle": "prototype",
   "package": "@a-i/web",
   "domain": "Discussions",
   "subdomain": {
@@ -7,5 +9,12 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Host repository-scoped open-ended community conversation distinct from Issue work state.",
+  "firstUseCase": "Create a repository Discussion and mark an eligible answer.",
+  "sourceOfTruth": ["Discussion"],
+  "runtimeEvidence": {
+    "status": "in-memory-prototype",
+    "verifiedAt": "2026-07-12"
+  },
   "relationships": []
 }

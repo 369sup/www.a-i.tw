@@ -1,5 +1,7 @@
 {
   "context": "search",
+  "kind": "product",
+  "lifecycle": "prototype",
   "package": "@a-i/web",
   "domain": "Search",
   "subdomain": {
@@ -7,5 +9,12 @@
     "type": "supporting"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Index and retrieve non-code resource projections without becoming their source of truth.",
+  "firstUseCase": "Index and query an in-memory visibility-filtered Search Document.",
+  "sourceOfTruth": ["SearchDocument", "SearchResultSet"],
+  "runtimeEvidence": {
+    "status": "in-memory-prototype",
+    "verifiedAt": "2026-07-12"
+  },
   "relationships": []
 }

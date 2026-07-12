@@ -3,179 +3,251 @@
   "version": 1,
   "contexts": [
     {
-      "context": "master-template",
+      "context": "identity-access",
+      "kind": "product",
+      "lifecycle": "approved",
       "package": "@a-i/web",
-      "domain": "Template Management",
-      "subdomain": {
-        "name": "template-management",
-        "type": "supporting"
-      },
-      "internalSubdomains": [
-        {
-          "name": "sub-template",
-          "type": "supporting"
-        }
-      ],
-      "owner": "www.a-i.tw Architecture Team",
+      "domain": "Identity and Access",
+      "subdomain": { "name": "identity-access", "type": "supporting" },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Authenticate a principal and maintain session attribution without deciding product authorization.",
+      "firstUseCase": "Authenticate a demo credential and resolve the active principal session.",
+      "sourceOfTruth": ["Principal", "Session"],
+      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
       "relationships": []
     },
     {
-      "context": "identity-access",
-      "package": "@a-i/web",
-      "domain": "Identity and Access",
-      "subdomain": {
-        "name": "identity-access",
-        "type": "supporting"
-      },
-      "owner": "www.a-i.tw Product Team",
-      "relationships": [
-        {
-          "downstream": "account",
-          "pattern": "open-host-service",
-          "contract": "PrincipalRefV1"
-        },
-        {
-          "downstream": "repository",
-          "pattern": "open-host-service",
-          "contract": "PrincipalRefV1"
-        }
-      ]
-    },
-    {
       "context": "account",
+      "kind": "product",
+      "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Account Management",
-      "subdomain": {
-        "name": "account",
-        "type": "core"
-      },
+      "subdomain": { "name": "account", "type": "core" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Own personal and organization namespaces, profiles, memberships and organization teams.",
+      "firstUseCase": "Create an account and manage organization membership.",
+      "sourceOfTruth": [
+        "PersonalAccount",
+        "Organization",
+        "AccountProfile",
+        "OrganizationMembership",
+        "OrganizationTeam"
+      ],
+      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
       "relationships": [
         {
-          "target": "identity-access",
           "upstream": "identity-access",
-          "pattern": "published-language",
-          "contract": "PrincipalRefV1"
-        },
-        {
-          "downstream": "repository",
-          "pattern": "customer-supplier",
-          "contract": "AccountRefV1, MembershipFactV1, TeamMembershipFactV1"
+          "downstream": "account",
+          "pattern": "open-host-service + published-language",
+          "contract": "PrincipalRefV1",
+          "consumerPort": "AccountPrincipal",
+          "consumerAcl": "AppCompositionPrincipalMapper",
+          "consistency": "synchronous",
+          "failureMode": "reject-inactive-principal",
+          "status": "current"
         }
       ]
     },
     {
       "context": "repository",
+      "kind": "product",
+      "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Repository Governance",
-      "subdomain": {
-        "name": "repository",
-        "type": "core"
-      },
+      "subdomain": { "name": "repository", "type": "core" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Govern a non-code Repository workspace, its owner, visibility, lifecycle and resource-scoped access.",
+      "firstUseCase": "Create and access a Repository owned by an eligible Account.",
+      "sourceOfTruth": ["Repository", "RepositoryAccessGrant"],
+      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
       "relationships": [
         {
-          "target": "identity-access",
           "upstream": "identity-access",
-          "pattern": "anti-corruption-layer",
-          "contract": "PrincipalRefV1"
+          "downstream": "repository",
+          "pattern": "open-host-service + published-language",
+          "contract": "PrincipalRefV1",
+          "consumerPort": "RepositoryPrincipal",
+          "consumerAcl": "AppCompositionPrincipalMapper",
+          "consistency": "synchronous",
+          "failureMode": "deny-inactive-principal",
+          "status": "current"
         },
         {
-          "target": "account",
           "upstream": "account",
-          "pattern": "anti-corruption-layer",
-          "contract": "AccountEligibilityV1, MembershipFactV1, TeamMembershipFactV1"
+          "downstream": "repository",
+          "pattern": "customer-supplier + published-language + anti-corruption-layer",
+          "contract": "AccountDirectoryApiV1",
+          "consumerPort": "AccountDirectory",
+          "consumerAcl": "AccountDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-account-facts",
+          "status": "current"
         }
       ]
     },
     {
       "context": "issues",
+      "kind": "product",
+      "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Issues",
-      "subdomain": {
-        "name": "issues",
-        "type": "core"
-      },
+      "subdomain": { "name": "issues", "type": "core" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Track repository-scoped work with Issue identity, lifecycle, labels, assignment and collaboration relationships.",
+      "firstUseCase": "Create, classify, assign and close an Issue after authoritative Repository participation approval.",
+      "sourceOfTruth": [
+        "Issue",
+        "Label",
+        "IssueComment",
+        "Milestone",
+        "IssueDependency"
+      ],
+      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
       "relationships": [
         {
-          "target": "identity-access",
           "upstream": "identity-access",
-          "pattern": "anti-corruption-layer",
-          "contract": "PrincipalRefV1"
+          "downstream": "issues",
+          "pattern": "open-host-service + published-language",
+          "contract": "PrincipalRefV1",
+          "consumerPort": "IssuePrincipal",
+          "consumerAcl": "AppCompositionPrincipalMapper",
+          "consistency": "synchronous",
+          "failureMode": "deny-inactive-principal",
+          "status": "current"
         },
         {
-          "target": "repository",
           "upstream": "repository",
-          "pattern": "anti-corruption-layer",
-          "contract": "RepositoryCollaborationScopeV1, RepositoryParticipationDecisionV1"
+          "downstream": "issues",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryParticipationApiV1",
+          "consumerPort": "RepositoryParticipation",
+          "consumerAcl": "RepositoryParticipationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-or-forbidden-repository",
+          "status": "current"
         }
       ]
     },
     {
       "context": "projects",
+      "kind": "product",
+      "lifecycle": "approved",
       "package": "@a-i/web",
       "domain": "Projects",
-      "subdomain": {
-        "name": "projects",
-        "type": "core"
-      },
+      "subdomain": { "name": "projects", "type": "core" },
       "owner": "www.a-i.tw Product Team",
-      "relationships": []
+      "problem": "Plan external work-item references without taking ownership of Issue truth.",
+      "firstUseCase": "Add an existing Issue reference to an account-owned Project.",
+      "sourceOfTruth": ["Project", "ProjectItem", "DraftItem"],
+      "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+      "relationships": [
+        {
+          "upstream": "account",
+          "downstream": "projects",
+          "pattern": "customer-supplier + published-language + anti-corruption-layer",
+          "contract": "AccountDirectoryApiV1",
+          "consumerPort": "AccountOwnerDirectory",
+          "consumerAcl": "AccountOwnerDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-non-owner",
+          "status": "current"
+        },
+        {
+          "upstream": "issues",
+          "downstream": "projects",
+          "pattern": "customer-supplier + published-language + anti-corruption-layer",
+          "contract": "IssueDirectoryApiV1",
+          "consumerPort": "IssueDirectory",
+          "consumerAcl": "IssueDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-unknown-issue-reference",
+          "status": "current"
+        }
+      ]
     },
     {
       "context": "discussions",
+      "kind": "product",
+      "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Discussions",
-      "subdomain": {
-        "name": "discussions",
-        "type": "core"
-      },
+      "subdomain": { "name": "discussions", "type": "core" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Host repository-scoped open-ended community conversation distinct from Issue work state.",
+      "firstUseCase": "Create a repository Discussion and mark an eligible answer.",
+      "sourceOfTruth": ["Discussion"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": []
     },
     {
       "context": "notifications",
+      "kind": "product",
+      "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Notifications",
-      "subdomain": {
-        "name": "notifications",
-        "type": "supporting"
-      },
+      "subdomain": { "name": "notifications", "type": "supporting" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Represent recipient attention and Inbox triage independently of source resource truth.",
+      "firstUseCase": "Create and triage an in-memory Notification.",
+      "sourceOfTruth": ["Notification", "InboxState"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": []
     },
     {
       "context": "search",
+      "kind": "product",
+      "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Search",
-      "subdomain": {
-        "name": "search",
-        "type": "supporting"
-      },
+      "subdomain": { "name": "search", "type": "supporting" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Index and retrieve non-code resource projections without becoming their source of truth.",
+      "firstUseCase": "Index and query an in-memory visibility-filtered Search Document.",
+      "sourceOfTruth": ["SearchDocument", "SearchResultSet"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": []
     },
     {
       "context": "activity-feed",
+      "kind": "product",
+      "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Activity Feed",
-      "subdomain": {
-        "name": "activity-feed",
-        "type": "supporting"
-      },
+      "subdomain": { "name": "activity-feed", "type": "supporting" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Present recipient-scoped activity projections without owning source transactions.",
+      "firstUseCase": "Append and list an in-memory Feed Item for a recipient.",
+      "sourceOfTruth": ["FeedItem"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": []
     },
     {
       "context": "audit",
+      "kind": "product",
+      "lifecycle": "prototype",
       "package": "@a-i/web",
       "domain": "Audit",
-      "subdomain": {
-        "name": "audit",
-        "type": "supporting"
-      },
+      "subdomain": { "name": "audit", "type": "supporting" },
       "owner": "www.a-i.tw Product Team",
+      "problem": "Preserve append-only administrative evidence without becoming a business event bus.",
+      "firstUseCase": "Append and query an in-memory Audit Entry.",
+      "sourceOfTruth": ["AuditEntry"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
       "relationships": []
     }
   ]

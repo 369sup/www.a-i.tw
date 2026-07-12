@@ -2,8 +2,7 @@ export type PrincipalStatus = "active" | "disabled";
 
 export type Principal = Readonly<{
   id: string;
-  handle: string;
-  displayName: string;
+  kind: "user" | "app";
   status: PrincipalStatus;
 }>;
 

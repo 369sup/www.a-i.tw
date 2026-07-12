@@ -55,14 +55,17 @@ export function createTeamService(
     const account = await accounts.find(accountId);
     if (!account || account.kind !== "organization")
       throw new Error("Teams are only available to organization accounts.");
-    if (account.ownerPrincipalId !== actor.principalId)
+    if (
+      (await memberships.membership(accountId, actor.principalId))?.role !==
+      "owner"
+    )
       throw new Error("Organization owner permission is required.");
   }
   const toRef = (team: Team): TeamRefV1 => ({
     teamId: team.id,
     accountId: team.accountId,
     name: team.name,
-    memberPrincipalIds: team.memberPrincipalIds,
+    memberMembershipIds: team.memberMembershipIds,
   });
   return {
     async list(accountId) {
@@ -76,7 +79,9 @@ export function createTeamService(
         accountId,
         principalId,
         teamIds: (await teams.list(accountId))
-          .filter((team) => team.memberPrincipalIds.includes(principalId))
+          .filter((team) =>
+            team.memberMembershipIds.includes(member.membershipId),
+          )
           .map((team) => team.id),
       };
     },
@@ -102,7 +107,7 @@ export function createTeamService(
       );
       if (membership?.status !== "active" || membership.role !== "member")
         throw new Error("Only active organization members may join a Team.");
-      const updated = addTeamMember(team, input.principalId);
+      const updated = addTeamMember(team, membership.membershipId);
       await teams.save(updated);
       return toRef(updated);
     },
@@ -110,7 +115,12 @@ export function createTeamService(
       const team = await teams.find(input.teamId);
       if (!team) throw new Error("Team not found.");
       await requireOwner(team.accountId, input.actor);
-      const updated = removeTeamMember(team, input.principalId);
+      const membership = await memberships.membership(
+        team.accountId,
+        input.principalId,
+      );
+      if (!membership) throw new Error("Organization membership not found.");
+      const updated = removeTeamMember(team, membership.membershipId);
       await teams.save(updated);
       return toRef(updated);
     },

@@ -11,8 +11,7 @@ describe("identity access", () => {
       new InMemoryPrincipalStore([
         {
           id: "p-1",
-          handle: "disabled",
-          displayName: "Disabled",
+          kind: "user",
           status: "disabled",
         },
       ]),
@@ -29,7 +28,7 @@ describe("identity access", () => {
   it("creates isolated opaque sessions after credential verification", async () => {
     const service = createIdentityAccessService(
       new InMemoryPrincipalStore([
-        { id: "p-1", handle: "admin", displayName: "Admin", status: "active" },
+        { id: "p-1", kind: "user", status: "active" },
       ]),
       {
         verify: async (login, password) =>

@@ -53,7 +53,7 @@ describe("Repository capability context", () => {
 
     expect(context.envelope.actor).toBe(principal);
     expect(context.organization?.accountId).toBe("account-org");
-    expect(context.requestedAction).toBe("triage");
+    expect(context.requestedAction).toBe("issue:create");
     expect(context.authorizationDecision.allowed).toBe(true);
     expect(context.envelope).not.toHaveProperty("sessionToken");
   });

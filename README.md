@@ -80,15 +80,19 @@ Canonical architecture and documentation routing:
 
 ## Current Bounded Contexts
 
-| Context | Domain | Type | Responsibility |
-| --- | --- | --- | --- |
-| `identity-access` | Identity and Access | Supporting | Principal identity and foundational identity contracts |
-| `account` | Account Management | Core | Accounts, memberships, invitations, and teams |
-| `repository` | Repository Governance | Core | Repository scope, roles, grants, and access decisions |
-| `issues` | Issues | Core | Issues inside repository collaboration scope |
+| Context           | Domain                | Type       | Responsibility                                                   |
+| ----------------- | --------------------- | ---------- | ---------------------------------------------------------------- |
+| `identity-access` | Identity and Access   | Supporting | Principal identity and foundational identity contracts           |
+| `account`         | Account Management    | Core       | Accounts, memberships, invitations, and teams                    |
+| `repository`      | Repository Governance | Core       | Repository scope, roles, grants, and access decisions            |
+| `issues`          | Issues                | Core       | Issues inside repository collaboration scope                     |
+| `projects`        | Projects              | Core       | Account-owned planning of typed Issue references and Draft Items |
 
 `master-template` is an engineering reference template, not a product Bounded Context, product
 capability or world-model node.
+
+`discussions`, `notifications`, `search`, `activity-feed`, and `audit` remain explicitly marked
+prototypes in their manifests. Directory presence does not imply semantic or runtime approval.
 
 ## Creating a Bounded Context
 

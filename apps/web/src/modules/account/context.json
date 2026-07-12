@@ -1,5 +1,7 @@
 {
   "context": "account",
+  "kind": "product",
+  "lifecycle": "approved",
   "package": "@a-i/web",
   "domain": "Account Management",
   "subdomain": {
@@ -7,17 +9,27 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Own personal and organization namespaces, profiles, memberships and organization teams.",
+  "firstUseCase": "Create an account and manage organization membership.",
+  "sourceOfTruth": [
+    "PersonalAccount",
+    "Organization",
+    "AccountProfile",
+    "OrganizationMembership",
+    "OrganizationTeam"
+  ],
+  "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
   "relationships": [
     {
-      "target": "identity-access",
       "upstream": "identity-access",
-      "pattern": "published-language",
-      "contract": "PrincipalRefV1"
-    },
-    {
-      "downstream": "repository",
-      "pattern": "customer-supplier",
-      "contract": "AccountRefV1, MembershipFactV1, TeamMembershipFactV1"
+      "downstream": "account",
+      "pattern": "open-host-service + published-language",
+      "contract": "PrincipalRefV1",
+      "consumerPort": "AccountPrincipal",
+      "consumerAcl": "AppCompositionPrincipalMapper",
+      "consistency": "synchronous",
+      "failureMode": "reject-inactive-principal",
+      "status": "current"
     }
   ]
 }

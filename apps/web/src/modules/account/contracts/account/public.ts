@@ -4,6 +4,7 @@ export type AccountRefV1 = Readonly<{
   displayName: string;
   kind: "personal" | "organization";
   status: "active" | "suspended";
+  personalPrincipalId?: string;
 }>;
 
 export type AccountEligibilityV1 = Readonly<{
@@ -19,6 +20,7 @@ export type AccountProfileV1 = Readonly<{
   websiteUrl?: string;
 }>;
 export type MembershipFactV1 = Readonly<{
+  membershipId: string;
   accountId: string;
   principalId: string;
   role: "member" | "owner";
@@ -29,7 +31,7 @@ export type TeamRefV1 = Readonly<{
   teamId: string;
   accountId: string;
   name: string;
-  memberPrincipalIds: readonly string[];
+  memberMembershipIds: readonly string[];
 }>;
 
 export type TeamMembershipFactV1 = Readonly<{

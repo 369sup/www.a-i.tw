@@ -51,7 +51,9 @@ export function createIdentityAccessService(
       if (!principal) throw new Error("Invalid login or password.");
       assertCanAuthenticate(principal);
       const authentication = {
-        principal: toRef(principal),
+        principalId: principal.id,
+        status: principal.status,
+        assurance: "mock" as const,
         authenticatedAt: now().toISOString(),
       };
       const token = nextToken();
@@ -65,8 +67,6 @@ export function createIdentityAccessService(
 function toRef(principal: Principal): PrincipalRefV1 {
   return {
     principalId: principal.id,
-    handle: principal.handle,
-    displayName: principal.displayName,
     status: principal.status,
   };
 }

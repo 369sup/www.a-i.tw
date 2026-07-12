@@ -19,8 +19,7 @@ export default async function WorkspaceLayout({
   const accountItems = await workspace.accounts.listAccounts();
   const activeAccount = accountItems.find(
     (account) =>
-      account.kind === "personal" &&
-      account.handle === authentication.principal.handle,
+      account.personalPrincipalId === authentication.principal.principalId,
   );
   return (
     <main className="min-h-screen bg-muted/30">

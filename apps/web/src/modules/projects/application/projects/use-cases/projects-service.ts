@@ -3,6 +3,9 @@ import {
   createProject,
   type Project,
 } from "../../../domain/projects/aggregates/project";
+import type { ProjectSummaryV1 } from "../../../contracts/projects/public";
+import type { AccountOwnerDirectory } from "../ports/outbound/account-owner-directory.port";
+import type { IssueDirectory } from "../ports/outbound/issue-directory.port";
 export interface ProjectStore {
   list(ownerAccountId: string): Promise<Project[]>;
   find(id: string): Promise<Project | undefined>;
@@ -11,29 +14,82 @@ export interface ProjectStore {
 export interface ProjectsService {
   create(input: {
     ownerAccountId: string;
+    actorPrincipalId: string;
     title: string;
     visibility: "public" | "private";
-  }): Promise<Project>;
-  addItem(input: { projectId: string; itemId: string }): Promise<Project>;
-  list(ownerAccountId: string): Promise<Project[]>;
+  }): Promise<ProjectSummaryV1>;
+  addIssue(input: {
+    projectId: string;
+    issueId: string;
+    actorPrincipalId: string;
+  }): Promise<ProjectSummaryV1>;
+  addDraft(input: {
+    projectId: string;
+    title: string;
+    body?: string;
+    actorPrincipalId: string;
+  }): Promise<ProjectSummaryV1>;
+  list(ownerAccountId: string): Promise<ProjectSummaryV1[]>;
 }
 export function createProjectsService(
   store: ProjectStore,
+  accountOwners: AccountOwnerDirectory,
+  issueDirectory: IssueDirectory,
   nextId: () => string,
 ): ProjectsService {
+  const summary = (project: Project): ProjectSummaryV1 => ({
+    projectId: project.id,
+    ownerAccountId: project.ownerAccountId,
+    title: project.title,
+    visibility: project.visibility,
+    items: project.items,
+  });
+  const requireOwner = async (accountId: string, principalId: string) => {
+    if (!(await accountOwners.isOwner({ accountId, principalId })))
+      throw new Error("Project owner authorization denied.");
+  };
+  const requiredProject = async (projectId: string) => {
+    const project = await store.find(projectId);
+    if (!project) throw new Error("Project not found.");
+    return project;
+  };
   return {
-    list: (owner) => store.list(owner),
-    async create(input) {
-      const project = createProject({ id: nextId(), ...input });
-      await store.save(project);
-      return project;
+    async list(owner) {
+      return (await store.list(owner)).map(summary);
     },
-    async addItem(input) {
-      const project = await store.find(input.projectId);
-      if (!project) throw new Error("Project not found.");
-      const updated = addProjectItem(project, input.itemId);
+    async create(input) {
+      await requireOwner(input.ownerAccountId, input.actorPrincipalId);
+      const { actorPrincipalId: _, ...projectInput } = input;
+      const project = createProject({ id: nextId(), ...projectInput });
+      await store.save(project);
+      return summary(project);
+    },
+    async addIssue(input) {
+      const project = await requiredProject(input.projectId);
+      await requireOwner(project.ownerAccountId, input.actorPrincipalId);
+      if (!(await issueDirectory.find(input.issueId)))
+        throw new Error("Issue reference not found.");
+      const updated = addProjectItem(project, {
+        itemId: nextId(),
+        type: "issue",
+        issueId: input.issueId,
+      });
       await store.save(updated);
-      return updated;
+      return summary(updated);
+    },
+    async addDraft(input) {
+      const project = await requiredProject(input.projectId);
+      await requireOwner(project.ownerAccountId, input.actorPrincipalId);
+      const title = input.title.trim();
+      if (!title) throw new Error("Draft item title is required.");
+      const updated = addProjectItem(project, {
+        itemId: nextId(),
+        type: "draft",
+        title,
+        body: input.body,
+      });
+      await store.save(updated);
+      return summary(updated);
     },
   };
 }

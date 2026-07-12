@@ -100,7 +100,9 @@ export function checkCrossContextImports(root = process.cwd()) {
         }
         if (
           !context.manifest.relationships.some(
-            (relationship) => relationship.target === targetContext.name,
+            (relationship) =>
+              relationship.upstream === targetContext.name &&
+              relationship.downstream === context.name,
           )
         ) {
           errors.push(

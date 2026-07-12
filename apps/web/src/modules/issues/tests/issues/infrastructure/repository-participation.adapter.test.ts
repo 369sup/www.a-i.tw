@@ -24,11 +24,9 @@ describe("RepositoryParticipationAdapter", () => {
         repositoryId: "repository-1",
         principal: {
           principalId: "principal-1",
-          handle: "ada",
-          displayName: "Ada",
           status: "active",
         },
-        action: "triage",
+        action: "issue:triage",
       }),
     ).resolves.toBe(true);
   });

@@ -9,10 +9,9 @@ describe("account profile", () => {
       {
         id: "a-1",
         handle: "admin",
-        displayName: "Admin",
         kind: "personal",
         status: "active",
-        ownerPrincipalId: "p-1",
+        principalId: "p-1",
       },
     ]);
     const service = createProfileService(accounts, new InMemoryProfileStore());

@@ -4,7 +4,6 @@ export type RepositoryRole = "read" | "write" | "maintain" | "admin";
 export type Repository = Readonly<{
   id: string;
   ownerAccountId: string;
-  ownerHandle: string;
   name: string;
   description: string;
   visibility: RepositoryVisibility;

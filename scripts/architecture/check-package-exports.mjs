@@ -17,8 +17,18 @@ if (existsSync("apps/web/src/modules")) {
       ? ["src/public.ts", "src/contracts/public.ts", "src/composition.ts"]
       : ["public-api.ts", "composition/index.ts"];
     for (const output of outputs) {
-      if (!existsSync(join(contextRoot, output))) {
+      const outputPath = join(contextRoot, output);
+      if (!existsSync(outputPath)) {
         errors.push(`${entry.name} public entrypoint is missing: ${output}.`);
+        continue;
+      }
+      if (output.endsWith("public-api.ts") || output.includes("contracts")) {
+        const source = readFileSync(outputPath, "utf8");
+        if (/from\s+["'][^"']*\/(domain|infrastructure)\//u.test(source)) {
+          errors.push(
+            `${entry.name} ${output} leaks Domain or Infrastructure internals.`,
+          );
+        }
       }
     }
   }

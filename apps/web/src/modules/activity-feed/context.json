@@ -1,5 +1,7 @@
 {
   "context": "activity-feed",
+  "kind": "product",
+  "lifecycle": "prototype",
   "package": "@a-i/web",
   "domain": "Activity Feed",
   "subdomain": {
@@ -7,5 +9,12 @@
     "type": "supporting"
   },
   "owner": "www.a-i.tw Product Team",
+  "problem": "Present recipient-scoped activity projections without owning source transactions.",
+  "firstUseCase": "Append and list an in-memory Feed Item for a recipient.",
+  "sourceOfTruth": ["FeedItem"],
+  "runtimeEvidence": {
+    "status": "in-memory-prototype",
+    "verifiedAt": "2026-07-12"
+  },
   "relationships": []
 }

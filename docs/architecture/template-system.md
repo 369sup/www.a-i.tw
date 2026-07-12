@@ -1,21 +1,21 @@
 # Master and sub templates
 
-狀態：Current — formal template bounded context.
+狀態：Current — architecture conformance fixture.
 
 本專案採單一 deployable 的 modular monolith。正式產品 Context 預設為
 `apps/web/src/modules/<context>` app-local Context；`master-template` 與產品 Context
 共用同一套邊界，不提供跨 Context implementation API。
 它具有 supporting subdomain `sub-template`。
 
-| Template          | Location                                                    | Purpose                                 | Runtime status        |
-| ----------------- | ----------------------------------------------------------- | --------------------------------------- | --------------------- |
-| `master-template` | `apps/web/src/modules/master-template`                      | Template Management bounded context     | formal runtime module |
-| `sub-template`    | `apps/web/src/modules/master-template/<layer>/sub-template` | Master Template 的 supporting subdomain | internal capability   |
+| Template          | Location                                                    | Purpose                      | Runtime status    |
+| ----------------- | ----------------------------------------------------------- | ---------------------------- | ----------------- |
+| `master-template` | `apps/web/src/modules/master-template`                      | Context architecture fixture | reference runtime |
+| `sub-template`    | `apps/web/src/modules/master-template/<layer>/sub-template` | Fixture-internal capability  | reference runtime |
 
 ## Master template
 
-Master Template 是正式的 template domain model，不是本產品既有的 Repository、Account
-候選模型。它保留完整的依賴方向與 UX 證據：
+Master Template 不是產品 Domain 或產品 Bounded Context。它保留完整依賴方向與 UX 證據，
+供新 Context scaffold 與 architecture gates 驗證：
 
 ```text
 Next.js Route or intercepted `@modal` slot
@@ -38,8 +38,8 @@ root 是唯一可 import concrete adapter 的位置；Client Component、Domain 
 
 ## Sub-template
 
-`sub-template` 是 Master Template context 內的 supporting subdomain，不是第二個 bounded
-context，也不會產生第二個 pnpm package、Context Map entry 或 cross-context contract。它可
+`sub-template` 是 fixture 內部 capability，不是 bounded context，也不會產生 pnpm package、
+Context Map entry 或 cross-context contract。它可
 維持自己的 Domain/Application/Infrastructure 內部 hexagon，但只能透過 Master Template
 的 application port 與 composition 被使用。
 

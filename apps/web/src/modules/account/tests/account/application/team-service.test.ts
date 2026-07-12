@@ -10,14 +10,10 @@ import { InMemoryTeamStore } from "../../../infrastructure/account/repositories/
 
 const owner = {
   principalId: "owner",
-  handle: "owner",
-  displayName: "Owner",
   status: "active" as const,
 };
 const member = {
   principalId: "member",
-  handle: "member",
-  displayName: "Member",
   status: "active" as const,
 };
 
@@ -27,15 +23,22 @@ async function fixture() {
     {
       id: "org",
       handle: "org",
-      displayName: "Org",
       kind: "organization",
       status: "active",
-      ownerPrincipalId: owner.principalId,
     },
   ]);
   const memberships = createMembershipService(
     accounts,
-    new InMemoryMembershipStore(),
+    new InMemoryMembershipStore([
+      {
+        id: "owner-membership",
+        accountId: "org",
+        principalId: owner.principalId,
+        role: "owner",
+        status: "active",
+        joinedAt: "2026-07-01T00:00:00.000Z",
+      },
+    ]),
     new InMemoryMembershipInvitationStore(),
     () => `membership-${++id}`,
     () => `invitation-${++id}`,

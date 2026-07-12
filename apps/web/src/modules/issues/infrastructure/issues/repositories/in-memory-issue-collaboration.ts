@@ -7,7 +7,7 @@ import type {
 export class InMemoryIssueCollaborationStore implements IssueCollaborationStore {
   readonly commentItems: IssueComment[] = [];
   readonly milestones: Milestone[] = [];
-  readonly dependencies: IssueDependency[] = [];
+  readonly dependencyItems: IssueDependency[] = [];
   async comments(id: string) {
     return this.commentItems.filter((x) => x.issueId === id);
   }
@@ -18,6 +18,9 @@ export class InMemoryIssueCollaborationStore implements IssueCollaborationStore 
     this.milestones.push(v);
   }
   async saveDependency(v: IssueDependency) {
-    this.dependencies.push(v);
+    this.dependencyItems.push(v);
+  }
+  async dependencies() {
+    return [...this.dependencyItems];
   }
 }

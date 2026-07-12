@@ -1,5 +1,7 @@
 {
   "context": "identity-access",
+  "kind": "product",
+  "lifecycle": "approved",
   "package": "@a-i/web",
   "domain": "Identity and Access",
   "subdomain": {
@@ -7,16 +9,9 @@
     "type": "supporting"
   },
   "owner": "www.a-i.tw Product Team",
-  "relationships": [
-    {
-      "downstream": "account",
-      "pattern": "open-host-service",
-      "contract": "PrincipalRefV1"
-    },
-    {
-      "downstream": "repository",
-      "pattern": "open-host-service",
-      "contract": "PrincipalRefV1"
-    }
-  ]
+  "problem": "Authenticate a principal and maintain session attribution without deciding product authorization.",
+  "firstUseCase": "Authenticate a demo credential and resolve the active principal session.",
+  "sourceOfTruth": ["Principal", "Session"],
+  "runtimeEvidence": { "status": "current", "verifiedAt": "2026-07-12" },
+  "relationships": []
 }
