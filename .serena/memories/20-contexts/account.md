@@ -6,7 +6,7 @@ Route analysis of Account, Profile, Membership, Team, Active Actor and Active Sc
 
 ## Summary
 
-Account is a verified core Context. It owns Account, Account Profile, Membership and Team invariants. Profile is Account presentation data and cannot authenticate or authorize. Account Context switching is two-dimensional: Personal/Managed User accounts may be Active Actors, while Personal/Organization/Enterprise are scopes. Current runtime supports one Personal Actor and Personal/Organization scope selection; multi-session switching, Managed user and Enterprise governance remain Planned.
+Account is a verified core Context. It owns Account, Account Profile, Membership and Team invariants. Profile is Account presentation data and cannot authenticate or authorize. Account Context switching is two-dimensional: Personal/Managed User accounts may be Active Actors, while Personal/Organization/Enterprise are scopes. Current runtime supports one Personal Actor and Personal/Organization scope selection. `/` is the authenticated home with a scope switcher and Top repositories projection; `/settings/organizations` lists organization scopes and `/account/organizations/new` creates one. `/settings/enterprises` truthfully renders a Planned empty state; multi-session switching, Managed user and Enterprise governance remain Planned.
 
 ## Rules
 
@@ -30,4 +30,4 @@ Account is a verified core Context. It owns Account, Account Profile, Membership
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: Profile tests, Actor/Scope UI language, 4 E2E and full gates.
+- Evidence: changed-file diagnostics, `pnpm check` (21 web tests and 11 architecture tests) and production build passed. Semgrep was not runnable because its executable is absent from the WSL PATH; no route E2E was added.

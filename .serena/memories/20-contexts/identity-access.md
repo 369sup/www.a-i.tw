@@ -6,7 +6,7 @@ Route analysis of Principal, Login, credential verification and browser Session 
 
 ## Summary
 
-Identity & Access is a verified supporting Context. It owns Principal validity, Login, the CredentialVerifier Port and token-keyed Session lifecycle. The current Infrastructure adapter accepts the non-production mock credential admin / 123456 and stores opaque sessions in process memory. It publishes PrincipalRefV1; it does not own Account Profile, Active Scope or resource authorization.
+Identity & Access is a verified supporting Context. It owns Principal validity, Login, Logout, the CredentialVerifier Port and token-keyed Session lifecycle. `/login` is the dedicated authentication entry; `/logout` is a confirmation surface whose POST action revokes the current Session. The current Infrastructure adapter accepts the non-production mock credential admin / 123456 and stores opaque sessions in process memory. It publishes PrincipalRefV1; it does not own Account Profile, Active Scope or resource authorization.
 
 ## Rules
 
@@ -31,4 +31,4 @@ Identity & Access is a verified supporting Context. It owns Principal validity, 
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: diagnostics, 18 tests, 4 E2E, docs/arch/build/Semgrep.
+- Evidence: changed-file diagnostics, `pnpm check` (21 web tests and 11 architecture tests) and production build passed. Semgrep was not runnable because its executable is absent from the WSL PATH; no route E2E was added.

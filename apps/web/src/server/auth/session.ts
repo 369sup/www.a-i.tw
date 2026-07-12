@@ -14,6 +14,6 @@ export async function currentAuthentication() {
 
 export async function requireAuthentication() {
   const authentication = await currentAuthentication();
-  if (!authentication) redirect("/");
+  if (!authentication) redirect("/login");
   return authentication;
 }

@@ -22,9 +22,9 @@ export async function loginAction(formData: FormData) {
       maxAge: 60 * 60 * 8,
     });
   } catch {
-    redirect("/?error=invalid-credentials");
+    redirect("/login?error=invalid-credentials");
   }
-  redirect("/workspace");
+  redirect("/");
 }
 
 export async function logoutAction() {
