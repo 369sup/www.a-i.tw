@@ -12,6 +12,10 @@
 
 ## Compact Pre-Edit Note
 
+ADR 0008 target topology is Context-first, layer-second and declared-subdomain-third. The migration registry is in
+`target` mode; legacy `src/*` Context internals are forbidden. New Contexts and subdomains must use the target
+generator. Never create ownership-free shared directories.
+
 Before editing, state: owner, dependency direction, use case (or `not applicable`), ports/adapters (or `not applicable`), composition impact, and verification command. For this `.codex`/`.agents` policy area, ownership is repository engineering workflow; it has no product Domain or runtime adapter.
 
 - 先讀 `AGENTS.md` 的 `Minimal-context routing` 與本檔；依任務類型只讀一個初始入口。文件拓撲才讀

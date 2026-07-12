@@ -18,7 +18,7 @@ pnpm generate:context \
   --owner <owner>
 ```
 
-The generator creates an app-local Context under `apps/web/src/modules/`,
+The generator creates an app-local Context under `apps/web/src/modules/` using the ADR 0008 target topology: layer first, declared subdomain second, tactical pattern/use case third. It creates `public-api.ts` and `composition/index.ts`; ownership-free shared directories are forbidden.
 registers the exact same manifest in `docs/domains/context-map.json`, and
 provides empty public entrypoints. All Contexts belong to the single
 `@a-i/web` deployable package; boundaries are enforced by manifests, imports,
@@ -36,6 +36,5 @@ pnpm generate:subdomain \
   --type <core|supporting|generic>
 ```
 
-This creates `src/subdomains/<name>` and atomically updates the Context
-manifest and runtime Context Map. Do not create internal subdomain folders by
-hand.
+This creates `<layer>/<subdomain>` across owned layers and atomically updates the Context manifest and runtime Context
+Map. Do not create internal subdomain folders by hand.

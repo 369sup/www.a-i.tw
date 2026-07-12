@@ -18,3 +18,12 @@
     ownership or release-cadence evidence permits service/workspace extraction.
 
 Each step requires entry evidence, rollback, compatibility impact and exit verification.
+
+## ADR 0008 internal-topology migration
+
+狀態：Completed 2026-07-12
+
+1. **Completed**: canonical documents, generators, validators, Dependency Cruiser, Semgrep, skills and commands.
+2. **Completed**: all eleven Contexts migrated by declared subdomain and Hexagonal layer.
+3. **Completed**: Context entrypoints, Published Language imports, composition roots and focused tests updated.
+4. **Completed**: `legacyContexts` is empty and migration mode is `target`.

@@ -1,0 +1,11 @@
+{
+  "context": "discussions",
+  "package": "@a-i/web",
+  "domain": "Discussions",
+  "subdomain": {
+    "name": "discussions",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": []
+}

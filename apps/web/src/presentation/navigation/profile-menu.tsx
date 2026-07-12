@@ -52,8 +52,12 @@ export function ProfileMenu({
           <div className="flex items-center gap-2 border-b px-2 pb-3 pt-1">
             <UserAvatar label={currentHandle} />
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{currentDisplayName}</p>
-              <p className="truncate text-xs text-muted-foreground">@{currentHandle}</p>
+              <p className="truncate text-sm font-semibold">
+                {currentDisplayName}
+              </p>
+              <p className="truncate text-xs text-muted-foreground">
+                @{currentHandle}
+              </p>
             </div>
             <button
               aria-label="Switch account"
@@ -69,7 +73,9 @@ export function ProfileMenu({
             className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-muted"
             type="button"
           >
-            <span className="flex size-5 items-center justify-center rounded-full border text-xs">●</span>
+            <span className="flex size-5 items-center justify-center rounded-full border text-xs">
+              ●
+            </span>
             Set status
           </button>
 
@@ -89,27 +95,46 @@ export function ProfileMenu({
           </nav>
 
           <nav className="border-t py-2" aria-label="Account settings">
-            <Link className="flex items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-muted" href="/settings/organizations" role="menuitem">
+            <Link
+              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-muted"
+              href="/settings/organizations"
+              role="menuitem"
+            >
               <Settings className="size-4 text-muted-foreground" />
               Settings
             </Link>
-            <button className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted" type="button">
+            <button
+              className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted"
+              type="button"
+            >
               <Check className="size-4 text-muted-foreground" />
               Feature preview
-              <span className="ml-auto rounded-full border px-1.5 py-0.5 text-[10px]">New</span>
+              <span className="ml-auto rounded-full border px-1.5 py-0.5 text-[10px]">
+                New
+              </span>
             </button>
-            <button className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted" type="button">
+            <button
+              className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted"
+              type="button"
+            >
               <Palette className="size-4 text-muted-foreground" />
               Appearance
             </button>
-            <button className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted" type="button">
+            <button
+              className="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-muted"
+              type="button"
+            >
               <Accessibility className="size-4 text-muted-foreground" />
               Accessibility
             </button>
           </nav>
 
           <div className="border-t pt-2">
-            <Link className="flex items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-muted" href="/logout" role="menuitem">
+            <Link
+              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-muted"
+              href="/logout"
+              role="menuitem"
+            >
               <LogOut className="size-4 text-muted-foreground" />
               Sign out
             </Link>

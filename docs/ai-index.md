@@ -16,15 +16,15 @@
 | Notification                | `product/notification.md`                      | subscription、delivery、inbox state              |
 | Search                      | `product/search.md`                            | query、index、visibility、ranking                |
 | Account／Profile／Presence  | `product/account-profile-presence.md`          | account identity、profile、presence、privacy     |
-| Social graph               | `product/social-graph.md`                      | follow、star、watch、interest relations          |
-| Projects                   | `product/projects.md`                          | ownership、items、fields、views、access          |
-| Discussions／Community     | `product/discussions-community.md`             | discussion、category、answer、moderation、wiki   |
-| Apps／Marketplace          | `product/apps-marketplace.md`                  | app、installation、authorization、listing        |
-| Billing／Cost              | `product/billing-cost-management.md`           | billing、budget、cost center、usage               |
-| Sponsors                   | `product/sponsorship.md`                       | sponsorship、tier、goal、payment、payout          |
-| Audit／Compliance          | `product/audit-compliance.md`                  | audit event、query、export、compliance            |
-| Trust／Support／Programs   | `product/trust-safety-support.md`              | policy、moderation、support、qualification        |
-| Client experience         | `product/client-experience.md`                 | web、mobile、dashboard、navigation                |
+| Social graph                | `product/social-graph.md`                      | follow、star、watch、interest relations          |
+| Projects                    | `product/projects.md`                          | ownership、items、fields、views、access          |
+| Discussions／Community      | `product/discussions-community.md`             | discussion、category、answer、moderation、wiki   |
+| Apps／Marketplace           | `product/apps-marketplace.md`                  | app、installation、authorization、listing        |
+| Billing／Cost               | `product/billing-cost-management.md`           | billing、budget、cost center、usage              |
+| Sponsors                    | `product/sponsorship.md`                       | sponsorship、tier、goal、payment、payout         |
+| Audit／Compliance           | `product/audit-compliance.md`                  | audit event、query、export、compliance           |
+| Trust／Support／Programs    | `product/trust-safety-support.md`              | policy、moderation、support、qualification       |
+| Client experience           | `product/client-experience.md`                 | web、mobile、dashboard、navigation               |
 | 治理邊界分類                | `product/governance-boundary-taxonomy.md`      | boundary categories、non-container exclusions    |
 | 領域願景與能力策略          | `strategy/`                                    | vision、capability、build/buy                    |
 | Use case 與授權責任         | `application/`                                 | use case、command/query、authz                   |
@@ -47,3 +47,6 @@
 架構判斷遵循 `UI / Infrastructure -> Application -> Domain`。不確定 ownership 時，先補文件中的 boundary note，再修改 runtime。
 
 完整策略文件清冊與 canonical 路由見 [`architecture-document-catalog.md`](architecture-document-catalog.md)。
+
+Architecture target routing: `architecture/context-internal-topology.md` owns ADR 0008 layer/subdomain topology;
+`architecture/context-topology-migration.json` owns transitional versus target enforcement.

@@ -1,8 +1,8 @@
-import { cpSync, existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
-const template = join(root, ".agents/skills/scaffold-bounded-context/assets/bounded-context-template");
+const template = join(root, ".agents/skills/scaffold-bounded-context/assets/bounded-context-template-v2");
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((pairs, value, index, values) => {
     if (value.startsWith("--")) pairs.push([value.slice(2), values[index + 1]]);
@@ -41,6 +41,13 @@ function replacePlaceholders(directory) {
 }
 
 replacePlaceholders(destination);
+for (const layer of ["domain", "application", "contracts", "infrastructure", "presentation"]) {
+  const path = join(destination, layer, args.subdomain);
+  mkdirSync(path, { recursive: true });
+  writeFileSync(join(path, "README.md"), `# ${args.domain}: ${args.subdomain} ${layer}\n\nCreate tactical folders only for approved semantics.\n`);
+}
+mkdirSync(join(destination, "application", args.subdomain, "ports", "inbound"), { recursive: true });
+mkdirSync(join(destination, "application", args.subdomain, "ports", "outbound"), { recursive: true });
 
 const mapPath = join(root, "docs/domains/context-map.json");
 const map = JSON.parse(readFileSync(mapPath, "utf8"));
@@ -48,4 +55,4 @@ const manifest = JSON.parse(readFileSync(join(destination, "context.json"), "utf
 map.contexts.push(manifest);
 writeFileSync(mapPath, `${JSON.stringify(map, null, 2)}\n`);
 
-console.log(`Created @a-i/web app-local Context ${args.context}. Define its public language, then run pnpm arch:check.`);
+console.log(`Created target-topology Context ${args.context}. Define its first use case, then run pnpm arch:target.`);

@@ -149,4 +149,19 @@ describe("cross-context import checker", () => {
       expect.stringContaining("without a Context Map relationship"),
     ]);
   });
+
+  it("accepts the registered target Context topology", () => {
+    const result = spawnSync(
+      process.execPath,
+      [
+        join(
+          repositoryRoot,
+          "scripts/architecture/check-context-target-topology.mjs",
+        ),
+      ],
+      { cwd: repositoryRoot, encoding: "utf8" },
+    );
+    expect(result.status, result.stderr).toBe(0);
+    expect(result.stdout).toContain("target mode");
+  });
 });

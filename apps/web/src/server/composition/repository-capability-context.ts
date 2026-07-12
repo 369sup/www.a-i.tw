@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { AuthenticatedPrincipalV1 } from "@/src/modules/identity-access/src/contracts/public";
+import type { AuthenticatedPrincipalV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
 import {
   createRepositoryCapabilityContextResolver,
   type RepositoryCapabilityKey,

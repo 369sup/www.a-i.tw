@@ -12,3 +12,7 @@ Use the existing `repo-explore-first`, `repo-docs-maintenance`,
 `architecture-boundary-audit`, and `verification` skills only at the gate where
 their responsibility applies. Report evidence for every completed gate and mark
 unmet gates as blocked instead of skipping them.
+
+For ADR 0008 migrations, finish the architecture control plane first. Read
+`docs/architecture/context-topology-migration.json`; do not move runtime while generators, validators, import rules,
+Semgrep, skills or commands still describe the legacy tree. New work uses layer/subdomain topology and `public-api.ts`.

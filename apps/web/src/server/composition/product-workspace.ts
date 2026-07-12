@@ -5,31 +5,43 @@ import {
   createMembershipService,
   createProfileService,
   createTeamService,
-} from "@/src/modules/account/src/public";
+} from "@/src/modules/account/public-api";
 import {
   InMemoryAccountStore,
   InMemoryMembershipInvitationStore,
   InMemoryMembershipStore,
   InMemoryProfileStore,
   InMemoryTeamStore,
-} from "@/src/modules/account/src/composition";
-import { createIdentityAccessService } from "@/src/modules/identity-access/src/public";
+} from "@/src/modules/account/composition";
+import { createIdentityAccessService } from "@/src/modules/identity-access/public-api";
 import {
   InMemoryPrincipalStore,
   InMemorySessionStore,
   MockCredentialVerifier,
-} from "@/src/modules/identity-access/src/composition";
-import { createRepositoryService } from "@/src/modules/repository/src/public";
+} from "@/src/modules/identity-access/composition";
+import { createRepositoryService } from "@/src/modules/repository/public-api";
 import {
   InMemoryAccessGrantStore,
   InMemoryRepositoryStore,
-} from "@/src/modules/repository/src/composition";
-import { createIssuesService } from "@/src/modules/issues/src/public";
+} from "@/src/modules/repository/composition";
+import { createIssuesService } from "@/src/modules/issues/public-api";
 import {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,
   InMemoryLabelStore,
-} from "@/src/modules/issues/src/composition";
+} from "@/src/modules/issues/composition";
+import { createProjectsService } from "@/src/modules/projects/public-api";
+import { InMemoryProjectStore } from "@/src/modules/projects/composition";
+import { createDiscussionsService } from "@/src/modules/discussions/public-api";
+import { InMemoryDiscussionStore } from "@/src/modules/discussions/composition";
+import { createNotificationsService } from "@/src/modules/notifications/public-api";
+import { InMemoryNotificationStore } from "@/src/modules/notifications/composition";
+import { createSearchService } from "@/src/modules/search/public-api";
+import { InMemorySearchIndex } from "@/src/modules/search/composition";
+import { createActivityFeedService } from "@/src/modules/activity-feed/public-api";
+import { InMemoryFeedStore } from "@/src/modules/activity-feed/composition";
+import { createAuditService } from "@/src/modules/audit/public-api";
+import { InMemoryAuditStore } from "@/src/modules/audit/composition";
 
 function createProductWorkspace() {
   let sequence = 100;
@@ -157,6 +169,33 @@ function createProductWorkspace() {
     nextId("issue"),
     nextId("label"),
   );
+  const projects = createProjectsService(
+    new InMemoryProjectStore(),
+    nextId("project"),
+  );
+  const discussions = createDiscussionsService(
+    new InMemoryDiscussionStore(),
+    nextId("discussion"),
+  );
+  const notifications = createNotificationsService(
+    new InMemoryNotificationStore(),
+    nextId("notification"),
+    () => new Date(),
+  );
+  const search = createSearchService(
+    new InMemorySearchIndex(),
+    async (document) => document.visibility === "public",
+  );
+  const activityFeed = createActivityFeedService(
+    new InMemoryFeedStore(),
+    nextId("feed"),
+    () => new Date(),
+  );
+  const audit = createAuditService(
+    new InMemoryAuditStore(),
+    nextId("audit"),
+    () => new Date(),
+  );
   return {
     identity,
     accounts,
@@ -165,6 +204,12 @@ function createProductWorkspace() {
     teams,
     repositories,
     issues,
+    projects,
+    discussions,
+    notifications,
+    search,
+    activityFeed,
+    audit,
   };
 }
 

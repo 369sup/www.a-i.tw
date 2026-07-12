@@ -21,15 +21,15 @@ If Serena MCP tools are available, first call `serena.initial_instructions` and 
 
 ## Minimal-Context Routing
 
-| Task | Read first | Read next only when needed |
-| --- | --- | --- |
-| Explanation or docs-only edit | `docs/ai-index.md` | The single canonical owner document selected by the index |
-| Documentation topology, README, AGENTS, ADR, contract, runbook, canonical concern | `docs/README.md`, `docs/ai-index.md` | The owning canonical document or registry entry |
-| Product semantics or capability | `docs/product/product-model.md`, `docs/product/platform-world-model.md` | Relevant `docs/domains/*` owner and initiative |
-| Context or cross-context change | `docs/domains/context-map.md`, target `context.json` | Contract, ADR, and upstream/downstream matrix for the affected edge |
-| Runtime behavior inside one Context | Closest module `AGENTS.md`, `README.md`, `context.json` | Narrow Domain/Application symbols and tests |
-| Architecture governance or new concern | `docs/architecture/ddd-hexagonal-standard.md` | `docs/architecture-document-catalog.md` and registry entry for that concern |
-| Next.js implementation | Relevant guide under `node_modules/next/dist/docs/` | Only the route/runtime topic being changed |
+| Task                                                                              | Read first                                                              | Read next only when needed                                                  |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Explanation or docs-only edit                                                     | `docs/ai-index.md`                                                      | The single canonical owner document selected by the index                   |
+| Documentation topology, README, AGENTS, ADR, contract, runbook, canonical concern | `docs/README.md`, `docs/ai-index.md`                                    | The owning canonical document or registry entry                             |
+| Product semantics or capability                                                   | `docs/product/product-model.md`, `docs/product/platform-world-model.md` | Relevant `docs/domains/*` owner and initiative                              |
+| Context or cross-context change                                                   | `docs/domains/context-map.md`, target `context.json`                    | Contract, ADR, and upstream/downstream matrix for the affected edge         |
+| Runtime behavior inside one Context                                               | Closest module `AGENTS.md`, `README.md`, `context.json`                 | Narrow Domain/Application symbols and tests                                 |
+| Architecture governance or new concern                                            | `docs/architecture/ddd-hexagonal-standard.md`                           | `docs/architecture-document-catalog.md` and registry entry for that concern |
+| Next.js implementation                                                            | Relevant guide under `node_modules/next/dist/docs/`                     | Only the route/runtime topic being changed                                  |
 
 `docs/architecture-document-catalog.md` is an inventory. Read it only to add, move, audit, or reassign a canonical architecture concern.
 
@@ -50,7 +50,12 @@ Before changing business behavior, identify the owning Domain, Bounded Context, 
 ## Repository Topology
 
 - Product contexts live only at `apps/web/src/modules/<context>`.
-- Internal subdomains require `context.json.internalSubdomains` and must live at `src/subdomains/<name>`.
+- Target Context internals are layer-first then declared-subdomain: `domain/<subdomain>`,
+  `application/<subdomain>`, `contracts/<subdomain>`, `infrastructure/<subdomain>` and optional
+  `presentation/<subdomain>`. Existing `src/*` paths are transitional only when registered in
+  `docs/architecture/context-topology-migration.json`.
+- Internal subdomains require `context.json.internalSubdomains`; generators create their directories across owned
+  layers. Do not create `shared`, `common`, `core`, `utils` or `helpers` as ownership-free escape hatches.
 - Root `modules/` and horizontal `packages/{application,contracts,domain,foundation,infrastructure}` are forbidden.
 - `packages/*` must contain only context-neutral technical capabilities.
 - Repository-specific agent skills live in `.agents/skills/`.

@@ -1,6 +1,6 @@
 # Search
 
-狀態：Accepted research baseline / runtime not approved
+狀態：Current in-memory index/query vertical slice
 
 ```text
 Search Result Set

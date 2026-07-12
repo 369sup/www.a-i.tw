@@ -1,6 +1,6 @@
 # Client experience
 
-狀態：Accepted semantic baseline / Web subset current
+狀態：Accepted semantic baseline / Web, Dashboard and Activity Feed subsets current
 
 Web, Mobile, Dashboard, Feed, Inbox, Explore, Command Palette, theme, accessibility, localization,
 Markdown authoring and saved replies are experience surfaces or interaction capabilities. They do not

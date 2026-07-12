@@ -1,72 +1,40 @@
 # Standard Bounded Context tree
 
-狀態：Accepted / machine enforced
-
-所有產品 Bounded Context 必須位於單一 deployable application 內，並遵守以下結構：
+狀態：Accepted target / migration controlled
 
 ```text
-apps/web/
-├── src/
-│   ├── app/                                  # Next.js inbound adapters only
-│   ├── server/
-│   │   └── composition/                      # only concrete-adapter wiring root
-│   ├── presentation/
-│   │   └── <experience>/                     # cross-context inbound adapters
-│   └── modules/
-│       └── <bounded-context>/
-│           ├── AGENTS.md                     # context-local rules and owner
-│           ├── README.md                     # purpose, scope and public language
-│           ├── context.json                  # Context Map manifest
-│           ├── src/
-│           │   ├── domain/                   # aggregates, value objects, policies, events, errors
-│           │   ├── application/              # use cases and owned inbound/outbound Ports
-│           │   ├── contracts/
-│           │   │   └── public.ts             # versioned Published Language only
-│           │   ├── infrastructure/           # outbound adapter implementations
-│           │   ├── presentation/             # optional context-owned inbound adapters
-│           │   ├── subdomains/               # optional declared internal subdomains
-│           │   │   └── <subdomain>/
-│           │   │       ├── README.md
-│           │   │       ├── domain/
-│           │   │       ├── application/
-│           │   │       ├── infrastructure/
-│           │   │       └── composition.ts
-│           │   ├── public.ts                 # application facade
-│           │   └── composition.ts            # adapter exports for app composition root
-│           └── tests/                        # domain and application tests
-└── package.json                              # the one @a-i/web package boundary
+apps/web/src/modules/<bounded-context>/
+├── AGENTS.md
+├── README.md
+├── context.json
+├── domain/<subdomain>/
+│   ├── aggregates/
+│   ├── entities/
+│   ├── value-objects/
+│   ├── domain-services/
+│   ├── domain-events/
+│   ├── policies/
+│   ├── specifications/
+│   └── errors/
+├── application/<subdomain>/
+│   ├── commands/
+│   ├── queries/
+│   ├── use-cases/
+│   ├── handlers/
+│   └── ports/{inbound,outbound}/
+├── contracts/<subdomain>/{commands,queries,events,dto,errors}/
+├── infrastructure/<subdomain>/{persistence,repositories,external-services,messaging,mappers}/
+├── presentation/<subdomain>/{route-handlers,server-actions,components,forms,schemas,views,presenters}/
+├── composition/
+│   └── index.ts
+├── public-api.ts
+└── tests/<subdomain>/{domain,application,infrastructure,acceptance}/
 ```
 
-## Dependency direction
+Leaf directories are created only when the first approved semantic requires them. Application owns normal inbound
+and outbound Ports. `contracts` contains standalone Published Language, not aliases of internal Domain entities.
+`public-api.ts` is the only general Context entrypoint. `shared/`, `common`, `core`, `utils` and `helpers` are forbidden
+unless explicitly governed.
 
-```text
-Next.js routes / UI / Server Actions
-                 │ inbound
-                 ▼
-           Application use cases ──owned outbound Ports──┐
-                 │                                      │
-                 ▼                                      ▼
-              Domain                         Infrastructure adapters
-
-Cross-context consumer ──consumer-owned Port / ACL──> provider contracts/public.ts
-```
-
-- Domain 只可依賴同一 Context 的 Domain。
-- Application 可依賴同一 Context 的 Domain 與其他 Context 的 published contracts，不可依賴 Infrastructure。
-- Contracts 必須獨立，不可輸出 Domain、Application 或 Infrastructure 型別。
-- Infrastructure 實作 Application 擁有的 outbound Ports。
-- Context `src/presentation` 可包含 context-owned page、form 與 Server Action adapter；
-  跨 Context Experience 放在 app-owned `src/presentation/<experience>`。兩者只能經 server
-  composition root 取得 application facade。Route 只組合或轉交 presentation。
-- Context 內部 supporting capability 只有在 manifest 的 `internalSubdomains` 宣告後，
-  才能建立 `src/subdomains/<name>`。其內維持自己的 Domain、Application、Ports 與
-  Infrastructure，不得將模型或 catalog 留在 route。
-- 跨 Context 禁止引用 Domain、Application、Infrastructure 或 Composition。
-- Context 不得擁有自己的 `package.json`、`tsconfig.json`、lint 或 test runner 設定；它們繼承 `@a-i/web`。
-- 禁止新增 root `modules/<context>` runtime 位置或依技術 layer 建立全域 `services`、`models`、`repositories`。
-
-## Enforcement
-
-`pnpm arch:manifests` 驗證必備結構、禁止檔案、owner、subdomain、app package 與 Context Map
-一致性；dependency-cruiser、cross-context import checker、Semgrep 與 architecture fixture tests
-驗證依賴方向。新 Context 只能透過 `pnpm generate:context` 建立。
+All registered Contexts use this target tree. `context-topology-migration.json` is in `target` mode with no legacy
+`src/*` exception; new Context generation must preserve that state.

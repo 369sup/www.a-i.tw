@@ -4,8 +4,9 @@ import { join } from "node:path";
 const contextsRoot = "apps/web/src/modules";
 const appPackagePath = "apps/web/package.json";
 const mapPath = "docs/domains/context-map.json";
+const migrationPath = "docs/architecture/context-topology-migration.json";
 const errors = [];
-const requiredPaths = [
+const legacyRequiredPaths = [
   "AGENTS.md",
   "README.md",
   "context.json",
@@ -15,6 +16,19 @@ const requiredPaths = [
   "src/infrastructure",
   "src/public.ts",
   "src/composition.ts",
+  "tests",
+];
+const targetRequiredPaths = [
+  "AGENTS.md",
+  "README.md",
+  "context.json",
+  "domain",
+  "application",
+  "contracts",
+  "infrastructure",
+  "presentation",
+  "composition/index.ts",
+  "public-api.ts",
   "tests",
 ];
 const forbiddenContextFiles = [
@@ -29,6 +43,8 @@ function readJson(path) {
 }
 
 const map = readJson(mapPath);
+const migration = readJson(migrationPath);
+const legacyContexts = new Set(migration.legacyContexts);
 const appPackage = readJson(appPackagePath);
 const mapped = new Map(
   map.contexts.map((context) => [context.context, context]),
@@ -47,7 +63,9 @@ for (const name of directories) {
     continue;
   }
 
-  for (const required of requiredPaths) {
+  for (const required of legacyContexts.has(name)
+    ? legacyRequiredPaths
+    : targetRequiredPaths) {
     if (!existsSync(join(directory, required))) {
       errors.push(`${name} is missing standard Context path: ${required}.`);
     }
@@ -86,7 +104,9 @@ for (const name of directories) {
   ) {
     errors.push(`${name} must declare a valid subdomain type.`);
   }
-  for (const subdomain of manifest.internalSubdomains ?? []) {
+  for (const subdomain of legacyContexts.has(name)
+    ? (manifest.internalSubdomains ?? [])
+    : []) {
     const subdomainRoot = join(directory, "src/subdomains", subdomain.name);
     for (const required of [
       "README.md",

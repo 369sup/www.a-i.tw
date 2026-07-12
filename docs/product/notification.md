@@ -1,6 +1,6 @@
 # Notification
 
-狀態：Accepted research baseline / runtime not approved
+狀態：Current in-memory Inbox triage vertical slice
 
 ```text
 Subscription × Matching Activity Event × Delivery Preference

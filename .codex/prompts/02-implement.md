@@ -25,3 +25,8 @@ pnpm semgrep
 ```
 
 最後回報變更、驗證證據、未執行項目與原因；不 commit、push 或部署，除非我明確要求。
+
+# ADR 0008 topology
+
+For Context work, route new code to `<layer>/<declared-subdomain>/<tactical-pattern-or-use-case>`. Do not copy legacy
+`src/*` layout unless the task is the controlled migration itself. Use `public-api.ts` and Context composition entrypoints.

@@ -1,0 +1,11 @@
+{
+  "context": "projects",
+  "package": "@a-i/web",
+  "domain": "Projects",
+  "subdomain": {
+    "name": "projects",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": []
+}

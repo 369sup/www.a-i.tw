@@ -1,0 +1,11 @@
+{
+  "context": "activity-feed",
+  "package": "@a-i/web",
+  "domain": "Activity Feed",
+  "subdomain": {
+    "name": "activity-feed",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": []
+}

@@ -1,14 +1,14 @@
 import "server-only";
 
-import { createMasterTemplateModule } from "@/src/modules/master-template/src/composition";
+import { createMasterTemplateModule } from "@/src/modules/master-template/composition";
 import {
   DemoAccessDecision,
   DemoNamespaceReference,
   randomIdGenerator,
   systemClock,
-} from "@/src/modules/master-template/src/infrastructure/demo-adapters";
-import { InMemoryResourceStore } from "@/src/modules/master-template/src/infrastructure/in-memory-resource-store";
-import { InMemorySubTemplateCatalog } from "@/src/modules/master-template/src/subdomains/sub-template/infrastructure/in-memory-sub-template-catalog";
+} from "@/src/modules/master-template/infrastructure/template-management/external-services/demo-adapters";
+import { InMemoryResourceStore } from "@/src/modules/master-template/infrastructure/template-management/repositories/in-memory-resource-store";
+import { InMemorySubTemplateCatalog } from "@/src/modules/master-template/infrastructure/sub-template/repositories/in-memory-sub-template-catalog";
 
 type MasterTemplateApplication = ReturnType<typeof createMasterTemplateModule>;
 

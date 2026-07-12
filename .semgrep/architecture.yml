@@ -8,3 +8,16 @@ rules:
       include:
         - "/apps/web/src/modules/**/src/domain/**"
         - "/apps/web/src/modules/**/src/subdomains/**/domain/**"
+        - "/apps/web/src/modules/**/domain/**"
+  - id: context-shared-directory-requires-governance
+    languages: [generic]
+    message: Ownership-free shared/common/core/utils/helpers directories are forbidden inside product Context layers.
+    severity: ERROR
+    pattern-regex: ".*"
+    paths:
+      include:
+        - "/apps/web/src/modules/**/domain/{shared,common,core,utils,helpers}/**"
+        - "/apps/web/src/modules/**/application/{shared,common,core,utils,helpers}/**"
+        - "/apps/web/src/modules/**/contracts/{shared,common,core,utils,helpers}/**"
+        - "/apps/web/src/modules/**/infrastructure/{shared,common,core,utils,helpers}/**"
+        - "/apps/web/src/modules/**/presentation/{shared,common,core,utils,helpers}/**"

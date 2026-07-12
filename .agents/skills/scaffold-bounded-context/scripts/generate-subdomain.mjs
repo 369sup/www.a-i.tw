@@ -1,5 +1,4 @@
 import {
-  cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -29,7 +28,7 @@ const contextRoot = join(root, "apps/web/src/modules", args.context);
 const manifestPath = join(contextRoot, "context.json");
 if (!existsSync(manifestPath))
   throw new Error(`Context does not exist: ${args.context}.`);
-const subdomainRoot = join(contextRoot, "src/subdomains", args.subdomain);
+const subdomainRoot = join(contextRoot, "domain", args.subdomain);
 if (existsSync(subdomainRoot))
   throw new Error(`Internal subdomain already exists: ${args.subdomain}.`);
 
@@ -38,28 +37,13 @@ const internalSubdomains = manifest.internalSubdomains ?? [];
 if (internalSubdomains.some((entry) => entry.name === args.subdomain))
   throw new Error(`Internal subdomain is already declared: ${args.subdomain}.`);
 
-const templateRoot = join(
-  root,
-  ".agents/skills/scaffold-bounded-context/assets/internal-subdomain-template",
-);
-cpSync(templateRoot, subdomainRoot, { recursive: true });
-for (const relativePath of [
-  "README.md",
-  "application/README.md",
-  "domain/README.md",
-  "infrastructure/README.md",
-]) {
-  const path = join(subdomainRoot, relativePath);
-  const content = readFileSync(path, "utf8")
-    .replaceAll("{{context}}", args.context)
-    .replaceAll("{{subdomain}}", args.subdomain)
-    .replaceAll("{{type}}", args.type);
-  writeFileSync(path, content);
+for (const layer of ["domain", "application", "contracts", "infrastructure", "presentation"]) {
+  const path = join(contextRoot, layer, args.subdomain);
+  mkdirSync(path, { recursive: true });
+  writeFileSync(join(path, "README.md"), `# ${args.context}/${args.subdomain} ${layer}\n\nType: ${args.type}. Create tactical folders only for approved semantics.\n`);
 }
-writeFileSync(
-  join(subdomainRoot, "composition.ts"),
-  "// Export a composition factory only after the first approved use case defines its Ports.\nexport {};\n",
-);
+mkdirSync(join(contextRoot, "application", args.subdomain, "ports", "inbound"), { recursive: true });
+mkdirSync(join(contextRoot, "application", args.subdomain, "ports", "outbound"), { recursive: true });
 
 manifest.internalSubdomains = [
   ...internalSubdomains,

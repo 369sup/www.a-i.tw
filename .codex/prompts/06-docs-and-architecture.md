@@ -23,3 +23,8 @@ pnpm semgrep
 ```
 
 最後列出 ownership、受影響的 contract、相容性決策與所有驗證結果。
+
+# Context topology migration
+
+Keep ADR 0008, `context-internal-topology.md`, migration registry, generators, validators, Dependency Cruiser,
+Semgrep, skills and commands aligned before moving runtime files.

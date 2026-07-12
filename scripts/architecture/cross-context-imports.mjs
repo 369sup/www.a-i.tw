@@ -10,6 +10,7 @@ function readJson(path) {
 }
 
 function walk(directory, files) {
+  if (!existsSync(directory)) return;
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
     if (entry.isDirectory()) walk(path, files);
@@ -40,7 +41,7 @@ export function checkCrossContextImports(root = process.cwd()) {
   const errors = [];
   for (const context of contexts) {
     const files = [];
-    walk(join(context.path, "src"), files);
+    walk(context.path, files);
     for (const file of files) {
       const content = readFileSync(file, "utf8");
       for (const match of content.matchAll(importPattern)) {
@@ -55,10 +56,17 @@ export function checkCrossContextImports(root = process.cwd()) {
         });
         if (!targetContext || targetContext.name === context.name) continue;
 
-        const targetRelative = relative(targetContext.path, target).replaceAll("\\", "/");
-        if (!/^src\/contracts\//.test(targetRelative)) {
+        const targetRelative = relative(targetContext.path, target).replaceAll(
+          "\\",
+          "/",
+        );
+        if (
+          !/^(?:src\/contracts\/|contracts\/|public-api\.ts$)/.test(
+            targetRelative,
+          )
+        ) {
           errors.push(
-            `${file} imports ${specifier}; cross-context imports may target only ${targetContext.name}/src/contracts/.`,
+            `${file} imports ${specifier}; cross-context imports may target only ${targetContext.name} Published Language or public-api.ts.`,
           );
           continue;
         }

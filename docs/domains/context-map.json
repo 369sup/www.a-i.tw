@@ -111,6 +111,72 @@
           "contract": "RepositoryCollaborationScopeV1, RepositoryParticipationDecisionV1"
         }
       ]
+    },
+    {
+      "context": "projects",
+      "package": "@a-i/web",
+      "domain": "Projects",
+      "subdomain": {
+        "name": "projects",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": []
+    },
+    {
+      "context": "discussions",
+      "package": "@a-i/web",
+      "domain": "Discussions",
+      "subdomain": {
+        "name": "discussions",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": []
+    },
+    {
+      "context": "notifications",
+      "package": "@a-i/web",
+      "domain": "Notifications",
+      "subdomain": {
+        "name": "notifications",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": []
+    },
+    {
+      "context": "search",
+      "package": "@a-i/web",
+      "domain": "Search",
+      "subdomain": {
+        "name": "search",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": []
+    },
+    {
+      "context": "activity-feed",
+      "package": "@a-i/web",
+      "domain": "Activity Feed",
+      "subdomain": {
+        "name": "activity-feed",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": []
+    },
+    {
+      "context": "audit",
+      "package": "@a-i/web",
+      "domain": "Audit",
+      "subdomain": {
+        "name": "audit",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": []
     }
   ]
 }

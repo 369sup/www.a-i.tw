@@ -2,6 +2,57 @@
 module.exports = {
   forbidden: [
     {
+      name: "target-domain-has-no-external-dependencies",
+      severity: "error",
+      comment: "Target-topology Domain remains framework and SDK independent.",
+      from: { path: "^apps/web/src/modules/[^/]+/domain/" },
+      to: {
+        dependencyTypes: [
+          "npm",
+          "npm-dev",
+          "npm-optional",
+          "npm-peer",
+          "npm-no-pkg",
+          "npm-unknown",
+          "core",
+        ],
+      },
+    },
+    {
+      name: "target-domain-does-not-depend-outward",
+      severity: "error",
+      from: { path: "^apps/web/src/modules/([^/]+)/domain/" },
+      to: {
+        path: "^apps/web/src/modules/$1/(application|contracts|infrastructure|presentation|composition)/",
+      },
+    },
+    {
+      name: "target-application-does-not-depend-on-infrastructure",
+      severity: "error",
+      from: { path: "^apps/web/src/modules/([^/]+)/application/" },
+      to: { path: "^apps/web/src/modules/$1/infrastructure/" },
+    },
+    {
+      name: "target-contracts-are-standalone",
+      severity: "error",
+      from: { path: "^apps/web/src/modules/([^/]+)/contracts/" },
+      to: {
+        path: "^apps/web/src/modules/$1/(domain|application|infrastructure|presentation|composition)/",
+      },
+    },
+    {
+      name: "apps-use-target-context-composition-root",
+      severity: "error",
+      comment: "Routes and UI cannot import target Context internals.",
+      from: {
+        path: "^apps/web/(app|components|src/(?!modules/))",
+        pathNot: "^apps/web/src/server/composition/",
+      },
+      to: {
+        path: "^apps/web/src/modules/[^/]+/(domain|application|contracts|infrastructure|composition)/",
+      },
+    },
+    {
       name: "no-unresolvable-dependencies",
       severity: "error",
       comment:

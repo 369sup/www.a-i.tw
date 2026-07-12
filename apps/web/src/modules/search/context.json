@@ -1,0 +1,11 @@
+{
+  "context": "search",
+  "package": "@a-i/web",
+  "domain": "Search",
+  "subdomain": {
+    "name": "search",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": []
+}

@@ -1,0 +1,11 @@
+{
+  "context": "notifications",
+  "package": "@a-i/web",
+  "domain": "Notifications",
+  "subdomain": {
+    "name": "notifications",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": []
+}

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "mode": "target",
+  "legacyContexts": [],
+  "forbiddenSharedDirectoryNames": [
+    "shared",
+    "common",
+    "core",
+    "utils",
+    "helpers"
+  ]
+}

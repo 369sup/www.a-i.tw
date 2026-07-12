@@ -29,6 +29,9 @@ capability 已存在；每一步都必須重新滿足 Definition of Ready。
 
 ## 2. Runtime structure
 
+> Migration status: ADR 0008 is fully applied. `context-topology-migration.json` is in `target` mode and no Context
+> retains the legacy `src/*` internal tree.
+
 ```text
 apps/web/src/
 ├── app/                                  # Next.js inbound routing only
@@ -104,6 +107,9 @@ product workspace composition 是唯一 wiring root；Repository 只透過 `Acco
 與 umbrella `tooling`。產品語意一律回到 owning Context。
 
 ## 6. Architecture document control
+
+Business layers remain inside each app-local Bounded Context. The target is Context-first, layer-second and
+subdomain-third, not repository-level horizontal `packages/domain|application|infrastructure`.
 
 [`architecture-governance.json`](architecture-governance.json) 恰好登錄 30 個 required
 concerns。文件類型的最低內容：

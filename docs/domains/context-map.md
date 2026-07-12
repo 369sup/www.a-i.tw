@@ -47,7 +47,7 @@ Identity & Access ──PrincipalRefV1──> Issues
 | Identity & Access | Repository | Open Host Service + Published Language; Repository owns an ACL | Identity & Access owns authentication facts; Repository owns translation            | synchronous in-process call is permitted after approval; unavailable／invalid context denies mutation safely and is not a Repository role decision |
 | Account           | Repository | Customer/Supplier + Published Language; Repository owns an ACL | Account owns relationship／eligibility facts; Repository owns translation           | membership／Team changes may require projection freshness policy; stale or unavailable facts must not become implicit grants                       |
 | Repository        | Experience | Open Host Service + Published Language                         | Repository owns access-decision contract                                            | UI is an inbound adapter; it cannot reimplement role or visibility checks                                                                          |
-| Identity & Access | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Identity owns PrincipalRefV1; Issues owns actor/assignee translation                 | missing or disabled Principal facts deny mutation                                                                                                  |
+| Identity & Access | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Identity owns PrincipalRefV1; Issues owns actor/assignee translation                | missing or disabled Principal facts deny mutation                                                                                                  |
 | Repository        | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Repository owns collaboration decisions; Issues owns participation translation      | unavailable scope or denied decision fails closed                                                                                                  |
 
 `Identity & Access` does not return a `repository:*` decision. `Account` does not return a
@@ -67,3 +67,15 @@ Strategic relationship 由本文件擁有；runtime existence 由
 關係是 Repository Open Host Service + Published Language，Issues 擁有 ACL；
 它只消費穩定 Repository reference/scope/access decision，不 import Repository internals。
 此 edge 由 ADR 0005 與版本化 contract 核准；runtime manifest 由 scaffold gate 登錄。
+
+## Expanded runtime Contexts
+
+- Projects owns Project and Project Item references.
+- Discussions owns Repository Discussion and accepted Answer references.
+- Notifications owns Notification reason and Inbox triage state.
+- Search owns non-code Search Documents, query and visibility-filtered Result Sets.
+- Activity Feed owns recipient-scoped Feed Items.
+- Audit owns immutable Audit Entries and structured query.
+
+These Contexts currently expose independent in-memory vertical slices. They do not share Domain models,
+Infrastructure stores or cross-context transactions; future integrations require explicit Published Language edges.

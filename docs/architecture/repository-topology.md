@@ -34,4 +34,7 @@ template 名稱建立第三種 route group。
 
 ## Change protocol
 
+Context-internal topology is governed by `context-internal-topology.md` and
+`context-topology-migration.json`. Horizontal business-layer packages remain forbidden.
+
 新增 root 或 package category 必須先有 owner、consumer、替代方案分析、ADR 與 `arch:topology` 更新。若一個概念帶有產品語意，預設放回 owning Context，而不是建立 technical package。

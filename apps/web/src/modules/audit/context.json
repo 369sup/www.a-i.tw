@@ -1,0 +1,11 @@
+{
+  "context": "audit",
+  "package": "@a-i/web",
+  "domain": "Audit",
+  "subdomain": {
+    "name": "audit",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": []
+}
