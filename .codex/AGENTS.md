@@ -31,7 +31,7 @@ Before editing, state: owner, dependency direction, use case (or `not applicable
 - 修改業務程式碼前，先確認 Domain、Subdomain、Bounded Context、Owner、Ubiquitous Language、Aggregate、Use Case、Ports、Adapters、Context Map 與 Public Contract；缺少時先標記架構缺口，不得自行補造語意。
 - 產品行為或 boundary 變更必須依 `docs/engineering/semantic-development-workflow.md` 的 G0-G7 執行：語意核准 → canonical 文件／memory 導航 → owner／path → scaffold → Domain／Application／Ports → Adapters／composition／inbound → verification evidence。不得越級。
 - `.codex/rules/*.rules` 只控制 command execution policy；DDD、TypeScript、文件與命名判斷由本檔與根/子目錄 `AGENTS.md` 負責。
-- shadcn 官方元件例外：`packages/ui/src/components/ui/**` 與 `apps/web/components/ui/**` 可保留官方所需的 `as`、primitive wrapper、namespace import 或其他 generated pattern；不要對其套用一般 TypeScript 禁止模式。
+- shadcn 官方元件例外：`packages/shadcn/src/ui/**` 與 `apps/web/components/ui/**` 可保留官方所需的 `as`、primitive wrapper、namespace import 或其他 generated pattern；不要對其套用一般 TypeScript 禁止模式。
 - shadcn 例外不允許放入 Domain/Application 規則、跨 Context 內部依賴或敏感資料；自製業務元件離開上述路徑後恢復一般規則。
 - 不得將 `shared`、`common`、`core`、`utils`、`helpers` 作為未定義 owner 的 dumping ground；不得用 import/export alias 掩蓋命名衝突。
 - Context 唯一位置是 `apps/web/src/modules/<context>`；internal subdomain 必須在 manifest 宣告並位於各 layer 的 `<layer>/<subdomain>`。禁止 root `modules/` 與水平 `packages/application`、`contracts`、`domain`、`foundation`、`infrastructure`。

@@ -16,10 +16,10 @@ const runs = [
     "--config",
     ".dependency-cruiser.cjs",
     "--ts-config",
-    resolve(root, "packages/ui/tsconfig.json"),
+    resolve(root, "packages/shadcn/tsconfig.json"),
     "--output-type",
     "err",
-    "packages/ui",
+    "packages/shadcn",
   ],
   [
     "--config",

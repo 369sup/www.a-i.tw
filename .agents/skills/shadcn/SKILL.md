@@ -9,11 +9,12 @@ metadata:
   pathPatterns:
     - 'components.json'
     - 'components/ui/**'
-    - 'src/components/ui/**'
+    - 'src/ui/**'
+    - 'src/custom/**'
     - 'apps/*/components/ui/**'
-    - 'apps/*/src/components/ui/**'
     - 'packages/*/components/ui/**'
-    - 'packages/*/src/components/ui/**'
+    - 'packages/*/src/ui/**'
+    - 'packages/*/src/custom/**'
   bashPatterns:
     - '\bnpx\s+shadcn\b'
     - '\bnpx\s+shadcn@latest\s+(init|add|build|search|list|migrate|info|docs|view)\b'

@@ -11,5 +11,5 @@ rules:
       exclude:
         - "/docs/**"
         - "/*.md"
-        - "/packages/ui/src/components/ui/**"
+        - "/packages/shadcn/src/ui/**"
         - "/apps/web/components/ui/**"

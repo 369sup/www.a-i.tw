@@ -6,7 +6,7 @@
 - Application reaches persistence or external systems only through Ports. Concrete adapters are wired in `src/server/composition/`, which is server-only and must not be imported by Client Components.
 - A context may interact with another context only through an approved published contract, Port, event, or anti-corruption adapter.
 - Public docs live in `content/docs`; internal governance docs live in repository root `docs/`.
-- Use shadcn primitives from `@a-i/ui` before creating app-local UI primitives.
+- Use shadcn primitives from `@a-i/shadcn` before creating app-local UI primitives.
 - Classify every route under `src/app/(public)` or `src/app/(console)`. Route groups describe audience and access surface, never a Domain or template origin.
 - Keep Fumadocs presentation helpers in `src/presentation/docs` and its server-side source loader in `src/server/content`; do not recreate root `components/` or `lib/` buckets.
 - Keep server-only integrations out of Client Components and initialize external clients lazily.

@@ -94,6 +94,6 @@ Before changing business behavior, identify the owning Domain, Bounded Context, 
 
 ## Generated And Vendor Exceptions
 
-- shadcn official components under `packages/ui/src/components/ui/**` and `apps/web/components/ui/**` may keep official generated patterns such as `as`, primitive wrappers, and namespace imports.
+- shadcn official components under `packages/shadcn/src/ui/**` and `apps/web/components/ui/**` may keep official generated patterns such as `as`, primitive wrappers, and namespace imports.
 - Those exceptions do not apply to Domain/Application code, cross-context internals, or sensitive data handling.
 - Custom business components outside those generated paths follow normal repository rules.
