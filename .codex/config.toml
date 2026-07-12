@@ -3,14 +3,11 @@
 
 [mcp_servers.serena]
 command = "serena"
-args = ["start-mcp-server"]
-
-[agents.serena_semantic_reviewer]
-config = "./agents/serena-semantic-reviewer.toml"
+args = ["start-mcp-server", "--project-from-cwd", "--open-web-dashboard", "false"]
 
 [project]
 root = "."
 
 [tool_policy]
-serena = "all-available"
-context7 = "autonomous-when-version-sensitive"
+serena = "autonomous-all-relevant-tools"
+context7 = "autonomous-version-sensitive-only"

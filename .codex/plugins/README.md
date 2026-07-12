@@ -1,5 +1,7 @@
 # 專案 Plugin 與 MCP 選用清單
 
+工具路由的完整規則請先看 [`../TOOL-ROUTING.md`](../TOOL-ROUTING.md)；本檔只保留 plugin/connector 的邊界與安裝原則。
+
 本專案不在 repository 內安裝或啟用使用者層級 plugin；安裝狀態與 OAuth 屬於個人 Codex 設定。專案只宣告何時應優先使用已可用的能力。
 
 | 能力                     | 專案設定/來源                                               | 使用時機                                       | 預設方式                                       |
@@ -33,7 +35,7 @@ Desktop 連線身分，不放進專案 MCP 設定或任何 credential 檔案。
 
 ## Serena Semantic Workflow
 
-本 repository 的 Serena Semantic Workflow plugin 僅封裝自動觸發的 skill，不重複啟動第二個 Serena server。Serena 由 Codex Desktop 或目前 user profile 的 MCP 設定啟動；在 Windows host 上請使用 Windows `serena`、Python、Node 與 PATH。透過 `.agents/plugins/marketplace.json` 安裝後，請開啟新的 Codex task 以載入 skill。
+本 repository 的 Serena Semantic Workflow 是 `.agents/skills/serena-semantic-workflow/` skill，不是需要在 marketplace 內重複安裝的 local plugin。Serena 由 `.codex/config.toml` 透過 `uvx` 啟動；開啟新的 Codex task 以重新載入 MCP 設定。
 
 Codex Desktop task 使用 host-managed state 與 connector。直接從 host terminal 使用 CLI 時，請使用目前 host 的 `CODEX_HOME` 或 Codex 預設設定：
 
