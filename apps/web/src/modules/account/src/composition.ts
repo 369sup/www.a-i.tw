@@ -4,3 +4,4 @@ export {
   InMemoryMembershipStore,
 } from "./infrastructure/in-memory-membership";
 export { InMemoryTeamStore } from "./infrastructure/in-memory-team-store";
+export { InMemoryProfileStore } from "./infrastructure/in-memory-profile-store";

@@ -2,42 +2,35 @@
 
 ## Purpose
 
-Route analysis of Repository visibility, lifecycle, Principal/Team grants and repository-scoped decision language.
+Route analysis of Repository visibility, lifecycle, grants, roles, participation decisions and capability-context integration.
 
 ## Summary
 
-Repository is a verified app-local runtime Context owned by the www.a-i.tw Product Team. It owns Repository identity, visibility, lifecycle, Access Grant, Repository Role and effective-access decisions. It excludes Git, source, commit, branch, PR, Actions, package and code-security semantics.
+Repository is a verified core Context. It owns Repository identity, owner reference, visibility, lifecycle, Access Grant, Repository Role and effective-access/participation decisions. The Repository Capability Context resolver is downstream Experience orchestration: it maps a local capability key to a canonical action, but always delegates allow/deny to Repository.
 
 ## Rules
 
-- Do not conflate Repository with a filesystem folder or Git adapter.
-- Repository consumes Account eligibility, Membership and Team facts through its Application-owned AccountDirectoryGateway ACL.
-- Account facts never carry a Repository Role.
-- Principal and Team grants remain Repository-private.
-- Other Contexts require an explicit versioned contract and consumer-owned ACL.
-- Formal docs, manifests, runtime symbols and tests override this navigation memory.
+- Repository consumes Account facts through its Application-owned ACL.
+- Account facts never carry Repository roles.
+- Experience imports no Repository contracts directly; server composition translates to consumer-owned views.
+- Capability descriptors cannot grant access or cache decisions.
+- Active-scope mismatch fails before authorization.
+- Other Contexts require explicit contracts and consumer-owned ACLs.
+- Formal docs, manifests, runtime symbols and tests override this memory.
 
 ## Source Locations
 
-- `apps/web/src/modules/repository/context.json`
-- `apps/web/src/modules/repository/src/domain/`
-- `apps/web/src/modules/repository/src/application/repository-service.ts`
-- `apps/web/src/modules/repository/src/contracts/public.ts`
+- `apps/web/src/modules/repository/`
+- `apps/web/src/presentation/request-context/repository-capability-context.ts`
+- `apps/web/src/server/composition/repository-capability-context.ts`
 
 ## Related Documents
 
 - `docs/domains/repository.md`
-- `docs/domains/context-map.md`
-- `docs/contracts/repository-contracts.md`
-- `docs/evidence/2026-07-12-membership-team-repository-access.md`
-
-## Related Memories
-
-- `mem:10-domain/ownership-map`
-- `mem:10-domain/context-dependency-rules`
-- `mem:20-contexts/account`
+- `docs/application/request-context-resolution.md`
+- `docs/decisions/0007-request-context-orchestration.md`
 
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: Repository manifest, AccountDirectoryGateway references, Principal/Team grant tests, composition and architecture gates.
+- Evidence: resolver tests, architecture dependency cruise, production build and browser inspector flow.

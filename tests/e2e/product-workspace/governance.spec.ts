@@ -1,5 +1,30 @@
 import { expect, test } from "@playwright/test";
 
+async function login(page: import("@playwright/test").Page) {
+  await page.goto("/");
+  await page.getByLabel("Login").fill("admin");
+  await page.getByLabel("Password").fill("123456");
+  await page.getByRole("button", { name: "Login" }).click();
+  await expect(page).toHaveURL(/\/workspace/);
+}
+
+test("rejects invalid credentials and supports Login to Profile to Logout", async ({
+  page,
+}) => {
+  await page.goto("/workspace");
+  await expect(page).toHaveURL(/\/$/);
+  await page.getByLabel("Login").fill("admin");
+  await page.getByLabel("Password").fill("wrong");
+  await page.getByRole("button", { name: "Login" }).click();
+  await expect(page.getByText("登入名稱或密碼不正確。")).toBeVisible();
+  await login(page);
+  await expect(page.getByText("Profile", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Logout" }).click();
+  await expect(
+    page.getByRole("heading", { name: "登入個人面板" }),
+  ).toBeVisible();
+});
+
 test("account and repository governance flows through all parallel workspace slots", async ({
   page,
 }) => {
@@ -7,7 +32,7 @@ test("account and repository governance flows through all parallel workspace slo
   const accountName = `Compiler Guild ${suffix}`;
   const accountHandle = `compiler-guild-${suffix}`;
   const repositoryName = `design-notes-${suffix}`;
-  await page.goto("/workspace");
+  await login(page);
 
   await expect(
     page.getByRole("complementary", { name: "Account rail" }),
@@ -37,6 +62,10 @@ test("account and repository governance flows through all parallel workspace slo
   await expect(
     page.getByRole("heading", { name: repositoryName }),
   ).toBeVisible();
+  await expect(
+    page.getByText("Repository capability context", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText("issue.create", { exact: true })).toBeVisible();
 
   await page.getByPlaceholder("Issue title").fill("Review launch plan");
   await page
@@ -66,7 +95,7 @@ test("workspace stacks without horizontal overflow on mobile", async ({
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/workspace");
+  await login(page);
 
   await expect(
     page.getByRole("complementary", { name: "Account rail" }),

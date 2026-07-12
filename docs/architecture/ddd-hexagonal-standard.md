@@ -82,6 +82,10 @@ product workspace composition 是唯一 wiring root；Repository 只透過 `Acco
 - Contracts 是 provider-owned、versioned、standalone Published Language，不輸出 Domain type。
 - Presentation 只做 transport/view mapping、validation 與 application invocation。
 - 只有 `apps/web/src/server/composition` 可組裝 concrete adapters。
+- Request context 採最小 envelope；每個 capability family 擁有 typed resolver。禁止 universal
+  `RequestContextService`、巨型 optional DTO、中央 relationship graph 或中央 authorization rule。
+- Context 欄位只有在目前 capability 必須使用、來源 owner 已核准、失敗語意明確時才可加入；
+  未核准的 Enterprise／Policy／Entitlement facts 必須省略，不得以空欄位假裝已整合。
 - Cross-context 只可 import provider `src/contracts/`，並需要 manifest relationship。
 - 禁止 Shared Kernel，除非 ADR、joint owner、compatibility、tests、removal plan 全部核准。
 

@@ -2,21 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
+import { requireAuthentication } from "@/src/server/auth/session";
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) ?? "");
 }
 
-export async function selectPrincipal(formData: FormData) {
-  const { identity } = await getProductWorkspace();
-  await identity.authenticate(value(formData, "principalId"));
-  revalidatePath("/workspace", "layout");
-}
-
 export async function createAccountAction(formData: FormData) {
-  const { identity, accounts } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { accounts } = getProductWorkspace();
+  const session = await requireAuthentication();
   await accounts.create({
     principal: session.principal,
     handle: value(formData, "handle"),
@@ -28,9 +22,8 @@ export async function createAccountAction(formData: FormData) {
 }
 
 export async function inviteOrganizationMemberAction(formData: FormData) {
-  const { identity, memberships } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { identity, memberships } = getProductWorkspace();
+  const session = await requireAuthentication();
   const invitee = (await identity.listPrincipals()).find(
     (principal) => principal.principalId === value(formData, "principalId"),
   );
@@ -43,9 +36,8 @@ export async function inviteOrganizationMemberAction(formData: FormData) {
 }
 
 export async function acceptOrganizationInvitationAction(formData: FormData) {
-  const { identity, memberships } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { memberships } = getProductWorkspace();
+  const session = await requireAuthentication();
   return memberships.accept({
     invitationId: value(formData, "invitationId"),
     principal: session.principal,
@@ -53,9 +45,8 @@ export async function acceptOrganizationInvitationAction(formData: FormData) {
 }
 
 export async function removeOrganizationMemberAction(formData: FormData) {
-  const { identity, memberships } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { memberships } = getProductWorkspace();
+  const session = await requireAuthentication();
   await memberships.remove({
     accountId: value(formData, "accountId"),
     principalId: value(formData, "principalId"),
@@ -65,9 +56,8 @@ export async function removeOrganizationMemberAction(formData: FormData) {
 }
 
 export async function updateTeamAction(formData: FormData) {
-  const { identity, teams } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { teams } = getProductWorkspace();
+  const session = await requireAuthentication();
   const intent = value(formData, "intent");
   if (intent === "create")
     await teams.create({
@@ -91,9 +81,8 @@ export async function updateTeamAction(formData: FormData) {
 }
 
 export async function createRepositoryAction(formData: FormData) {
-  const { identity, repositories } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { repositories } = getProductWorkspace();
+  const session = await requireAuthentication();
   await repositories.create({
     principal: session.principal,
     ownerAccountId: value(formData, "ownerAccountId"),
@@ -106,9 +95,8 @@ export async function createRepositoryAction(formData: FormData) {
 }
 
 export async function updateRepositoryAction(formData: FormData) {
-  const { identity, repositories } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { repositories } = getProductWorkspace();
+  const session = await requireAuthentication();
   const repositoryId = value(formData, "repositoryId");
   const intent = value(formData, "intent");
   if (intent === "rename")
@@ -147,9 +135,8 @@ export async function updateRepositoryAction(formData: FormData) {
 }
 
 export async function updateWorkItemAction(formData: FormData) {
-  const { identity, workManagement } = await getProductWorkspace();
-  const session = await identity.currentPrincipal();
-  if (!session) throw new Error("Authentication required.");
+  const { identity, workManagement } = getProductWorkspace();
+  const session = await requireAuthentication();
   const intent = value(formData, "intent");
   if (intent === "create-issue")
     await workManagement.createIssue({

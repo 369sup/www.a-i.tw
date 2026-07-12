@@ -6,36 +6,23 @@ Record only the most recent verified Serena navigation baseline.
 
 ## Summary
 
-Identity & Access, Account, Repository and Work Management are verified app-local runtime Contexts. Account owns Membership/Team relationships; Repository owns direct/Team grants and participation decisions; Work Management owns Issue, Label and Assignment and consumes Repository contracts through its own ACL. The current in-memory slices passed diagnostics, 16 web tests, 3 browser E2E tests, documentation, architecture, production build and Semgrep gates. Durable persistence remains open debt.
+Identity & Access, Account, Repository and Work Management remain verified app-local Contexts. Login/Profile baseline remains current. The latest slice adds a minimal RequestEnvelopeV1 plus a distributed RepositoryCapabilityContextV1 resolver. There is no universal Context Service: Experience owns consumer-shaped view types, server composition alone translates provider facades, and Repository owns authorization decisions. The Inspector renders Actor, Scope, Owner, Capability, Action and Decision. Other capability resolvers, Enterprise governance, production identity and durable sessions remain Planned.
 
-## Rules
+## Verification
 
-- Proactively replace this summary after verified canonical/runtime change.
-- Treat formal docs, Context Map manifests, runtime and tests as authoritative.
-- Do not convert proposed semantics into Current before approval and evidence.
-- Link detailed evidence and 30-concern closure instead of copying logs.
-
-## Source Locations
-
-- `.serena/memories/`
-- `apps/web/src/modules/`
-- `docs/status/`
+- Serena diagnostics: clean.
+- pnpm check: 25/25; 20 web tests passed, 1 todo.
+- docs and architecture gates passed; 164 app modules, 266 dependencies, 11 architecture tests.
+- Next.js 16.2.10 build passed.
+- Semgrep: 0 findings over 117 targets.
+- Playwright: 4/4 passed.
 
 ## Related Documents
 
-- `docs/evidence/2026-07-12-membership-team-repository-access.md`
-- `docs/evidence/2026-07-12-work-management-v1.md`
-- `docs/status/2026-07-12-membership-team-30-concern-closure.md`
-- `docs/status/2026-07-12-work-management-30-concern-closure.md`
-
-## Related Memories
-
-- `mem:00-core/memory-governance`
-- `mem:10-domain/bounded-context-map`
-- `mem:20-contexts/work-management`
-- `mem:40-engineering/verification-workflow`
+- `docs/evidence/2026-07-12-repository-capability-context.md`
+- `docs/status/2026-07-12-request-context-30-concern-closure.md`
+- `docs/decisions/0007-request-context-orchestration.md`
 
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: Serena audit, tests, E2E, docs checks, architecture checks, build and Semgrep.

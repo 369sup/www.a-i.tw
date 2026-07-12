@@ -1,5 +1,6 @@
 import type {
   AuthenticatedPrincipalV1,
+  LoginSessionV1,
   PrincipalRefV1,
 } from "../contracts/public";
 import { assertCanAuthenticate, type Principal } from "../domain/principal";
@@ -10,40 +11,51 @@ export interface PrincipalStore {
 }
 
 export interface SessionStore {
-  current(): Promise<AuthenticatedPrincipalV1 | undefined>;
-  save(session: AuthenticatedPrincipalV1): Promise<void>;
-  clear(): Promise<void>;
+  find(token: string): Promise<AuthenticatedPrincipalV1 | undefined>;
+  save(token: string, session: AuthenticatedPrincipalV1): Promise<void>;
+  clear(token: string): Promise<void>;
+}
+
+export interface CredentialVerifier {
+  verify(login: string, password: string): Promise<string | undefined>;
 }
 
 export interface IdentityAccessService {
   listPrincipals(): Promise<PrincipalRefV1[]>;
-  currentPrincipal(): Promise<AuthenticatedPrincipalV1 | undefined>;
-  authenticate(principalId: string): Promise<AuthenticatedPrincipalV1>;
-  revokeSession(): Promise<void>;
+  login(login: string, password: string): Promise<LoginSessionV1>;
+  currentPrincipal(
+    token: string,
+  ): Promise<AuthenticatedPrincipalV1 | undefined>;
+  revokeSession(token: string): Promise<void>;
 }
 
 export function createIdentityAccessService(
   principals: PrincipalStore,
+  credentials: CredentialVerifier,
   sessions: SessionStore,
+  nextToken: () => string,
   now: () => Date,
 ): IdentityAccessService {
   return {
     async listPrincipals() {
       return (await principals.list()).map(toRef);
     },
-    currentPrincipal: () => sessions.current(),
-    async authenticate(principalId) {
+    currentPrincipal: (token) => sessions.find(token),
+    async login(login, password) {
+      const principalId = await credentials.verify(login, password);
+      if (!principalId) throw new Error("Invalid login or password.");
       const principal = await principals.find(principalId);
-      if (!principal) throw new Error("Principal not found.");
+      if (!principal) throw new Error("Invalid login or password.");
       assertCanAuthenticate(principal);
-      const session = {
+      const authentication = {
         principal: toRef(principal),
         authenticatedAt: now().toISOString(),
       };
-      await sessions.save(session);
-      return session;
+      const token = nextToken();
+      await sessions.save(token, authentication);
+      return { token, authentication };
     },
-    revokeSession: () => sessions.clear(),
+    revokeSession: (token) => sessions.clear(token),
   };
 }
 

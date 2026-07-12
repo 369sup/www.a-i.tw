@@ -16,11 +16,36 @@ describe("identity access", () => {
           status: "disabled",
         },
       ]),
+      { verify: async () => "p-1" },
       new InMemorySessionStore(),
+      () => "session-1",
       () => new Date("2026-07-12T00:00:00Z"),
     );
-    await expect(service.authenticate("p-1")).rejects.toThrow(
+    await expect(service.login("disabled", "password")).rejects.toThrow(
       "Disabled principals",
+    );
+  });
+
+  it("creates isolated opaque sessions after credential verification", async () => {
+    const service = createIdentityAccessService(
+      new InMemoryPrincipalStore([
+        { id: "p-1", handle: "admin", displayName: "Admin", status: "active" },
+      ]),
+      {
+        verify: async (login, password) =>
+          login === "admin" && password === "123456" ? "p-1" : undefined,
+      },
+      new InMemorySessionStore(),
+      () => "session-1",
+      () => new Date("2026-07-12T00:00:00Z"),
+    );
+    const result = await service.login("admin", "123456");
+    expect(result.token).toBe("session-1");
+    expect(await service.currentPrincipal(result.token)).toEqual(
+      result.authentication,
+    );
+    await expect(service.login("admin", "wrong")).rejects.toThrow(
+      "Invalid login or password",
     );
   });
 });

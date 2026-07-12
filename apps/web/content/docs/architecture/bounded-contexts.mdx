@@ -22,3 +22,13 @@ route、UI 與 Server Action 是 inbound adapters。
 宣告並位於 `src/subdomains/<name>`。
 
 內部 canonical ADR、Context Map 與 enforcement 細節留在 repository root `docs/`。
+
+## Request-scoped capability context
+
+The UI does not use a central Context Service. A minimal request envelope carries viewer, actor, safe authentication
+metadata, correlation and active scope. Each capability family owns a typed resolver; the current Repository resolver
+adds owner, Organization, Repository, capability, requested action and the Repository-owned authorization decision.
+Experience uses consumer-owned ACL views, and only server composition translates provider contracts.
+
+Fields are added only when the current capability needs them and an approved owner publishes the fact. Unknown
+Enterprise, Policy or Entitlement data is omitted rather than exposed as speculative empty fields.

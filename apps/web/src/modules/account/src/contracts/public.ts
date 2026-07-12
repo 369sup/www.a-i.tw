@@ -10,6 +10,14 @@ export type AccountEligibilityV1 = Readonly<{
   account: AccountRefV1;
   canOwnRepository: boolean;
 }>;
+
+export type AccountProfileV1 = Readonly<{
+  accountId: string;
+  displayName: string;
+  bio: string;
+  location?: string;
+  websiteUrl?: string;
+}>;
 export type MembershipFactV1 = Readonly<{
   accountId: string;
   principalId: string;

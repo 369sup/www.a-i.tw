@@ -8,9 +8,11 @@
 4. **Completed**: organization Membership invitation, acceptance, removal and `MembershipFactV1` application slice.
 5. **Completed**: Team aggregate, membership management, `TeamMembershipFactV1` and Team-based Repository grants.
 6. **Completed in-memory slice**: Issue → Label → Assignment in Work Management with Repository participation ACL.
-7. **Later**: Discussion → Star/Collection → Activity/Notification → Discovery → Contribution Graph.
-8. **Later**: approve production identity and persistence requirements before adapters.
-9. **Extraction gate**: only independent deployment, scaling, compliance,
-   ownership or release-cadence evidence permits service/workspace extraction.
+7. **Completed in-memory baseline**: Password mock Login, browser Session, Identity Resolution, Account Profile, Actor/Scope distinction and Personal Dashboard gate.
+8. **Completed baseline**: minimal Request Envelope plus distributed Repository Capability Context resolver and owner decision.
+9. **Next identity gate**: production provider, durable session revocation, 2FA/passkey/device/IdP security verification.
+10. **Later**: each Discussion, Star/Collection, Activity/Notification and Discovery capability owns its typed context resolver; no universal Context Service.
+11. **Extraction gate**: only independent deployment, scaling, compliance,
+    ownership or release-cadence evidence permits service/workspace extraction.
 
 Each step requires entry evidence, rollback, compatibility impact and exit verification.

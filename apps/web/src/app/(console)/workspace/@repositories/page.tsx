@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FolderGit2, Plus } from "lucide-react";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
+import { requireAuthentication } from "@/src/server/auth/session";
 import {
   createRepositoryAction,
   updateRepositoryAction,
@@ -21,9 +22,8 @@ export default async function RepositoriesSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, accounts, repositories, teams } =
-    await getProductWorkspace();
-  const session = await identity.currentPrincipal();
+  const { accounts, repositories, teams } = getProductWorkspace();
+  const session = await requireAuthentication();
   const accountItems = await accounts.listAccounts();
   const accountId =
     typeof query.account === "string"
@@ -32,7 +32,7 @@ export default async function RepositoriesSlot({
   const account = accountItems.find((item) => item.accountId === accountId);
   const teamItems =
     account?.kind === "organization" ? await teams.list(account.accountId) : [];
-  const items = (await repositories.listVisible(session?.principal)).filter(
+  const items = (await repositories.listVisible(session.principal)).filter(
     (item) => item.ownerAccountId === accountId,
   );
   const selectedId =

@@ -1,5 +1,7 @@
 import { ShieldCheck, UserPlus } from "lucide-react";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
+import { requireAuthentication } from "@/src/server/auth/session";
+import { resolveRepositoryCapabilityContext } from "@/src/server/composition/repository-capability-context";
 import {
   updateRepositoryAction,
   updateWorkItemAction,
@@ -19,23 +21,33 @@ export default async function InspectorSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, repositories, workManagement } =
-    await getProductWorkspace();
+  const { identity, repositories, workManagement } = getProductWorkspace();
   const [session, principals] = await Promise.all([
-    identity.currentPrincipal(),
+    requireAuthentication(),
     identity.listPrincipals(),
   ]);
   const repositoryId =
     typeof query.repository === "string" ? query.repository : undefined;
   const result = repositoryId
-    ? await repositories.get(repositoryId, session?.principal)
+    ? await repositories.get(repositoryId, session.principal)
     : undefined;
-  const work =
-    repositoryId && session
-      ? await workManagement
-          .list(repositoryId, session.principal)
-          .catch(() => undefined)
+  const requestContext =
+    repositoryId && result
+      ? await resolveRepositoryCapabilityContext({
+          authentication: session,
+          activeScopeAccountId:
+            typeof query.account === "string"
+              ? query.account
+              : result.repository.ownerAccountId,
+          repositoryId,
+          capabilityKey: "issue.create",
+        })
       : undefined;
+  const work = repositoryId
+    ? await workManagement
+        .list(repositoryId, session.principal)
+        .catch(() => undefined)
+    : undefined;
   return (
     <div>
       <PanelHeading
@@ -74,6 +86,34 @@ export default async function InspectorSlot({
               <dd>{result.repository.visibility}</dd>
             </dl>
           </div>
+          {requestContext ? (
+            <div className="space-y-3 border-b p-4">
+              <p className="text-xs font-medium uppercase text-muted-foreground">
+                Repository capability context
+              </p>
+              <dl className="grid grid-cols-[6rem_1fr] gap-y-2 text-xs">
+                <dt className="text-muted-foreground">Viewer</dt>
+                <dd>@{requestContext.envelope.viewer.handle}</dd>
+                <dt className="text-muted-foreground">Actor</dt>
+                <dd>@{requestContext.envelope.actor.handle}</dd>
+                <dt className="text-muted-foreground">Scope</dt>
+                <dd>{requestContext.envelope.activeScope.type}</dd>
+                <dt className="text-muted-foreground">Owner</dt>
+                <dd>@{requestContext.owner.handle}</dd>
+                <dt className="text-muted-foreground">Capability</dt>
+                <dd>{requestContext.capability.key}</dd>
+                <dt className="text-muted-foreground">Action</dt>
+                <dd>{requestContext.requestedAction}</dd>
+                <dt className="text-muted-foreground">Decision</dt>
+                <dd>
+                  {requestContext.authorizationDecision.allowed
+                    ? "Allowed"
+                    : "Denied"}{" "}
+                  · {requestContext.authorizationDecision.reason}
+                </dd>
+              </dl>
+            </div>
+          ) : null}
           <form action={updateRepositoryAction} className="space-y-3 p-4">
             <div className="flex items-center gap-2">
               <UserPlus className="size-4" />

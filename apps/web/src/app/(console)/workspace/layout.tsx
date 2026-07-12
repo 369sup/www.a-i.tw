@@ -3,8 +3,10 @@ import type { Route } from "next";
 import { ShieldCheck } from "lucide-react";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
+import { logoutAction } from "@/src/presentation/auth/actions";
+import { requireAuthentication } from "@/src/server/auth/session";
 
-export default function WorkspaceLayout({
+export default async function WorkspaceLayout({
   children,
   accounts,
   repositories,
@@ -15,6 +17,7 @@ export default function WorkspaceLayout({
   repositories: ReactNode;
   inspector: ReactNode;
 }) {
+  const authentication = await requireAuthentication();
   return (
     <main className="min-h-screen bg-muted/30">
       <header className="flex h-14 items-center justify-between border-b bg-background px-4 lg:px-6">
@@ -33,8 +36,16 @@ export default function WorkspaceLayout({
             Docs
           </Link>
           <span className="text-xs text-muted-foreground">
-            In-memory product model
+            @{authentication.principal.handle}
           </span>
+          <form action={logoutAction}>
+            <button
+              className="text-xs font-medium hover:underline"
+              type="submit"
+            >
+              Logout
+            </button>
+          </form>
         </div>
       </header>
       {children}

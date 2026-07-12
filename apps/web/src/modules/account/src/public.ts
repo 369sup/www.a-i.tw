@@ -10,3 +10,7 @@ export {
   createTeamService,
   type TeamService,
 } from "./application/team-service";
+export {
+  createProfileService,
+  type ProfileService,
+} from "./application/profile-service";

@@ -2,35 +2,33 @@
 
 ## Purpose
 
-Route analysis of Principal, authentication eligibility and session facts.
+Route analysis of Principal, Login, credential verification and browser Session facts.
 
 ## Summary
 
-Identity & Access is a verified app-local supporting Context owned by the www.a-i.tw Product Team. It owns Principal validity and in-memory session facts. It publishes PrincipalRefV1 to Account, Repository and Work Management; it does not own Account relationships, Repository roles or work assignments.
+Identity & Access is a verified supporting Context. It owns Principal validity, Login, the CredentialVerifier Port and token-keyed Session lifecycle. The current Infrastructure adapter accepts the non-production mock credential admin / 123456 and stores opaque sessions in process memory. It publishes PrincipalRefV1; it does not own Account Profile, Active Scope or resource authorization.
 
 ## Rules
 
-- Distinguish Principal, Account, Credential, Membership, Repository Role and Assignee.
-- Active Principal is necessary but not sufficient for resource or work authorization.
-- Consumers use versioned contracts and their own translation/ACL.
-- Formal docs, manifest, runtime and tests override this navigation memory.
+- Only an active Principal may authenticate.
+- Browser cookies contain an opaque session token, never credentials or Principal data.
+- Active Actor and Active Scope are distinct; the current runtime supports one Personal Actor session only.
+- Passkey, SSO, 2FA, device verification, Managed user and multi-session Actor switching are Planned.
+- Formal docs, manifests, runtime and tests override this navigation memory.
 
 ## Source Locations
 
-- `apps/web/src/modules/identity-access/context.json`
-- `apps/web/src/modules/identity-access/src/`
+- `apps/web/src/modules/identity-access/`
+- `apps/web/src/server/auth/session.ts`
+- `apps/web/src/presentation/auth/actions.ts`
 
 ## Related Documents
 
 - `docs/domains/identity-and-access.md`
-- `docs/domains/context-map.md`
-
-## Related Memories
-
-- `mem:10-domain/bounded-context-map`
-- `mem:20-contexts/work-management`
+- `docs/decisions/0006-login-session-profile-dashboard.md`
+- `docs/evidence/2026-07-12-login-session-profile-dashboard.md`
 
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: runtime manifest, Principal contract references and Identity tests.
+- Evidence: diagnostics, 18 tests, 4 E2E, docs/arch/build/Semgrep.

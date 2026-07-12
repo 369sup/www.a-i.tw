@@ -2,6 +2,7 @@ import type { AuthenticatedPrincipalV1 } from "../contracts/public";
 import type { Principal } from "../domain/principal";
 import type {
   PrincipalStore,
+  CredentialVerifier,
   SessionStore,
 } from "../application/identity-service";
 
@@ -16,14 +17,22 @@ export class InMemoryPrincipalStore implements PrincipalStore {
 }
 
 export class InMemorySessionStore implements SessionStore {
-  private session?: AuthenticatedPrincipalV1;
-  async current() {
-    return this.session;
+  private readonly sessions = new Map<string, AuthenticatedPrincipalV1>();
+  async find(token: string) {
+    return this.sessions.get(token);
   }
-  async save(session: AuthenticatedPrincipalV1) {
-    this.session = session;
+  async save(token: string, session: AuthenticatedPrincipalV1) {
+    this.sessions.set(token, session);
   }
-  async clear() {
-    this.session = undefined;
+  async clear(token: string) {
+    this.sessions.delete(token);
+  }
+}
+
+export class MockCredentialVerifier implements CredentialVerifier {
+  async verify(login: string, password: string) {
+    return login === "admin" && password === "123456"
+      ? "principal-ada"
+      : undefined;
   }
 }

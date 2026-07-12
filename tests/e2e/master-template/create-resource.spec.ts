@@ -3,6 +3,11 @@ import { expect, test } from "@playwright/test";
 test("the template workspace renders list, preview, and editor slots together", async ({
   page,
 }) => {
+  await page.goto("/");
+  await page.getByLabel("Login").fill("admin");
+  await page.getByLabel("Password").fill("123456");
+  await page.getByRole("button", { name: "Login" }).click();
+  await expect(page).toHaveURL(/\/workspace/);
   await page.goto("/templates/landing-page");
   await expect(
     page.getByRole("region", { name: "Sub-template list" }),

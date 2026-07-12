@@ -3,9 +3,9 @@ import { Plus, UserRound } from "lucide-react";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
 import {
   createAccountAction,
-  selectPrincipal,
   updateTeamAction,
 } from "@/src/presentation/workspace/actions";
+import { requireAuthentication } from "@/src/server/auth/session";
 import {
   buttonClass,
   fieldClass,
@@ -21,50 +21,35 @@ export default async function AccountsSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, accounts, teams } = await getProductWorkspace();
+  const { identity, accounts, profiles, teams } = getProductWorkspace();
   const [session, principals, items] = await Promise.all([
-    identity.currentPrincipal(),
+    requireAuthentication(),
     identity.listPrincipals(),
     accounts.listAccounts(),
   ]);
   const selected =
     typeof query.account === "string" ? query.account : items[0]?.accountId;
   const selectedAccount = items.find((item) => item.accountId === selected);
+  const profile = selectedAccount
+    ? await profiles.resolve(selectedAccount.accountId)
+    : undefined;
   const teamItems =
     selectedAccount?.kind === "organization"
       ? await teams.list(selectedAccount.accountId)
       : [];
   return (
     <div>
-      <PanelHeading icon={<UserRound className="size-4" />} title="Accounts" />
-      <div className="border-b p-3">
-        <form action={selectPrincipal} className="space-y-2">
-          <label
-            className="text-xs font-medium text-muted-foreground"
-            htmlFor="principal"
-          >
-            Acting principal
-          </label>
-          <div className="flex gap-2">
-            <select
-              id="principal"
-              name="principalId"
-              defaultValue={session?.principal.principalId}
-              className={fieldClass}
-            >
-              {principals.map((item) => (
-                <option key={item.principalId} value={item.principalId}>
-                  {item.displayName}
-                </option>
-              ))}
-            </select>
-            <button className={quietButtonClass} type="submit">
-              Switch
-            </button>
-          </div>
-        </form>
+      <PanelHeading
+        icon={<UserRound className="size-4" />}
+        title="Account scopes"
+      />
+      <div className="border-b p-3 text-sm">
+        <p className="font-medium">{session.principal.displayName}</p>
+        <p className="text-xs text-muted-foreground">
+          Authenticated as @{session.principal.handle}
+        </p>
       </div>
-      <nav className="p-2" aria-label="Accounts">
+      <nav className="p-2" aria-label="Account scopes">
         {items.map((account) => (
           <Link
             key={account.accountId}
@@ -85,6 +70,13 @@ export default async function AccountsSlot({
           </Link>
         ))}
       </nav>
+      {profile ? (
+        <section className="border-t p-3 text-xs">
+          <h2 className="font-semibold">Profile</h2>
+          <p className="mt-2 text-muted-foreground">{profile.bio}</p>
+          <p className="mt-2">{profile.location}</p>
+        </section>
+      ) : null}
       {selectedAccount?.kind === "organization" ? (
         <section className="border-t p-3">
           <h2 className="text-sm font-semibold">Teams</h2>

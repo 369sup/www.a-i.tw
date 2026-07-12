@@ -2,41 +2,32 @@
 
 ## Purpose
 
-Route analysis of Account, namespace, Membership, Team and relationship-fact language.
+Route analysis of Account, Profile, Membership, Team, Active Actor and Active Scope language.
 
 ## Summary
 
-Account is a verified app-local runtime Context owned by the www.a-i.tw Product Team. It owns Account, Membership Invitation, Membership and Team invariants. It publishes minimal Account eligibility, Membership and Team facts; it never returns a Repository Role or resource authorization decision.
+Account is a verified core Context. It owns Account, Account Profile, Membership and Team invariants. Profile is Account presentation data and cannot authenticate or authorize. Account Context switching is two-dimensional: Personal/Managed User accounts may be Active Actors, while Personal/Organization/Enterprise are scopes. Current runtime supports one Personal Actor and Personal/Organization scope selection; multi-session switching, Managed user and Enterprise governance remain Planned.
 
 ## Rules
 
-- Distinguish Principal, Account, Membership, Team and Repository grant.
-- Account Domain owns relationship invariants; Account Application owns use cases and store Ports.
-- Cross-context consumers use versioned contracts only.
-- Membership or Team facts establish relationships, not Repository permission.
-- Formal docs, manifests, runtime symbols and tests override this navigation memory.
+- Organization and Enterprise cannot log in or replace action attribution.
+- Scope switching does not change Active Actor.
+- Profile changes never change AccountId, Session, Membership or Repository grants.
+- Cross-context consumers use versioned facts only.
+- Formal docs, manifests, runtime and tests override this navigation memory.
 
 ## Source Locations
 
-- `apps/web/src/modules/account/context.json`
-- `apps/web/src/modules/account/src/domain/`
-- `apps/web/src/modules/account/src/application/`
-- `apps/web/src/modules/account/src/contracts/public.ts`
+- `apps/web/src/modules/account/`
+- `apps/web/src/app/(console)/workspace/@accounts/page.tsx`
 
 ## Related Documents
 
 - `docs/domains/account.md`
-- `docs/domains/context-map.md`
-- `docs/contracts/account-contracts.md`
-- `docs/evidence/2026-07-12-membership-team-repository-access.md`
-
-## Related Memories
-
-- `mem:10-domain/ownership-map`
-- `mem:10-domain/context-dependency-rules`
-- `mem:20-contexts/repository`
+- `docs/decisions/0006-login-session-profile-dashboard.md`
+- `docs/status/architecture-debt-register.md`
 
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: Account manifest, Team/Membership services and tests, published contracts, architecture gates.
+- Evidence: Profile tests, Actor/Scope UI language, 4 E2E and full gates.

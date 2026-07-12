@@ -3,18 +3,21 @@ import "server-only";
 import {
   createAccountService,
   createMembershipService,
+  createProfileService,
   createTeamService,
 } from "@/src/modules/account/src/public";
 import {
   InMemoryAccountStore,
   InMemoryMembershipInvitationStore,
   InMemoryMembershipStore,
+  InMemoryProfileStore,
   InMemoryTeamStore,
 } from "@/src/modules/account/src/composition";
 import { createIdentityAccessService } from "@/src/modules/identity-access/src/public";
 import {
   InMemoryPrincipalStore,
   InMemorySessionStore,
+  MockCredentialVerifier,
 } from "@/src/modules/identity-access/src/composition";
 import { createRepositoryService } from "@/src/modules/repository/src/public";
 import {
@@ -52,7 +55,9 @@ function createProductWorkspace() {
         status: "active",
       },
     ]),
+    new MockCredentialVerifier(),
     new InMemorySessionStore(),
+    nextId("session"),
     () => new Date(),
   );
   const accountStore = new InMemoryAccountStore([
@@ -82,6 +87,18 @@ function createProductWorkspace() {
     },
   ]);
   const accounts = createAccountService(accountStore, nextId("account"));
+  const profiles = createProfileService(
+    accountStore,
+    new InMemoryProfileStore([
+      {
+        accountId: "account-ada",
+        displayName: "Ada Lovelace",
+        bio: "Exploring product semantics and collaborative systems.",
+        location: "London",
+        websiteUrl: "https://www.a-i.tw",
+      },
+    ]),
+  );
   const memberships = createMembershipService(
     accountStore,
     new InMemoryMembershipStore(),
@@ -143,6 +160,7 @@ function createProductWorkspace() {
   return {
     identity,
     accounts,
+    profiles,
     memberships,
     teams,
     repositories,
@@ -155,10 +173,7 @@ const globalForProduct = globalThis as typeof globalThis & {
   productWorkspace?: ProductWorkspace;
 };
 
-export async function getProductWorkspace() {
+export function getProductWorkspace() {
   globalForProduct.productWorkspace ??= createProductWorkspace();
-  const workspace = globalForProduct.productWorkspace;
-  if (!(await workspace.identity.currentPrincipal()))
-    await workspace.identity.authenticate("principal-ada");
-  return workspace;
+  return globalForProduct.productWorkspace;
 }

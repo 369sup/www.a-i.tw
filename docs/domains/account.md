@@ -28,6 +28,10 @@ Account、加入多個 organization Account，或僅是某個 Repository 的 ext
 `AccountId`，但不可從路徑字串推導 owner、複製 member list，或以自己的 collaborator grant
 回寫 Account membership。
 
+`Profile` 是 Account 的可見表示，不是 Account 本身，也不是 authentication state。本次 baseline
+擁有 `displayName`、`bio`、`location` 與 `websiteUrl`；修改 Profile 不改變 AccountId、handle、
+status、Membership 或任何 Repository permission。
+
 ## In scope
 
 - personal／organization／enterprise Account 的建立、rename、suspension、closure 與可保留的歷史 identity。
@@ -44,6 +48,26 @@ Account、加入多個 organization Account，或僅是某個 Repository 的 ext
 - billing 執行、seat、domain verification、IdP provisioning 與完整 enterprise-wide policy；除非另有已核准的 use case 與 owner。
 
 ## Relationships and authorization facts
+
+## Account Context switching
+
+Account 類型分類不是一棵可逐層切換的 Context 樹：
+
+```text
+Current Context = Active Actor + Active Scope + Membership + Role + Policy + Entitlement
+
+Active Actor                       Active Scope
+└── User account                   ├── Personal scope
+    ├── Personal account           ├── Organization scope
+    └── Managed user account       └── Enterprise governance scope
+```
+
+只有 User account 能成為 Active Actor。Organization 與 Enterprise 不可登入，只能成為
+Workspace／Governance Scope；切換 scope 不改變 action attribution。未來 account switcher
+切換已驗證的 User sessions，workspace switcher 只切換 scope。Managed user 另受 IdP/SSO、
+enterprise lifecycle 與 conditional access 約束。目前 runtime 只有單一 Personal Actor Session
+與 Personal/Organization scope selection；multi-session actor switching、Managed user 與
+Enterprise scope 仍為 Planned。
 
 Account 發布的是關係事實，不是完整 authorization decision：
 
