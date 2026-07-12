@@ -1,10 +1,14 @@
 import type {
   AccountEligibilityV1,
   MembershipFactV1,
+  TeamMembershipFactV1,
 } from "@/src/modules/account/src/contracts/public";
 import type { PrincipalRefV1 } from "@/src/modules/identity-access/src/contracts/public";
 import type {
   RepositoryAccessDecisionV1,
+  RepositoryCollaborationScopeV1,
+  RepositoryParticipationActionV1,
+  RepositoryParticipationDecisionV1,
   RepositoryRefV1,
   RepositoryRoleV1,
   RepositoryVisibilityV1,
@@ -42,6 +46,10 @@ export interface AccountDirectoryGateway {
     accountId: string,
     principalId: string,
   ): Promise<MembershipFactV1 | undefined>;
+  teamMemberships(
+    accountId: string,
+    principalId: string,
+  ): Promise<TeamMembershipFactV1>;
 }
 export interface RepositoryService {
   listVisible(principal?: PrincipalRefV1): Promise<RepositoryRefV1[]>;
@@ -80,6 +88,20 @@ export interface RepositoryService {
     role: RepositoryRoleV1,
     principal: PrincipalRefV1,
   ): Promise<void>;
+  grantTeam(
+    repositoryId: string,
+    teamId: string,
+    role: RepositoryRoleV1,
+    principal: PrincipalRefV1,
+  ): Promise<void>;
+  collaborationScope(
+    repositoryId: string,
+  ): Promise<RepositoryCollaborationScopeV1 | undefined>;
+  participation(input: {
+    repositoryId: string;
+    principal: PrincipalRefV1;
+    action: RepositoryParticipationActionV1;
+  }): Promise<RepositoryParticipationDecisionV1>;
 }
 
 export function createRepositoryService(
@@ -105,6 +127,14 @@ export function createRepositoryService(
       ownerPrincipalId: ownerFact,
       action,
       grants: await grants.list(repository.id),
+      teamIds: principal
+        ? (
+            await accounts.teamMemberships(
+              repository.ownerAccountId,
+              principal.principalId,
+            )
+          ).teamIds
+        : [],
     });
   }
   async function requireAllowed(
@@ -117,6 +147,51 @@ export function createRepositoryService(
       throw new Error(`Repository action denied: ${result.reason}.`);
   }
   return {
+    async collaborationScope(repositoryId) {
+      const repository = await store.find(repositoryId);
+      return (
+        repository && {
+          repositoryId: repository.id,
+          ownerAccountId: repository.ownerAccountId,
+          status: repository.status,
+        }
+      );
+    },
+    async participation(input) {
+      const repository = await store.find(input.repositoryId);
+      if (!repository)
+        return {
+          repositoryId: input.repositoryId,
+          principalId: input.principal.principalId,
+          action: input.action,
+          allowed: false,
+          reason: "denied",
+        };
+      const action: RepositoryAction =
+        input.action === "read"
+          ? "read"
+          : input.action === "triage"
+            ? "participate"
+            : "manage-access";
+      const result = await decision(repository, action, input.principal);
+      const reason =
+        result.reason === "owner"
+          ? "owner"
+          : result.reason === "public-read"
+            ? "public"
+            : result.reason === "archived"
+              ? "archived"
+              : result.allowed
+                ? "grant"
+                : "denied";
+      return {
+        repositoryId: repository.id,
+        principalId: input.principal.principalId,
+        action: input.action,
+        allowed: result.allowed,
+        reason,
+      };
+    },
     async listVisible(principal) {
       const visible: RepositoryRefV1[] = [];
       for (const repository of await store.list())
@@ -194,7 +269,16 @@ export function createRepositoryService(
       await requireAllowed(repository, "manage-access", principal);
       await grants.save({
         repositoryId,
-        principalId: granteePrincipalId,
+        subject: { type: "principal", principalId: granteePrincipalId },
+        role,
+      });
+    },
+    async grantTeam(repositoryId, teamId, role, principal) {
+      const repository = await required(store, repositoryId);
+      await requireAllowed(repository, "manage-access", principal);
+      await grants.save({
+        repositoryId,
+        subject: { type: "team", teamId },
         role,
       });
     },

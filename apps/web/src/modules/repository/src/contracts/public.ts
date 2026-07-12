@@ -15,8 +15,24 @@ export type RepositoryAccessDecisionV1 = Readonly<{
     | "owner"
     | "public-read"
     | "direct-grant"
+    | "team-grant"
     | "insufficient-access"
     | "archived"
     | "unauthenticated";
   effectiveRole?: RepositoryRoleV1;
+}>;
+
+export type RepositoryCollaborationScopeV1 = Readonly<{
+  repositoryId: string;
+  ownerAccountId: string;
+  status: "active" | "archived";
+}>;
+
+export type RepositoryParticipationActionV1 = "read" | "triage" | "manage";
+export type RepositoryParticipationDecisionV1 = Readonly<{
+  repositoryId: string;
+  principalId: string;
+  action: RepositoryParticipationActionV1;
+  allowed: boolean;
+  reason: "owner" | "public" | "grant" | "archived" | "denied";
 }>;

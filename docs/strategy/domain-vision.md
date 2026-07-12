@@ -6,9 +6,10 @@
 讓 authentication、組織關係與 resource authorization 能獨立演進，而不是折疊成
 `user.role`。
 
-目前 in-memory slice 驗證三個問題：誰正在操作、哪個 Account 擁有資源、Repository
-是否允許該 action。下一個產品問題是 Principal 如何經 invitation／acceptance 成為
-organization member，並讓 Account 發布關係事實而不替 Repository 做授權決策。
+目前 in-memory slice 已驗證 Principal attribution、Account ownership、Membership、Team 與
+Repository direct/Team access。下一個產品問題是參與者如何在 Repository collaboration scope
+內建立可追蹤 Issue、以 Label 分類並透過 Assignment 承擔責任，而不把工作生命週期塞入
+Repository governance aggregate。
 
 Non-goals 包含 Git/code、production credential provider、durable persistence、billing、
 enterprise governance 與完整 collaboration suite。特定客群與商業成果仍需 Product owner

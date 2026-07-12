@@ -13,7 +13,9 @@ export type Repository = Readonly<{
 
 export type AccessGrant = Readonly<{
   repositoryId: string;
-  principalId: string;
+  subject:
+    | { type: "principal"; principalId: string }
+    | { type: "team"; teamId: string };
   role: RepositoryRole;
 }>;
 

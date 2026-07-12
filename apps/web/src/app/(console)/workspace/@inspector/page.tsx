@@ -1,6 +1,9 @@
 import { ShieldCheck, UserPlus } from "lucide-react";
 import { getProductWorkspace } from "@/src/server/composition/product-workspace";
-import { updateRepositoryAction } from "@/src/presentation/workspace/actions";
+import {
+  updateRepositoryAction,
+  updateWorkItemAction,
+} from "@/src/presentation/workspace/actions";
 import {
   buttonClass,
   EmptyState,
@@ -16,7 +19,8 @@ export default async function InspectorSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, repositories } = await getProductWorkspace();
+  const { identity, repositories, workManagement } =
+    await getProductWorkspace();
   const [session, principals] = await Promise.all([
     identity.currentPrincipal(),
     identity.listPrincipals(),
@@ -26,6 +30,12 @@ export default async function InspectorSlot({
   const result = repositoryId
     ? await repositories.get(repositoryId, session?.principal)
     : undefined;
+  const work =
+    repositoryId && session
+      ? await workManagement
+          .list(repositoryId, session.principal)
+          .catch(() => undefined)
+      : undefined;
   return (
     <div>
       <PanelHeading
@@ -97,6 +107,142 @@ export default async function InspectorSlot({
               Grant access
             </button>
           </form>
+          {work ? (
+            <section className="space-y-4 border-t p-4">
+              <h2 className="text-sm font-semibold">Issues</h2>
+              <form action={updateWorkItemAction} className="space-y-2">
+                <input type="hidden" name="intent" value="create-issue" />
+                <input type="hidden" name="repositoryId" value={repositoryId} />
+                <input
+                  className={fieldClass}
+                  name="title"
+                  placeholder="Issue title"
+                  required
+                />
+                <textarea
+                  className={fieldClass}
+                  name="body"
+                  placeholder="Work description"
+                />
+                <button className={buttonClass} type="submit">
+                  Create Issue
+                </button>
+              </form>
+              <form
+                action={updateWorkItemAction}
+                className="space-y-2 border-t pt-3"
+              >
+                <input type="hidden" name="intent" value="create-label" />
+                <input type="hidden" name="repositoryId" value={repositoryId} />
+                <input
+                  className={fieldClass}
+                  name="name"
+                  placeholder="Label name"
+                  required
+                />
+                <input
+                  className={fieldClass}
+                  name="color"
+                  defaultValue="0969da"
+                  required
+                />
+                <input
+                  className={fieldClass}
+                  name="description"
+                  placeholder="Description"
+                />
+                <button className={buttonClass} type="submit">
+                  Create Label
+                </button>
+              </form>
+              <ul className="space-y-3 border-t pt-3">
+                {work.issues.map((issue) => (
+                  <li
+                    key={issue.issueId}
+                    className="rounded-md border p-3 text-xs"
+                  >
+                    <strong>
+                      #{issue.number} {issue.title}
+                    </strong>
+                    <p className="mt-1 text-muted-foreground">
+                      {issue.status} · {issue.assigneePrincipalIds.length}{" "}
+                      assignees · {issue.labelIds.length} labels
+                    </p>
+                    <form action={updateWorkItemAction} className="mt-2">
+                      <input
+                        type="hidden"
+                        name="issueId"
+                        value={issue.issueId}
+                      />
+                      <input
+                        type="hidden"
+                        name="intent"
+                        value={
+                          issue.status === "open"
+                            ? "close-issue"
+                            : "reopen-issue"
+                        }
+                      />
+                      <button className={buttonClass} type="submit">
+                        {issue.status === "open" ? "Close" : "Reopen"}
+                      </button>
+                    </form>
+                    {work.labels.length > 0 ? (
+                      <form
+                        action={updateWorkItemAction}
+                        className="mt-2 flex gap-2"
+                      >
+                        <input
+                          type="hidden"
+                          name="intent"
+                          value="apply-label"
+                        />
+                        <input
+                          type="hidden"
+                          name="issueId"
+                          value={issue.issueId}
+                        />
+                        <select className={fieldClass} name="labelId">
+                          {work.labels.map((label) => (
+                            <option key={label.id} value={label.id}>
+                              {label.name}
+                            </option>
+                          ))}
+                        </select>
+                        <button className={buttonClass} type="submit">
+                          Apply Label
+                        </button>
+                      </form>
+                    ) : null}
+                    <form
+                      action={updateWorkItemAction}
+                      className="mt-2 flex gap-2"
+                    >
+                      <input type="hidden" name="intent" value="assign" />
+                      <input
+                        type="hidden"
+                        name="issueId"
+                        value={issue.issueId}
+                      />
+                      <select className={fieldClass} name="principalId">
+                        {principals.map((principal) => (
+                          <option
+                            key={principal.principalId}
+                            value={principal.principalId}
+                          >
+                            {principal.displayName}
+                          </option>
+                        ))}
+                      </select>
+                      <button className={buttonClass} type="submit">
+                        Assign
+                      </button>
+                    </form>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </div>
       ) : (
         <EmptyState

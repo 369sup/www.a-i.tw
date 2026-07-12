@@ -3,11 +3,13 @@ import "server-only";
 import {
   createAccountService,
   createMembershipService,
+  createTeamService,
 } from "@/src/modules/account/src/public";
 import {
   InMemoryAccountStore,
   InMemoryMembershipInvitationStore,
   InMemoryMembershipStore,
+  InMemoryTeamStore,
 } from "@/src/modules/account/src/composition";
 import { createIdentityAccessService } from "@/src/modules/identity-access/src/public";
 import {
@@ -19,6 +21,12 @@ import {
   InMemoryAccessGrantStore,
   InMemoryRepositoryStore,
 } from "@/src/modules/repository/src/composition";
+import { createWorkManagementService } from "@/src/modules/work-management/src/public";
+import {
+  InMemoryIssueNumberSequence,
+  InMemoryIssueStore,
+  InMemoryLabelStore,
+} from "@/src/modules/work-management/src/composition";
 
 function createProductWorkspace() {
   let sequence = 100;
@@ -82,6 +90,12 @@ function createProductWorkspace() {
     nextId("invitation"),
     () => new Date(),
   );
+  const teams = createTeamService(
+    accountStore,
+    memberships,
+    new InMemoryTeamStore(),
+    nextId("team"),
+  );
   const repositories = createRepositoryService(
     new InMemoryRepositoryStore([
       {
@@ -108,10 +122,32 @@ function createProductWorkspace() {
       eligibility: (id) => accounts.eligibility(id),
       membership: (accountId, principalId) =>
         memberships.membership(accountId, principalId),
+      teamMemberships: (accountId, principalId) =>
+        teams.memberships(accountId, principalId),
     },
     nextId("repository"),
   );
-  return { identity, accounts, memberships, repositories };
+  const workManagement = createWorkManagementService(
+    new InMemoryIssueStore(),
+    new InMemoryLabelStore(),
+    new InMemoryIssueNumberSequence(),
+    {
+      scope: (repositoryId) => repositories.collaborationScope(repositoryId),
+      allowed: async ({ repositoryId, principal, action }) =>
+        (await repositories.participation({ repositoryId, principal, action }))
+          .allowed,
+    },
+    nextId("issue"),
+    nextId("label"),
+  );
+  return {
+    identity,
+    accounts,
+    memberships,
+    teams,
+    repositories,
+    workManagement,
+  };
 }
 
 type ProductWorkspace = ReturnType<typeof createProductWorkspace>;

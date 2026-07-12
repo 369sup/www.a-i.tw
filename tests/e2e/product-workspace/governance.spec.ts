@@ -38,6 +38,19 @@ test("account and repository governance flows through all parallel workspace slo
     page.getByRole("heading", { name: repositoryName }),
   ).toBeVisible();
 
+  await page.getByPlaceholder("Issue title").fill("Review launch plan");
+  await page
+    .getByPlaceholder("Work description")
+    .fill("Track the non-code launch review.");
+  await page.getByRole("button", { name: "Create Issue" }).click();
+  await expect(page.getByText(/#1 Review launch plan/)).toBeVisible();
+
+  await page.getByPlaceholder("Label name").fill("planning");
+  await page.getByRole("button", { name: "Create Label" }).click();
+  await page.getByRole("button", { name: "Apply Label" }).click();
+  await page.getByRole("button", { name: "Assign", exact: true }).click();
+  await expect(page.getByText(/1 assignees · 1 labels/)).toBeVisible();
+
   await page.getByRole("button", { name: "Archive repository" }).click();
   await expect(
     page

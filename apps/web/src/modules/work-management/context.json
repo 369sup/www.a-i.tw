@@ -1,0 +1,24 @@
+{
+  "context": "work-management",
+  "package": "@a-i/web",
+  "domain": "Work Management",
+  "subdomain": {
+    "name": "work-management",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "relationships": [
+    {
+      "target": "identity-access",
+      "upstream": "identity-access",
+      "pattern": "anti-corruption-layer",
+      "contract": "PrincipalRefV1"
+    },
+    {
+      "target": "repository",
+      "upstream": "repository",
+      "pattern": "anti-corruption-layer",
+      "contract": "RepositoryCollaborationScopeV1, RepositoryParticipationDecisionV1"
+    }
+  ]
+}

@@ -11,7 +11,8 @@ Execute G0-G7 in order: orient and Serena handshake, approve semantics, update c
 ## Rules
 
 - Do not scaffold before problem, owner, language, Context, Aggregate, first use case and path are approved.
-- Update canonical docs before runtime and before this navigation memory.
+- Update canonical docs before runtime and before navigation memory.
+- After verification, proactively maintain every affected Serena memory; routine update, organization, distillation and editing are part of completion, while deletion, rename and broad reorganization require explicit user direction.
 - Keep dependency direction Presentation or Infrastructure to Application to Domain.
 - Cross-context consumers use their own Port or ACL and provider contracts.
 - Finish with Serena diagnostics, check, docs, architecture, build, Semgrep and acceptance evidence.
@@ -36,4 +37,4 @@ Execute G0-G7 in order: orient and Serena handshake, approve semantics, update c
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: canonical workflow, Codex rule, agent skill and PR gate.
+- Evidence: canonical workflow, Codex rule, Serena skill, proactive memory policy and validation gates.

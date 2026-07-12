@@ -60,7 +60,7 @@
         {
           "downstream": "repository",
           "pattern": "customer-supplier",
-          "contract": "AccountRefV1"
+          "contract": "AccountRefV1, MembershipFactV1, TeamMembershipFactV1"
         }
       ]
     },
@@ -84,7 +84,31 @@
           "target": "account",
           "upstream": "account",
           "pattern": "anti-corruption-layer",
-          "contract": "AccountEligibilityV1"
+          "contract": "AccountEligibilityV1, MembershipFactV1, TeamMembershipFactV1"
+        }
+      ]
+    },
+    {
+      "context": "work-management",
+      "package": "@a-i/web",
+      "domain": "Work Management",
+      "subdomain": {
+        "name": "work-management",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "relationships": [
+        {
+          "target": "identity-access",
+          "upstream": "identity-access",
+          "pattern": "anti-corruption-layer",
+          "contract": "PrincipalRefV1"
+        },
+        {
+          "target": "repository",
+          "upstream": "repository",
+          "pattern": "anti-corruption-layer",
+          "contract": "RepositoryCollaborationScopeV1, RepositoryParticipationDecisionV1"
         }
       ]
     }

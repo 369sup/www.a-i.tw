@@ -33,6 +33,13 @@ export class InMemoryAccessGrantStore implements AccessGrantStore {
     );
   }
   async save(grant: AccessGrant) {
-    this.grants.set(`${grant.repositoryId}:${grant.principalId}`, grant);
+    const subjectId =
+      grant.subject.type === "principal"
+        ? grant.subject.principalId
+        : grant.subject.teamId;
+    this.grants.set(
+      `${grant.repositoryId}:${grant.subject.type}:${subjectId}`,
+      grant,
+    );
   }
 }

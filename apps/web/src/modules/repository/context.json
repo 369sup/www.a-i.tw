@@ -18,7 +18,7 @@
       "target": "account",
       "upstream": "account",
       "pattern": "anti-corruption-layer",
-      "contract": "AccountEligibilityV1"
+      "contract": "AccountEligibilityV1, MembershipFactV1, TeamMembershipFactV1"
     }
   ]
 }

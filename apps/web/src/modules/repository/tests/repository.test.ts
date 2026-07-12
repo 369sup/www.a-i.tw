@@ -31,4 +31,22 @@ describe("repository governance", () => {
       renameRepository(archiveRepository(repository), "new-name"),
     ).toThrow("Archived repositories");
   });
+  it("allows access through an effective Team grant", () => {
+    expect(
+      decideRepositoryAccess({
+        repository,
+        principalId: "p-member",
+        ownerPrincipalId: "p-owner",
+        action: "read",
+        teamIds: ["team-research"],
+        grants: [
+          {
+            repositoryId: repository.id,
+            subject: { type: "team", teamId: "team-research" },
+            role: "read",
+          },
+        ],
+      }),
+    ).toEqual({ allowed: true, reason: "team-grant", effectiveRole: "read" });
+  });
 });

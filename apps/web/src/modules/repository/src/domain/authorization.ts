@@ -6,6 +6,7 @@ export type RepositoryAccessDecision = Readonly<{
     | "owner"
     | "public-read"
     | "direct-grant"
+    | "team-grant"
     | "insufficient-access"
     | "archived"
     | "unauthenticated";
@@ -14,6 +15,7 @@ export type RepositoryAccessDecision = Readonly<{
 
 export type RepositoryAction =
   | "read"
+  | "participate"
   | "rename"
   | "change-visibility"
   | "archive"
@@ -27,6 +29,7 @@ const rank: Record<RepositoryRole, number> = {
 };
 const required: Record<RepositoryAction, RepositoryRole> = {
   read: "read",
+  participate: "write",
   rename: "maintain",
   "change-visibility": "admin",
   archive: "admin",
@@ -40,6 +43,7 @@ export function decideRepositoryAccess(input: {
   ownerPrincipalId: string;
   action: RepositoryAction;
   grants: AccessGrant[];
+  teamIds?: readonly string[];
 }): RepositoryAccessDecision {
   if (
     !["read", "unarchive"].includes(input.action) &&
@@ -52,13 +56,28 @@ export function decideRepositoryAccess(input: {
   if (input.principalId === input.ownerPrincipalId)
     return { allowed: true, reason: "owner", effectiveRole: "admin" };
   const grant = input.grants.find(
-    (item) => item.principalId === input.principalId,
+    (item) =>
+      item.subject.type === "principal" &&
+      item.subject.principalId === input.principalId,
   );
   if (grant && rank[grant.role] >= rank[required[input.action]])
     return { allowed: true, reason: "direct-grant", effectiveRole: grant.role };
+  const teamGrant = input.grants
+    .filter(
+      (item) =>
+        item.subject.type === "team" &&
+        input.teamIds?.includes(item.subject.teamId),
+    )
+    .sort((left, right) => rank[right.role] - rank[left.role])[0];
+  if (teamGrant && rank[teamGrant.role] >= rank[required[input.action]])
+    return {
+      allowed: true,
+      reason: "team-grant",
+      effectiveRole: teamGrant.role,
+    };
   return {
     allowed: false,
     reason: "insufficient-access",
-    effectiveRole: grant?.role,
+    effectiveRole: grant?.role ?? teamGrant?.role,
   };
 }

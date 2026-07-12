@@ -3,3 +3,4 @@ export {
   InMemoryMembershipInvitationStore,
   InMemoryMembershipStore,
 } from "./infrastructure/in-memory-membership";
+export { InMemoryTeamStore } from "./infrastructure/in-memory-team-store";

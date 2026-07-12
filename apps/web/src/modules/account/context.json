@@ -17,7 +17,7 @@
     {
       "downstream": "repository",
       "pattern": "customer-supplier",
-      "contract": "AccountRefV1"
+      "contract": "AccountRefV1, MembershipFactV1, TeamMembershipFactV1"
     }
   ]
 }

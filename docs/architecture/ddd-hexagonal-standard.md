@@ -70,11 +70,11 @@ Presentation / Infrastructure ---> Application ---> Domain
 Consumer Application ---> consumer-owned Port / ACL ---> Provider Contract
 ```
 
-Membership slice 的 mapping 是：workspace form／Server Action 為 inbound adapter；Account
-Application 擁有 invite／accept／remove use cases 與 store Ports；Account Domain 擁有
-Invitation 與 Membership invariants；in-memory stores 為 outbound adapters；product workspace
-composition 是唯一 wiring root；Repository 只透過 `AccountDirectoryGateway` 消費
-`MembershipFactV1`。
+Membership/Team slice 的 mapping 是：workspace form／Server Action 為 inbound adapter；Account
+Application 擁有 invite／accept／remove Membership、manage Team use cases 與 store Ports；Account
+Domain 擁有 Invitation、Membership 與 Team invariants；in-memory stores 為 outbound adapters；
+product workspace composition 是唯一 wiring root；Repository 只透過 `AccountDirectoryGateway`
+消費 `MembershipFactV1` 與 `TeamMembershipFactV1`，並自行擁有 Repository grant/role 決策。
 
 - Domain 只依賴同一 Domain，不 import framework、SDK、Application、Contracts 或 Infrastructure。
 - Application 擁有 use case 與 inbound/outbound Ports；不 import concrete adapter。

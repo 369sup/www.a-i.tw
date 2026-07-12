@@ -4,5 +4,6 @@
 - Subdomain: repository (core)
 - Owner: www.a-i.tw Product Team
 
-Before adding behavior, document the aggregate boundary, first use case, input
-and output contract, outbound ports, and Context Map relationships.
+Current aggregates are Repository and Access Grant. Repository owns visibility, lifecycle, Principal/Team grants,
+roles and effective-access decisions. It consumes Account eligibility and Membership/Team facts only through the
+Application-owned `AccountDirectoryGateway` ACL.

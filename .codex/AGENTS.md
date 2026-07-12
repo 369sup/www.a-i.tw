@@ -16,4 +16,5 @@
 - Context 唯一位置是 `apps/web/src/modules/<context>`；internal subdomain 必須在 manifest 宣告並位於 `src/subdomains/<name>`。禁止 root `modules/` 與水平 `packages/application`、`contracts`、`domain`、`foundation`、`infrastructure`。
 - 文件讀取順序：`docs/ai-index.md` → `docs/domains/ubiquitous-language.md` → `docs/domains/subdomains.md` → `docs/domains/bounded-contexts.md` → `docs/domains/context-map.md` → 對應 contract/ADR/status。
 - 遇到文件、memory、skills、生成器或平行調查結果分歧時，以目前程式碼/測試與 Context Map manifest 為事實，再以 canonical `docs/` 判定政策；Serena memory 與 upstream skill 僅供導航，必須修正而非用來覆寫事實。平行工作預設唯讀，任何相同檔案或相依決策由主 agent 統一修改與驗證。
+- Canonical docs、manifest、runtime status、ownership、contract、path 或驗證證據有實質變更時，完成驗證後主動更新、整理、蒸餾或編輯所有受影響的 Serena memories，不需等待逐次要求；不得把 Proposed 寫成 Current。刪除、重新命名或廣泛重組 memory hierarchy 仍需使用者明確指示。
 - 每個新的 Codex task 都先呼叫 `serena.initial_instructions` 與 `serena.get_current_config`，確認目前 WSL repository 已啟用；文件、規劃或 Git-only task 也不得省略這個 handshake。Serena 由 `.codex/config.toml` 以 `--project-from-cwd --context=codex` 啟用，且必須使用 WSL Ubuntu 的 Linux `serena`、Python、Node 與 PATH。處理 TypeScript/JavaScript 程式符號時，再用 Serena 符號工具定位、追蹤引用與執行 refactor；純文字、文件、設定與 Git 操作則在 handshake 後使用原生工具。

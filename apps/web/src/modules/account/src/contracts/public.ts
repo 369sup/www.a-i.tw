@@ -16,3 +16,16 @@ export type MembershipFactV1 = Readonly<{
   role: "member" | "owner";
   status: "active" | "removed";
 }>;
+
+export type TeamRefV1 = Readonly<{
+  teamId: string;
+  accountId: string;
+  name: string;
+  memberPrincipalIds: readonly string[];
+}>;
+
+export type TeamMembershipFactV1 = Readonly<{
+  accountId: string;
+  principalId: string;
+  teamIds: readonly string[];
+}>;

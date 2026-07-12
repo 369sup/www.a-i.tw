@@ -10,3 +10,5 @@
 | Context map / manifest match | `arch:manifests`             | owner review for relationship changes |
 | Internal subdomain structure | manifest and standard tree   | add contract versioning when shared   |
 | No cross-context internals   | import graph + fixture tests | none for current runtime graph        |
+| Published contract shape     | TypeScript + consumer tests  | add explicit compatibility fixtures   |
+| Serena memory freshness      | G7 policy + reviewed diff    | automate stale-path/status detection  |

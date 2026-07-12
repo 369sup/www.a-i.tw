@@ -14,8 +14,8 @@ Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organi
 
 - `Product`：產品問題、需求與驗收語意。
 - `Identity & Access`：已實作 in-memory Principal 與 session baseline；production credential/provider 延後。
-- `Account`：已實作 personal／organization Account、namespace 與 in-memory Membership lifecycle；Team、enterprise governance 延後。
-- `Repository`：已實作 visibility、role／grant、access decision 與 archive lifecycle；Git/code 排除。
+- `Account`：已實作 personal／organization Account、namespace、Membership 與 Team lifecycle；enterprise governance 延後。
+- `Repository`：已實作 visibility、direct/Team role grant、access decision 與 archive lifecycle；Git/code 排除。
 - `Experience`：Next.js route、shadcn UI 與 view model（presentation owner）。
 - `Platform`：部署、可觀測性與交付工具（operations owner）。
 
@@ -27,6 +27,8 @@ Identity & Access ──AuthenticatedPrincipalV1──> Repository
 Account ──Published Language: MembershipFactV1 / TeamMembershipFactV1──> Repository
 Account ──Published Language: AccountEligibilityV1 / AccountRefV1──> Repository
 Repository ──Published Language: RepositoryAccessDecisionV1──> Experience / application use cases
+Repository ──RepositoryCollaborationScopeV1 / RepositoryParticipationDecisionV1──> Work Management ACL
+Identity & Access ──PrincipalRefV1──> Work Management
 ```
 
 | Upstream          | Downstream | Pattern                                                        | Contract / ACL owner                                                                | Consistency and failure semantics                                                                                                                  |
@@ -46,3 +48,10 @@ Strategic relationship 由本文件擁有；runtime existence 由
 新增 Context 或 internal subdomain 前必須完成 architecture standard 的 Definition of Ready。
 
 新增關係時必須指定 Customer/Supplier、Conformist、ACL、Open Host Service、Published Language、Shared Kernel、Partnership 或 Separate Ways，並記錄契約 owner、版本與失敗處理。
+
+## Work Management relationship
+
+`Work Management` 擁有 Issue、Label 與 Assignment，並作為 Repository 的 downstream。
+關係是 Repository Open Host Service + Published Language，Work Management 擁有 ACL；
+它只消費穩定 Repository reference/scope/access decision，不 import Repository internals。
+此 edge 由 ADR 0005 與版本化 contract 核准；runtime manifest 由 scaffold gate 登錄。

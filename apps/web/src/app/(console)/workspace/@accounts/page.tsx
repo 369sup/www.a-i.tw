@@ -4,6 +4,7 @@ import { getProductWorkspace } from "@/src/server/composition/product-workspace"
 import {
   createAccountAction,
   selectPrincipal,
+  updateTeamAction,
 } from "@/src/presentation/workspace/actions";
 import {
   buttonClass,
@@ -20,7 +21,7 @@ export default async function AccountsSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, accounts } = await getProductWorkspace();
+  const { identity, accounts, teams } = await getProductWorkspace();
   const [session, principals, items] = await Promise.all([
     identity.currentPrincipal(),
     identity.listPrincipals(),
@@ -28,6 +29,11 @@ export default async function AccountsSlot({
   ]);
   const selected =
     typeof query.account === "string" ? query.account : items[0]?.accountId;
+  const selectedAccount = items.find((item) => item.accountId === selected);
+  const teamItems =
+    selectedAccount?.kind === "organization"
+      ? await teams.list(selectedAccount.accountId)
+      : [];
   return (
     <div>
       <PanelHeading icon={<UserRound className="size-4" />} title="Accounts" />
@@ -79,6 +85,61 @@ export default async function AccountsSlot({
           </Link>
         ))}
       </nav>
+      {selectedAccount?.kind === "organization" ? (
+        <section className="border-t p-3">
+          <h2 className="text-sm font-semibold">Teams</h2>
+          <ul className="mt-2 space-y-2 text-xs text-muted-foreground">
+            {teamItems.map((team) => (
+              <li key={team.teamId}>
+                <strong className="text-foreground">{team.name}</strong> ·{" "}
+                {team.memberPrincipalIds.length} members
+              </li>
+            ))}
+          </ul>
+          <form action={updateTeamAction} className="mt-3 space-y-2">
+            <input type="hidden" name="intent" value="create" />
+            <input
+              type="hidden"
+              name="accountId"
+              value={selectedAccount.accountId}
+            />
+            <input
+              className={fieldClass}
+              name="name"
+              placeholder="team-name"
+              required
+            />
+            <button className={quietButtonClass} type="submit">
+              Create Team
+            </button>
+          </form>
+          {teamItems.length > 0 ? (
+            <form action={updateTeamAction} className="mt-3 space-y-2">
+              <input type="hidden" name="intent" value="add-member" />
+              <select className={fieldClass} name="teamId">
+                {teamItems.map((team) => (
+                  <option key={team.teamId} value={team.teamId}>
+                    {team.name}
+                  </option>
+                ))}
+              </select>
+              <select className={fieldClass} name="principalId">
+                {principals.map((principal) => (
+                  <option
+                    key={principal.principalId}
+                    value={principal.principalId}
+                  >
+                    {principal.displayName}
+                  </option>
+                ))}
+              </select>
+              <button className={quietButtonClass} type="submit">
+                Add active member
+              </button>
+            </form>
+          ) : null}
+        </section>
+      ) : null}
       <details className="border-t p-3">
         <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium">
           <Plus className="size-4" />

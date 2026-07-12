@@ -17,7 +17,12 @@ Organization Membership 遵循同一規則：Account Application 定義 Membersh
 store Ports，Domain 定義邀請、接受、移除不變條件，Infrastructure 實作 process-local
 in-memory adapters，workspace Server Actions 只映射 transport，product workspace composition
 root 負責接線。Repository 不得 import Account internals，只能經 consumer-owned ACL Port
-消費 `MembershipFactV1`。
+消費 `MembershipFactV1` and `TeamMembershipFactV1`。
+
+Team 遵循相同邊界：Account Domain 擁有 Team name 與 roster invariants；Account Application
+擁有 Team use cases 與 `TeamStore`；in-memory Team adapter 位於 Account Infrastructure。
+Repository Application 透過自身的 `AccountDirectoryGateway` ACL 查詢最小 Team facts，
+Repository Domain 才擁有 Team grant、Repository Role 與 effective-access decision。
 
 `master-template` 已用 in-memory adapter 作為可測試的 reference Context；它證明 port wiring，
 不代表 production persistence 或已發佈的跨 Context contract。建立 production integration 前仍須

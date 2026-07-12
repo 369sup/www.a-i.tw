@@ -17,8 +17,9 @@ in-memory runtime baseline。Enterprise governance、production provider、durab
 persistence 與完整 membership 仍是 Proposed。策略邊界與不變條件由
 [`../domains/`](../domains/README.md) 擁有。
 
-下一個核准的語意切片是 organization Membership：owner 發出有期限 Invitation，只有受邀
-Principal 能接受並形成 active Membership；移除後關係失效。Account 只發布版本化
-`MembershipFactV1`，Repository 仍自行判定 resource action。後續依序為 Team、Team-based
-Repository Access、Issue、Label／Assignment、Discussion、Star／Collection、
+目前核准並實作的連續語意切片是 organization Membership、Team 與 Team-based Repository
+Access：owner 發出有期限 Invitation，只有受邀 Principal 能接受並形成 active Membership；
+Team 只能聚合 active Membership；Account 只發布版本化 `MembershipFactV1` 與
+`TeamMembershipFactV1`，Repository 仍自行判定 resource action。後續依序為 Issue、
+Label／Assignment、Discussion、Star／Collection、
 Activity／Notification、Discovery 與 Contribution Graph。

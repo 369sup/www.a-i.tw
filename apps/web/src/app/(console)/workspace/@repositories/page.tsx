@@ -21,7 +21,8 @@ export default async function RepositoriesSlot({
   searchParams: Params;
 }) {
   const query = await searchParams;
-  const { identity, accounts, repositories } = await getProductWorkspace();
+  const { identity, accounts, repositories, teams } =
+    await getProductWorkspace();
   const session = await identity.currentPrincipal();
   const accountItems = await accounts.listAccounts();
   const accountId =
@@ -29,6 +30,8 @@ export default async function RepositoriesSlot({
       ? query.account
       : accountItems[0]?.accountId;
   const account = accountItems.find((item) => item.accountId === accountId);
+  const teamItems =
+    account?.kind === "organization" ? await teams.list(account.accountId) : [];
   const items = (await repositories.listVisible(session?.principal)).filter(
     (item) => item.ownerAccountId === accountId,
   );
@@ -142,6 +145,36 @@ export default async function RepositoriesSlot({
                   Rename
                 </button>
               </form>
+              {teamItems.length > 0 ? (
+                <form
+                  action={updateRepositoryAction}
+                  className="space-y-3 border-t pt-4 xl:col-span-2"
+                >
+                  <h2 className="text-sm font-semibold">Team access</h2>
+                  <input
+                    type="hidden"
+                    name="repositoryId"
+                    value={selected.repositoryId}
+                  />
+                  <input type="hidden" name="intent" value="grant-team" />
+                  <select className={fieldClass} name="teamId">
+                    {teamItems.map((team) => (
+                      <option key={team.teamId} value={team.teamId}>
+                        {team.name}
+                      </option>
+                    ))}
+                  </select>
+                  <select className={fieldClass} name="role">
+                    <option value="read">Read</option>
+                    <option value="write">Write</option>
+                    <option value="maintain">Maintain</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <button className={quietButtonClass} type="submit">
+                    Grant Team access
+                  </button>
+                </form>
+              ) : null}
               <form
                 action={updateRepositoryAction}
                 className="space-y-3 border-t pt-4"
