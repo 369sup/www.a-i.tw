@@ -1,6 +1,6 @@
 # Product documentation research rules
 
-- GitHub 產品語意研究先讀 `github-official-research-map.md`，只選一個相關官方章節與一個本地
+- GitHub 產品語意研究先讀 `github-official-url-inventory.md` 與 `github-official-research-map.md`，只選一個相關官方章節與一個本地
   canonical owner；不要預載全部 GitHub Docs 或全部 `docs/product/`。
 - 只萃取非程式碼產品語意。排除 Git、Commit、Branch、Pull Request、source code、Code Search、
   Actions、workflow、runner、Packages、Codespaces、Git LFS 與 code-centric security scanning。

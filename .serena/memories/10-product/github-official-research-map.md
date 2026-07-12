@@ -7,4 +7,6 @@ For GitHub product research, select one official GitHub Docs section and one loc
 
 Exclude Git, Commit, Branch, Tag, Merge, Pull Request, Diff, Code Review, source-code browsing/editing/search/navigation, Code Search, Actions/workflows/runners, Packages, Codespaces, Git LFS and code-centric security scanning.
 
+Official source routing also covers Authentication, Communities/Moderation, Billing and licensing, Subscriptions and notifications, GitHub Apps, OAuth apps, Webhooks, Marketplace, Sponsors, Support and Site policy when the research question is non-code.
+
 Keep Enterprise, Entitlement, Notification and Search in separate owner documents. Never infer Domain hierarchy from GitHub Docs navigation.
