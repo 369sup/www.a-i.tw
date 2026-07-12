@@ -24,5 +24,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
       - run: pipx install semgrep
       - run: PATH="$HOME/.local/bin:$PATH" pnpm run ci
