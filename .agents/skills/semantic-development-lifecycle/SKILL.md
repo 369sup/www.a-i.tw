@@ -16,3 +16,7 @@ unmet gates as blocked instead of skipping them.
 For ADR 0008 migrations, finish the architecture control plane first. Read
 `docs/architecture/context-topology-migration.json`; do not move runtime while generators, validators, import rules,
 Semgrep, skills or commands still describe the legacy tree. New work uses layer/subdomain topology and `public-api.ts`.
+
+At G3-G6, a cross-context requirement must identify the consumer Port, provider Published Language, consumer
+Infrastructure ACL mapper and app server-composition wiring. Reject direct provider imports from Domain, Application,
+Contracts or Presentation even when the target is a public contract.

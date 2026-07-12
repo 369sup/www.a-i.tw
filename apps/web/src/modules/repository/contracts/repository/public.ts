@@ -36,3 +36,19 @@ export type RepositoryParticipationDecisionV1 = Readonly<{
   allowed: boolean;
   reason: "owner" | "public" | "grant" | "archived" | "denied";
 }>;
+
+export interface RepositoryParticipationApiV1 {
+  collaborationScope(
+    repositoryId: string,
+  ): Promise<RepositoryCollaborationScopeV1 | undefined>;
+  participation(input: {
+    repositoryId: string;
+    principal: Readonly<{
+      principalId: string;
+      handle: string;
+      displayName: string;
+      status: "active" | "disabled";
+    }>;
+    action: RepositoryParticipationActionV1;
+  }): Promise<RepositoryParticipationDecisionV1>;
+}

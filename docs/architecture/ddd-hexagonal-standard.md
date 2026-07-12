@@ -43,21 +43,14 @@ apps/web/src/
     ├── AGENTS.md
     ├── README.md
     ├── context.json
-    ├── src/
-    │   ├── domain/                       # Aggregate, VO, policy, event, error
-    │   ├── application/                  # use cases and owned Ports
-    │   ├── contracts/public.ts           # versioned Published Language
-    │   ├── infrastructure/               # outbound adapter implementations
-    │   ├── presentation/                 # optional context-owned inbound adapters
-    │   ├── subdomains/<subdomain>/       # declared internal supporting capability
-    │   │   ├── README.md
-    │   │   ├── domain/
-    │   │   ├── application/
-    │   │   ├── infrastructure/
-    │   │   └── composition.ts
-    │   ├── public.ts                     # application facade
-    │   └── composition.ts                # module factory / adapter exports
-    └── tests/
+    ├── domain/<subdomain>/               # Aggregate, VO, policy, event, error
+    ├── application/<subdomain>/          # use cases and consumer-owned Ports
+    ├── contracts/<subdomain>/public.ts   # provider Published Language entrypoint
+    ├── infrastructure/<subdomain>/       # adapters, persistence and integrations
+    ├── presentation/<subdomain>/         # optional inbound adapters
+    ├── composition/index.ts              # server composition entrypoint only
+    ├── public-api.ts                     # app-facing Application facade
+    └── tests/<subdomain>/
 ```
 
 一個 Bounded Context 是語言、一致性與 ownership boundary，不是 route 或資料表。
@@ -70,7 +63,9 @@ capability folder。
 Presentation / Infrastructure ---> Application ---> Domain
              composition root wires ^ owned Ports
 
-Consumer Application ---> consumer-owned Port / ACL ---> Provider Contract
+Consumer Application ---> consumer-owned Port
+Consumer Infrastructure integration ---> Provider Published Language
+App server composition ---> Context public-api + composition
 ```
 
 Membership/Team slice 的 mapping 是：workspace form／Server Action 為 inbound adapter；Account
@@ -89,7 +84,13 @@ product workspace composition 是唯一 wiring root；Repository 只透過 `Acco
   `RequestContextService`、巨型 optional DTO、中央 relationship graph 或中央 authorization rule。
 - Context 欄位只有在目前 capability 必須使用、來源 owner 已核准、失敗語意明確時才可加入；
   未核准的 Enterprise／Policy／Entitlement facts 必須省略，不得以空欄位假裝已整合。
-- Cross-context 只可 import provider `src/contracts/`，並需要 manifest relationship。
+- Domain、Application、Contracts 與 Presentation 不得認識其他 Context。
+- 跨 Context 語意依賴只能由 consumer `infrastructure/<subdomain>/integrations/**` 實作 consumer-owned
+  Application Port，並 import provider `contracts/<subdomain>/public.ts`。
+- `public-api.ts` 只供 app server composition 取得 Application facade；`composition/index.ts` 只供 app server
+  composition 建立 concrete instances。Peer Context 不得 import 這兩個入口。
+- 每個跨 Context import 都需要 manifest relationship；既有例外只能列於
+  `cross-context-dependency-exceptions.json`，不得新增而無 ADR、owner 與退出條件。
 - 禁止 Shared Kernel，除非 ADR、joint owner、compatibility、tests、removal plan 全部核准。
 
 ## 4. Aggregate and transaction rules

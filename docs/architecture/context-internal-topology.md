@@ -29,7 +29,8 @@ Detailed leaf directories are created on demand. Empty tactical folders are not 
 
 ```text
 Presentation / Infrastructure -> Application -> Domain
-Application -> provider Published Contract through consumer-owned Port / ACL
+Application -> consumer-owned Port
+Consumer Infrastructure integration -> provider Published Language
 Server composition -> Context composition -> concrete outbound adapters
 ```
 
@@ -37,11 +38,20 @@ Server composition -> Context composition -> concrete outbound adapters
 
 - `contracts/<subdomain>` contains standalone, versioned Published Language.
 - Application commands and queries remain Application-owned and are not automatically public contracts.
-- `public-api.ts` exports the Context facade and approved Published Language only.
+- `contracts/<subdomain>/public.ts` is the only peer-Context semantic entrypoint.
+- `public-api.ts` exports the app-facing Application facade and is importable only by app server composition.
+- `composition/index.ts` exposes concrete assembly only to app server composition; it is never a peer-Context API.
 - UI view models, forms and delivery schemas remain under Presentation and are never provider contracts.
 
-## Transitional state
+## Cross-context interaction
 
-`docs/architecture/context-topology-migration.json` controls enforcement. `transitional` permits registered legacy
-`src/*` Contexts while requiring every newly generated Context to use the target topology. `target` rejects all legacy
-paths.
+Synchronous Query, Command or Capability Decision uses a consumer-owned Application Port implemented by a consumer
+Infrastructure ACL adapter. Integration Events enter through consumer Infrastructure, map to a local Command, and
+must not leak provider event types into Application. Events are not correctness barriers for immediate invariants.
+Multi-step workflows with retry, timeout, compensation or correlation require an explicitly owned Process Manager.
+Read-only Dashboard or BFF composition may aggregate queries but cannot decide provider-owned business rules.
+
+## Enforcement state
+
+`context-topology-migration.json` is in `target` mode and rejects all legacy paths. Cross-context exceptions are
+separately registered as removal debt and do not authorize new dependencies.

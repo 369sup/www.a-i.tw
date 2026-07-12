@@ -41,7 +41,9 @@ If Serena MCP tools are available, first call `serena.initial_instructions` and 
 - Application owns use cases, commands, queries, and ports.
 - UI, route handlers, Server Actions, and Infrastructure are adapters.
 - Only a server-side composition root may wire concrete adapters.
-- Cross-context interaction must use an approved published contract, port, event, or anti-corruption adapter.
+- Cross-context semantic dependencies originate only from consumer Infrastructure integrations, implement a
+  consumer-owned Application Port, and import the provider Published Language entrypoint. App server composition alone
+  may import Context `public-api.ts` and `composition/index.ts`.
 - Never import another context's Domain, Application, Infrastructure, composition internals, or private test fixtures.
 - Do not invent missing ownership or use `shared`, `common`, `core`, `utils`, or `helpers` to bypass a boundary.
 

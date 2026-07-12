@@ -9,5 +9,5 @@ Account ownership、Repository governance 與 Template management 分別由其 C
 
 Master Template declares `sub-template` as an internal supporting subdomain in
 `context.json.internalSubdomains`; its runtime structure is
-`src/subdomains/sub-template`. Internal subdomain is not automatically a new
+the `sub-template` directory under each applicable layer. Internal subdomain is not automatically a new
 Bounded Context and may not publish cross-context contracts without a boundary ADR.

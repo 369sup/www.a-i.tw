@@ -18,6 +18,6 @@ Infrastructure: persistence, external services, framework wiring
 ```
 
 Domain 不依賴框架；Application 不依賴具體資料庫或第三方 SDK；Infrastructure 在 app-local
-composition root 綁定 adapter。跨 Context 只可使用發布方的 `./contracts` package
-entrypoint。`pnpm arch:check` 將 package exports、manifest、workspace dependencies 與
+composition root 綁定 adapter。跨 Context 由 consumer Infrastructure ACL adapter 經 consumer-owned Port
+使用發布方 `contracts/<subdomain>/public.ts`。`pnpm arch:check` 將 entrypoints、importer layer、manifest 與
 實際 import graph 視為硬性 gate。

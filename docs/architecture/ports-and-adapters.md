@@ -21,8 +21,10 @@ root 負責接線。Repository 不得 import Account internals，只能經 consu
 
 Team 遵循相同邊界：Account Domain 擁有 Team name 與 roster invariants；Account Application
 擁有 Team use cases 與 `TeamStore`；in-memory Team adapter 位於 Account Infrastructure。
-Repository Application 透過自身的 `AccountDirectoryGateway` ACL 查詢最小 Team facts，
-Repository Domain 才擁有 Team grant、Repository Role 與 effective-access decision。
+Repository 擁有 `AccountDirectory` consumer Port；Repository Infrastructure 的 `AccountDirectoryAdapter` 消費
+Account Published Language 並映射最小 Team facts。Repository Domain 才擁有 Team grant、Repository Role 與
+effective-access decision。Issues 同樣透過自身 `RepositoryParticipation` Port 與 Infrastructure ACL adapter
+取得 Repository-owned authoritative decision。
 
 `master-template` 已用 in-memory adapter 作為可測試的 reference Context；它證明 port wiring，
 不代表 production persistence 或已發佈的跨 Context contract。建立 production integration 前仍須

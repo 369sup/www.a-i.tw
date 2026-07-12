@@ -19,6 +19,10 @@ pnpm generate:context \
 ```
 
 The generator creates an app-local Context under `apps/web/src/modules/` using the ADR 0008 target topology: layer first, declared subdomain second, tactical pattern/use case third. It creates `public-api.ts` and `composition/index.ts`; ownership-free shared directories are forbidden.
+
+For every approved cross-context edge, scaffold a consumer-owned Application Port and consumer Infrastructure
+`integrations` adapter. Peer Context code may import only provider `contracts/<subdomain>/public.ts`; only app server
+composition may import `public-api.ts` or `composition/index.ts`.
 registers the exact same manifest in `docs/domains/context-map.json`, and
 provides empty public entrypoints. All Contexts belong to the single
 `@a-i/web` deployable package; boundaries are enforced by manifests, imports,

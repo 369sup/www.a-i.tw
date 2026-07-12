@@ -6,8 +6,8 @@
 | --------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------- |
 | Identity & Access     | `PrincipalStore`, `CredentialVerifier`, token-keyed `SessionStore`                          | mock password verifier + in-memory stores                | product workspace root      |
 | Account               | `AccountStore`, `ProfileStore`, `MembershipStore`, `MembershipInvitationStore`, `TeamStore` | in-memory Account, Profile, Membership and Team adapters | product workspace root      |
-| Repository            | `RepositoryStore`, `AccessGrantStore`, `AccountDirectoryGateway`                            | in-memory stores + Account Membership/Team ACL           | product workspace root      |
-| Issues       | `IssueStore`, `LabelStore`, `IssueNumberSequence`, `RepositoryParticipationGateway`         | in-memory work stores + Repository ACL                   | product workspace root      |
+| Repository            | `RepositoryStore`, `AccessGrantStore`, `AccountDirectory`                                   | in-memory stores + `AccountDirectoryAdapter`             | product workspace root      |
+| Issues                | `IssueStore`, `LabelStore`, `IssueNumberSequence`, `RepositoryParticipation`                | in-memory stores + `RepositoryParticipationAdapter`      | product workspace root      |
 | Repository Experience | `AccountContextPort`, `RepositoryContextPort`                                               | Account/Repository facade adapters                       | repository-context root     |
 | Master Template       | resource, namespace, access, clock and id Ports                                             | demo/in-memory adapters                                  | master-template root        |
 | Sub Template          | `SubTemplateCatalog`                                                                        | `InMemorySubTemplateCatalog`                             | Master Template composition |

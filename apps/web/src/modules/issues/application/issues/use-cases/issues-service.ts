@@ -1,8 +1,3 @@
-import type { PrincipalRefV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
-import type {
-  RepositoryCollaborationScopeV1,
-  RepositoryParticipationActionV1,
-} from "@/src/modules/repository/contracts/repository/public";
 import {
   applyLabel,
   assignIssue,
@@ -18,6 +13,11 @@ import {
   normalizeLabelName,
   type Label,
 } from "../../../domain/issues/entities/label";
+import type { IssuePrincipal } from "../ports/inbound/issue-principal";
+import type {
+  IssueParticipationAction,
+  RepositoryParticipation,
+} from "../ports/outbound/repository-participation.port";
 
 export interface IssueStore {
   list(repositoryId: string): Promise<Issue[]>;
@@ -33,16 +33,6 @@ export interface LabelStore {
 export interface IssueNumberSequence {
   next(repositoryId: string): Promise<number>;
 }
-export interface RepositoryParticipationGateway {
-  scope(
-    repositoryId: string,
-  ): Promise<RepositoryCollaborationScopeV1 | undefined>;
-  allowed(input: {
-    repositoryId: string;
-    principal: PrincipalRefV1;
-    action: RepositoryParticipationActionV1;
-  }): Promise<boolean>;
-}
 export type IssueSummary = Readonly<{
   issueId: string;
   number: number;
@@ -56,53 +46,53 @@ export type LabelSummary = Readonly<Label>;
 export interface IssuesService {
   list(
     repositoryId: string,
-    principal: PrincipalRefV1,
+    principal: IssuePrincipal,
   ): Promise<{ issues: IssueSummary[]; labels: LabelSummary[] }>;
   createIssue(input: {
     repositoryId: string;
     title: string;
     body: string;
-    actor: PrincipalRefV1;
+    actor: IssuePrincipal;
   }): Promise<IssueSummary>;
   setClosed(input: {
     issueId: string;
     closed: boolean;
-    actor: PrincipalRefV1;
+    actor: IssuePrincipal;
   }): Promise<IssueSummary>;
   createLabel(input: {
     repositoryId: string;
     name: string;
     color: string;
     description: string;
-    actor: PrincipalRefV1;
+    actor: IssuePrincipal;
   }): Promise<LabelSummary>;
   setLabel(input: {
     issueId: string;
     labelId: string;
     applied: boolean;
-    actor: PrincipalRefV1;
+    actor: IssuePrincipal;
   }): Promise<IssueSummary>;
   setAssignee(input: {
     issueId: string;
-    principal: PrincipalRefV1;
+    principal: IssuePrincipal;
     assigned: boolean;
-    actor: PrincipalRefV1;
+    actor: IssuePrincipal;
   }): Promise<IssueSummary>;
 }
 export function createIssuesService(
   issues: IssueStore,
   labels: LabelStore,
   sequence: IssueNumberSequence,
-  repositories: RepositoryParticipationGateway,
+  repositories: RepositoryParticipation,
   nextIssueId: () => string,
   nextLabelId: () => string,
 ): IssuesService {
   const requireAllowed = async (
     repositoryId: string,
-    principal: PrincipalRefV1,
-    action: RepositoryParticipationActionV1,
+    principal: IssuePrincipal,
+    action: IssueParticipationAction,
   ) => {
-    if (!(await repositories.scope(repositoryId)))
+    if (!(await repositories.exists(repositoryId)))
       throw new Error("Repository collaboration scope not found.");
     if (!(await repositories.allowed({ repositoryId, principal, action })))
       throw new Error("Repository participation denied.");

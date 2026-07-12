@@ -50,6 +50,10 @@ Identity & Access ──PrincipalRefV1──> Issues
 | Identity & Access | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Identity owns PrincipalRefV1; Issues owns actor/assignee translation                | missing or disabled Principal facts deny mutation                                                                                                  |
 | Repository        | Issues     | Open Host Service + Published Language; Issues owns an ACL     | Repository owns collaboration decisions; Issues owns participation translation      | unavailable scope or denied decision fails closed                                                                                                  |
 
+Runtime enforcement uses `AccountDirectoryAdapter` in Repository Infrastructure and
+`RepositoryParticipationAdapter` in Issues Infrastructure. Consumer Application layers depend only on their local
+Ports and Principal input types; provider facade instances are injected by app server composition.
+
 `Identity & Access` does not return a `repository:*` decision. `Account` does not return a
 Repository Role. `Repository` evaluates its resource-scoped decision from the facts it consumes.
 No Shared Kernel, cross-context entity import, shared ORM model or cross-context transaction is

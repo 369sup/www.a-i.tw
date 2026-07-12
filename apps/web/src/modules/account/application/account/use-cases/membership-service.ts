@@ -1,4 +1,3 @@
-import type { PrincipalRefV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
 import type { MembershipFactV1 } from "../../../contracts/account/public";
 import type { AccountStore } from "./account-service";
 import {
@@ -9,6 +8,7 @@ import {
   type Membership,
   type MembershipInvitation,
 } from "../../../domain/account/entities/membership";
+import type { AccountPrincipal } from "../ports/inbound/account-principal";
 
 export interface MembershipStore {
   list(accountId: string): Promise<Membership[]>;
@@ -32,17 +32,17 @@ export interface MembershipService {
   ): Promise<MembershipFactV1 | undefined>;
   invite(input: {
     accountId: string;
-    actor: PrincipalRefV1;
-    invitee: PrincipalRefV1;
+    actor: AccountPrincipal;
+    invitee: AccountPrincipal;
   }): Promise<{ invitationId: string }>;
   accept(input: {
     invitationId: string;
-    principal: PrincipalRefV1;
+    principal: AccountPrincipal;
   }): Promise<MembershipFactV1>;
   remove(input: {
     accountId: string;
     principalId: string;
-    actor: PrincipalRefV1;
+    actor: AccountPrincipal;
   }): Promise<void>;
 }
 

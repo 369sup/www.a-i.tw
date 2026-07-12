@@ -3,20 +3,18 @@
 狀態：Current / verified app-local graph
 
 ```text
-Identity & Access contracts ──> Account application
-Identity & Access contracts ──> Repository application
-Account contracts ────────────> Repository application
-Identity & Access contracts ──> Issues application
-Repository contracts ─────────> Issues application (consumer ACL)
+Account Application -> local AccountPrincipal
+
+Repository Application -> AccountDirectory Port
+Repository Infrastructure integration -> Account contracts/public
+
+Issues Application -> RepositoryParticipation Port
+Issues Infrastructure integration -> Repository contracts/public
 
 apps/web/src/server/composition
-  ├── identity-access composition
-  ├── account composition
-  ├── repository composition
-  └── master-template composition
-         └── sub-template internal subdomain composition
+  -> Context public-api.ts + composition/index.ts
+  -> provider facade injection into consumer ACL adapters
 ```
 
-All cross-context arrows consume provider `src/contracts/public.ts`. No Context
-imports another Context's Domain、Application、Infrastructure or Composition.
-Experience reaches application facades only through the app composition root.
+No Domain, Application, Contracts or Presentation layer imports a peer Context. The exception registry is empty.
+Experience reaches Application facades only through app server composition.

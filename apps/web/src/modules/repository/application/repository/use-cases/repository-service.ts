@@ -1,10 +1,4 @@
 import type {
-  AccountEligibilityV1,
-  MembershipFactV1,
-  TeamMembershipFactV1,
-} from "@/src/modules/account/contracts/account/public";
-import type { PrincipalRefV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
-import type {
   RepositoryAccessDecisionV1,
   RepositoryCollaborationScopeV1,
   RepositoryParticipationActionV1,
@@ -26,6 +20,8 @@ import {
   type AccessGrant,
   type Repository,
 } from "../../../domain/repository/aggregates/repository";
+import type { RepositoryPrincipal } from "../ports/inbound/repository-principal";
+import type { AccountDirectory } from "../ports/outbound/account-directory.port";
 
 export interface RepositoryStore {
   list(): Promise<Repository[]>;
@@ -40,28 +36,17 @@ export interface AccessGrantStore {
   list(repositoryId: string): Promise<AccessGrant[]>;
   save(grant: AccessGrant): Promise<void>;
 }
-export interface AccountDirectoryGateway {
-  eligibility(accountId: string): Promise<AccountEligibilityV1 | undefined>;
-  membership(
-    accountId: string,
-    principalId: string,
-  ): Promise<MembershipFactV1 | undefined>;
-  teamMemberships(
-    accountId: string,
-    principalId: string,
-  ): Promise<TeamMembershipFactV1>;
-}
 export interface RepositoryService {
-  listVisible(principal?: PrincipalRefV1): Promise<RepositoryRefV1[]>;
+  listVisible(principal?: RepositoryPrincipal): Promise<RepositoryRefV1[]>;
   get(
     repositoryId: string,
-    principal?: PrincipalRefV1,
+    principal?: RepositoryPrincipal,
   ): Promise<
     | { repository: RepositoryRefV1; decision: RepositoryAccessDecisionV1 }
     | undefined
   >;
   create(input: {
-    principal: PrincipalRefV1;
+    principal: RepositoryPrincipal;
     ownerAccountId: string;
     name: string;
     description: string;
@@ -70,36 +55,36 @@ export interface RepositoryService {
   rename(
     repositoryId: string,
     name: string,
-    principal: PrincipalRefV1,
+    principal: RepositoryPrincipal,
   ): Promise<RepositoryRefV1>;
   setVisibility(
     repositoryId: string,
     visibility: RepositoryVisibilityV1,
-    principal: PrincipalRefV1,
+    principal: RepositoryPrincipal,
   ): Promise<RepositoryRefV1>;
   setArchived(
     repositoryId: string,
     archived: boolean,
-    principal: PrincipalRefV1,
+    principal: RepositoryPrincipal,
   ): Promise<RepositoryRefV1>;
   grant(
     repositoryId: string,
     granteePrincipalId: string,
     role: RepositoryRoleV1,
-    principal: PrincipalRefV1,
+    principal: RepositoryPrincipal,
   ): Promise<void>;
   grantTeam(
     repositoryId: string,
     teamId: string,
     role: RepositoryRoleV1,
-    principal: PrincipalRefV1,
+    principal: RepositoryPrincipal,
   ): Promise<void>;
   collaborationScope(
     repositoryId: string,
   ): Promise<RepositoryCollaborationScopeV1 | undefined>;
   participation(input: {
     repositoryId: string;
-    principal: PrincipalRefV1;
+    principal: RepositoryPrincipal;
     action: RepositoryParticipationActionV1;
   }): Promise<RepositoryParticipationDecisionV1>;
 }
@@ -107,13 +92,13 @@ export interface RepositoryService {
 export function createRepositoryService(
   store: RepositoryStore,
   grants: AccessGrantStore,
-  accounts: AccountDirectoryGateway,
+  accounts: AccountDirectory,
   nextId: () => string,
 ): RepositoryService {
   async function decision(
     repository: Repository,
     action: RepositoryAction,
-    principal?: PrincipalRefV1,
+    principal?: RepositoryPrincipal,
   ) {
     const owner = await accounts.membership(
       repository.ownerAccountId,
@@ -128,19 +113,17 @@ export function createRepositoryService(
       action,
       grants: await grants.list(repository.id),
       teamIds: principal
-        ? (
-            await accounts.teamMemberships(
-              repository.ownerAccountId,
-              principal.principalId,
-            )
-          ).teamIds
+        ? await accounts.teamIds(
+            repository.ownerAccountId,
+            principal.principalId,
+          )
         : [],
     });
   }
   async function requireAllowed(
     repository: Repository,
     action: RepositoryAction,
-    principal: PrincipalRefV1,
+    principal: RepositoryPrincipal,
   ) {
     const result = await decision(repository, action, principal);
     if (!result.allowed)

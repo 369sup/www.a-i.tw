@@ -50,3 +50,5 @@
 
 Architecture target routing: `architecture/context-internal-topology.md` owns ADR 0008 layer/subdomain topology;
 `architecture/context-topology-migration.json` owns transitional versus target enforcement.
+Cross-context routing: `architecture/context-dependency-policy.md` and ADR 0009 own the consumer Port, Infrastructure
+ACL, provider Published Language and app composition-root rules; the guarded exception registry is empty.

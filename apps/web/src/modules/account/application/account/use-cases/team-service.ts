@@ -1,4 +1,3 @@
-import type { PrincipalRefV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
 import type {
   TeamMembershipFactV1,
   TeamRefV1,
@@ -11,6 +10,7 @@ import {
 } from "../../../domain/account/entities/team";
 import type { AccountStore } from "./account-service";
 import type { MembershipService } from "./membership-service";
+import type { AccountPrincipal } from "../ports/inbound/account-principal";
 
 export interface TeamStore {
   list(accountId: string): Promise<Team[]>;
@@ -31,17 +31,17 @@ export interface TeamService {
   create(input: {
     accountId: string;
     name: string;
-    actor: PrincipalRefV1;
+    actor: AccountPrincipal;
   }): Promise<TeamRefV1>;
   addMember(input: {
     teamId: string;
     principalId: string;
-    actor: PrincipalRefV1;
+    actor: AccountPrincipal;
   }): Promise<TeamRefV1>;
   removeMember(input: {
     teamId: string;
     principalId: string;
-    actor: PrincipalRefV1;
+    actor: AccountPrincipal;
   }): Promise<TeamRefV1>;
 }
 
@@ -51,7 +51,7 @@ export function createTeamService(
   teams: TeamStore,
   nextId: () => string,
 ): TeamService {
-  async function requireOwner(accountId: string, actor: PrincipalRefV1) {
+  async function requireOwner(accountId: string, actor: AccountPrincipal) {
     const account = await accounts.find(accountId);
     if (!account || account.kind !== "organization")
       throw new Error("Teams are only available to organization accounts.");

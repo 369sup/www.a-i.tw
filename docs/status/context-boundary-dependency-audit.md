@@ -1,18 +1,16 @@
 # Context boundary dependency audit
 
-狀態：Current / app-local runtime graph verified
+狀態：Current / verified 2026-07-12
 
-`apps/web/src/modules` 包含 Identity & Access、Account、Repository 與 Master Template。
-跨 Context import checker 僅允許 declared relationship 指向 provider 的
-`src/contracts/`；dependency-cruiser 驗證 layer direction、禁止 internal imports 與
-cycles；Semgrep 驗證 Domain framework independence；architecture fixtures 驗證負向案例。
+All app-local Contexts use the target topology. Peer semantic imports originate only from consumer
+`infrastructure/<subdomain>/integrations/**`, target provider `contracts/<subdomain>/public.ts`, and require a Context
+Map relationship. `public-api.ts` and `composition/index.ts` are reserved for app server composition.
 
-Master Template 另宣告內部 `sub-template` supporting subdomain，位於
-`src/subdomains/sub-template`，並由同一 Context composition 組裝。最近完整驗證日期：
-2026-07-12。
+AD-009 is closed. Repository owns the `AccountDirectory` Port and its Account Published Language ACL adapter. Issues
+owns the `RepositoryParticipation` Port and its Repository Published Language ACL adapter. Account, Repository and
+Issues use local Principal input types instead of importing Identity & Access types into Application. The exception
+registry is empty and remains machine checked so stale or newly added exceptions fail verification.
 
-Membership/Team extension evidence: Serena confirms `TeamStore` is Account Application-owned and implemented by
-Account Infrastructure; `TeamMembershipFactV1` crosses only through Account contracts; Repository owns
-`AccountDirectoryGateway`; concrete mapping remains in server composition. `arch:cross-context`, dependency-cruiser,
-architecture fixtures and Semgrep passed. Full disposition is in
-[`2026-07-12-membership-team-30-concern-closure.md`](2026-07-12-membership-team-30-concern-closure.md).
+Dependency Cruiser verifies layer direction and cycles. The cross-context checker verifies importer layer, provider
+entrypoint and manifest relationship. Architecture fixtures cover allowed Infrastructure integration, forbidden
+provider internals, missing Context Map relationships and forbidden Application-to-provider imports.

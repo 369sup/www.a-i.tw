@@ -19,11 +19,7 @@ describe("issues", () => {
       new InMemoryLabelStore(),
       new InMemoryIssueNumberSequence(),
       {
-        scope: async (id) => ({
-          repositoryId: id,
-          ownerAccountId: "account",
-          status: "active",
-        }),
+        exists: async () => true,
         allowed: async ({ principal }) => principal.status === "active",
       },
       (() => {

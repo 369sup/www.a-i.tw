@@ -12,13 +12,14 @@ subdomain，不是第二個 Context 或 workspace package。
 apps/web/src/
 ├── app/(console)/templates/               # sole Next.js inbound route adapters
 ├── app/@modal/(...)architecture/          # intercepted-modal inbound adapter
-├── modules/master-template/src/presentation/ # form and UI adapters
+├── modules/master-template/presentation/template-management/ # form and UI adapters
 ├── server/composition/master-template.ts   # server-only adapter wiring
 └── modules/master-template/                # application core
-    ├── src/domain/                         # no framework or infrastructure imports
-    ├── src/application/                    # inbound use cases and outbound ports
-    ├── src/infrastructure/                 # outbound port adapters; no re-exports
-    └── src/subdomains/sub-template/        # declared supporting-subdomain internals
+    ├── domain/{template-management,sub-template}/
+    ├── application/{template-management,sub-template}/
+    ├── infrastructure/{template-management,sub-template}/
+    ├── composition/index.ts
+    └── public-api.ts
 ```
 
 ## Enforced responsibilities

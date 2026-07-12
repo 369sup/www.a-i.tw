@@ -97,8 +97,14 @@ function writeContext(
   relationships: Array<{ target: string }> = [],
 ) {
   const directory = join(root, "apps/web/src/modules", name);
-  mkdirSync(join(directory, "src", "application"), { recursive: true });
-  mkdirSync(join(directory, "src", "contracts"), { recursive: true });
+  mkdirSync(join(directory, "application", name, "use-cases"), {
+    recursive: true,
+  });
+  mkdirSync(
+    join(directory, "infrastructure", name, "integrations", "outbound"),
+    { recursive: true },
+  );
+  mkdirSync(join(directory, "contracts", name), { recursive: true });
   writeFileSync(
     join(directory, "context.json"),
     JSON.stringify({ context: name, relationships }),
@@ -107,14 +113,21 @@ function writeContext(
 }
 
 describe("cross-context import checker", () => {
-  it("allows an approved published-contract import", () => {
+  it("allows a consumer Infrastructure integration to import approved Published Language", () => {
     const root = mkdtempSync(join(tmpdir(), "www-ai-contract-import-"));
     temporaryDirectories.push(root);
     const alpha = writeContext(root, "alpha", [{ target: "beta" }]);
     writeContext(root, "beta");
     writeFileSync(
-      join(alpha, "src", "application", "use-case.ts"),
-      'import type { BetaContract } from "@/src/modules/beta/src/contracts/public";\nexport type Value = BetaContract;',
+      join(
+        alpha,
+        "infrastructure",
+        "alpha",
+        "integrations",
+        "outbound",
+        "beta.adapter.ts",
+      ),
+      'import type { BetaContract } from "@/src/modules/beta/contracts/beta/public";\nexport type Value = BetaContract;',
     );
 
     expect(checkCrossContextImports(root)).toEqual([]);
@@ -126,12 +139,19 @@ describe("cross-context import checker", () => {
     const alpha = writeContext(root, "alpha", [{ target: "beta" }]);
     writeContext(root, "beta");
     writeFileSync(
-      join(alpha, "src", "application", "use-case.ts"),
-      'import type { BetaContract } from "@/src/modules/beta/src/domain/private";\nexport type Value = BetaContract;',
+      join(
+        alpha,
+        "infrastructure",
+        "alpha",
+        "integrations",
+        "outbound",
+        "beta.adapter.ts",
+      ),
+      'import type { BetaContract } from "@/src/modules/beta/domain/beta/private";\nexport type Value = BetaContract;',
     );
 
     expect(checkCrossContextImports(root)).toEqual([
-      expect.stringContaining("cross-context imports may target only"),
+      expect.stringContaining("peer Context imports may target only"),
     ]);
   });
 
@@ -141,12 +161,36 @@ describe("cross-context import checker", () => {
     const alpha = writeContext(root, "alpha");
     writeContext(root, "beta");
     writeFileSync(
-      join(alpha, "src", "application", "use-case.ts"),
-      'import type { BetaContract } from "@/src/modules/beta/src/contracts/public";\nexport type Value = BetaContract;',
+      join(
+        alpha,
+        "infrastructure",
+        "alpha",
+        "integrations",
+        "outbound",
+        "beta.adapter.ts",
+      ),
+      'import type { BetaContract } from "@/src/modules/beta/contracts/beta/public";\nexport type Value = BetaContract;',
     );
 
     expect(checkCrossContextImports(root)).toEqual([
       expect.stringContaining("without a Context Map relationship"),
+    ]);
+  });
+
+  it("rejects a new Application-to-provider contract dependency", () => {
+    const root = mkdtempSync(join(tmpdir(), "www-ai-application-import-"));
+    temporaryDirectories.push(root);
+    const alpha = writeContext(root, "alpha", [{ target: "beta" }]);
+    writeContext(root, "beta");
+    writeFileSync(
+      join(alpha, "application", "alpha", "use-cases", "use-case.ts"),
+      'import type { BetaContract } from "@/src/modules/beta/contracts/beta/public";\nexport type Value = BetaContract;',
+    );
+
+    expect(checkCrossContextImports(root)).toEqual([
+      expect.stringContaining(
+        "cross-context semantic dependencies belong only in consumer infrastructure",
+      ),
     ]);
   });
 

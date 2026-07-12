@@ -21,6 +21,7 @@ import {
 } from "@/src/modules/identity-access/composition";
 import { createRepositoryService } from "@/src/modules/repository/public-api";
 import {
+  AccountDirectoryAdapter,
   InMemoryAccessGrantStore,
   InMemoryRepositoryStore,
 } from "@/src/modules/repository/composition";
@@ -29,6 +30,7 @@ import {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,
   InMemoryLabelStore,
+  RepositoryParticipationAdapter,
 } from "@/src/modules/issues/composition";
 import { createProjectsService } from "@/src/modules/projects/public-api";
 import { InMemoryProjectStore } from "@/src/modules/projects/composition";
@@ -147,25 +149,20 @@ function createProductWorkspace() {
       },
     ]),
     new InMemoryAccessGrantStore(),
-    {
+    new AccountDirectoryAdapter({
       eligibility: (id) => accounts.eligibility(id),
       membership: (accountId, principalId) =>
         memberships.membership(accountId, principalId),
       teamMemberships: (accountId, principalId) =>
         teams.memberships(accountId, principalId),
-    },
+    }),
     nextId("repository"),
   );
   const issues = createIssuesService(
     new InMemoryIssueStore(),
     new InMemoryLabelStore(),
     new InMemoryIssueNumberSequence(),
-    {
-      scope: (repositoryId) => repositories.collaborationScope(repositoryId),
-      allowed: async ({ repositoryId, principal, action }) =>
-        (await repositories.participation({ repositoryId, principal, action }))
-          .allowed,
-    },
+    new RepositoryParticipationAdapter(repositories),
     nextId("issue"),
     nextId("label"),
   );

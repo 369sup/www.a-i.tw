@@ -1,4 +1,3 @@
-import type { PrincipalRefV1 } from "@/src/modules/identity-access/contracts/identity-access/public";
 import type {
   AccountEligibilityV1,
   AccountRefV1,
@@ -8,6 +7,7 @@ import {
   type Account,
   type AccountKind,
 } from "../../../domain/account/aggregates/account";
+import type { AccountPrincipal } from "../ports/inbound/account-principal";
 
 export interface AccountStore {
   list(): Promise<Account[]>;
@@ -21,7 +21,7 @@ export interface AccountService {
   resolve(accountId: string): Promise<AccountRefV1 | undefined>;
   eligibility(accountId: string): Promise<AccountEligibilityV1 | undefined>;
   create(input: {
-    principal: PrincipalRefV1;
+    principal: AccountPrincipal;
     handle: string;
     displayName: string;
     kind: AccountKind;

@@ -37,3 +37,15 @@ export type TeamMembershipFactV1 = Readonly<{
   principalId: string;
   teamIds: readonly string[];
 }>;
+
+export interface AccountDirectoryApiV1 {
+  eligibility(accountId: string): Promise<AccountEligibilityV1 | undefined>;
+  membership(
+    accountId: string,
+    principalId: string,
+  ): Promise<MembershipFactV1 | undefined>;
+  teamMemberships(
+    accountId: string,
+    principalId: string,
+  ): Promise<TeamMembershipFactV1>;
+}

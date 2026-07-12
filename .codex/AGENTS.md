@@ -24,7 +24,8 @@ Before editing, state: owner, dependency direction, use case (or `not applicable
 - 架構工作必須再讀 `docs/architecture/ddd-hexagonal-standard.md` 與 `docs/architecture/architecture-governance.json`。30 個 concern、runtime manifest、Fumadocs、Serena navigation 與驗證證據必須一致。
 - 不以 UI、route handler 或 infrastructure adapter 取代 domain/application 規則。
 - 必須遵守 Domain-Driven Modular Monolith、Hexagonal Architecture 與 Ports and Adapters：UI、route、Server Action 與 infrastructure 都是 adapter；Application 擁有 use case 與 Port；Domain 擁有不變條件；只有 server-side composition root 可組裝 concrete adapter。
-- 不把 Git hosting 語意混入產品 domain；跨 context 只使用明確 contract、port 或 adapter。
+- 不把 Git hosting 語意混入產品 domain；跨 Context 由 consumer Application 定義 Port、consumer Infrastructure
+  ACL adapter import provider `contracts/<subdomain>/public.ts`，並只在 app server composition 接線。
 - 優先最小可行修改；不要在未授權下 push、deploy、delete、reset、rebase。
 - 完成 runtime 變更後執行 `pnpm check`、`pnpm build`、`pnpm semgrep`。
 - 修改業務程式碼前，先確認 Domain、Subdomain、Bounded Context、Owner、Ubiquitous Language、Aggregate、Use Case、Ports、Adapters、Context Map 與 Public Contract；缺少時先標記架構缺口，不得自行補造語意。
@@ -33,7 +34,7 @@ Before editing, state: owner, dependency direction, use case (or `not applicable
 - shadcn 官方元件例外：`packages/ui/src/components/ui/**` 與 `apps/web/components/ui/**` 可保留官方所需的 `as`、primitive wrapper、namespace import 或其他 generated pattern；不要對其套用一般 TypeScript 禁止模式。
 - shadcn 例外不允許放入 Domain/Application 規則、跨 Context 內部依賴或敏感資料；自製業務元件離開上述路徑後恢復一般規則。
 - 不得將 `shared`、`common`、`core`、`utils`、`helpers` 作為未定義 owner 的 dumping ground；不得用 import/export alias 掩蓋命名衝突。
-- Context 唯一位置是 `apps/web/src/modules/<context>`；internal subdomain 必須在 manifest 宣告並位於 `src/subdomains/<name>`。禁止 root `modules/` 與水平 `packages/application`、`contracts`、`domain`、`foundation`、`infrastructure`。
+- Context 唯一位置是 `apps/web/src/modules/<context>`；internal subdomain 必須在 manifest 宣告並位於各 layer 的 `<layer>/<subdomain>`。禁止 root `modules/` 與水平 `packages/application`、`contracts`、`domain`、`foundation`、`infrastructure`。
 - 文件讀取採按需路由，不預設走完整鏈。只有新的產品語意或跨 Context ownership 判定，才依
   `docs/ai-index.md` → owning product/domain document → relevant Context Map edge → 對應 contract/ADR/status；
   已知單一 Context 的 runtime 修正不得為了「完整理解」載入全部 domain docs。

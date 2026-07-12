@@ -38,6 +38,14 @@ function resolveAppAlias(root, specifier) {
 
 export function checkCrossContextImports(root = process.cwd()) {
   const contexts = contextDirectories(root);
+  const exceptionPath = join(
+    root,
+    "docs/architecture/cross-context-dependency-exceptions.json",
+  );
+  const exceptions = existsSync(exceptionPath)
+    ? (readJson(exceptionPath).exceptions ?? [])
+    : [];
+  const usedExceptions = new Set();
   const errors = [];
   for (const context of contexts) {
     const files = [];
@@ -60,13 +68,33 @@ export function checkCrossContextImports(root = process.cwd()) {
           "\\",
           "/",
         );
+        const consumerRelative = relative(context.path, file).replaceAll(
+          "\\",
+          "/",
+        );
+        const exceptionKey = `${context.name}:${consumerRelative}:${targetContext.name}`;
+        const isRegisteredException = exceptions.some((exception) => {
+          const matches =
+            exception.consumer === context.name &&
+            exception.file === consumerRelative &&
+            exception.provider === targetContext.name;
+          if (matches) usedExceptions.add(exceptionKey);
+          return matches;
+        });
+        if (!/^contracts\/[^/]+\/public(?:\.ts)?$/.test(targetRelative)) {
+          errors.push(
+            `${file} imports ${specifier}; peer Context imports may target only ${targetContext.name}/contracts/<subdomain>/public.ts.`,
+          );
+          continue;
+        }
         if (
-          !/^(?:src\/contracts\/|contracts\/|public-api\.ts$)/.test(
-            targetRelative,
-          )
+          !/^infrastructure\/[^/]+\/integrations\/(?:inbound|outbound|adapters|mappers)\//.test(
+            consumerRelative,
+          ) &&
+          !isRegisteredException
         ) {
           errors.push(
-            `${file} imports ${specifier}; cross-context imports may target only ${targetContext.name} Published Language or public-api.ts.`,
+            `${file} imports ${targetContext.name}; cross-context semantic dependencies belong only in consumer infrastructure/<subdomain>/integrations.`,
           );
           continue;
         }
@@ -81,6 +109,11 @@ export function checkCrossContextImports(root = process.cwd()) {
         }
       }
     }
+  }
+  for (const exception of exceptions) {
+    const key = `${exception.consumer}:${exception.file}:${exception.provider}`;
+    if (!usedExceptions.has(key))
+      errors.push(`Stale cross-context dependency exception: ${key}.`);
   }
   return errors;
 }

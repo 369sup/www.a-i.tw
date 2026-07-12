@@ -1,10 +1,11 @@
 # Module boundary policy
 
-狀態：Accepted baseline
+狀態：Accepted / machine enforced baseline
 
 - A module maps to one approved Bounded Context, not a UI route or data table.
-- Only its application facade, versioned contracts and composition factory may be exported.
-- Cross-context imports of domain, application, infrastructure or persistence internals are forbidden.
-- A Context may share only an explicitly approved Shared Kernel; generic utilities cannot hide domain ownership.
+- Peer Contexts consume only `contracts/<subdomain>/public.ts`, and only from consumer Infrastructure integrations.
+- `public-api.ts` and `composition/index.ts` are app server-composition entrypoints, not peer APIs.
+- Cross-context imports of Domain, Application, Infrastructure, Presentation or composition internals are forbidden.
+- A Context may share only an explicitly approved Shared Kernel; generic utilities cannot hide Domain ownership.
 
 The generated layout is specified by [`module-template.md`](module-template.md).

@@ -21,3 +21,23 @@ rules:
         - "/apps/web/src/modules/**/contracts/{shared,common,core,utils,helpers}/**"
         - "/apps/web/src/modules/**/infrastructure/{shared,common,core,utils,helpers}/**"
         - "/apps/web/src/modules/**/presentation/{shared,common,core,utils,helpers}/**"
+  - id: context-core-must-not-import-peer-context
+    languages: [typescript]
+    message: Domain, Contracts and Presentation cannot know another Context; use a consumer Application Port and Infrastructure integration ACL.
+    severity: ERROR
+    pattern-regex: "(?:from|import)[^\\n]*[\\\"']@/src/modules/"
+    paths:
+      include:
+        - "/apps/web/src/modules/**/domain/**"
+        - "/apps/web/src/modules/**/contracts/**"
+        - "/apps/web/src/modules/**/presentation/**"
+  - id: context-infrastructure-peer-import-requires-integration
+    languages: [typescript]
+    message: Cross-context imports in Infrastructure belong under integrations and may target only Published Language.
+    severity: ERROR
+    pattern-regex: "(?:from|import)[^\\n]*[\\\"']@/src/modules/"
+    paths:
+      include:
+        - "/apps/web/src/modules/**/infrastructure/**"
+      exclude:
+        - "/apps/web/src/modules/**/infrastructure/**/integrations/**"

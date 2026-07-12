@@ -7,4 +7,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log("Cross-context imports use published contract entrypoints.");
+console.log(
+  "Cross-context imports use consumer Infrastructure integrations and provider Published Language entrypoints.",
+);

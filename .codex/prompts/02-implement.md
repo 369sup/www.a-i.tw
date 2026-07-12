@@ -30,3 +30,7 @@ pnpm semgrep
 
 For Context work, route new code to `<layer>/<declared-subdomain>/<tactical-pattern-or-use-case>`. Do not copy legacy
 `src/*` layout unless the task is the controlled migration itself. Use `public-api.ts` and Context composition entrypoints.
+
+For cross-context behavior, define the Port in consumer Application and the ACL adapter under consumer Infrastructure
+integrations. Peer Contexts import only provider `contracts/<subdomain>/public.ts`; `public-api.ts` and composition are
+for app server composition only.
