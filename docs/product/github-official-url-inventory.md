@@ -19,20 +19,20 @@ GitHub.com URL 集合，再逐條分類、研究與映射。
 
 ## Inventory snapshot
 
-| Artifact | 說明 |
-| --- | --- |
-| `docs/evidence/github-docs/pagelist-en-free-pro-team-2026-07-12.txt` | 官方 Pagelist 原始快照，共 3,152 paths |
-| `docs/evidence/github-docs/url-triage-en-free-pro-team-2026-07-12.tsv` | 每個 path 的 product area、初步 triage 與 review status |
-| `docs/product/github-official-research-map.md` | top-level 官方來源路由、include／exclude 原則與 extraction contract |
+| Artifact                                                               | 說明                                                                |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `docs/evidence/github-docs/pagelist-en-free-pro-team-2026-07-12.txt`   | 官方 Pagelist 原始快照，共 3,152 paths                              |
+| `docs/evidence/github-docs/url-triage-en-free-pro-team-2026-07-12.tsv` | 每個 path 的 product area、初步 triage 與 review status             |
+| `docs/product/github-official-research-map.md`                         | top-level 官方來源路由、include／exclude 原則與 extraction contract |
 
 初步 triage 統計：
 
-| Triage | 數量 | 意義 |
-| --- | ---: | --- |
-| `include-candidate` | 581 | Top-level area 以非程式碼產品語意為主，仍需逐頁確認 |
-| `mixed-review-required` | 566 | 同一 area 混合產品與程式碼內容，必須逐頁閱讀 |
+| Triage                           |  數量 | 意義                                                                                      |
+| -------------------------------- | ----: | ----------------------------------------------------------------------------------------- |
+| `include-candidate`              |   581 | Top-level area 以非程式碼產品語意為主，仍需逐頁確認                                       |
+| `mixed-review-required`          |   566 | 同一 area 混合產品與程式碼內容，必須逐頁閱讀                                              |
 | `exclude-code-or-implementation` | 2,005 | Top-level area 主要是程式碼、開發工具或 API implementation；保留 URL 紀錄但不納入產品模型 |
-| Total | 3,152 | 與官方 Pagelist 完整對應 |
+| Total                            | 3,152 | 與官方 Pagelist 完整對應                                                                  |
 
 初步分類不是最終判決。例如 `repositories` 同時包含 ownership、visibility、access、moderation 與 Git、
 Branch、Merge、source code；因此整個 area 必須標成 `mixed-review-required`，再逐頁決定。
@@ -129,4 +129,3 @@ Reviewed official URL evidence
 - GitHub Docs 版本或 Pagelist 變更時可以重做 diff 與增量 review。
 
 目前只完成全量 discovery 與 top-level triage；逐頁 semantic review 尚未完成，因此 runtime 開發維持停止。
-
