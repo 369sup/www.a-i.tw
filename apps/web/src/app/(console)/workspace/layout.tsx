@@ -5,6 +5,11 @@ import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { logoutAction } from "@/src/presentation/auth/actions";
 import { requireAuthentication } from "@/src/server/auth/session";
+import {
+  AccountRepositoryMenu,
+  NotificationInboxButton,
+} from "@/src/presentation/navigation/account-repository-menu";
+import { getProductWorkspace } from "@/src/server/composition/product-workspace";
 
 export default async function WorkspaceLayout({
   children,
@@ -18,6 +23,11 @@ export default async function WorkspaceLayout({
   inspector: ReactNode;
 }) {
   const authentication = await requireAuthentication();
+  const workspace = getProductWorkspace();
+  const [accountItems, repositoryItems] = await Promise.all([
+    workspace.accounts.listAccounts(),
+    workspace.repositories.listVisible(authentication.principal),
+  ]);
   return (
     <main className="min-h-screen bg-muted/30">
       <header className="flex h-14 items-center justify-between border-b bg-background px-4 lg:px-6">
@@ -35,9 +45,13 @@ export default async function WorkspaceLayout({
             <BookOpen className="size-3.5" />
             Docs
           </Link>
-          <span className="text-xs text-muted-foreground">
-            @{authentication.principal.handle}
-          </span>
+          <NotificationInboxButton />
+          <AccountRepositoryMenu
+            accounts={accountItems}
+            currentDisplayName={authentication.principal.displayName}
+            currentHandle={authentication.principal.handle}
+            repositories={repositoryItems}
+          />
           <form action={logoutAction}>
             <button
               className="text-xs font-medium hover:underline"
