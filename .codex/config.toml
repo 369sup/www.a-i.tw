@@ -1,6 +1,7 @@
 # Project-local Codex configuration.
 # Credentials, connector IDs, OAuth state, and user plugin cache remain host-managed.
 
+sandbox_mode = "workspace-write"
 [mcp_servers.serena]
 command = "serena"
 args = ["start-mcp-server", "--project-from-cwd", "--open-web-dashboard", "false"]
@@ -11,3 +12,6 @@ root = "."
 [tool_policy]
 serena = "autonomous-all-relevant-tools"
 context7 = "autonomous-version-sensitive-only"
+
+[sandbox_workspace_write]
+network_access = true

@@ -12,4 +12,7 @@
 
 使用 [.codex/prompts/09-parallel-work.md](../prompts/09-parallel-work.md) 啟動分工。若子任務需要寫入，主 agent 必須預先分配互斥檔案範圍並在交接時重新檢查 `git diff`。當結果分歧時，以程式碼／測試與 Context Map manifest 為事實、canonical `docs/` 為政策；memory、copied skills 與個別 agent 摘要只可作為待驗證線索。
 
-`serena_semantic_reviewer` 的 config layer 位於 `serena-semantic-reviewer.toml`。Serena server 與 task wiring 由 Codex Desktop 或 user profile 管理；本 repository 不假設或提交 `.codex/config.toml`、connector ID 或 credentials。它適合先界定跨檔案符號影響，主 agent 再決定與執行修改。
+`serena_semantic_reviewer` 的 config layer 位於 `serena-semantic-reviewer.toml`。Serena server
+與 task wiring 可由本 repository 的 `.codex/config.toml` 提供可重現的 local command，或由
+Codex Desktop/user profile 管理；connector ID 與 credentials 永遠不提交。它適合先界定跨檔案
+符號影響，主 agent 再決定與執行修改。

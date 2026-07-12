@@ -14,28 +14,29 @@
 ## Codex Desktop 既有 MCP 的使用方式
 
 GitHub、Context7 與 OpenAI Developers 均由 Codex Desktop 管理，不得再寫入專案的
-`.codex/config.toml`。需要使用已連線的能力時，在對話中明確標註 connector 與其 app ID：
+`.codex/config.toml`。需要使用已連線的能力時，直接使用目前工作階段已暴露的
+connector/app；不要在 repository 文件或設定中記錄 connector ID：
 
 ```text
-@github @app-69ef18c674308191a2f952431f91ea61
+@github
 確認 repository 權限後，再推送目前分支。
 
-@Context7 @app-<Context7-app-id>
+@Context7
 查詢目前使用套件版本的官方文件。
 
-@OpenAI Developers @app-<OpenAI-Developers-app-id>
+@OpenAI Developers
 只查詢 OpenAI 官方開發者文件。
 ```
 
 GitHub 先以 connector 取得 repository 與權限資訊；實際本機分支推送仍使用 `git push`。
-Context7 與 OpenAI Developers 則只在本機文件不足或需官方、即時版本資訊時使用。app ID 是
-Desktop 連線身分，不放進專案 MCP 設定或任何 credential 檔案。
+Context7 與 OpenAI Developers 則只在本機文件不足或需官方、即時版本資訊時使用。連線身分由
+Desktop 管理，不放進專案 MCP 設定或任何 credential 檔案。
 
 需要新 plugin 時，先確認它是否真的比既有 MCP/CLI 更適合，再由使用者安裝。若要把可重用能力發佈成 plugin，使用 repository 外的 personal/team plugin 目錄與官方 plugin scaffold；不要把 marketplace credential 或使用者 plugin cache 提交到本專案。
 
 ## Serena Semantic Workflow
 
-本 repository 的 Serena Semantic Workflow 是 `.agents/skills/serena-semantic-workflow/` skill，不是需要在 marketplace 內重複安裝的 local plugin。Serena 由 `.codex/config.toml` 透過 `uvx` 啟動；開啟新的 Codex task 以重新載入 MCP 設定。
+本 repository 的 Serena Semantic Workflow 是 `.agents/skills/serena-semantic-workflow/` skill，不是需要在 marketplace 內重複安裝的 local plugin。Serena 由 `.codex/config.toml` 的 host command 啟動；開啟新的 Codex task 以重新載入 MCP 設定。
 
 Codex Desktop task 使用 host-managed state 與 connector。直接從 host terminal 使用 CLI 時，請使用目前 host 的 `CODEX_HOME` 或 Codex 預設設定：
 
