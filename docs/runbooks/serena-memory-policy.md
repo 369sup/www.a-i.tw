@@ -32,7 +32,7 @@ Current state is forbidden. Deleting, renaming or broadly reorganizing durable m
 ## Tool Policy
 
 Every new Codex task begins with `serena.initial_instructions` and
-`serena.get_current_config`. The handshake confirms the active WSL project and Codex
+`serena.get_current_config`. The handshake confirms the active workspace project and Codex
 context. Verified maintenance edits are an expected completion step after canonical updates; they are not an external
 side effect requiring separate per-task permission. Afterward, use symbol tools for code and native file tools for
 Markdown, JSON, TOML and Git-only work.

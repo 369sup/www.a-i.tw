@@ -11,6 +11,7 @@ After the mandatory handshake, list and read scoped memories, then prefer symbol
 ## Rules
 
 - Start every repository task with `initial_instructions`, `get_current_config`, `list_memories` and scoped `read_memory`.
+- Use the Codex Desktop configured Windows host runtime for Serena. Windows-hosted tasks use Windows `serena`, Python, Node and PATH.
 - Use `get_symbols_overview` before analyzing an unfamiliar code file.
 - Use `find_symbol` or `find_declaration` for definitions and `find_referencing_symbols` for impact.
 - Use `find_implementations` when a Port/interface implementation relationship matters.
@@ -23,7 +24,7 @@ After the mandatory handshake, list and read scoped memories, then prefer symbol
 
 ## Source Locations
 
-- `.codex/config.toml`
+- Codex Desktop or the active user profile MCP configuration
 - `.agents/skills/serena-semantic-workflow/`
 
 ## Related Documents
@@ -41,4 +42,4 @@ After the mandatory handshake, list and read scoped memories, then prefer symbol
 ## Last Verified
 
 - Date: 2026-07-12
-- Evidence: Serena tool inventory, scoped memory audit and proactive maintenance policy.
+- Evidence: Windows host runtime is the active Serena workflow policy; obsolete MCP doctor and workspace recovery runbooks were removed.

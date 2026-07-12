@@ -7,7 +7,7 @@
 | Context7                 | Codex Desktop 已提供的 Context7 MCP                         | 已安裝套件、框架或第三方 API 的即時/版本化細節 | 本機版本與文件優先，不足才查                   |
 | GitHub                   | Codex Desktop 已提供的 GitHub MCP／GitHub plugin            | PR、issue、review、Actions                     | connector 優先，`git`/`gh` 補目前 checkout/log |
 | OpenAI Developers        | Codex Desktop 已提供的 OpenAI Developers MCP                | OpenAI API、SDK、模型與 Codex 官方資訊         | 只使用官方文件；API key 不可輸出               |
-| Serena Semantic Workflow | `plugins/serena-semantic-workflow/` 與 `.codex/config.toml` | 程式符號、引用、實作與安全 refactor            | Serena LSP 工具優先；非程式文字用原生工具      |
+| Serena Semantic Workflow | `plugins/serena-semantic-workflow/` 與 Codex Desktop/user profile MCP 設定 | 程式符號、引用、實作與安全 refactor            | Serena LSP 工具優先；非程式文字用原生工具      |
 
 ## Codex Desktop 既有 MCP 的使用方式
 
@@ -33,14 +33,13 @@ Desktop 連線身分，不放進專案 MCP 設定或任何 credential 檔案。
 
 ## Serena Semantic Workflow
 
-本 repository 已設定 `mcp_servers.serena`，因此 plugin 僅封裝自動觸發的 skill，不重複啟動第二個 Serena server。Serena 必須安裝與執行於 Windows 11 的 WSL Ubuntu，不可混用 Windows Python、Node 或 `serena.exe`。透過 `.agents/plugins/marketplace.json` 安裝後，請開啟新的 Codex task 以載入 skill；MCP 仍由受信任的專案 `.codex/config.toml` 啟動。
+本 repository 的 Serena Semantic Workflow plugin 僅封裝自動觸發的 skill，不重複啟動第二個 Serena server。Serena 由 Codex Desktop 或目前 user profile 的 MCP 設定啟動；在 Windows host 上請使用 Windows `serena`、Python、Node 與 PATH。透過 `.agents/plugins/marketplace.json` 安裝後，請開啟新的 Codex task 以載入 skill。
 
-Codex Desktop 會把 Windows 的 `CODEX_HOME` 傳進 WSL；其中包含 Windows path 的 marketplace snapshot，Linux CLI 無法解析。這不是 snapshot 損毀。直接從 WSL terminal 使用 CLI 時，必須用下列 wrapper；它會明確設定 Linux `CODEX_HOME` 為 `$HOME/.codex`（或 `CODEX_WSL_HOME`），而非共用 Windows state：
+Codex Desktop task 使用 host-managed state 與 connector。直接從 host terminal 使用 CLI 時，請使用目前 host 的 `CODEX_HOME` 或 Codex 預設設定：
 
 ```bash
-scripts/validation/wsl-codex.sh plugin marketplace list
-scripts/validation/wsl-codex.sh plugin list
-pnpm task:doctor
+codex plugin marketplace list
+codex plugin list
 ```
 
-Desktop 自己啟動的 task 保持使用 Desktop 的 host-managed state 與 connector；wrapper 只適用於 WSL terminal 直接執行 `codex` 的情境。這兩個 runtime 共享 repository 的 `AGENTS.md`、`.codex/`、skills 與 marketplace，而不共享 OS-specific user state。
+Desktop 自己啟動的 task 保持使用 Desktop 的 host-managed state 與 connector；host CLI 與 Desktop 共享 repository 的 `AGENTS.md`、`.codex/`、skills 與 marketplace，但使用各自的 user state。
