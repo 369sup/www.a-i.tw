@@ -42,7 +42,8 @@ test-results/
 .env*
 
 # local Codex/MCP connection settings
-.codex/config.toml
+# The project-local Codex config is intentionally versioned; it contains no
+# credentials, connector IDs, or user-specific plugin state.
 
 # vercel
 .vercel

@@ -1,5 +1,18 @@
 # Codex project rules
 
+## Tool Selection And Fast Startup
+
+- This file is the repository-level execution contract for Codex. Keep startup small: read this file and the root `AGENTS.md`, inspect the task-relevant path, then stop when ownership, boundary, contract, and verification are known.
+- Do not preload `docs/README.md`, `docs/ai-index.md`, the architecture catalog, or every skill. Route to them only when the task table or an unresolved ownership/contract question requires it.
+- Use every Serena tool exposed in the live session when it is relevant. The repository must not assume a fixed Serena tool list: discover available tools at runtime and fall back to native file/Git tools only for prose, configuration, unsupported languages, or when Serena is unavailable.
+- At the start of every task, attempt the Serena handshake (`initial_instructions`, `get_current_config`; activate this project if needed). A missing or unavailable Serena server is a capability limitation, not a reason to stop an otherwise safe task.
+- Use Context7 autonomously for version-sensitive or incomplete framework, library, SDK, or API questions. Resolve the exact library ID first, query the installed/project version when known, and prefer local `node_modules` documentation when it is authoritative and sufficient. Do not use Context7 for ordinary Markdown, Git, TOML, JSON, or repository-local policy edits.
+- Never add connector IDs, OAuth state, API keys, or user plugin cache to the repository. The project may declare reproducible local MCP commands in `.codex/config.toml`; Desktop-managed connectors remain host-managed.
+
+## Compact Pre-Edit Note
+
+Before editing, state: owner, dependency direction, use case (or `not applicable`), ports/adapters (or `not applicable`), composition impact, and verification command. For this `.codex`/`.agents` policy area, ownership is repository engineering workflow; it has no product Domain or runtime adapter.
+
 - 先讀 `AGENTS.md` 的 `Minimal-context routing` 與本檔；依任務類型只讀一個初始入口。文件拓撲才讀
   `docs/README.md`，產品語意／docs-only／ownership 不明才讀 `docs/ai-index.md`，窄幅 runtime task
   可直接讀最近的 module `AGENTS.md`、`README.md`、`context.json` 與目標 symbols/tests。

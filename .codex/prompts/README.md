@@ -19,10 +19,10 @@
 ## 共通原則
 
 - 先讀根目錄與目標路徑的 `AGENTS.md`，並依 `docs/ai-index.md` 讀取最小必要文件。
-- Context7 只在套件、框架或 API 細節需要即時核實時使用；先查本專案已安裝版本與本機文件。
+- Context7 由 agent 自主判斷使用：套件、框架、SDK 或 API 細節有版本差異、文件不足或可能過期時，先查本專案版本與本機文件，再 resolve library ID 並 query 對應 Context7 文件；一般 repository 文件、設定與 Git 工作不使用。
 - GitHub 用於 PR、issue、review、Actions 與遠端狀態；本機 `git` 用於工作樹與分支狀態。未明確授權時不 commit、push、開 PR、merge 或改遠端資料。
 - OpenAI Developers 僅用官方文件與 MCP 核實 OpenAI 產品/API；若實作會呼叫 OpenAI API，先走安全的 API key 決策流程，絕不輸出密鑰。
-- Serena 用於語言伺服器可理解的程式符號、實作、引用、診斷與安全重構；文字、文件、設定與 Git 工作仍優先使用原生工具。開始 Serena 工作時先讀 `initial_instructions`。
+- Serena 用於語言伺服器可理解的程式符號、實作、引用、診斷與安全重構；agent 應彈性使用當前 session 暴露的所有相關 Serena 工具，不依賴固定工具清單。文字、文件、設定與 Git 工作仍優先使用原生工具；每個 task 開始先嘗試 `initial_instructions` 與 `get_current_config`。
 - 每次修改後先檢視 `git diff` 與 `git status --short`，只驗證本次變更範圍；runtime 或架構邊界改動再跑完整必要門檻。
 
 可從 `make help` 查看專案操作入口；`scripts/validation/` 的腳本供人與 agent 共用。
