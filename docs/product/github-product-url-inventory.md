@@ -45,21 +45,21 @@ last_verified_at
 
 ## Seed routes supplied by product observation
 
-| Product URL | Surface semantics | Target / state | Owner candidate | Observation status |
-| --- | --- | --- | --- | --- |
-| `https://github.com/369sup?tab=repositories` | Public Profile repository projection | target Account `369sup`; `tab` selects owned Repository projection | Account presentation + Repository query | supplied；docs-confirmed |
-| `https://github.com/369sup?tab=stars` | Public Profile curation projection | target User; `tab` selects Star relationships and lists | Proposed Curation + Account presentation | supplied；docs-confirmed |
-| `https://github.com/369sup?tab=achievements` | Public Profile reputation projection | target User; `tab` selects earned Achievement projection | Proposed Reputation + Account presentation | supplied；partially docs-confirmed |
-| `https://github.com/settings/profile` | Authenticated self-service settings | active User Account Profile attributes | Account | supplied；docs-confirmed |
-| `https://github.com/settings/admin` | Authenticated account administration／lifecycle settings | active User Account; sensitive account commands may require elevation | Account + Identity & Access | supplied；requires observed field inventory |
-| `https://github.com/settings/appearance` | Authenticated personal preference settings | active User preference projection | Account Preferences | supplied；requires observed field inventory |
-| `https://github.com/login` | Anonymous authentication entry | credential challenge; may redirect an authenticated actor | Identity & Access | supplied；docs-confirmed |
-| `https://github.com/logout` | Session-termination command entry／confirmation | active Session; potentially destructive to current browser state | Identity & Access | supplied；do-not-execute during crawl |
-| `https://github.com/notifications` | Authenticated cross-resource Notification Inbox | active actor; notification reasons、filters and triage state | Notification | supplied；docs-confirmed |
-| `https://github.com/issues` | Authenticated cross-Repository work projection | active actor; viewer-visible Issues across scopes | Work Management read model | supplied；requires observed filter inventory |
-| `https://github.com/dashboard` | Authenticated personal operating home | active actor; personalized activity、shortcuts、alerts and recommendations | Dashboard projection | supplied；docs-confirmed |
-| `https://github.com/discussions` | Authenticated cross-scope Discussion dashboard | active actor; viewer-visible Discussions across Organization／Repository scopes | Discussion read model | supplied；requires observed filter inventory |
-| `https://github.com/explore` | Public／personalized discovery surface | viewer context; topics、popularity、relationships and recommendation signals | Discovery／Recommendation | supplied；docs-confirmed |
+| Product URL                                  | Surface semantics                                        | Target / state                                                                  | Owner candidate                            | Observation status                           |
+| -------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------ | -------------------------------------------- |
+| `https://github.com/369sup?tab=repositories` | Public Profile repository projection                     | target Account `369sup`; `tab` selects owned Repository projection              | Account presentation + Repository query    | supplied；docs-confirmed                     |
+| `https://github.com/369sup?tab=stars`        | Public Profile curation projection                       | target User; `tab` selects Star relationships and lists                         | Proposed Curation + Account presentation   | supplied；docs-confirmed                     |
+| `https://github.com/369sup?tab=achievements` | Public Profile reputation projection                     | target User; `tab` selects earned Achievement projection                        | Proposed Reputation + Account presentation | supplied；partially docs-confirmed           |
+| `https://github.com/settings/profile`        | Authenticated self-service settings                      | active User Account Profile attributes                                          | Account                                    | supplied；docs-confirmed                     |
+| `https://github.com/settings/admin`          | Authenticated account administration／lifecycle settings | active User Account; sensitive account commands may require elevation           | Account + Identity & Access                | supplied；requires observed field inventory  |
+| `https://github.com/settings/appearance`     | Authenticated personal preference settings               | active User preference projection                                               | Account Preferences                        | supplied；requires observed field inventory  |
+| `https://github.com/login`                   | Anonymous authentication entry                           | credential challenge; may redirect an authenticated actor                       | Identity & Access                          | supplied；docs-confirmed                     |
+| `https://github.com/logout`                  | Session-termination command entry／confirmation          | active Session; potentially destructive to current browser state                | Identity & Access                          | supplied；do-not-execute during crawl        |
+| `https://github.com/notifications`           | Authenticated cross-resource Notification Inbox          | active actor; notification reasons、filters and triage state                    | Notification                               | supplied；docs-confirmed                     |
+| `https://github.com/issues`                  | Authenticated cross-Repository work projection           | active actor; viewer-visible Issues across scopes                               | Work Management read model                 | supplied；requires observed filter inventory |
+| `https://github.com/dashboard`               | Authenticated personal operating home                    | active actor; personalized activity、shortcuts、alerts and recommendations      | Dashboard projection                       | supplied；docs-confirmed                     |
+| `https://github.com/discussions`             | Authenticated cross-scope Discussion dashboard           | active actor; viewer-visible Discussions across Organization／Repository scopes | Discussion read model                      | supplied；requires observed filter inventory |
+| `https://github.com/explore`                 | Public／personalized discovery surface                   | viewer context; topics、popularity、relationships and recommendation signals    | Discovery／Recommendation                  | supplied；docs-confirmed                     |
 
 這些 rows 是 inventory seed，不是完整 GitHub URL model。
 
@@ -176,4 +176,3 @@ Observed GitHub route
 - 每個 included route 都連到至少一個 official Docs evidence。
 - 每個 route 都有 owner candidate、access state、projection／command 分類與 local disposition。
 - 未解析 owner 的 route 保持 `unresolved`，不得塞入 `page.tsx` 或 UI state。
-
