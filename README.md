@@ -82,11 +82,13 @@ Canonical architecture and documentation routing:
 
 | Context | Domain | Type | Responsibility |
 | --- | --- | --- | --- |
-| `master-template` | Template Management | Supporting | Architecture template for contexts and internal subdomains |
 | `identity-access` | Identity and Access | Supporting | Principal identity and foundational identity contracts |
 | `account` | Account Management | Core | Accounts, memberships, invitations, and teams |
 | `repository` | Repository Governance | Core | Repository scope, roles, grants, and access decisions |
-| `work-management` | Issues | Core | Work management inside repository collaboration scope |
+| `issues` | Issues | Core | Issues inside repository collaboration scope |
+
+`master-template` is an engineering reference template, not a product Bounded Context, product
+capability or world-model node.
 
 ## Creating a Bounded Context
 

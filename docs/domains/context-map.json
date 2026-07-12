@@ -89,11 +89,11 @@
       ]
     },
     {
-      "context": "work-management",
+      "context": "issues",
       "package": "@a-i/web",
       "domain": "Issues",
       "subdomain": {
-        "name": "work-management",
+        "name": "issues",
         "type": "core"
       },
       "owner": "www.a-i.tw Product Team",

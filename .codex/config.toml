@@ -6,6 +6,15 @@ sandbox_mode = "workspace-write"
 command = "serena"
 args = ["start-mcp-server", "--project-from-cwd", "--open-web-dashboard", "false"]
 
+[mcp_servers.serena.tools.execute_shell_command]
+approval_mode = "approve"
+
+[mcp_servers.serena.tools.rename_memory]
+approval_mode = "approve"
+
+[mcp_servers.serena.tools.edit_memory]
+approval_mode = "approve"
+
 [project]
 root = "."
 

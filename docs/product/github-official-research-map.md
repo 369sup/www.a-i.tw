@@ -11,6 +11,26 @@ Context 與 use case。
 本文件只負責來源路由與研究方法，不擁有 `Enterprise`、`Entitlement`、`Notification`、`Search` 或其他
 產品領域的定義。各語意仍由各自 canonical owner 文件管理。
 
+## Semantic routing
+
+Official documentation pages are evidence inputs, not a Domain hierarchy.
+
+| Official GitHub term | Semantic type | Candidate owner | Runtime | Canonical destination |
+| --- | --- | --- | --- | --- |
+| User/Organization/Enterprise account | Governance roots | Account / future Enterprise Governance | Partial | `account-profile-presence.md` |
+| Repository | Resource Context | Repository | Partial Current | `product-model.md` |
+| Issues | Product Context | Issues | Partial Current | `issues-v1` + domain catalogs |
+| Projects | Resource boundary / Context candidate | Projects | Research | `projects.md` |
+| Discussions | Conversation Context candidate | Discussions | Research | `discussions-community.md` |
+| Follow/Star/Watch | Relationship families | Social Graph / Notifications | Research | `social-graph.md` |
+| Notifications | Product Context candidate | Notifications | Research | `notification.md` |
+| Search | Query capability | Search | Research | `search.md` |
+| App/Installation/Authorization | Principal and delegation boundaries | Apps | Research | `apps-marketplace.md` |
+| Plan/License/Seat | Commercial eligibility | Entitlement | Research | `entitlement.md` |
+| Billing/Budget/Cost center | Financial governance | Billing | Research | `billing-cost-management.md` |
+| Sponsors | Commercial relationship Domain | Sponsors | Research | `sponsorship.md` |
+| Audit/Compliance | Assurance control plane | Audit / Compliance | Research | `audit-compliance.md` |
+
 ## 研究邊界
 
 ### 納入

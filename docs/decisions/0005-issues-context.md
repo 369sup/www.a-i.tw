@@ -12,8 +12,8 @@ Repository aggregate would mix collaboration work with resource governance and e
 
 ## 決策
 
-Create a `work-management` core Bounded Context owned by `www.a-i.tw Product Team` at
-`apps/web/src/modules/work-management`. It owns Issue, Label and Assignment. Repository is upstream and publishes
+Create an `issues` core Bounded Context owned by `www.a-i.tw Product Team` at
+`apps/web/src/modules/issues`. It owns Issue, Label and Assignment. Repository is upstream and publishes
 `RepositoryCollaborationScopeV1` plus `RepositoryParticipationDecisionV1`. Issues owns a
 `RepositoryParticipationGateway` ACL and fails closed when the upstream fact is missing or denied.
 

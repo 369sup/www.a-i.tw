@@ -1,7 +1,7 @@
 # Issues
 
 - Domain: Issues
-- Technical path: `work-management` (pending filesystem rename to `issues`)
+- Technical path: `issues` (pending filesystem rename to `issues`)
 - Owner: www.a-i.tw Product Team
 
 Owns GitHub-aligned Issue, Label and Assignment lifecycle. `/pulls*` belongs to GitHub Pull requests

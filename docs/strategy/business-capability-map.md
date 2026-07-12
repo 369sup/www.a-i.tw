@@ -2,17 +2,20 @@
 
 狀態：Baseline / runtime scope annotated
 
-| Capability                             | Owner                          | Classification | Current scope                              | Runtime           |
-| -------------------------------------- | ------------------------------ | -------------- | ------------------------------------------ | ----------------- |
-| Principal attribution and demo session | Identity & Access              | Supporting     | active/disabled Principal, session         | Current           |
-| Authentication provider                | Identity & Access              | Generic        | assurance/provider requirements            | Proposed          |
-| Account ownership                      | Account                        | Supporting     | personal/organization, handle, namespace   | Current           |
-| Organization membership                | Account                        | Core extension | invite, accept, remove, relationship fact  | Current in-memory |
-| Repository governance                  | Repository                     | Core           | visibility, lifecycle, grants, decisions   | Current           |
-| Template catalog reference             | Master Template / Sub Template | Supporting     | list/get catalog                           | Current           |
-| Team and team-based Repository access  | Account + Repository           | Core extension | Team roster and resource-scoped Team grant | Current in-memory |
-| Issue, Label and Assignment            | Issues                | Core extension | repository-scoped work lifecycle           | Current in-memory |
+| Capability | Owner | Classification | Runtime |
+| --- | --- | --- | --- |
+| Principal attribution and demo Session | Identity & Access | Supporting | Current |
+| Account ownership and Profile | Account | Supporting | Current |
+| Organization Membership and Invitation | Account | Core extension | Current in-memory |
+| Organization Team membership | Account | Core extension | Current in-memory |
+| Repository governance and access decision | Repository | Core | Current |
+| Issues: Issue, Label and Assignment | Issues | Core | Current in-memory |
+| Projects | Candidate owner required | Core candidate | Research |
+| Discussions and community conversation | Candidate owner required | Core candidate | Research |
+| Notifications and subscriptions | Candidate owner required | Supporting candidate | Research |
+| Search and discovery | Candidate owner required | Supporting candidate | Research |
+| Enterprise governance, Entitlement and Audit | Separate owners required | Supporting candidates | Research |
+| Billing, Marketplace and Sponsors | Commercial owners required | Generic/supporting candidates | Research |
 
-Git/code、commits、branches、PR、Actions、packages、billing 與 notifications are out
-of the current product scope. New capability requires owner、classification、
-change driver、build/buy/integrate decision and Context impact.
+\`master-template\` and \`sub-template\` are engineering scaffolds and are intentionally excluded from the
+product capability map.

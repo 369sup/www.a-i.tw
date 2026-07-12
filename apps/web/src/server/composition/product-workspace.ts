@@ -24,12 +24,12 @@ import {
   InMemoryAccessGrantStore,
   InMemoryRepositoryStore,
 } from "@/src/modules/repository/src/composition";
-import { createIssuesService } from "@/src/modules/work-management/src/public";
+import { createIssuesService } from "@/src/modules/issues/src/public";
 import {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,
   InMemoryLabelStore,
-} from "@/src/modules/work-management/src/composition";
+} from "@/src/modules/issues/src/composition";
 
 function createProductWorkspace() {
   let sequence = 100;

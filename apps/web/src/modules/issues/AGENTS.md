@@ -1,7 +1,7 @@
-# work-management bounded context
+# issues bounded context
 
 - Owner: `www.a-i.tw Product Team`.
-- Domain: `Issues`; subdomain: `work-management` (`core`).
+- Domain: `Issues`; subdomain: `issues` (`core`).
 - Keep the package's public exports deliberately empty until an approved use
   case or published language requires one.
 - Add a Context Map relationship and a versioned contract before importing a

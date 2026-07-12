@@ -18,17 +18,17 @@ Issues is a verified app-local core Context owned by the www.a-i.tw Product Team
 
 ## Source Locations
 
-- `apps/web/src/modules/work-management/context.json`
-- `apps/web/src/modules/work-management/src/domain/`
-- `apps/web/src/modules/work-management/src/application/work-management-service.ts`
-- `apps/web/src/modules/work-management/src/infrastructure/`
+- `apps/web/src/modules/issues/context.json`
+- `apps/web/src/modules/issues/src/domain/`
+- `apps/web/src/modules/issues/src/application/issues-service.ts`
+- `apps/web/src/modules/issues/src/infrastructure/`
 
 ## Related Documents
 
-- `docs/decisions/0005-work-management-context.md`
-- `docs/initiatives/work-management-v1/README.md`
-- `docs/evidence/2026-07-12-work-management-v1.md`
-- `docs/status/2026-07-12-work-management-30-concern-closure.md`
+- `docs/decisions/0005-issues-context.md`
+- `docs/initiatives/issues-v1/README.md`
+- `docs/evidence/2026-07-12-issues-v1.md`
+- `docs/status/2026-07-12-issues-30-concern-closure.md`
 
 ## Related Memories
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, ChevronDown, Github, Menu, Plus, Search } from "lucide-react";
+import { Bell, ChevronDown, CircleDot, Menu, Plus, Search } from "lucide-react";
 import type { AccountRefV1 } from "@/src/modules/account/src/contracts/public";
 import { ProfileMenu } from "./profile-menu";
 import { ScopeSwitcher } from "./scope-switcher";
@@ -19,7 +19,7 @@ export function GlobalHeader({ accounts, activeAccountId, currentHandle, current
           <Menu className="size-4" />
         </button>
         <Link className="inline-flex items-center gap-2" href="/">
-          <Github className="size-7" />
+          <CircleDot className="size-7" />
           <span className="hidden text-sm font-semibold sm:inline">Dashboard</span>
         </Link>
       </div>

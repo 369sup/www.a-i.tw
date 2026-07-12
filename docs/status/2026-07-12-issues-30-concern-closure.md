@@ -35,6 +35,6 @@
 |  29 | Technical Debt             | in-memory persistence remains AD-001                   |
 |  30 | Migration Roadmap          | slice completed                                        |
 
-Evidence: `docs/evidence/2026-07-12-work-management-v1.md`. All TypeScript diagnostics were empty;
+Evidence: `docs/evidence/2026-07-12-issues-v1.md`. All TypeScript diagnostics were empty;
 16 web tests and 3 browser E2E tests passed. No Shared Kernel, foreign Context internal import, cross-context
 transaction or framework dependency in Domain was introduced.

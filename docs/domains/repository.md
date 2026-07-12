@@ -108,7 +108,7 @@ Repository 可透過 ACL 將 Account membership 和 Identity authentication cont
 
 Issues、Discussions、Wiki、labels、milestones 與 moderation 初期只能是 Repository 的 capability
 候選；當它們有獨立 owner、專屬語言、跨 Repository lifecycle、擴展需求或 contract consumer
-時，應拆為 Work Tracking、Community Collaboration 或 Knowledge context。Project 保持獨立候選。
+時，應分別由 Issues、Discussions 或 Knowledge 候選 Context 擁有。Project 保持獨立候選。
 
 ## 參考與非目標
 

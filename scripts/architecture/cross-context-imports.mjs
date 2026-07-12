@@ -55,7 +55,7 @@ export function checkCrossContextImports(root = process.cwd()) {
         });
         if (!targetContext || targetContext.name === context.name) continue;
 
-        const targetRelative = relative(targetContext.path, target);
+        const targetRelative = relative(targetContext.path, target).replaceAll("\\", "/");
         if (!/^src\/contracts\//.test(targetRelative)) {
           errors.push(
             `${file} imports ${specifier}; cross-context imports may target only ${targetContext.name}/src/contracts/.`,

@@ -13,11 +13,11 @@ Repository-scoped Label、設定或移除 Assignee，且所有 mutation 都由 I
 
 - Owner：`www.a-i.tw Product Team`。
 - Candidate Domain：Issues。
-- Candidate Bounded Context：`work-management`。
+- Candidate Bounded Context：`issues`。
 - Classification：Core extension。
 - Upstream：Repository；Open Host Service + Published Language。
 - Downstream ACL owner：Issues。
-- Runtime path（未建立）：`apps/web/src/modules/work-management`。
+- Runtime path：`apps/web/src/modules/issues`（Current in-memory）。
 
 這不是 Repository internal folder。Issue 有獨立 lifecycle、numbering、分類與責任語言；
 Repository 只提供 collaboration scope 與 access decision，不擁有 Issue state。
@@ -103,7 +103,7 @@ Issues does not need to publish a cross-context contract in v1 unless another ap
 | G0 Orient              | Complete | current runtime, Context Map and tactical documents inspected |
 | G1 Approve semantics   | Complete | this selected semantic brief                                  |
 | G2 Canonical knowledge | Complete | UL, contracts, data, Context Map and ADR 0005                 |
-| G3 Ownership/path      | Complete | Product Team; `apps/web/src/modules/work-management`          |
+| G3 Ownership/path      | Complete | Product Team; `apps/web/src/modules/issues`          |
 | G4 Scaffold            | Complete | generated app-local Context and manifests                     |
 | G5 Implement           | Complete | Domain, Application Ports, in-memory adapters and tests       |
 | G6 Compose/present     | Complete | server composition and workspace inbound adapters             |

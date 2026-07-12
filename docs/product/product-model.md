@@ -1,34 +1,60 @@
 # Product model
 
-狀態：Accepted in-memory product baseline / production scope proposed
+狀態：Accepted GitHub non-code semantic baseline / runtime scope annotated
 
-產品的首批策略模型區分三種不可互換的概念：提出操作的 Principal、擁有資源或治理範圍的 Account，以及承載協作政策的 Repository。這項分離使登入、組織歸屬、企業治理與資源授權能各自演進，避免將它們折疊成泛稱的 `User`。
+本產品直接採用 GitHub 的非 Code Published Language；只排除 Git、Commit、Branch、Diff、
+Pull Request、Merge、Actions、Code Search、Codespaces、程式碼安全、部署及其他程式碼實作
+能力。GitHub 文件導覽與本文件的 capability families 都不是 Bounded Context 清單。
 
-完整模型不是這三者的父子樹，而是 `Actor × Action × Resource × Request Facts` 經 resource
-owner 決策後執行行為並產生 Event／Projection。Canonical 世界模型、關係類型、控制平面與
-runtime 狀態見 [`platform-world-model.md`](platform-world-model.md)。
-Enterprise、Entitlement、Notification、Search 與 governance boundary taxonomy 分別由
-[`enterprise-governance.md`](enterprise-governance.md)、[`entitlement.md`](entitlement.md)、
-[`notification.md`](notification.md)、[`search.md`](search.md) 與
-[`governance-boundary-taxonomy.md`](governance-boundary-taxonomy.md) 擁有；它們不共用 Context，
-也不代表已存在的 runtime。
+## World model
 
-| 概念       | 產品責任                                                   | 不是                         |
-| ---------- | ---------------------------------------------------------- | ---------------------------- |
-| Principal  | 可驗證且可歸因的操作主體                                   | Account 或資源 owner         |
-| Account    | personal、organization、enterprise 的 ownership 或治理容器 | login identity 或 credential |
-| Repository | Account 所擁有的受控協作工作空間與 policy boundary         | 檔案系統目錄或 Git adapter   |
+\`\`\`text
+Authenticated Actor
+  performs Action
+  on Resource
+  inside Ownership / Governance Boundary
+  constrained by Relationships, Grants, Policy, Entitlement and Request Facts
+      → owner-owned Authorization Decision
+      → Domain Preconditions
+      → State Transition
+      → Domain Event
+      → Notifications / Search / Dashboard / Audit / Integration
+\`\`\`
 
-Account kind 的精確語意如下：personal Account 可擁有個人資源；organization Account 是多人共享資源與 Team 的容器；enterprise Account 治理多個 organization 的 policy、billing 與 governance scope，但不應因而成為登入身分、Repository Role 或直接資源 owner。此分工以 GitHub 的 user／organization／enterprise account 模型為研究證據，而非功能複製。
+## Semantic classification
 
-Principal、personal／organization Account 與 non-code Repository governance 已有
-in-memory runtime baseline。Enterprise governance、production provider、durable
-persistence 與完整 membership 仍是 Proposed。策略邊界與不變條件由
-[`../domains/`](../domains/README.md) 擁有。
+| Type | GitHub language | Architecture meaning |
+| --- | --- | --- |
+| Product Context | Identity & Access, Account, Repository, Issues | Current app-local runtime owners |
+| Context candidate | Projects, Discussions, Notifications, Search, Apps, Billing, Sponsors, Support | Proposed until G1-G3 approves owner and first use case |
+| Relationship family | Membership, Team membership, Follow, Star, Watch, Subscribe, Mention, Assignment | Owner-published directed facts |
+| Control plane | Authentication, Authorization, Policy, Entitlement, Audit, Integration | Cross-cutting responsibility, not automatically a Context |
+| Governance boundary | User/Organization/Enterprise account, Team, Repository, Project, Cost center, App installation | Scope classification, not one aggregate type |
+| Experience surface | Profile, Dashboard, Feed, Inbox, Explore, Command Palette, Web, Mobile | Consumer-facing route or read model |
+| Architecture language | Port, Adapter, ACL, query result, view model, projection, composition root | Never promoted into GitHub product language |
 
-目前核准並實作的連續語意切片是 organization Membership、Team 與 Team-based Repository
-Access：owner 發出有期限 Invitation，只有受邀 Principal 能接受並形成 active Membership；
-Team 只能聚合 active Membership；Account 只發布版本化 `MembershipFactV1` 與
-`TeamMembershipFactV1`，Repository 仍自行判定 resource action。後續依序為 Issue、
-Label／Assignment、Discussion、Star／Collection、
-Activity／Notification、Discovery 與 Contribution Graph。
+## Current runtime
+
+| Context | Current ownership |
+| --- | --- |
+| Identity & Access | Principal, authentication identity, credential verification and in-memory Session |
+| Account | Personal/Organization Account, Profile, Membership, Invitation and Organization Team |
+| Repository | Repository identity, ownership, visibility, role, grant, lifecycle and access decision |
+| Issues | Issue, Issue Number, open/closed state, Label, Assignment and Assignee |
+
+Everything else in the non-code catalog is Research or Proposed. Presence in GitHub does not make local
+runtime Current.
+
+## Required distinctions
+
+- Identity identifies and authenticates the Actor; Account owns resources or governance boundaries.
+- Organization and Enterprise do not replace the authenticated User Actor.
+- Enterprise governs Organizations; User or Organization owns Repository and Project.
+- Repository links to Project; it does not own the Project aggregate.
+- Issue state is open/closed; deletion is a separate lifecycle operation.
+- Assignee is an eligible User Principal; Team mention and Team Repository access are separate relations.
+- Profile, Dashboard, Feed, Inbox and Search results are product surfaces; projection is only an implementation term.
+- Plan, License, Seat, Entitlement, Billing and Cost center are distinct commercial concepts.
+
+Detailed owners are routed through [README.md](README.md), while the cross-context runtime model remains
+canonical in [platform-world-model.md](platform-world-model.md).

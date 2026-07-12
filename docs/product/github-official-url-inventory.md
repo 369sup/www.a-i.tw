@@ -6,6 +6,10 @@
 
 ## 目的
 
+> URL 和文件導覽只屬研究 inventory，不決定 containment、Aggregate ownership 或 Bounded
+> Context 數量。每筆資料必須先經
+> [`github-official-research-map.md`](github-official-research-map.md) 分類。
+
 `apps/web/src/app/` 的 route tree 必須從已研究的產品 surface、use case 與 ownership 推導，不能只看少數
 GitHub 頁面後模仿 UI。為避免漏掉真正的產品語意，本研究先取得 GitHub Docs 官方 Pagelist 的完整英文
 GitHub.com URL 集合，再逐條分類、研究與映射。

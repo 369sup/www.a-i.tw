@@ -8,7 +8,7 @@ import type { Label } from "../domain/label";
 export class InMemoryIssueStore implements IssueStore {
   private readonly items = new Map<string, Issue>();
   async list(repositoryId: string) {
-    return [...this.items.values()].filter(
+    return Array.from(this.items.values()).filter(
       (item) => item.repositoryId === repositoryId,
     );
   }
@@ -22,7 +22,7 @@ export class InMemoryIssueStore implements IssueStore {
 export class InMemoryLabelStore implements LabelStore {
   private readonly items = new Map<string, Label>();
   async list(repositoryId: string) {
-    return [...this.items.values()].filter(
+    return Array.from(this.items.values()).filter(
       (item) => item.repositoryId === repositoryId,
     );
   }
@@ -30,7 +30,7 @@ export class InMemoryLabelStore implements LabelStore {
     return this.items.get(id);
   }
   async findByName(repositoryId: string, name: string) {
-    return [...this.items.values()].find(
+    return Array.from(this.items.values()).find(
       (item) => item.repositoryId === repositoryId && item.name === name,
     );
   }

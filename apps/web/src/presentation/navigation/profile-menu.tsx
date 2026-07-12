@@ -6,14 +6,12 @@ import {
   Accessibility,
   Building2,
   Check,
-  ChevronDown,
   CircleUserRound,
   ExternalLink,
   FileText,
   LogOut,
   Palette,
   Settings,
-  Star,
 } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 
@@ -25,11 +23,8 @@ type ProfileMenuProps = Readonly<{
 const menuLinks = [
   { label: "Profile", href: "/", icon: CircleUserRound },
   { label: "Repositories", href: "/workspace", icon: FileText },
-  { label: "Stars", href: "/stars", icon: Star },
-  { label: "Gists", href: "/gists", icon: FileText },
   { label: "Organizations", href: "/settings/organizations", icon: Building2 },
   { label: "Enterprises", href: "/settings/enterprises", icon: Building2 },
-  { label: "Sponsors", href: "/sponsors", icon: Star },
 ] as const;
 
 export function ProfileMenu({

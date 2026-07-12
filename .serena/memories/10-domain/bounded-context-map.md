@@ -25,13 +25,13 @@ Identity & Access, Account, Repository and Issues are approved app-local runtime
 
 - `docs/domains/context-map.md`
 - `docs/domains/bounded-context-catalog.md`
-- `docs/status/2026-07-12-work-management-30-concern-closure.md`
+- `docs/status/2026-07-12-issues-30-concern-closure.md`
 
 ## Related Memories
 
 - `mem:10-domain/ownership-map`
 - `mem:10-domain/context-dependency-rules`
-- `mem:20-contexts/work-management`
+- `mem:20-contexts/issues`
 
 ## Last Verified
 

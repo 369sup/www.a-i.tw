@@ -25,7 +25,7 @@ Command(Action, Resource, Boundary) × Capability Relation
                               ↓ valid
                   State Transition + Domain Events
                               ↓
-             Audit / Webhook / Notification / Projection
+          Audit / Webhook / Notification / Consumer Read Models
 ```
 
 ## Semantic primitives
@@ -41,7 +41,7 @@ Command(Action, Resource, Boundary) × Capability Relation
 | Relationship | Subject 與 Object 有何有向關係？                   | 關係語意的 Context owner              | Membership、Team membership、grant、ownership |
 | Decision     | 此 Actor 能否執行 Action？                         | 被操作 Resource 的 Context owner      | Repository allow／deny                        |
 | Event        | 已發生什麼 Domain fact？                           | 發生狀態變更的 Context owner          | None approved                                 |
-| Projection   | 哪個 consumer-shaped read model 需要事件／facts？  | Projection consumer                   | Dashboard／capability context baseline        |
+| Read Model   | 哪個 consumer-shaped query result 需要 facts？     | Query consumer                        | Dashboard／capability context baseline        |
 
 `Actor` 是實際行為者；`Principal` 是可被授權的主體。Team 可以是 Principal，但不是登入
 Actor。Organization 與 Enterprise 是 Account／Scope，不會取代 User Actor。
@@ -105,7 +105,8 @@ Control plane 是橫切責任分類，不等於中央服務或新的 product Con
 | Capability                | 對 UI／Application 投影目前操作              | Consumer-shaped, request-scoped       | Repository context current |
 | Event                     | 發布已發生的 Domain fact                     | Context-owned event contract          | None approved              |
 | Notification              | 將 Event 轉為注意力項目                      | Independent future owner              | Not approved               |
-| Search & Projection       | 建立 access-aware read model                 | Consumer owns index/projection        | Not approved               |
+| Search                    | 建立 access-aware index、query 與 ranking     | Search owner required                 | Not approved               |
+| Consumer Read Models      | 組合 purpose-specific query result            | Each consumer owns its view model     | Dashboard baseline         |
 | Audit & Compliance        | 保存可稽核 Actor／Action／Resource facts     | Separate from notification            | Not approved               |
 | Integration               | App／Webhook 的 delegated access 與 delivery | Explicit installation scope           | Not approved               |
 
@@ -133,7 +134,7 @@ feature flags、services 或預先快取的決策。Resource／relationship trut
 4. Product Capability Descriptor 不授權；Effective Capability 是具體 Decision 的輸入；UI projection
    不能取代 command-side authorization。
 5. Authorization allow 後仍須通過 Domain Preconditions，才可進行 State Transition。
-6. Domain Event、Audit Event、Webhook Event、Notification 與 Projection 不得視為同一事件型別，
+6. Domain Event、Audit Event、Webhook Event、Notification 與 consumer read model 不得視為同一型別，
    且不反向擁有交易 Aggregate。
 7. 未核准或無 runtime evidence 的 plane 必須標為 Planned／Not approved，不得加入空欄位假裝存在。
 

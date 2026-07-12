@@ -30,7 +30,7 @@
 | 資源           | Resource                | 具有 identity、lifecycle 並由 owning Context 控制 action 的操作對象。                                           | Resource owner         | target                         | route、page                         |
 | 動作           | Action                  | Resource owner 定義、可供授權與歸因的 canonical operation。                                                     | Resource owner         | requested action               | capability、UI intent               |
 | 領域事件       | Domain Event            | owning Context 對已完成狀態改變發布的不可變事實；不是 command 或通知。                                          | Event producer         | event                          | request、notification               |
-| 投影           | Projection              | Consumer 依 facts／events 建立的 purpose-specific read model；不擁有來源 Aggregate。                            | Projection owner       | read model                     | source of truth                     |
+| 讀取模型       | Read Model              | Consumer 依 facts 建立的 purpose-specific query result；不擁有來源 Aggregate。                                  | Query consumer         | query result, view model       | source of truth、product Context    |
 | 帳戶           | Account                 | 擁有資源或治理範圍的 personal、organization、enterprise 容器。                                                  | Account                | personal account, organization | user（泛稱）、login                 |
 | 企業帳戶       | Enterprise Account      | 治理多個 organization 的 Account kind；不是 Principal、Repository Role 或直接 resource owner。                  | Account                | enterprise                     | principal、repository owner         |
 | 成員邀請       | Membership Invitation   | organization owner 對 Principal 提議建立 Membership 的有期限流程；尚不是有效成員關係。                          | Account                | invitation                     | membership、repository grant        |
@@ -52,6 +52,7 @@
 
 新增 Entity、Value Object、Aggregate、Use Case 或公開 contract 前，必須在本表定義中文名稱、正式 Code Name、定義、Owner Context、允許同義詞、禁止詞與相關概念。
 
-下一批 `Issue`、`Issue Number`、`Label`、`Assignment` 與 `Assignee` 仍是 Proposed，完整定義位於
-[`../initiatives/work-management-v1/README.md`](../initiatives/work-management-v1/README.md)；
-G2/G3 核准前不得由 runtime import 或視為 Current language。
+`Issue`、`Issue Number`、`Label`、`Assignment` 與 `Assignee` 已由 Issues Context
+擁有並具有 in-memory runtime。其餘 GitHub 非 Code 語意維持 Research／Proposed，完整分類
+由 [`../product/capabilities.md`](../product/capabilities.md) 路由；沒有 owner、invariant 與
+first use case 前不得建立 runtime contract。
