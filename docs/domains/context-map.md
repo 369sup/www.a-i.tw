@@ -10,6 +10,11 @@ Identity & Access、Account 與 Repository 已核准為 runtime bounded contexts
 
 Enterprise 是 Account Context 的治理類型：它關聯並治理多個 organization；不登入、不承載 credential、不直接授與 Repository action。
 
+世界模型中的 Identity、Authorization、Policy、Capability、Event、Notification、Search、Audit
+與 Integration 是橫切責任分類，不自動構成新的 Context 或中央服務。實際 fact、decision、event
+與 projection 必須回到其 owning／consuming Context；完整規則見
+[`../product/platform-world-model.md`](../product/platform-world-model.md)。
+
 ## 初始策略
 
 - `Product`：產品問題、需求與驗收語意。

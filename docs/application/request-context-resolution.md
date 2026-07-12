@@ -9,6 +9,10 @@ typed resource fragment and call the resource owner's authorization Port. There 
 `RequestContextService`. These are Experience orchestration read models, not Domain Aggregates, Shared Kernel,
 ambient globals, generic policy engines or client-authored payloads.
 
+The envelope represents the Actor／Scope side of the platform world model. A capability fragment adds only its
+typed Resource, canonical Action and resource-owner Decision. Relationship facts remain behind owner contracts and
+consumer ACLs; the resolver does not expose or persist a universal relationship graph.
+
 ```text
 RequestEnvelope
 ├── viewer                  authenticated observer

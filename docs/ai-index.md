@@ -10,6 +10,12 @@
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------ |
 | 使用者問題與研究            | `initiatives/<name>/`                          | problem brief、research note                     |
 | 策略領域與產品模型          | `product/`、`domains/`                         | vocabulary、boundary、context map                |
+| 世界模型與橫切控制平面      | `product/platform-world-model.md`              | primitives、relationship、planes、runtime status |
+| Enterprise governance       | `product/enterprise-governance.md`             | account/team governance、runtime status          |
+| Entitlement                 | `product/entitlement.md`                       | eligibility、support entitlement、runtime status |
+| Notification                | `product/notification.md`                      | subscription、delivery、inbox state              |
+| Search                      | `product/search.md`                            | query、index、visibility、ranking                |
+| 治理邊界分類                | `product/governance-boundary-taxonomy.md`      | boundary categories、non-container exclusions    |
 | 領域願景與能力策略          | `strategy/`                                    | vision、capability、build/buy                    |
 | Use case 與授權責任         | `application/`                                 | use case、command/query、authz                   |
 | Request／Capability Context | `application/request-context-resolution.md`    | minimal envelope、typed resolver、owner decision |

@@ -4,6 +4,15 @@
 
 產品的首批策略模型區分三種不可互換的概念：提出操作的 Principal、擁有資源或治理範圍的 Account，以及承載協作政策的 Repository。這項分離使登入、組織歸屬、企業治理與資源授權能各自演進，避免將它們折疊成泛稱的 `User`。
 
+完整模型不是這三者的父子樹，而是 `Actor × Action × Resource × Request Facts` 經 resource
+owner 決策後執行行為並產生 Event／Projection。Canonical 世界模型、關係類型、控制平面與
+runtime 狀態見 [`platform-world-model.md`](platform-world-model.md)。
+Enterprise、Entitlement、Notification、Search 與 governance boundary taxonomy 分別由
+[`enterprise-governance.md`](enterprise-governance.md)、[`entitlement.md`](entitlement.md)、
+[`notification.md`](notification.md)、[`search.md`](search.md) 與
+[`governance-boundary-taxonomy.md`](governance-boundary-taxonomy.md) 擁有；它們不共用 Context，
+也不代表已存在的 runtime。
+
 | 概念       | 產品責任                                                   | 不是                         |
 | ---------- | ---------------------------------------------------------- | ---------------------------- |
 | Principal  | 可驗證且可歸因的操作主體                                   | Account 或資源 owner         |

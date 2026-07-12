@@ -38,3 +38,6 @@
 |  30 | Context Migration Roadmap          | [`roadmap/context-migration-roadmap.md`](roadmap/context-migration-roadmap.md)                 | Product + Architecture  | current       |
 
 Lifecycle 定義、required sections、Definition of Ready/Done 與 runtime 標準見 [`architecture/ddd-hexagonal-standard.md`](architecture/ddd-hexagonal-standard.md)。`docs/decisions/` 是唯一 ADR 位置；公開 Fumadocs 位於 `apps/web/content/docs/`，不取代本清冊。
+
+本清冊只在新增、移動、稽核或重新指派 30 項 canonical architecture concerns 時讀取；一般產品
+語意與窄幅文件任務由 [`ai-index.md`](ai-index.md) 直接路由，不需先載入本清冊。

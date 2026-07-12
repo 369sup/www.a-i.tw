@@ -1,14 +1,9 @@
-type PrincipalView = Readonly<{
-  principalId: string;
-  handle: string;
-  displayName: string;
-  status: "active" | "disabled";
-}>;
-
-type AuthenticationView = Readonly<{
-  principal: PrincipalView;
-  authenticatedAt: string;
-}>;
+import {
+  createBrowserRequestEnvelope,
+  type AuthenticationView,
+  type PrincipalView,
+  type RequestEnvelopeV1,
+} from "./request-envelope";
 
 type AccountScopeView = Readonly<{
   accountId: string;
@@ -40,22 +35,6 @@ type RepositoryDecisionView = Readonly<{
 
 export type RepositoryCapabilityKey =
   "repository.overview" | "issue.read" | "issue.create" | "issue.manage";
-
-export type RequestEnvelopeV1 = Readonly<{
-  viewer: PrincipalView;
-  actor: PrincipalView;
-  credential: Readonly<{
-    type: "browser-session";
-    method: "mock-password";
-    assurance: "single-factor";
-    authenticatedAt: string;
-  }>;
-  correlationId: string;
-  activeScope: Readonly<{
-    type: "personal" | "organization";
-    accountId: string;
-  }>;
-}>;
 
 export type RepositoryCapabilityContextV1 = Readonly<{
   envelope: RequestEnvelopeV1;
@@ -126,21 +105,14 @@ export function createRepositoryCapabilityContextResolver(
     });
 
     return {
-      envelope: {
-        viewer: input.authentication.principal,
-        actor: input.authentication.principal,
-        credential: {
-          type: "browser-session",
-          method: "mock-password",
-          assurance: "single-factor",
-          authenticatedAt: input.authentication.authenticatedAt,
-        },
+      envelope: createBrowserRequestEnvelope({
+        authentication: input.authentication,
         correlationId: input.correlationId,
         activeScope: {
           type: owner.kind === "organization" ? "organization" : "personal",
           accountId: owner.accountId,
         },
-      },
+      }),
       owner,
       organization: owner.kind === "organization" ? owner : undefined,
       repository,
