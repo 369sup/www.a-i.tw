@@ -93,14 +93,24 @@ const exactAreaEntries = {
       "globals.css",
       "layout.tsx",
     ],
+    optionalFiles: [
+      "apple-icon.tsx",
+      "error.tsx",
+      "forbidden.tsx",
+      "global-error.tsx",
+      "global-not-found.tsx",
+      "icon.tsx",
+      "loading.tsx",
+      "not-found.tsx",
+      "opengraph-image.tsx",
+      "template.tsx",
+      "twitter-image.tsx",
+      "unauthorized.tsx",
+    ],
   },
   "apps/web/src/composition": {
     directories: [],
     files: ["product-composition.ts"],
-  },
-  "apps/web/src/presentation": {
-    directories: ["authentication", "navigation", "request-context"],
-    files: ["AGENTS.md", "README.md"],
   },
 };
 const requiredRoots = [
@@ -164,6 +174,30 @@ const forbiddenConsoleEntries = [
   "apps/web/src/app/(console)/architecture",
   "apps/web/src/app/(console)/@modal",
 ];
+const forbiddenWebSourceEntries = ["apps/web/src/presentation"];
+const forbiddenAppFileNames = new Set(["actions.ts"]);
+const allowedAppTsxFileNames = new Set([
+  "apple-icon.tsx",
+  "error.tsx",
+  "forbidden.tsx",
+  "global-error.tsx",
+  "global-not-found.tsx",
+  "icon.tsx",
+  "layout.tsx",
+  "loading.tsx",
+  "not-found.tsx",
+  "opengraph-image.tsx",
+  "page.tsx",
+  "template.tsx",
+  "twitter-image.tsx",
+  "unauthorized.tsx",
+]);
+const rootOnlyAppTsxFileNames = new Set([
+  "forbidden.tsx",
+  "global-error.tsx",
+  "global-not-found.tsx",
+  "unauthorized.tsx",
+]);
 
 function sortedEntries(path, kind) {
   return readdirSync(path, { withFileTypes: true })
@@ -180,6 +214,7 @@ function checkExactArea(path, contract) {
   const actualFiles = sortedEntries(path, "files");
   const expectedDirectories = [...contract.directories].sort();
   const expectedFiles = [...contract.files].sort();
+  const optionalFiles = [...(contract.optionalFiles ?? [])].sort();
   if (
     JSON.stringify(actualDirectories) !== JSON.stringify(expectedDirectories)
   ) {
@@ -187,9 +222,14 @@ function checkExactArea(path, contract) {
       `${path} directories must be exactly: ${expectedDirectories.join(", ") || "(none)"}.`,
     );
   }
-  if (JSON.stringify(actualFiles) !== JSON.stringify(expectedFiles)) {
+  if (
+    expectedFiles.some((file) => !actualFiles.includes(file)) ||
+    actualFiles.some(
+      (file) => !expectedFiles.includes(file) && !optionalFiles.includes(file),
+    )
+  ) {
     errors.push(
-      `${path} files must be exactly: ${expectedFiles.join(", ") || "(none)"}.`,
+      `${path} files must include: ${expectedFiles.join(", ") || "(none)"}; optional files: ${optionalFiles.join(", ") || "(none)"}.`,
     );
   }
 }
@@ -203,10 +243,55 @@ function walkDirectories(path, visit) {
   }
 }
 
-function checkRouteSegment(directory, name) {
-  if (/^\(.+\)$/u.test(name)) {
-    errors.push(`Nested route groups are forbidden: ${directory}.`);
+function checkAppEntryTree(path) {
+  const entries = readdirSync(path, { withFileTypes: true });
+  const directoryName = path.split(/[\\/]/u).at(-1) ?? "";
+  const isAppRoot = path.replaceAll("\\", "/").endsWith("apps/web/src/app");
+  const ownsParallelRouteSlots = entries.some(
+    (entry) => entry.isDirectory() && entry.name.startsWith("@"),
+  );
+  for (const entry of entries) {
+    const child = join(path, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name.startsWith("_")) {
+        errors.push(
+          `App Router ownership bucket is forbidden: ${child}. Private folders prefixed with _ are prohibited; use an owning Context adapter or a responsibility-named composition file.`,
+        );
+      }
+      checkAppEntryTree(child);
+      continue;
+    }
+    if (entry.isFile() && forbiddenAppFileNames.has(entry.name)) {
+      errors.push(
+        `Generic App Router action file is forbidden: ${child}. Use an owning Context adapter and a responsibility-named command composition file.`,
+      );
+    }
+    if (
+      entry.isFile() &&
+      entry.name.endsWith(".tsx") &&
+      !allowedAppTsxFileNames.has(entry.name) &&
+      !(
+        entry.name === "default.tsx" &&
+        (directoryName.startsWith("@") || ownsParallelRouteSlots)
+      )
+    ) {
+      errors.push(
+        `App Router TSX entry is forbidden: ${child}. Use an approved Next.js App Router file convention; default.tsx is limited to parallel routes.`,
+      );
+    }
+    if (
+      entry.isFile() &&
+      rootOnlyAppTsxFileNames.has(entry.name) &&
+      !isAppRoot
+    ) {
+      errors.push(
+        `Root-only App Router TSX entry is misplaced: ${child}. ${entry.name} must live at apps/web/src/app.`,
+      );
+    }
   }
+}
+
+function checkRouteSegment(directory, name) {
   if (
     existsSync(join(directory, "page.tsx")) &&
     existsSync(join(directory, "route.ts"))
@@ -261,6 +346,16 @@ for (const entry of forbiddenConsoleEntries) {
     errors.push(
       `Console has a duplicate Template UX or global modal slot: ${entry}.`,
     );
+}
+for (const entry of forbiddenWebSourceEntries) {
+  if (existsSync(entry)) {
+    errors.push(
+      `Deprecated presentation root is forbidden: ${entry}. Place product behavior in its owning Context and assemble it in App Router.`,
+    );
+  }
+}
+if (existsSync("apps/web/src/app")) {
+  checkAppEntryTree("apps/web/src/app");
 }
 
 for (const skill of readdirSync(".agents/skills", { withFileTypes: true })) {

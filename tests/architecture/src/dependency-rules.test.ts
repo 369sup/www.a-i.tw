@@ -454,14 +454,24 @@ const repositoryAreaContract = {
       "globals.css",
       "layout.tsx",
     ],
+    optionalFiles: [
+      "apple-icon.tsx",
+      "error.tsx",
+      "forbidden.tsx",
+      "global-error.tsx",
+      "global-not-found.tsx",
+      "icon.tsx",
+      "loading.tsx",
+      "not-found.tsx",
+      "opengraph-image.tsx",
+      "template.tsx",
+      "twitter-image.tsx",
+      "unauthorized.tsx",
+    ],
   },
   "apps/web/src/composition": {
     directories: [],
     files: ["product-composition.ts"],
-  },
-  "apps/web/src/presentation": {
-    directories: ["authentication", "navigation", "request-context"],
-    files: ["AGENTS.md", "README.md"],
   },
 } as const;
 
@@ -1031,31 +1041,175 @@ describe("closed repository area topology", () => {
     );
   });
 
-  it("rejects legacy private cross-route folders inside app", () => {
+  it.each(["_lib", "_actions", "_components", "_draft"])(
+    "rejects the %s App Router ownership bucket recursively",
+    (directory) => {
+      const root = writeRepositoryAreaFixture();
+      mkdirSync(
+        join(root, "apps/web/src/app/(console)/repositories", directory),
+        { recursive: true },
+      );
+
+      const result = inspectRepositoryAreas(root);
+
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain(
+        "App Router ownership bucket is forbidden",
+      );
+    },
+  );
+
+  it.each([
+    "folder",
+    "@slot",
+    "(group)",
+    "[param]",
+    "[...param]",
+    "[[...param]]",
+    "(.)segment",
+    "(..)segment",
+    "(..)(..)segment",
+    "(...)segment",
+  ])("allows the %s route segment convention", (segment) => {
     const root = writeRepositoryAreaFixture();
-    mkdirSync(join(root, "apps/web/src/app", "_components"));
+    const route = join(root, "apps/web/src/app/(console)", segment);
+    mkdirSync(route, { recursive: true });
+    writeFileSync(
+      join(route, "page.tsx"),
+      "export default function Page() { return null; }\n",
+    );
+
+    const result = inspectRepositoryAreas(root);
+
+    expect(result.status).toBe(0);
+  });
+
+  it("rejects generic actions.ts files recursively", () => {
+    const root = writeRepositoryAreaFixture();
+    const route = join(root, "apps/web/src/app/(console)/notifications");
+    mkdirSync(route, { recursive: true });
+    writeFileSync(
+      join(route, "actions.ts"),
+      "export async function act() {}\n",
+    );
 
     const result = inspectRepositoryAreas(root);
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain(
-      "apps/web/src/app directories must be exactly",
+      "Generic App Router action file is forbidden",
     );
   });
 
-  it("rejects an unowned presentation experience", () => {
+  it("rejects TSX files that are not approved App Router conventions", () => {
     const root = writeRepositoryAreaFixture();
-    mkdirSync(join(root, "apps/web/src/presentation", "shared"));
+    const route = join(root, "apps/web/src/app/(console)/repositories");
+    mkdirSync(route, { recursive: true });
+    writeFileSync(
+      join(route, "repository-composition.tsx"),
+      "export function RepositoryComposition() { return null; }\n",
+    );
+
+    const result = inspectRepositoryAreas(root);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("App Router TSX entry is forbidden");
+  });
+
+  it.each([
+    "page.tsx",
+    "layout.tsx",
+    "template.tsx",
+    "loading.tsx",
+    "error.tsx",
+    "not-found.tsx",
+    "icon.tsx",
+    "apple-icon.tsx",
+    "opengraph-image.tsx",
+    "twitter-image.tsx",
+  ])("allows the %s App Router convention", (fileName) => {
+    const root = writeRepositoryAreaFixture();
+    const route = join(root, "apps/web/src/app/(console)/settings");
+    mkdirSync(route, { recursive: true });
+    writeFileSync(
+      join(route, fileName),
+      "export default function Convention() { return null; }\n",
+    );
+
+    const result = inspectRepositoryAreas(root);
+
+    expect(result.status).toBe(0);
+  });
+
+  it.each([
+    "global-error.tsx",
+    "global-not-found.tsx",
+    "unauthorized.tsx",
+    "forbidden.tsx",
+  ])(
+    "allows the root-only %s App Router convention at app root",
+    (fileName) => {
+      const root = writeRepositoryAreaFixture();
+      writeFileSync(
+        join(root, "apps/web/src/app", fileName),
+        "export default function Convention() { return null; }\n",
+      );
+
+      const result = inspectRepositoryAreas(root);
+
+      expect(result.status).toBe(0);
+    },
+  );
+
+  it("rejects a root-only App Router convention in a nested segment", () => {
+    const root = writeRepositoryAreaFixture();
+    const route = join(root, "apps/web/src/app/(console)/settings");
+    mkdirSync(route, { recursive: true });
+    writeFileSync(
+      join(route, "global-error.tsx"),
+      "export default function GlobalError() { return null; }\n",
+    );
 
     const result = inspectRepositoryAreas(root);
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain(
-      "apps/web/src/presentation directories must be exactly",
+      "Root-only App Router TSX entry is misplaced",
     );
   });
 
-  it("rejects nested route groups and page/handler ambiguity", () => {
+  it("allows default.tsx only for a parallel route slot or its owner", () => {
+    const root = writeRepositoryAreaFixture();
+    const route = join(root, "apps/web/src/app/(console)/repositories");
+    const slot = join(route, "@inspector");
+    mkdirSync(slot, { recursive: true });
+    writeFileSync(
+      join(route, "default.tsx"),
+      "export default function Default() { return null; }\n",
+    );
+    writeFileSync(
+      join(slot, "default.tsx"),
+      "export default function Default() { return null; }\n",
+    );
+
+    const result = inspectRepositoryAreas(root);
+
+    expect(result.status).toBe(0);
+  });
+
+  it("rejects the deprecated presentation root", () => {
+    const root = writeRepositoryAreaFixture();
+    mkdirSync(join(root, "apps/web/src/presentation"), { recursive: true });
+
+    const result = inspectRepositoryAreas(root);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(
+      "Deprecated presentation root is forbidden",
+    );
+  });
+
+  it("rejects page/handler ambiguity inside a route group", () => {
     const root = writeRepositoryAreaFixture();
     const route = join(root, "apps/web/src/app/(public)/docs/(alternate)");
     mkdirSync(route, { recursive: true });
@@ -1068,7 +1222,6 @@ describe("closed repository area topology", () => {
     const result = inspectRepositoryAreas(root);
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("Nested route groups are forbidden");
     expect(result.stderr).toContain(
       "cannot contain both page.tsx and route.ts",
     );
