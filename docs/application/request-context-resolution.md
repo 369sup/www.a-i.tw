@@ -50,12 +50,12 @@ must not add optional fields to a universal DTO; they define their own context t
 A resolver may orchestrate calls and translate published contracts. It must not infer Membership, duplicate resource
 role rules, load another Context's Domain type, expose raw credentials, or cache a decision beyond one request.
 
-Experience owns consumer-shaped view types and does not import provider contracts directly. Only the server
-composition adapter sees provider contracts/facades and translates them into these local Ports.
+The owning capability Context owns consumer-shaped view types and does not import peer internals. Its outbound adapters
+translate approved provider contracts into local Ports; the app composition adapter only binds concrete facades.
 
-The browser request-envelope mapper and focused test live under
-`apps/web/src/presentation/request-context/browser-request-envelope.ts`; Next.js routes consume this app-local
-presentation type without making `app/` a cross-route ownership bucket.
+The Repository request envelope is produced by the Repository Governance capability resolver under its Application
+boundary. Next.js supplies authentication, active scope and correlation ID through a named composition file; it does not
+own a universal request-context bucket.
 
 ## Minimum-context rule
 

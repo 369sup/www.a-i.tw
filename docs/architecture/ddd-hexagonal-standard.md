@@ -42,8 +42,7 @@ apps/web/src/
 ├── app/                                  # Next.js inbound routing only
 │   ├── (public)/                         # public site, docs and public endpoints
 │   └── (console)/                        # authenticated product routes and parallel routes
-├── presentation/<experience>/            # cross-context inbound adapters
-├── server/composition/                    # only concrete adapter wiring root
+├── composition/                           # only concrete adapter wiring root
 └── modules/<domain-group>/<domain-area>/<bounded-context>/
     ├── domain/<capability>/{aggregates,entities,value-objects,domain-services,policies,specifications,events,errors}/
     ├── application/{commands,queries,use-cases,process-managers,dto,ports/{inbound,outbound}}/
@@ -65,7 +64,7 @@ Domain Group 僅有一層，且第一層固定為 `platform-governance`、`colla
 ## 3. Dependency rules
 
 ```text
-Presentation / Infrastructure ---> Application ---> Domain
+Inbound UI / Infrastructure ----> Application ---> Domain
              composition root wires ^ owned Ports
 
 Consumer Application ---> consumer-owned Port
@@ -92,7 +91,7 @@ Published Language。
   `RequestContextService`、巨型 optional DTO、中央 relationship graph 或中央 authorization rule。
 - Context 欄位只有在目前 capability 必須使用、來源 owner 已核准、失敗語意明確時才可加入；
   未核准的 Enterprise／Policy／Entitlement facts 必須省略，不得以空欄位假裝已整合。
-- Domain、Application、Contracts 與 Presentation 不得認識其他 Context。
+- Domain、Application、Contracts 與 inbound UI 不得認識其他 Context internal implementation。
 - 跨 Context 語意依賴只能由 consumer `adapters/outbound/integrations/**` 實作 consumer-owned Application Port，
   並 import provider `contracts/vN/public.ts`。
 - 每個跨 Context import 都需要 manifest relationship；既有例外只能列於
@@ -132,7 +131,7 @@ Published Language。
 | `AR-009` | Internal Domain VO、Entity、Aggregate 或 Application DTO 不得直接發布為跨 Context contract。                        | `domain`, `application`, `contract`                        | standalone `contracts/vN`、explicit mapping、contract architecture tests              |
 | `AR-010` | Context 不得 import peer internals、跨 Context transaction、foreign-key navigation 或直接共用 mutable entity。      | `application`, `contract`, `adapter`, `data`               | Context Map edge、consumer ACL、dependency and architecture checks                    |
 | `AR-011` | Domain 不得依賴 framework／I/O；Application 不得 new concrete adapter、執行 SQL／ORM 或 import Presentation。       | `domain`, `application`, `adapter`                         | dependency direction、Semgrep、typecheck                                              |
-| `AR-012` | Route／UI／Server Action 不得擁有 invariant；Context composition 不得承擔 app-wide wiring；`server` 不構成產品層。  | `adapter`, `composition`, `presentation`                   | thin inbound mapping、only `server/composition` app wiring、architecture tests        |
+| `AR-012` | Route／UI／Server Action 不得擁有 invariant；Context composition 不得承擔 app-wide wiring；`server` 不構成產品層。  | `adapter`, `composition`, `presentation`                   | thin inbound mapping、only `apps/web/src/composition` app wiring、architecture tests  |
 | `AR-013` | `packages/*` 不得收容產品 Domain/Application/Contract；可重用或 server-only 不會自動改變 semantic owner。           | `topology`, `domain`, `application`, `contract`, `adapter` | package policy、owner review、topology check                                          |
 | `AR-014` | Search、Feed、Dashboard、Notification、Analytics、Audit projection 不得成為 upstream Aggregate 的 source of truth。 | `semantics`, `application`, `data`                         | provider facts/events、consumer read models、rebuildability tests                     |
 | `AR-015` | Product Subscription、Entitlement、Seat、Usage、Invoice、Budget、Notification Subscription 不得互相代替。           | `semantics`, `domain`, `contract`, `data`                  | separate owner/lifecycle approval before commercial runtime                           |
@@ -156,7 +155,7 @@ temporary migration 或「GitHub 有此功能」都不是例外授權。
 `packages/*` 只容納 context-neutral technical capability。禁止
 `packages/application`、`contracts`、`domain`、`foundation`、`infrastructure`
 與 umbrella `tooling`。產品語意一律回到 owning Context。
-Technical package 不得反向 import `apps/**`；app-local composition、route、presentation 與 Bounded Context 都不是
+Technical package 不得反向 import `apps/**`；app-local composition、route 與 Bounded Context 都不是
 可重用 package 的依賴來源。
 
 ## 7. Architecture document control

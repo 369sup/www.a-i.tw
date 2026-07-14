@@ -156,8 +156,11 @@ apps/web/src/app/
         ├── page.tsx
         ├── loading.tsx          # 只有實際需要 streaming 時才加入
         ├── not-found.tsx        # 依本版本支援與既有慣例決定
-        └── _components/         # route-local presentation only
+        └── profile-composition.tsx # final route assembly only
 ```
+
+Profile UI belongs to its owning Context inbound adapter. `_components`、`_lib`、`_actions` 與 `actions.ts` 即使
+route-local 也禁止使用。
 
 不為 `repositories` 與 `stars` 各建一個 route segment，因目前 URL contract 明確以 `tab` 選擇同一 Profile
 surface。若未來需要獨立 layout、metadata 或 loading boundary，必須另做 route decision。
