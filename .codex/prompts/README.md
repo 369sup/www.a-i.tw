@@ -1,0 +1,28 @@
+# Codex 常用工作流程
+
+這個目錄存放可直接貼入 Codex 的專案提示詞。它們以本專案的 DDD、Hexagonal Architecture 與既有 command policy 為準；不是 shell script，也不會繞過 `.codex/rules/` 的保護。
+
+| 提示詞                                                                         | 適用情境                                                |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| [`01-orient.md`](01-orient.md)                                                 | 新工作開始前，快速取得正確的專案、文件與 Git 狀態       |
+| [`02-implement.md`](02-implement.md)                                           | 實作一個已清楚定義的功能或修正                          |
+| [`03-verify.md`](03-verify.md)                                                 | 依改動範圍跑最小且足夠的品質驗證                        |
+| [`04-github-triage.md`](04-github-triage.md)                                   | 查看目前分支、PR、issue、review 與 GitHub Actions       |
+| [`05-ci-repair.md`](05-ci-repair.md)                                           | 定位並修正 GitHub Actions 或本機品質門檻失敗            |
+| [`06-docs-and-architecture.md`](06-docs-and-architecture.md)                   | 新增 context、調整邊界、contract 或文件                 |
+| [`07-openai-research.md`](07-openai-research.md)                               | 規劃或修改 OpenAI API 整合，使用官方資料核實            |
+| [`08-release-readiness.md`](08-release-readiness.md)                           | 產出可發布前的證據、風險與待確認事項                    |
+| [`09-parallel-work.md`](09-parallel-work.md)                                   | 可獨立且可平行的調查、測試或審查工作                    |
+| [`11-semantic-development-lifecycle.md`](11-semantic-development-lifecycle.md) | 語意、文件、路徑、scaffold、inside-out 開發與驗證 gate  |
+| [`12-scaffold-bounded-context.md`](12-scaffold-bounded-context.md)             | 以 capability-oriented template v2 建立已核准的 Context |
+
+## 共通原則
+
+- 先讀根目錄與目標路徑的 `AGENTS.md`，並依 `docs/ai-index.md` 讀取最小必要文件。
+- Context7 由 agent 自主判斷使用：套件、框架、SDK 或 API 細節有版本差異、文件不足或可能過期時，先查本專案版本與本機文件，再 resolve library ID 並 query 對應 Context7 文件；一般 repository 文件、設定與 Git 工作不使用。
+- GitHub 用於 PR、issue、review、Actions 與遠端狀態；本機 `git` 用於工作樹與分支狀態。未明確授權時不 commit、push、開 PR、merge 或改遠端資料。
+- OpenAI Developers 僅用官方文件與 MCP 核實 OpenAI 產品/API；若實作會呼叫 OpenAI API，先走安全的 API key 決策流程，絕不輸出密鑰。
+- Serena 用於語言伺服器可理解的程式符號、實作、引用、診斷與安全重構；agent 應彈性使用當前 session 暴露的所有相關 Serena 工具，不依賴固定工具清單。文字、文件、設定與 Git 工作仍優先使用原生工具；僅在語意程式任務時套用 Session Guard（先 `get_current_config`，未就緒才初始化，且同一 task 初始化失敗不重試）。
+- 每次修改後先檢視 `git diff` 與 `git status --short`，只驗證本次變更範圍；runtime 或架構邊界改動再跑完整必要門檻。
+
+可從 `make help` 查看專案操作入口；`scripts/validation/` 的腳本供人與 agent 共用。

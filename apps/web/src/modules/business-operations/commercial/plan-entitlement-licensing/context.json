@@ -1,0 +1,23 @@
+{
+  "context": "plan-entitlement-licensing",
+  "group": "business-operations",
+  "area": "commercial",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Plan Entitlement and Licensing",
+  "subdomain": {
+    "name": "plan-entitlement-licensing",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own product plans, feature entitlements, licenses, seats, trials and entitlement decisions independently of resource authorization.",
+  "firstUseCase": null,
+  "sourceOfTruth": ["Plan", "FeatureEntitlement", "License"],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

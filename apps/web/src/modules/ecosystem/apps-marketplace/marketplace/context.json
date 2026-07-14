@@ -1,0 +1,27 @@
+{
+  "context": "marketplace",
+  "group": "ecosystem",
+  "area": "apps-marketplace",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Marketplace",
+  "subdomain": {
+    "name": "marketplace",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own publisher verification, listings, pricing, publication, purchases, trials, plan changes and marketplace transactions.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "MarketplaceListing",
+    "PublisherVerification",
+    "MarketplacePurchase"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

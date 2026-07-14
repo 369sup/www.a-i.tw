@@ -1,0 +1,12 @@
+{
+  "area": "commercial",
+  "group": "business-operations",
+  "purpose": "Group plans, entitlement, licensing, billing, payments, cost and sponsorship capabilities.",
+  "ownsRuntime": false,
+  "contexts": [
+    "plan-entitlement-licensing",
+    "billing-payments",
+    "usage-cost-management",
+    "sponsorship"
+  ]
+}

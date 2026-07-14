@@ -1,0 +1,23 @@
+{
+  "context": "classroom-management",
+  "group": "programs",
+  "area": "education",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Classroom Management",
+  "subdomain": {
+    "name": "classroom-management",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own non-Code Classroom, roster, assignment administration, deadlines, extensions, progress and LMS connection semantics.",
+  "firstUseCase": null,
+  "sourceOfTruth": ["Classroom", "Roster", "Assignment"],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

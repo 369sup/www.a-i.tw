@@ -1,0 +1,34 @@
+---
+title: Bounded Contexts
+description: 專案採用的 Domain-Driven Modular Monolith 與 Hexagonal 邊界。
+---
+
+# Domain-Driven Modular Monolith
+
+單一 `@a-i/web` application 依產品能力組成 app-local Bounded Context：
+
+- Identity & Access
+- Account
+- Repository
+
+每個 Context 位於 `apps/web/src/modules/<domain-group>/<bounded-context>`。Domain Group 只提供組織與治理規則，
+不擁有 runtime state；Strategic Subdomain 由 Context manifest 宣告。每個 Context 內含 Domain、Application、
+Contracts、Infrastructure 與 Composition。Domain 不知道 Next.js、React、database 或
+external SDK；Application 擁有 use cases 與 Ports；Infrastructure 實作 outbound Ports；
+route、UI 與 Server Action 是 inbound adapters。
+
+跨 Context 只能消費 versioned published contracts。具體 adapters 只在
+`apps/web/src/server/composition` 組裝。內部 supporting subdomain 必須在 manifest
+宣告並位於 `src/subdomains/<name>`。
+
+內部 canonical ADR、Context Map 與 enforcement 細節留在 repository root `docs/`。
+
+## Request-scoped capability context
+
+The UI does not use a central Context Service. A minimal request envelope carries viewer, actor, safe authentication
+metadata, correlation and active scope. Each capability family owns a typed resolver; the current Repository resolver
+adds owner, Organization, Repository, capability, requested action and the Repository-owned authorization decision.
+Experience uses consumer-owned ACL views, and only server composition translates provider contracts.
+
+Fields are added only when the current capability needs them and an approved owner publishes the fact. Unknown
+Enterprise, Policy or Entitlement data is omitted rather than exposed as speculative empty fields.

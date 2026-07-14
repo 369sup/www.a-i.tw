@@ -1,0 +1,804 @@
+{
+  "$schema": "./context-map.schema.json",
+  "version": 1,
+  "contexts": [
+    {
+      "context": "activity-feed",
+      "group": "engagement",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "prototype",
+      "package": "@a-i/web",
+      "domain": "Activity Feed",
+      "subdomain": {
+        "name": "activity-feed",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Present recipient-scoped activity projections without owning source transactions.",
+      "firstUseCase": "Append and list an in-memory Feed Item for a recipient.",
+      "sourceOfTruth": ["FeedItem"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
+      "relationships": [],
+      "area": "social-discovery"
+    },
+    {
+      "context": "administrative-access-control",
+      "group": "platform-governance",
+      "area": "access-policy",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Administrative Authority",
+      "subdomain": {
+        "name": "administrative-access-control",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own Enterprise and Organization administrative role assignments independently of resource authorization.",
+      "firstUseCase": "Assign and verify the founding Enterprise owner authority.",
+      "sourceOfTruth": ["EnterpriseOwnerAssignment"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "enterprise-account",
+          "downstream": "administrative-access-control",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "EnterpriseAccountDirectoryApiV1",
+          "consumerPort": "EnterpriseDirectory",
+          "consumerAcl": "AppCompositionEnterpriseDirectory",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-enterprise",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "app-management",
+      "group": "ecosystem",
+      "area": "apps-marketplace",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "App Integrations",
+      "subdomain": {
+        "name": "app-registration",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "External applications require a registration identity and presentation configuration independent from installations, user authorization, webhook delivery and marketplace commerce.",
+      "firstUseCase": "An authenticated Personal Account owner creates a private GitHub App registration with a unique name, required homepage URL and optional callback URL, then lists registrations owned by that account.",
+      "sourceOfTruth": ["GitHubAppRegistration"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "user-account",
+          "downstream": "app-management",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "PersonalAccountDirectoryApiV1",
+          "consumerPort": "PersonalAppOwnerDirectory",
+          "consumerAcl": "PersonalAppOwnerDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-or-inactive-personal-account-owner",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "audit-compliance",
+      "group": "business-operations",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "prototype",
+      "package": "@a-i/web",
+      "domain": "Audit",
+      "subdomain": {
+        "name": "audit-compliance",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Preserve append-only administrative evidence without becoming a business event bus.",
+      "firstUseCase": "Append and query an in-memory Audit Entry.",
+      "sourceOfTruth": ["AuditEntry"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-12"
+      },
+      "relationships": [],
+      "area": "assurance-support"
+    },
+    {
+      "context": "authentication-security",
+      "group": "platform-governance",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Identity and Access",
+      "subdomain": {
+        "name": "authentication-security",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Authenticate a principal and maintain session attribution without deciding product authorization.",
+      "firstUseCase": "Authenticate a demo credential and resolve the active principal session.",
+      "sourceOfTruth": ["Principal", "Session"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [],
+      "area": "authentication-identity"
+    },
+    {
+      "context": "community-safety",
+      "group": "collaboration",
+      "area": "community-knowledge",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Community Safety",
+      "subdomain": {
+        "name": "community-safety",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own temporary Repository interaction-limit rules and fail-closed non-Code interaction decisions without owning source content or access grants.",
+      "firstUseCase": "Activate and remove a one-day collaborators_only Interaction Limit for a public Repository and decide Issue or Discussion interactions from authoritative Repository access facts.",
+      "sourceOfTruth": ["RepositoryInteractionLimit"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "repository-governance",
+          "downstream": "community-safety",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryParticipationApiV1",
+          "consumerPort": "RepositorySafetyParticipation",
+          "consumerAcl": "RepositorySafetyParticipationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-private-inactive-or-forbidden-repository",
+          "status": "current"
+        },
+        {
+          "upstream": "community-safety",
+          "downstream": "work-tracking",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "CommunitySafetyApiV1",
+          "consumerPort": "CommunityInteractionSafety",
+          "consumerAcl": "CommunityInteractionSafetyAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-interaction-decision",
+          "status": "current"
+        },
+        {
+          "upstream": "community-safety",
+          "downstream": "discussions",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "CommunitySafetyApiV1",
+          "consumerPort": "CommunityInteractionSafety",
+          "consumerAcl": "CommunityInteractionSafetyAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-interaction-decision",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "discussions",
+      "group": "collaboration",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Discussions",
+      "subdomain": {
+        "name": "discussions",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Host repository-scoped community questions and answers distinct from Issue work state.",
+      "firstUseCase": "Create a Repository Q&A Discussion, add a Comment, and let the author or an eligible triager mark that Comment as the accepted answer.",
+      "sourceOfTruth": ["DiscussionCategory", "Discussion"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "repository-governance",
+          "downstream": "discussions",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryParticipationApiV1",
+          "consumerPort": "RepositoryDiscussionParticipation",
+          "consumerAcl": "RepositoryDiscussionParticipationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-or-forbidden-repository",
+          "status": "current"
+        },
+        {
+          "upstream": "community-safety",
+          "downstream": "discussions",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "CommunitySafetyApiV1",
+          "consumerPort": "CommunityInteractionSafety",
+          "consumerAcl": "CommunityInteractionSafetyAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-interaction-decision",
+          "status": "current"
+        }
+      ],
+      "area": "community-knowledge"
+    },
+    {
+      "context": "enterprise-account",
+      "group": "platform-governance",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Enterprise Account",
+      "subdomain": {
+        "name": "enterprise-account",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Govern multiple Organizations with Enterprise-scoped affiliations and enforceable policy constraints without owning their resources.",
+      "firstUseCase": "Affiliate an Organization and restrict Public Repository creation and visibility changes.",
+      "sourceOfTruth": ["Enterprise", "EnterpriseOrganizationAffiliation"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
+      "relationships": [
+        {
+          "upstream": "organization-account",
+          "downstream": "enterprise-account",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "OrganizationAccountDirectoryApiV1",
+          "consumerPort": "OrganizationAccountDirectory",
+          "consumerAcl": "OrganizationAccountDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-or-inactive-organization",
+          "status": "current"
+        }
+      ],
+      "area": "accounts-profile"
+    },
+    {
+      "context": "organization-account",
+      "group": "platform-governance",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Organization Account",
+      "subdomain": {
+        "name": "organization-account",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own organizations, memberships, invitations, and organization teams without owning authentication, enterprise policy, or repository access grants.",
+      "firstUseCase": "Create an organization and manage its membership and teams.",
+      "sourceOfTruth": ["Organization"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "authentication-security",
+          "downstream": "organization-account",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "PrincipalRefV1",
+          "consumerPort": "OrganizationPrincipal",
+          "consumerAcl": "AppCompositionPrincipalMapper",
+          "consistency": "synchronous",
+          "failureMode": "reject-inactive-principal",
+          "status": "current"
+        },
+        {
+          "upstream": "profile-presence",
+          "downstream": "organization-account",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "ProfileDirectoryApiV1",
+          "consumerPort": "ProfileDirectory",
+          "consumerAcl": "AppCompositionProfileDirectory",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-profile",
+          "status": "current"
+        }
+      ],
+      "area": "accounts-profile"
+    },
+    {
+      "context": "organization-participation",
+      "group": "platform-governance",
+      "area": "participation-teams",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Account Participation",
+      "subdomain": {
+        "name": "organization-participation",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own Organization membership, invitations and Team participation without owning Organization identity.",
+      "firstUseCase": "Provision the founding Organization owner and manage Organization membership and Team participation.",
+      "sourceOfTruth": [
+        "OrganizationMembership",
+        "OrganizationInvitation",
+        "OrganizationTeam"
+      ],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "organization-account",
+          "downstream": "organization-participation",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "OrganizationAccountDirectoryApiV1",
+          "consumerPort": "OrganizationAccountDirectory",
+          "consumerAcl": "AppCompositionOrganizationAccountDirectory",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-or-inactive-organization",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "policy-governance",
+      "group": "platform-governance",
+      "area": "access-policy",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Governance Policy",
+      "subdomain": {
+        "name": "policy-governance",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own Enterprise policy constraints and delegation independently of administrative role assignment.",
+      "firstUseCase": "Set and resolve the effective Repository visibility policy for an affiliated Organization.",
+      "sourceOfTruth": ["RepositoryVisibilityPolicy"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "enterprise-account",
+          "downstream": "policy-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "EnterpriseAccountDirectoryApiV1",
+          "consumerPort": "PolicyEnterpriseDirectory",
+          "consumerAcl": "AppCompositionEnterpriseDirectory",
+          "consistency": "synchronous",
+          "failureMode": "treat-unaffiliated-as-default-policy",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "profile-presence",
+      "group": "platform-governance",
+      "area": "accounts-profile",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Accounts and Profile",
+      "subdomain": {
+        "name": "profile-presence",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own account presentation and presence independently of account identity and authentication.",
+      "firstUseCase": "Create and resolve the presentation profile initialized for a Personal or Organization Account.",
+      "sourceOfTruth": ["AccountProfile"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": []
+    },
+    {
+      "context": "repository-governance",
+      "group": "collaboration",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Repository Governance",
+      "subdomain": {
+        "name": "repository-governance",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Manage the identity, Account ownership, profile, visibility, state, feature configuration and lifecycle of a non-code Repository.",
+      "firstUseCase": "Create a Repository owned by an eligible Personal Account or Organization.",
+      "sourceOfTruth": [
+        "Repository",
+        "RepositoryRoleDefinition",
+        "RepositoryAccessGrant"
+      ],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "authentication-security",
+          "downstream": "repository-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "IdentityDirectoryApiV1",
+          "consumerPort": "IdentityDirectory",
+          "consumerAcl": "IdentityDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-or-inactive-principal",
+          "status": "current"
+        },
+        {
+          "upstream": "user-account",
+          "downstream": "repository-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "PersonalAccountDirectoryApiV1",
+          "consumerPort": "AccountDirectory",
+          "consumerAcl": "AccountDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-account-facts",
+          "status": "current"
+        },
+        {
+          "upstream": "organization-account",
+          "downstream": "repository-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "OrganizationAccountDirectoryApiV1",
+          "consumerPort": "AccountDirectory",
+          "consumerAcl": "AccountDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-account-facts",
+          "status": "current"
+        },
+        {
+          "upstream": "organization-participation",
+          "downstream": "repository-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "OrganizationParticipationApiV1",
+          "consumerPort": "AccountAuthorizationDirectory",
+          "consumerAcl": "AccountAuthorizationDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-participation-facts",
+          "status": "current"
+        },
+        {
+          "upstream": "policy-governance",
+          "downstream": "repository-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryPolicyDecisionApiV1",
+          "consumerPort": "EnterpriseRepositoryGovernance",
+          "consumerAcl": "EnterpriseRepositoryGovernanceAdapter",
+          "consistency": "synchronous",
+          "failureMode": "fail-closed-on-unavailable-governance-constraints",
+          "status": "current"
+        }
+      ],
+      "area": "repository-work"
+    },
+    {
+      "context": "repository-wiki",
+      "group": "collaboration",
+      "area": "community-knowledge",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Knowledge Wiki",
+      "subdomain": {
+        "name": "repository-wiki",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own Repository-scoped Wiki and Wiki Page identity, title, content and publication semantics without owning Repository lifecycle, access grants or Git-backed storage.",
+      "firstUseCase": "In an enabled active Repository Wiki, an authenticated actor with Repository write access creates the first uniquely titled non-empty Wiki Page and reads it through a Knowledge-owned query.",
+      "sourceOfTruth": ["Wiki", "WikiPage"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "repository-governance",
+          "downstream": "repository-wiki",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryParticipationApiV1",
+          "consumerPort": "RepositoryWikiParticipation",
+          "consumerAcl": "RepositoryWikiParticipationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-disabled-archived-mutation-or-forbidden-repository",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "search-discovery",
+      "group": "engagement",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Search & Discovery",
+      "subdomain": {
+        "name": "search-discovery",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Index and retrieve non-code resource projections without becoming their source of truth.",
+      "firstUseCase": "Query visibility-filtered product resources from the authenticated command palette.",
+      "sourceOfTruth": ["SearchDocumentProjection"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [],
+      "area": "social-discovery"
+    },
+    {
+      "context": "social-curation",
+      "group": "engagement",
+      "area": "social-discovery",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Social Curation",
+      "subdomain": {
+        "name": "social-curation",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own authenticated User Repository star bookmark and interest relationships without owning Repository state, Watch subscriptions, notifications or activity feed.",
+      "firstUseCase": "An authenticated active User stars or unstars a Repository the User can read, then lists the User's own starred Repository references ordered by starredAt descending.",
+      "sourceOfTruth": ["RepositoryStar"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "repository-governance",
+          "downstream": "social-curation",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryParticipationApiV1",
+          "consumerPort": "RepositoryStarParticipation",
+          "consumerAcl": "RepositoryStarParticipationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-inactive-or-forbidden-repository",
+          "status": "current"
+        }
+      ]
+    },
+    {
+      "context": "subscriptions-notifications",
+      "group": "engagement",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Subscriptions and Notifications",
+      "subdomain": {
+        "name": "subscriptions-notifications",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Represent recipient attention and Inbox triage independently of source resource truth.",
+      "firstUseCase": "Deliver assignment, participation, and watching notifications to a recipient Inbox and triage them.",
+      "sourceOfTruth": [
+        "ActivitySubscription",
+        "Notification",
+        "NotificationTriage"
+      ],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [],
+      "area": "social-discovery"
+    },
+    {
+      "context": "user-account",
+      "group": "platform-governance",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "User Account",
+      "subdomain": {
+        "name": "user-account",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.",
+      "firstUseCase": "Create a personal account for an active principal and resolve its profile.",
+      "sourceOfTruth": ["PersonalAccount"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-14"
+      },
+      "relationships": [
+        {
+          "upstream": "profile-presence",
+          "downstream": "user-account",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "ProfileDirectoryApiV1",
+          "consumerPort": "ProfileDirectory",
+          "consumerAcl": "AppCompositionProfileDirectory",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-profile",
+          "status": "current"
+        }
+      ],
+      "area": "accounts-profile"
+    },
+    {
+      "context": "work-planning",
+      "group": "collaboration",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Projects",
+      "subdomain": {
+        "name": "work-planning",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Plan external work-item references without taking ownership of Issue truth.",
+      "firstUseCase": "Add an existing Issue reference to an account-owned Project.",
+      "sourceOfTruth": ["Project", "ProjectItem", "DraftItem"],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
+      "relationships": [
+        {
+          "upstream": "user-account",
+          "downstream": "work-planning",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "PersonalAccountDirectoryApiV1",
+          "consumerPort": "AccountOwnerDirectory",
+          "consumerAcl": "AccountOwnerDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-non-owner",
+          "status": "current"
+        },
+        {
+          "upstream": "organization-participation",
+          "downstream": "work-planning",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "OrganizationParticipationApiV1",
+          "consumerPort": "AccountOwnerDirectory",
+          "consumerAcl": "AccountOwnerDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-non-owner",
+          "status": "current"
+        },
+        {
+          "upstream": "work-tracking",
+          "downstream": "work-planning",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "IssueDirectoryApiV1",
+          "consumerPort": "IssueDirectory",
+          "consumerAcl": "IssueDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-unknown-issue-reference",
+          "status": "current"
+        }
+      ],
+      "area": "repository-work"
+    },
+    {
+      "context": "work-tracking",
+      "group": "collaboration",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "approved",
+      "package": "@a-i/web",
+      "domain": "Issues",
+      "subdomain": {
+        "name": "work-tracking",
+        "type": "core"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Track repository-scoped work with Issue identity, lifecycle, labels, assignment and collaboration relationships.",
+      "firstUseCase": "Create, classify, assign and close an Issue after authoritative Repository participation approval.",
+      "sourceOfTruth": [
+        "Issue",
+        "Label",
+        "IssueComment",
+        "Milestone",
+        "IssueDependency"
+      ],
+      "runtimeEvidence": {
+        "status": "current",
+        "verifiedAt": "2026-07-12"
+      },
+      "relationships": [
+        {
+          "upstream": "authentication-security",
+          "downstream": "work-tracking",
+          "pattern": "open-host-service + published-language",
+          "contract": "PrincipalRefV1",
+          "consumerPort": "IssuePrincipal",
+          "consumerAcl": "AppCompositionPrincipalMapper",
+          "consistency": "synchronous",
+          "failureMode": "deny-inactive-principal",
+          "status": "current"
+        },
+        {
+          "upstream": "repository-governance",
+          "downstream": "work-tracking",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "RepositoryParticipationApiV1",
+          "consumerPort": "RepositoryParticipation",
+          "consumerAcl": "RepositoryParticipationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-or-forbidden-repository",
+          "status": "current"
+        },
+        {
+          "upstream": "community-safety",
+          "downstream": "work-tracking",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "CommunitySafetyApiV1",
+          "consumerPort": "CommunityInteractionSafety",
+          "consumerAcl": "CommunityInteractionSafetyAdapter",
+          "consistency": "synchronous",
+          "failureMode": "deny-unavailable-interaction-decision",
+          "status": "current"
+        }
+      ],
+      "area": "repository-work"
+    }
+  ]
+}

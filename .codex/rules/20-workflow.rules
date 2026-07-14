@@ -1,0 +1,208 @@
+# Repository workflow command policy
+#
+# Protect source history, production systems, credentials, and reviewability.
+# Read-only inspection, pnpm install, and project validation remain available.
+
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Hard reset can irreversibly discard uncommitted work.",
+)
+
+prefix_rule(
+    pattern = ["git", "clean"],
+    decision = "forbidden",
+    justification = "Git clean can delete untracked source, local configuration, generated evidence, or user work.",
+)
+
+prefix_rule(
+    pattern = ["git", "checkout", "--"],
+    decision = "forbidden",
+    justification = "Discarding working-tree changes can remove unrelated user edits.",
+)
+
+prefix_rule(
+    pattern = ["git", "restore"],
+    decision = "prompt",
+    justification = "Restoring files may discard user changes; review the exact path first.",
+)
+
+prefix_rule(
+    pattern = ["git", "branch", "-D"],
+    decision = "forbidden",
+    justification = "Force-deleting a branch can remove unmerged work.",
+)
+
+prefix_rule(
+    pattern = ["git", "rebase"],
+    decision = "prompt",
+    justification = "Rebase rewrites commit history and may invalidate reviewed commits or shared branches.",
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "prompt",
+    justification = "Commits must be intentional, scoped, validated, and reviewed before history changes.",
+)
+
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Pushing publishes repository changes and requires explicit release approval.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--force"],
+    decision = "forbidden",
+    justification = "Force push can overwrite shared history and invalidate reviews.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "-f"],
+    decision = "forbidden",
+    justification = "Force push can overwrite shared history and invalidate reviews.",
+)
+
+prefix_rule(
+    pattern = ["gh", "auth", "status"],
+    decision = "allow",
+    justification = "Checking GitHub CLI authentication is read-only and helps diagnose repository access.",
+)
+
+prefix_rule(
+    pattern = ["gh", "repo", "view"],
+    decision = "allow",
+    justification = "Viewing repository metadata is read-only and needed for GitHub workflow inspection.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "list"],
+    decision = "allow",
+    justification = "Listing pull requests is read-only and supports review and CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "view"],
+    decision = "allow",
+    justification = "Viewing pull request details is read-only and supports review and CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "checks"],
+    decision = "allow",
+    justification = "Reading pull request checks is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "status"],
+    decision = "allow",
+    justification = "Reading pull request status is read-only and supports local workflow orientation.",
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", "list"],
+    decision = "allow",
+    justification = "Listing issues is read-only and supports triage.",
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", "view"],
+    decision = "allow",
+    justification = "Viewing issue details is read-only and supports triage.",
+)
+
+prefix_rule(
+    pattern = ["gh", "run", "list"],
+    decision = "allow",
+    justification = "Listing workflow runs is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "run", "view"],
+    decision = "allow",
+    justification = "Viewing workflow run details and logs is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "workflow", "list"],
+    decision = "allow",
+    justification = "Listing workflows is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "workflow", "view"],
+    decision = "allow",
+    justification = "Viewing workflow details is read-only and supports CI diagnosis.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "create"],
+    decision = "prompt",
+    justification = "Creating a pull request publishes scope, architecture impact, and validation claims.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "merge"],
+    decision = "prompt",
+    justification = "Merging changes shared repository history and may trigger deployment.",
+)
+
+prefix_rule(
+    pattern = ["vercel", "--prod"],
+    decision = "prompt",
+    justification = "Production deployment requires explicit approval after all project gates pass.",
+)
+
+prefix_rule(
+    pattern = ["vercel", "deploy", "--prod"],
+    decision = "prompt",
+    justification = "Production deployment must not occur without explicit release approval.",
+)
+
+prefix_rule(
+    pattern = ["vercel", "env", "pull"],
+    decision = "prompt",
+    justification = "Pulling environment variables writes potentially sensitive configuration locally.",
+)
+
+prefix_rule(
+    pattern = ["npm", "publish"],
+    decision = "forbidden",
+    justification = "This repository is not authorized for implicit npm package publication.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "publish"],
+    decision = "forbidden",
+    justification = "This repository is not authorized for implicit package publication.",
+)
+
+prefix_rule(
+    pattern = ["npm", "unpublish"],
+    decision = "forbidden",
+    justification = "Unpublishing a package is destructive and can break downstream consumers.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Recursive forced deletion is too broad for source, configuration, documentation, or user data.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-fr"],
+    decision = "forbidden",
+    justification = "Recursive forced deletion is too broad and unsafe.",
+)
+
+prefix_rule(
+    pattern = ["npm", "run", "lint", "--", "--fix"],
+    decision = "prompt",
+    justification = "Repository-wide automatic lint fixes may alter unrelated files and require diff review.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "lint", "--", "--fix"],
+    decision = "prompt",
+    justification = "Repository-wide automatic lint fixes may alter unrelated files and require diff review.",
+)

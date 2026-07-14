@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository Docs Maintenance"
+  short_description: "Maintain canonical repository documentation"
+  default_prompt: "Use $repo-docs-maintenance to update the canonical documentation for this repository change."

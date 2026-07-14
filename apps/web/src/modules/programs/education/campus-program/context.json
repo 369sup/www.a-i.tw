@@ -1,0 +1,27 @@
+{
+  "context": "campus-program",
+  "group": "programs",
+  "area": "education",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Campus Program",
+  "subdomain": {
+    "name": "campus-program",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own institution-level Campus Program applications, agreements, partnerships, benefits, renewal and program status.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "CampusProgramApplication",
+    "CampusPartnership",
+    "InstitutionBenefit"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

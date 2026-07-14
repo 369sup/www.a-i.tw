@@ -1,0 +1,36 @@
+{
+  "context": "administrative-access-control",
+  "group": "platform-governance",
+  "area": "access-policy",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Administrative Authority",
+  "subdomain": {
+    "name": "administrative-access-control",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own Enterprise and Organization administrative role assignments independently of resource authorization.",
+  "firstUseCase": "Assign and verify the founding Enterprise owner authority.",
+  "sourceOfTruth": ["EnterpriseOwnerAssignment"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "enterprise-account",
+      "downstream": "administrative-access-control",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "EnterpriseAccountDirectoryApiV1",
+      "consumerPort": "EnterpriseDirectory",
+      "consumerAcl": "AppCompositionEnterpriseDirectory",
+      "consistency": "synchronous",
+      "failureMode": "reject-unavailable-enterprise",
+      "status": "current"
+    }
+  ]
+}

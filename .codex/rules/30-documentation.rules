@@ -1,0 +1,82 @@
+# Documentation command policy
+#
+# Documentation ownership, ubiquitous language, context maps, ADR criteria,
+# and consistency rules live in AGENTS.md and docs governance files.
+
+prefix_rule(
+    pattern = ["rm", "-rf", "docs"],
+    decision = "forbidden",
+    justification = "docs/ is the canonical source for architecture, contracts, ADRs, status, and runbooks.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf", "apps/web/content/docs"],
+    decision = "forbidden",
+    justification = "apps/web/content/docs contains public Fumadocs content and must not be recursively deleted.",
+)
+
+prefix_rule(
+    pattern = ["git", "mv", "docs"],
+    decision = "prompt",
+    justification = "Moving canonical docs requires updates to AI routing, links, contracts, ADRs, CI, and Fumadocs references.",
+)
+
+prefix_rule(
+    pattern = ["git", "mv", "apps/web/content/docs"],
+    decision = "prompt",
+    justification = "Moving Fumadocs content changes public routes, navigation, search indexing, and links.",
+)
+
+prefix_rule(
+    pattern = ["npx", "create-fumadocs-app"],
+    decision = "prompt",
+    justification = "Creating a Fumadocs app changes deployable boundaries and documentation ownership.",
+)
+
+prefix_rule(
+    pattern = ["npx", "fumadocs"],
+    decision = "prompt",
+    justification = "Fumadocs commands may modify source config, MDX integration, routes, generated collections, and content.",
+)
+
+prefix_rule(
+    pattern = ["npx", "prettier", "docs", "--write"],
+    decision = "prompt",
+    justification = "Bulk formatting may alter MDX, code examples, tables, frontmatter, links, or domain terminology.",
+)
+
+prefix_rule(
+    pattern = ["npx", "prettier", "apps/web/content/docs", "--write"],
+    decision = "prompt",
+    justification = "Bulk Fumadocs formatting may alter public MDX syntax, metadata, examples, and links.",
+)
+
+prefix_rule(
+    pattern = ["sed", "-i"],
+    decision = "prompt",
+    justification = "In-place replacements can silently rename ubiquitous language, owners, contracts, or context relationships.",
+)
+
+prefix_rule(
+    pattern = ["perl", "-pi"],
+    decision = "prompt",
+    justification = "In-place bulk replacements require review of formal terminology and public contracts.",
+)
+
+prefix_rule(
+    pattern = ["npx", "typedoc"],
+    decision = "prompt",
+    justification = "Generated API documentation must not replace domain, contract, ownership, or architecture documentation.",
+)
+
+prefix_rule(
+    pattern = ["npm", "run", "docs:generate"],
+    decision = "prompt",
+    justification = "Documentation generation can modify tracked content, contracts, navigation, or generated source files.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "docs:generate"],
+    decision = "prompt",
+    justification = "Documentation generation can modify tracked content, contracts, navigation, or generated source files.",
+)

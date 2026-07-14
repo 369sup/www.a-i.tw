@@ -1,0 +1,35 @@
+# Baseline command policy
+#
+# Unknown commands remain subject to the host approval policy. These rules
+# protect secrets and prevent command-line expansion from becoming a bypass.
+
+prefix_rule(
+    pattern = ["cmd", "/c"],
+    decision = "prompt",
+    justification = "Shell indirection can hide the actual command and bypass command review.",
+)
+
+prefix_rule(
+    pattern = ["powershell", "-EncodedCommand"],
+    decision = "forbidden",
+    justification = "Encoded commands obscure intent and can conceal destructive or secret-bearing operations.",
+)
+
+prefix_rule(
+    pattern = ["pwsh", "-EncodedCommand"],
+    decision = "forbidden",
+    justification = "Encoded commands obscure intent and can conceal destructive or secret-bearing operations.",
+)
+
+prefix_rule(
+    pattern = ["git", "diff", "--no-index"],
+    decision = "allow",
+    justification = "Comparing local files is read-only and does not change repository state.",
+)
+
+prefix_rule(
+    pattern = ["git", "status"],
+    decision = "allow",
+    justification = "Reading worktree status is required for scoped, safe changes.",
+)
+

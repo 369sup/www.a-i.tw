@@ -1,0 +1,11 @@
+node_modules/
+.agents/skills/
+.serena/
+.next/
+.turbo/
+coverage/
+playwright-report/
+test-results/
+apps/web/.source/
+package-lock.json
+pnpm-lock.yaml

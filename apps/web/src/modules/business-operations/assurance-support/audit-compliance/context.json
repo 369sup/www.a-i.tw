@@ -1,0 +1,24 @@
+{
+  "context": "audit-compliance",
+  "group": "business-operations",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "prototype",
+  "package": "@a-i/web",
+  "domain": "Audit",
+  "subdomain": {
+    "name": "audit-compliance",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Preserve append-only administrative evidence without becoming a business event bus.",
+  "firstUseCase": "Append and query an in-memory Audit Entry.",
+  "sourceOfTruth": ["AuditEntry"],
+  "runtimeEvidence": {
+    "status": "in-memory-prototype",
+    "verifiedAt": "2026-07-12"
+  },
+  "relationships": [],
+  "area": "assurance-support"
+}

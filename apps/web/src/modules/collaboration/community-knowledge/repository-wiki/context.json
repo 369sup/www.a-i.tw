@@ -1,0 +1,36 @@
+{
+  "context": "repository-wiki",
+  "group": "collaboration",
+  "area": "community-knowledge",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Knowledge Wiki",
+  "subdomain": {
+    "name": "repository-wiki",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own Repository-scoped Wiki and Wiki Page identity, title, content and publication semantics without owning Repository lifecycle, access grants or Git-backed storage.",
+  "firstUseCase": "In an enabled active Repository Wiki, an authenticated actor with Repository write access creates the first uniquely titled non-empty Wiki Page and reads it through a Knowledge-owned query.",
+  "sourceOfTruth": ["Wiki", "WikiPage"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "repository-governance",
+      "downstream": "repository-wiki",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryParticipationApiV1",
+      "consumerPort": "RepositoryWikiParticipation",
+      "consumerAcl": "RepositoryWikiParticipationAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-disabled-archived-mutation-or-forbidden-repository",
+      "status": "current"
+    }
+  ]
+}

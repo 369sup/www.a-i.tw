@@ -1,0 +1,11 @@
+{
+  "area": "access-policy",
+  "group": "platform-governance",
+  "purpose": "Group administrative access control, policy and network/domain governance capabilities.",
+  "ownsRuntime": false,
+  "contexts": [
+    "administrative-access-control",
+    "policy-governance",
+    "network-domain-governance"
+  ]
+}

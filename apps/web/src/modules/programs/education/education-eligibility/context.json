@@ -1,0 +1,27 @@
+{
+  "context": "education-eligibility",
+  "group": "programs",
+  "area": "education",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Education Eligibility",
+  "subdomain": {
+    "name": "education-eligibility",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own student and teacher applications, eligibility evidence, verification decisions and education benefit grants.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "EducationApplication",
+    "EligibilityEvidence",
+    "EducationBenefitGrant"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

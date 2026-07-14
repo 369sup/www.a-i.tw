@@ -1,0 +1,12 @@
+{
+  "area": "social-discovery",
+  "group": "engagement",
+  "purpose": "Group social curation, attention and discovery capabilities.",
+  "ownsRuntime": false,
+  "contexts": [
+    "social-curation",
+    "subscriptions-notifications",
+    "activity-feed",
+    "search-discovery"
+  ]
+}

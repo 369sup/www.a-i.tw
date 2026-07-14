@@ -1,0 +1,36 @@
+{
+  "context": "app-management",
+  "group": "ecosystem",
+  "area": "apps-marketplace",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "App Integrations",
+  "subdomain": {
+    "name": "app-registration",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "External applications require a registration identity and presentation configuration independent from installations, user authorization, webhook delivery and marketplace commerce.",
+  "firstUseCase": "An authenticated Personal Account owner creates a private GitHub App registration with a unique name, required homepage URL and optional callback URL, then lists registrations owned by that account.",
+  "sourceOfTruth": ["GitHubAppRegistration"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "user-account",
+      "downstream": "app-management",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "PersonalAccountDirectoryApiV1",
+      "consumerPort": "PersonalAppOwnerDirectory",
+      "consumerAcl": "PersonalAppOwnerDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "reject-unavailable-or-inactive-personal-account-owner",
+      "status": "current"
+    }
+  ]
+}

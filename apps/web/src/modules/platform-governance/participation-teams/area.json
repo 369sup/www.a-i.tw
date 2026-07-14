@@ -1,0 +1,7 @@
+{
+  "area": "participation-teams",
+  "group": "platform-governance",
+  "purpose": "Group Organization and Enterprise participation without merging their lifecycles.",
+  "ownsRuntime": false,
+  "contexts": ["organization-participation", "enterprise-participation"]
+}

@@ -1,0 +1,7 @@
+{
+  "area": "authentication-identity",
+  "group": "platform-governance",
+  "purpose": "Group authentication security and enterprise identity management capabilities.",
+  "ownsRuntime": false,
+  "contexts": ["authentication-security", "enterprise-identity-management"]
+}

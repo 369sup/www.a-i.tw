@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "owner": "Architecture + affected Context owners",
+  "debt": "AD-009",
+  "exitCondition": "Replace every entry with a consumer-owned Application Port and consumer Infrastructure integration ACL adapter, then empty this list.",
+  "exceptions": []
+}

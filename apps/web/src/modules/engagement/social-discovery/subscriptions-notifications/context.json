@@ -1,0 +1,28 @@
+{
+  "context": "subscriptions-notifications",
+  "group": "engagement",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Subscriptions and Notifications",
+  "subdomain": {
+    "name": "subscriptions-notifications",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Represent recipient attention and Inbox triage independently of source resource truth.",
+  "firstUseCase": "Deliver assignment, participation, and watching notifications to a recipient Inbox and triage them.",
+  "sourceOfTruth": [
+    "ActivitySubscription",
+    "Notification",
+    "NotificationTriage"
+  ],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [],
+  "area": "social-discovery"
+}

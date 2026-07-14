@@ -1,0 +1,27 @@
+{
+  "context": "community-exchange",
+  "group": "programs",
+  "area": "education",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Community Exchange",
+  "subdomain": {
+    "name": "community-exchange",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own verified community participation, Repository submission references, discovery listings, collaborator requests and submission moderation.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "CommunityExchangeMembership",
+    "CommunityExchangeSubmission",
+    "DiscoveryListing"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

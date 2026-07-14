@@ -1,0 +1,24 @@
+{
+  "context": "profile-presence",
+  "group": "platform-governance",
+  "area": "accounts-profile",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Accounts and Profile",
+  "subdomain": {
+    "name": "profile-presence",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own account presentation and presence independently of account identity and authentication.",
+  "firstUseCase": "Create and resolve the presentation profile initialized for a Personal or Organization Account.",
+  "sourceOfTruth": ["AccountProfile"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": []
+}

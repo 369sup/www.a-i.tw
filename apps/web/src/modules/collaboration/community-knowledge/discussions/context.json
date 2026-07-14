@@ -1,0 +1,47 @@
+{
+  "context": "discussions",
+  "group": "collaboration",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Discussions",
+  "subdomain": {
+    "name": "discussions",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Host repository-scoped community questions and answers distinct from Issue work state.",
+  "firstUseCase": "Create a Repository Q&A Discussion, add a Comment, and let the author or an eligible triager mark that Comment as the accepted answer.",
+  "sourceOfTruth": ["DiscussionCategory", "Discussion"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "repository-governance",
+      "downstream": "discussions",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryParticipationApiV1",
+      "consumerPort": "RepositoryDiscussionParticipation",
+      "consumerAcl": "RepositoryDiscussionParticipationAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-or-forbidden-repository",
+      "status": "current"
+    },
+    {
+      "upstream": "community-safety",
+      "downstream": "discussions",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "CommunitySafetyApiV1",
+      "consumerPort": "CommunityInteractionSafety",
+      "consumerAcl": "CommunityInteractionSafetyAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-interaction-decision",
+      "status": "current"
+    }
+  ],
+  "area": "community-knowledge"
+}

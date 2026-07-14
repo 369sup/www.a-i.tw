@@ -1,0 +1,5 @@
+*.local.yml
+# Track curated memory navigation; transient task notes remain local.
+memories/_temporary/
+cache/
+logs/

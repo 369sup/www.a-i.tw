@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Boundary Audit"
+  short_description: "Audit repository architecture boundaries"
+  default_prompt: "Use $architecture-boundary-audit to inspect this change for DDD and Hexagonal Architecture boundary violations."

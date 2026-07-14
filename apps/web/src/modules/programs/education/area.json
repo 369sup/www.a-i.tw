@@ -1,0 +1,13 @@
+{
+  "area": "education",
+  "group": "programs",
+  "purpose": "Group Education eligibility, Campus Program, Campus Experts, Community Exchange and Classroom Management.",
+  "ownsRuntime": false,
+  "contexts": [
+    "education-eligibility",
+    "campus-program",
+    "campus-experts",
+    "community-exchange",
+    "classroom-management"
+  ]
+}

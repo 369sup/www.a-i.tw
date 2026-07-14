@@ -1,0 +1,24 @@
+{
+  "context": "search-discovery",
+  "group": "engagement",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Search & Discovery",
+  "subdomain": {
+    "name": "search-discovery",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Index and retrieve non-code resource projections without becoming their source of truth.",
+  "firstUseCase": "Query visibility-filtered product resources from the authenticated command palette.",
+  "sourceOfTruth": ["SearchDocumentProjection"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [],
+  "area": "social-discovery"
+}

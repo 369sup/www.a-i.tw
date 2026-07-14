@@ -1,0 +1,23 @@
+{
+  "context": "sponsorship",
+  "group": "business-operations",
+  "area": "commercial",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Sponsorship",
+  "subdomain": {
+    "name": "sponsorship",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own sponsored profiles, sponsorship tiers, benefits, recurring or one-time sponsorships, eligibility and payout lifecycle.",
+  "firstUseCase": null,
+  "sourceOfTruth": ["SponsoredProfile", "Sponsorship", "SponsorshipTier"],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

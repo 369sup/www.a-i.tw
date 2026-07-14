@@ -1,0 +1,27 @@
+{
+  "context": "certification",
+  "group": "programs",
+  "area": "professional-programs",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Certification",
+  "subdomain": {
+    "name": "certification",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own certification programs, exam registration and appointments, results, credentials, badges and expiration lifecycle.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "CertificationProgram",
+    "ExamRegistration",
+    "CertificationCredential"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

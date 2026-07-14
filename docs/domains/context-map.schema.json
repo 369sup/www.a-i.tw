@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bounded Context Map",
+  "type": "object",
+  "required": ["version", "contexts"],
+  "properties": {
+    "version": { "const": 1 },
+    "contexts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "context",
+          "group",
+          "area",
+          "boundaryType",
+          "templateVersion",
+          "kind",
+          "lifecycle",
+          "package",
+          "domain",
+          "subdomain",
+          "owner",
+          "problem",
+          "firstUseCase",
+          "sourceOfTruth",
+          "runtimeEvidence",
+          "relationships"
+        ],
+        "properties": {
+          "context": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "group": {
+            "enum": [
+              "platform-governance",
+              "collaboration",
+              "engagement",
+              "ecosystem",
+              "business-operations",
+              "programs"
+            ]
+          },
+          "area": {
+            "enum": [
+              "accounts-profile",
+              "authentication-identity",
+              "participation-teams",
+              "access-policy",
+              "repository-work",
+              "community-knowledge",
+              "social-discovery",
+              "apps-marketplace",
+              "commercial",
+              "assurance-support",
+              "education",
+              "professional-programs"
+            ]
+          },
+          "boundaryType": { "const": "bounded-context" },
+          "templateVersion": { "const": 2 },
+          "kind": { "const": "product" },
+          "lifecycle": { "enum": ["approved", "prototype"] },
+          "package": { "type": "string", "pattern": "^@a-i/[a-z][a-z0-9-]*$" },
+          "domain": { "type": "string", "minLength": 1 },
+          "subdomain": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "type": { "enum": ["core", "supporting", "generic"] }
+            }
+          },
+          "owner": { "type": "string", "minLength": 1 },
+          "problem": { "type": "string", "minLength": 1 },
+          "firstUseCase": { "type": "string", "minLength": 1 },
+          "sourceOfTruth": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "runtimeEvidence": {
+            "type": "object",
+            "required": ["status", "verifiedAt"],
+            "properties": {
+              "status": {
+                "enum": ["current", "in-memory-prototype", "scaffolded"]
+              },
+              "verifiedAt": { "type": "string", "format": "date" }
+            },
+            "additionalProperties": false
+          },
+          "internalSubdomains": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "type"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]*$"
+                },
+                "type": { "enum": ["core", "supporting", "generic"] }
+              }
+            }
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "upstream",
+                "downstream",
+                "pattern",
+                "contract",
+                "consumerPort",
+                "consumerAcl",
+                "consistency",
+                "failureMode",
+                "status"
+              ],
+              "properties": {
+                "upstream": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]*$"
+                },
+                "downstream": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]*$"
+                },
+                "pattern": { "type": "string", "minLength": 1 },
+                "contract": { "type": "string", "minLength": 1 },
+                "consumerPort": { "type": "string", "minLength": 1 },
+                "consumerAcl": { "type": "string", "minLength": 1 },
+                "consistency": { "enum": ["synchronous", "eventual"] },
+                "failureMode": { "type": "string", "minLength": 1 },
+                "status": { "enum": ["current", "prototype"] }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "area": "community-knowledge",
+  "group": "collaboration",
+  "purpose": "Group discussion, community safety and Repository Wiki capabilities.",
+  "ownsRuntime": false,
+  "contexts": ["discussions", "community-safety", "repository-wiki"]
+}

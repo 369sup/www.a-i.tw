@@ -1,0 +1,12 @@
+---
+title: Issues
+description: GitHub Issues 語意下的 Issue、Label 與 Assignment 邊界。
+---
+
+# Issues
+
+Issues 是 Repository 下游的獨立 Bounded Context。它擁有 Issue lifecycle、
+Repository-scoped Label 與 Assignment；Repository 只提供 collaboration scope 與 participation decision。
+
+目前為 process-local in-memory slice，支援建立、列出、關閉與重開 Issue，建立及套用 Label，
+以及指派 eligible Principal。Comments、notifications、Projects、transfer 與 durable persistence 不在 v1 範圍。

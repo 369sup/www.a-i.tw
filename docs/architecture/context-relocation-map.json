@@ -1,0 +1,447 @@
+{
+  "version": 3,
+  "sourceTopology": "pre-portfolio-runtime-contexts",
+  "targetTopology": "six-groups-twelve-areas-thirty-seven-contexts",
+  "sourceDomainGroups": [
+    "platform-governance",
+    "collaboration",
+    "engagement",
+    "ecosystem",
+    "business-operations",
+    "programs"
+  ],
+  "domainGroups": {
+    "platform-governance": {
+      "purpose": "Govern accounts, authentication, participation, authority and policy boundaries.",
+      "areas": {
+        "accounts-profile": {
+          "purpose": "Group user, organization, enterprise account and profile capabilities.",
+          "candidateContexts": [
+            "user-account",
+            "organization-account",
+            "enterprise-account",
+            "profile-presence"
+          ]
+        },
+        "authentication-identity": {
+          "purpose": "Group authentication security and enterprise identity management capabilities.",
+          "candidateContexts": [
+            "authentication-security",
+            "enterprise-identity-management"
+          ]
+        },
+        "participation-teams": {
+          "purpose": "Group Organization and Enterprise participation without merging their lifecycles.",
+          "candidateContexts": [
+            "organization-participation",
+            "enterprise-participation"
+          ]
+        },
+        "access-policy": {
+          "purpose": "Group administrative access control, policy and network/domain governance capabilities.",
+          "candidateContexts": [
+            "administrative-access-control",
+            "policy-governance",
+            "network-domain-governance"
+          ]
+        }
+      }
+    },
+    "collaboration": {
+      "purpose": "Govern non-Code Repository work, community and knowledge capabilities.",
+      "areas": {
+        "repository-work": {
+          "purpose": "Group Repository governance, work tracking and work planning capabilities.",
+          "candidateContexts": [
+            "repository-governance",
+            "work-tracking",
+            "work-planning"
+          ]
+        },
+        "community-knowledge": {
+          "purpose": "Group discussion, community safety and Repository Wiki capabilities.",
+          "candidateContexts": [
+            "discussions",
+            "community-safety",
+            "repository-wiki"
+          ]
+        }
+      }
+    },
+    "engagement": {
+      "purpose": "Govern social curation, subscriptions, notifications, feed and discovery capabilities.",
+      "areas": {
+        "social-discovery": {
+          "purpose": "Group social curation, attention and discovery capabilities.",
+          "candidateContexts": [
+            "social-curation",
+            "subscriptions-notifications",
+            "activity-feed",
+            "search-discovery"
+          ]
+        }
+      }
+    },
+    "ecosystem": {
+      "purpose": "Govern external application integration, webhook and marketplace capabilities.",
+      "areas": {
+        "apps-marketplace": {
+          "purpose": "Group application integration, webhook delivery and marketplace capabilities.",
+          "candidateContexts": [
+            "app-management",
+            "webhook-delivery",
+            "marketplace"
+          ]
+        }
+      }
+    },
+    "business-operations": {
+      "purpose": "Govern commercial, assurance, compliance and support capabilities.",
+      "areas": {
+        "commercial": {
+          "purpose": "Group plans, entitlement, licensing, billing, payments, cost and sponsorship capabilities.",
+          "candidateContexts": [
+            "plan-entitlement-licensing",
+            "billing-payments",
+            "usage-cost-management",
+            "sponsorship"
+          ]
+        },
+        "assurance-support": {
+          "purpose": "Group audit, compliance and support capabilities.",
+          "candidateContexts": ["audit-compliance", "support-management"]
+        }
+      }
+    },
+    "programs": {
+      "purpose": "Govern optional Education and professional program capabilities.",
+      "areas": {
+        "education": {
+          "purpose": "Group Education eligibility, Campus Program, Campus Experts, Community Exchange and Classroom Management.",
+          "candidateContexts": [
+            "education-eligibility",
+            "campus-program",
+            "campus-experts",
+            "community-exchange",
+            "classroom-management"
+          ]
+        },
+        "professional-programs": {
+          "purpose": "Group Certification and Developer Program capabilities.",
+          "candidateContexts": ["certification", "developer-program"]
+        }
+      }
+    }
+  },
+  "relocations": [
+    {
+      "context": "account-profile",
+      "source": "platform-governance/accounts-identity/account-profile",
+      "target": "platform-governance/accounts-profile/account-profile",
+      "group": "platform-governance",
+      "area": "accounts-profile"
+    },
+    {
+      "context": "organization-directory",
+      "source": "platform-governance/accounts-identity/organization-directory",
+      "target": "platform-governance/accounts-profile/organization-directory",
+      "group": "platform-governance",
+      "area": "accounts-profile"
+    },
+    {
+      "context": "enterprise-governance",
+      "source": "platform-governance/accounts-identity/enterprise-governance",
+      "target": "platform-governance/accounts-profile/enterprise-governance",
+      "group": "platform-governance",
+      "area": "accounts-profile"
+    },
+    {
+      "context": "identity-authentication",
+      "source": "platform-governance/authentication-federation/identity-authentication",
+      "target": "platform-governance/authentication-identity/identity-authentication",
+      "group": "platform-governance",
+      "area": "authentication-identity"
+    },
+    {
+      "context": "authorization-policy",
+      "source": "platform-governance/authority-policy/authorization-policy",
+      "target": "platform-governance/access-policy/authorization-policy",
+      "group": "platform-governance",
+      "area": "access-policy"
+    },
+    {
+      "context": "repository",
+      "source": "collaboration/repository-work/repository",
+      "target": "collaboration/repository-work/repository",
+      "group": "collaboration",
+      "area": "repository-work"
+    },
+    {
+      "context": "issues",
+      "source": "collaboration/repository-work/issues",
+      "target": "collaboration/repository-work/issues",
+      "group": "collaboration",
+      "area": "repository-work"
+    },
+    {
+      "context": "projects",
+      "source": "collaboration/repository-work/projects",
+      "target": "collaboration/repository-work/projects",
+      "group": "collaboration",
+      "area": "repository-work"
+    },
+    {
+      "context": "community-safety",
+      "source": "collaboration/community-knowledge/community-safety",
+      "target": "collaboration/community-knowledge/community-safety",
+      "group": "collaboration",
+      "area": "community-knowledge"
+    },
+    {
+      "context": "discussions",
+      "source": "collaboration/community-knowledge/discussions",
+      "target": "collaboration/community-knowledge/discussions",
+      "group": "collaboration",
+      "area": "community-knowledge"
+    },
+    {
+      "context": "knowledge-wiki",
+      "source": "collaboration/community-knowledge/knowledge-wiki",
+      "target": "collaboration/community-knowledge/knowledge-wiki",
+      "group": "collaboration",
+      "area": "community-knowledge"
+    },
+    {
+      "context": "activity-feed",
+      "source": "engagement/engagement-discovery/activity-feed",
+      "target": "engagement/social-discovery/activity-feed",
+      "group": "engagement",
+      "area": "social-discovery"
+    },
+    {
+      "context": "notifications",
+      "source": "engagement/engagement-discovery/notifications",
+      "target": "engagement/social-discovery/notifications",
+      "group": "engagement",
+      "area": "social-discovery"
+    },
+    {
+      "context": "search",
+      "source": "engagement/engagement-discovery/search",
+      "target": "engagement/social-discovery/search",
+      "group": "engagement",
+      "area": "social-discovery"
+    },
+    {
+      "context": "social-curation",
+      "source": "engagement/engagement-discovery/social-curation",
+      "target": "engagement/social-discovery/social-curation",
+      "group": "engagement",
+      "area": "social-discovery"
+    },
+    {
+      "context": "subscriptions",
+      "source": "engagement/engagement-discovery/subscriptions",
+      "target": "engagement/social-discovery/subscriptions",
+      "group": "engagement",
+      "area": "social-discovery"
+    },
+    {
+      "context": "app-management",
+      "source": "ecosystem/integrations-marketplace/app-management",
+      "target": "ecosystem/apps-marketplace/app-management",
+      "group": "ecosystem",
+      "area": "apps-marketplace"
+    },
+    {
+      "context": "audit",
+      "source": "business-operations/assurance-service/audit",
+      "target": "business-operations/assurance-support/audit",
+      "group": "business-operations",
+      "area": "assurance-support"
+    }
+  ],
+  "retainedPlacements": [],
+  "portfolioMigration": {
+    "runtimeTargets": [
+      "user-account",
+      "organization-account",
+      "enterprise-account",
+      "profile-presence",
+      "authentication-security",
+      "organization-participation",
+      "administrative-access-control",
+      "policy-governance",
+      "repository-governance",
+      "work-tracking",
+      "work-planning",
+      "discussions",
+      "community-safety",
+      "repository-wiki",
+      "social-curation",
+      "subscriptions-notifications",
+      "activity-feed",
+      "search-discovery",
+      "app-management",
+      "audit-compliance"
+    ],
+    "plannedTargets": [
+      "enterprise-identity-management",
+      "enterprise-participation",
+      "network-domain-governance",
+      "webhook-delivery",
+      "marketplace",
+      "plan-entitlement-licensing",
+      "billing-payments",
+      "usage-cost-management",
+      "sponsorship",
+      "support-management",
+      "education-eligibility",
+      "campus-program",
+      "campus-experts",
+      "community-exchange",
+      "classroom-management",
+      "certification",
+      "developer-program"
+    ],
+    "operations": [
+      {
+        "sourceContext": "identity-authentication",
+        "operation": "rename",
+        "sourceCapabilities": ["Principal", "Session"],
+        "targetContexts": ["authentication-security"]
+      },
+      {
+        "sourceContext": "account-profile",
+        "operation": "split",
+        "sourceCapabilities": ["PersonalAccount", "AccountProfile"],
+        "targetContexts": ["user-account", "profile-presence"]
+      },
+      {
+        "sourceContext": "organization-directory",
+        "operation": "split",
+        "sourceCapabilities": [
+          "Organization",
+          "OrganizationMembership",
+          "OrganizationInvitation",
+          "OrganizationTeam",
+          "AccountProfile"
+        ],
+        "targetContexts": [
+          "organization-account",
+          "organization-participation",
+          "profile-presence"
+        ]
+      },
+      {
+        "sourceContext": "enterprise-governance",
+        "operation": "split",
+        "sourceCapabilities": [
+          "Enterprise",
+          "EnterpriseOrganizationAffiliation",
+          "EnterpriseOwnerAssignment",
+          "RepositoryVisibilityPolicy"
+        ],
+        "targetContexts": [
+          "enterprise-account",
+          "administrative-access-control",
+          "policy-governance"
+        ]
+      },
+      {
+        "sourceContext": "authorization-policy",
+        "operation": "merge",
+        "sourceCapabilities": [
+          "RepositoryRoleDefinition",
+          "RepositoryAccessGrant",
+          "RepositoryAuthorizationDecision"
+        ],
+        "targetContexts": ["repository-governance"]
+      },
+      {
+        "sourceContext": "repository",
+        "operation": "merge",
+        "sourceCapabilities": ["Repository"],
+        "targetContexts": ["repository-governance"]
+      },
+      {
+        "sourceContext": "issues",
+        "operation": "rename",
+        "sourceCapabilities": [
+          "Issue",
+          "Label",
+          "IssueComment",
+          "Milestone",
+          "IssueDependency"
+        ],
+        "targetContexts": ["work-tracking"]
+      },
+      {
+        "sourceContext": "projects",
+        "operation": "rename",
+        "sourceCapabilities": ["Project", "ProjectItem", "DraftItem"],
+        "targetContexts": ["work-planning"]
+      },
+      {
+        "sourceContext": "discussions",
+        "operation": "retain",
+        "sourceCapabilities": ["DiscussionCategory", "Discussion"],
+        "targetContexts": ["discussions"]
+      },
+      {
+        "sourceContext": "community-safety",
+        "operation": "retain",
+        "sourceCapabilities": ["RepositoryInteractionLimit"],
+        "targetContexts": ["community-safety"]
+      },
+      {
+        "sourceContext": "knowledge-wiki",
+        "operation": "rename",
+        "sourceCapabilities": ["Wiki", "WikiPage"],
+        "targetContexts": ["repository-wiki"]
+      },
+      {
+        "sourceContext": "notifications",
+        "operation": "merge",
+        "sourceCapabilities": ["Notification", "NotificationTriage"],
+        "targetContexts": ["subscriptions-notifications"]
+      },
+      {
+        "sourceContext": "subscriptions",
+        "operation": "merge",
+        "sourceCapabilities": ["RepositoryWatch", "ConversationSubscription"],
+        "targetContexts": ["subscriptions-notifications"]
+      },
+      {
+        "sourceContext": "search",
+        "operation": "rename",
+        "sourceCapabilities": ["SearchDocumentProjection"],
+        "targetContexts": ["search-discovery"]
+      },
+      {
+        "sourceContext": "social-curation",
+        "operation": "retain",
+        "sourceCapabilities": ["RepositoryStar"],
+        "targetContexts": ["social-curation"]
+      },
+      {
+        "sourceContext": "activity-feed",
+        "operation": "retain",
+        "sourceCapabilities": ["FeedItem"],
+        "targetContexts": ["activity-feed"]
+      },
+      {
+        "sourceContext": "app-management",
+        "operation": "retain",
+        "sourceCapabilities": ["GitHubAppRegistration"],
+        "targetContexts": ["app-management"]
+      },
+      {
+        "sourceContext": "audit",
+        "operation": "rename",
+        "sourceCapabilities": ["AuditEntry"],
+        "targetContexts": ["audit-compliance"]
+      }
+    ]
+  }
+}

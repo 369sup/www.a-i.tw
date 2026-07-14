@@ -1,0 +1,124 @@
+# Architecture-sensitive command policy
+#
+# DDD strategy, bounded-context ownership, ubiquitous language, ports and
+# adapters, and TypeScript implementation rules live in AGENTS.md.
+# This file protects commands that can change architecture boundaries.
+
+prefix_rule(
+    pattern = ["npm", "install"],
+    decision = "prompt",
+    justification = "Review dependency ownership, layer coupling, workspace scope, lockfile impact, and Vercel/Turbo compatibility before adding a package.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "add"],
+    decision = "prompt",
+    justification = "Review dependency ownership, layer coupling, workspace scope, lockfile impact, and Vercel/Turbo compatibility before adding a package.",
+)
+
+prefix_rule(
+    pattern = ["npm", "uninstall"],
+    decision = "prompt",
+    justification = "Removing a dependency may break adapters, generated content, public contracts, or workspace boundaries.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "remove"],
+    decision = "prompt",
+    justification = "Removing a dependency may break adapters, generated content, public contracts, or workspace boundaries.",
+)
+
+prefix_rule(
+    pattern = ["npm", "update"],
+    decision = "prompt",
+    justification = "Dependency updates may change framework, SDK, build, lint, or deployment behavior.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "update"],
+    decision = "prompt",
+    justification = "Dependency updates may change framework, SDK, build, lint, or deployment behavior.",
+)
+
+prefix_rule(
+    pattern = ["npx", "create-next-app"],
+    decision = "prompt",
+    justification = "Creating a Next.js app changes a deployable boundary and requires an explicit architecture decision.",
+)
+
+prefix_rule(
+    pattern = ["npm", "create", "next-app"],
+    decision = "prompt",
+    justification = "Creating another Next.js app changes monorepo ownership and deployment boundaries.",
+)
+
+prefix_rule(
+    pattern = ["git", "mv"],
+    decision = "prompt",
+    justification = "Moving files may change bounded-context ownership, layer boundaries, imports, contracts, and documentation references.",
+)
+
+prefix_rule(
+    pattern = ["mv"],
+    decision = "prompt",
+    justification = "Moving repository files requires review of ownership, imports, tests, and architecture documentation.",
+)
+
+prefix_rule(
+    pattern = ["cp", "-r"],
+    decision = "prompt",
+    justification = "Recursive copies can duplicate domain models, contexts, adapters, contracts, or generated application structure.",
+)
+
+prefix_rule(
+    pattern = ["cp", "-R"],
+    decision = "prompt",
+    justification = "Recursive copies can create duplicated ownership and competing implementations.",
+)
+
+# shadcn commands are intentionally not governed by TypeScript style rules.
+# Generated official components may use `as`, primitive wrappers, namespace
+# imports, or other framework-required patterns. Review only their target
+# workspace and ensure no domain/application behavior is added there.
+
+prefix_rule(
+    pattern = ["pnpm", "generate:context"],
+    decision = "allow",
+    justification = "The repository generator is the only supported Context scaffold and is guarded by manifests, topology checks, and architecture tests.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "modules"],
+    decision = "forbidden",
+    justification = "Root modules is a forbidden parallel Context location; use apps/web/src/modules through pnpm generate:context.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/domain"],
+    decision = "forbidden",
+    justification = "A global domain package recreates a horizontal layer and bypasses Bounded Context ownership.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/application"],
+    decision = "forbidden",
+    justification = "Application use cases and Ports belong to their owning Bounded Context.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/contracts"],
+    decision = "forbidden",
+    justification = "Published contracts are provider-Context owned and cannot be moved to a global package.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/foundation"],
+    decision = "forbidden",
+    justification = "Foundation has no business owner and would become an ungoverned shared kernel.",
+)
+
+prefix_rule(
+    pattern = ["mkdir", "packages/infrastructure"],
+    decision = "forbidden",
+    justification = "Infrastructure adapters implement Context-owned Ports and remain inside the owning Context.",
+)

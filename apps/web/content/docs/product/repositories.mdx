@@ -1,0 +1,21 @@
+---
+title: Repository
+description: 不含程式碼功能的 Repository governance 模型。
+---
+
+# Repository
+
+Repository 是由 Account 擁有的協作工作空間。它擁有名稱、namespace、visibility、
+lifecycle 與 resource-scoped access policy。
+
+目前 in-memory slice 支援：
+
+- 建立、列出與檢視 Repository
+- 重新命名與 visibility
+- archive 與 unarchive
+- direct collaborator grant
+- 明確的 access decision reason
+
+Repository 不包含 Git object、commit、branch、pull request、issue、runner 或 package。
+Owner 不是 collaborator grant；Role 是 permission bundle，資源特定決策由 Repository
+Context 擁有。

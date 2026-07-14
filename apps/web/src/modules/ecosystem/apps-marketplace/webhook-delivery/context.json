@@ -1,0 +1,27 @@
+{
+  "context": "webhook-delivery",
+  "group": "ecosystem",
+  "area": "apps-marketplace",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Webhook Delivery",
+  "subdomain": {
+    "name": "webhook-delivery",
+    "type": "generic"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own webhook subscriptions, endpoints, signing, delivery attempts, retry, redelivery and suspension lifecycle.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "WebhookSubscription",
+    "WebhookDelivery",
+    "DeliveryAttempt"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

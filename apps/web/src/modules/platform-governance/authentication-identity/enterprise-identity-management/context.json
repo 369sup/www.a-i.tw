@@ -1,0 +1,27 @@
+{
+  "context": "enterprise-identity-management",
+  "group": "platform-governance",
+  "area": "authentication-identity",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Enterprise Identity Management",
+  "subdomain": {
+    "name": "enterprise-identity-management",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own identity-provider connections, external identities, federation configuration and managed-user provisioning lifecycle.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "IdentityProviderConnection",
+    "ExternalIdentity",
+    "ProvisioningState"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

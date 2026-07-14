@@ -1,0 +1,24 @@
+{
+  "context": "authentication-security",
+  "group": "platform-governance",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Identity and Access",
+  "subdomain": {
+    "name": "authentication-security",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Authenticate a principal and maintain session attribution without deciding product authorization.",
+  "firstUseCase": "Authenticate a demo credential and resolve the active principal session.",
+  "sourceOfTruth": ["Principal", "Session"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [],
+  "area": "authentication-identity"
+}

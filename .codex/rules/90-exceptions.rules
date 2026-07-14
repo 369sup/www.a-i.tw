@@ -1,0 +1,14 @@
+# Reviewed exceptions and precedence
+#
+# This file documents the exception boundary; it is not a bypass list.
+#
+# Precedence:
+# 1. Platform and user safety constraints.
+# 2. Root and nearest AGENTS.md instructions.
+# 3. More-specific command rules.
+# 4. These reviewed repository exceptions.
+#
+# Exceptions must remain narrow, read-only where possible, and justified by
+# the current task. Do not add an exception to avoid approval, validation, or
+# an explicit user authorization requirement.
+

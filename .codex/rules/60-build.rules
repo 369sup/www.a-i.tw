@@ -1,0 +1,20 @@
+# Build, generation, and artifact command policy
+
+prefix_rule(
+    pattern = ["pnpm", "build"],
+    decision = "allow",
+    justification = "A local build verifies the deployable application without publishing it.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "generate:context"],
+    decision = "allow",
+    justification = "The repository generator is the supported Context scaffold and is validated by architecture gates.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "turbo"],
+    decision = "prompt",
+    justification = "Arbitrary Turbo tasks may generate files or run commands outside the requested scope.",
+)
+

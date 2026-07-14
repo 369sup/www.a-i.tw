@@ -1,0 +1,64 @@
+{
+  "context": "work-tracking",
+  "group": "collaboration",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Issues",
+  "subdomain": {
+    "name": "work-tracking",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Track repository-scoped work with Issue identity, lifecycle, labels, assignment and collaboration relationships.",
+  "firstUseCase": "Create, classify, assign and close an Issue after authoritative Repository participation approval.",
+  "sourceOfTruth": [
+    "Issue",
+    "Label",
+    "IssueComment",
+    "Milestone",
+    "IssueDependency"
+  ],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-12"
+  },
+  "relationships": [
+    {
+      "upstream": "authentication-security",
+      "downstream": "work-tracking",
+      "pattern": "open-host-service + published-language",
+      "contract": "PrincipalRefV1",
+      "consumerPort": "IssuePrincipal",
+      "consumerAcl": "AppCompositionPrincipalMapper",
+      "consistency": "synchronous",
+      "failureMode": "deny-inactive-principal",
+      "status": "current"
+    },
+    {
+      "upstream": "repository-governance",
+      "downstream": "work-tracking",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryParticipationApiV1",
+      "consumerPort": "RepositoryParticipation",
+      "consumerAcl": "RepositoryParticipationAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-or-forbidden-repository",
+      "status": "current"
+    },
+    {
+      "upstream": "community-safety",
+      "downstream": "work-tracking",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "CommunitySafetyApiV1",
+      "consumerPort": "CommunityInteractionSafety",
+      "consumerAcl": "CommunityInteractionSafetyAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-interaction-decision",
+      "status": "current"
+    }
+  ],
+  "area": "repository-work"
+}

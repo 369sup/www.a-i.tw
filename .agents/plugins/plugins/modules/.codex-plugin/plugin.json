@@ -1,0 +1,25 @@
+{
+  "name": "modules",
+  "version": "0.1.0",
+  "description": "Repository-owned workflows for www.a-i.tw architecture, documentation, module scaffolding, and semantic delivery.",
+  "author": {
+    "name": "www.a-i.tw"
+  },
+  "homepage": "https://github.com/a-i-tw/www.a-i.tw",
+  "repository": "https://github.com/a-i-tw/www.a-i.tw",
+  "keywords": ["architecture", "bounded-context", "documentation", "workflow"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "www.a-i.tw Modules",
+    "shortDescription": "Repository architecture and delivery workflows",
+    "longDescription": "Inspect repository ownership, maintain canonical documentation, audit architecture boundaries, scaffold approved Bounded Contexts, and execute the semantic development lifecycle.",
+    "developerName": "www.a-i.tw",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Inspect repository ownership before changing a module.",
+      "Scaffold an approved Bounded Context.",
+      "Verify architecture boundaries and canonical documentation."
+    ]
+  }
+}

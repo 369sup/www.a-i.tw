@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explore Repository First"
+  short_description: "Route repository work before editing"
+  default_prompt: "Use $repo-explore-first to identify ownership, boundaries, and focused verification before editing."

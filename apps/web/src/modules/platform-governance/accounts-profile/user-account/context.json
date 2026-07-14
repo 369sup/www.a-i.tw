@@ -1,0 +1,36 @@
+{
+  "context": "user-account",
+  "group": "platform-governance",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "User Account",
+  "subdomain": {
+    "name": "user-account",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.",
+  "firstUseCase": "Create a personal account for an active principal and resolve its profile.",
+  "sourceOfTruth": ["PersonalAccount"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "profile-presence",
+      "downstream": "user-account",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "ProfileDirectoryApiV1",
+      "consumerPort": "ProfileDirectory",
+      "consumerAcl": "AppCompositionProfileDirectory",
+      "consistency": "synchronous",
+      "failureMode": "reject-unavailable-profile",
+      "status": "current"
+    }
+  ],
+  "area": "accounts-profile"
+}

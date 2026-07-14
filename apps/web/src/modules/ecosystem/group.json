@@ -1,0 +1,5 @@
+{
+  "group": "ecosystem",
+  "purpose": "Govern external application integration, webhook and marketplace capabilities.",
+  "areas": ["apps-marketplace"]
+}

@@ -1,0 +1,23 @@
+{
+  "context": "billing-payments",
+  "group": "business-operations",
+  "area": "commercial",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Billing and Payments",
+  "subdomain": {
+    "name": "billing-payments",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own billing accounts, cycles, payment methods, invoices, receipts, taxes, discounts and payment failure lifecycle.",
+  "firstUseCase": null,
+  "sourceOfTruth": ["BillingAccount", "Invoice", "PaymentMethod"],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

@@ -1,0 +1,21 @@
+{
+  "context": "__CONTEXT__",
+  "group": "__GROUP__",
+  "area": "__AREA__",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "prototype",
+  "package": "@a-i/web",
+  "domain": "__DOMAIN__",
+  "subdomain": { "name": "__SUBDOMAIN__", "type": "__TYPE__" },
+  "owner": "__OWNER__",
+  "problem": "__PROBLEM__",
+  "firstUseCase": "__FIRST_USE_CASE__",
+  "sourceOfTruth": "__SOURCE_OF_TRUTH__",
+  "runtimeEvidence": {
+    "status": "scaffolded",
+    "verifiedAt": "__VERIFIED_AT__"
+  },
+  "relationships": []
+}

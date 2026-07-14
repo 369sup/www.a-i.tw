@@ -1,0 +1,27 @@
+{
+  "context": "enterprise-participation",
+  "group": "platform-governance",
+  "area": "participation-teams",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Enterprise Participation",
+  "subdomain": {
+    "name": "enterprise-participation",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own Enterprise membership classifications, Enterprise Teams and Organization access assignments without merging Organization Team semantics.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "EnterpriseMember",
+    "EnterpriseTeam",
+    "OrganizationAccessAssignment"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

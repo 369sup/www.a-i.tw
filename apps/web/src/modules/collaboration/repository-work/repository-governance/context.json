@@ -1,0 +1,84 @@
+{
+  "context": "repository-governance",
+  "group": "collaboration",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Repository Governance",
+  "subdomain": {
+    "name": "repository-governance",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Manage the identity, Account ownership, profile, visibility, state, feature configuration and lifecycle of a non-code Repository.",
+  "firstUseCase": "Create a Repository owned by an eligible Personal Account or Organization.",
+  "sourceOfTruth": [
+    "Repository",
+    "RepositoryRoleDefinition",
+    "RepositoryAccessGrant"
+  ],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "authentication-security",
+      "downstream": "repository-governance",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "IdentityDirectoryApiV1",
+      "consumerPort": "IdentityDirectory",
+      "consumerAcl": "IdentityDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-or-inactive-principal",
+      "status": "current"
+    },
+    {
+      "upstream": "user-account",
+      "downstream": "repository-governance",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "PersonalAccountDirectoryApiV1",
+      "consumerPort": "AccountDirectory",
+      "consumerAcl": "AccountDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-account-facts",
+      "status": "current"
+    },
+    {
+      "upstream": "organization-account",
+      "downstream": "repository-governance",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "OrganizationAccountDirectoryApiV1",
+      "consumerPort": "AccountDirectory",
+      "consumerAcl": "AccountDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-account-facts",
+      "status": "current"
+    },
+    {
+      "upstream": "organization-participation",
+      "downstream": "repository-governance",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "OrganizationParticipationApiV1",
+      "consumerPort": "AccountAuthorizationDirectory",
+      "consumerAcl": "AccountAuthorizationDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-participation-facts",
+      "status": "current"
+    },
+    {
+      "upstream": "policy-governance",
+      "downstream": "repository-governance",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryPolicyDecisionApiV1",
+      "consumerPort": "EnterpriseRepositoryGovernance",
+      "consumerAcl": "EnterpriseRepositoryGovernanceAdapter",
+      "consistency": "synchronous",
+      "failureMode": "fail-closed-on-unavailable-governance-constraints",
+      "status": "current"
+    }
+  ],
+  "area": "repository-work"
+}

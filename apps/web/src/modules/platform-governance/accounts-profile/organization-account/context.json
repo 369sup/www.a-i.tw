@@ -1,0 +1,47 @@
+{
+  "context": "organization-account",
+  "group": "platform-governance",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Organization Account",
+  "subdomain": {
+    "name": "organization-account",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own organizations, memberships, invitations, and organization teams without owning authentication, enterprise policy, or repository access grants.",
+  "firstUseCase": "Create an organization and manage its membership and teams.",
+  "sourceOfTruth": ["Organization"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "authentication-security",
+      "downstream": "organization-account",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "PrincipalRefV1",
+      "consumerPort": "OrganizationPrincipal",
+      "consumerAcl": "AppCompositionPrincipalMapper",
+      "consistency": "synchronous",
+      "failureMode": "reject-inactive-principal",
+      "status": "current"
+    },
+    {
+      "upstream": "profile-presence",
+      "downstream": "organization-account",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "ProfileDirectoryApiV1",
+      "consumerPort": "ProfileDirectory",
+      "consumerAcl": "AppCompositionProfileDirectory",
+      "consistency": "synchronous",
+      "failureMode": "reject-unavailable-profile",
+      "status": "current"
+    }
+  ],
+  "area": "accounts-profile"
+}

@@ -1,0 +1,27 @@
+{
+  "context": "campus-experts",
+  "group": "programs",
+  "area": "education",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Campus Experts",
+  "subdomain": {
+    "name": "campus-experts",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own Campus Expert applications, training cohorts, progress, community impact proposals and membership status.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "CampusExpertApplication",
+    "TrainingCohort",
+    "CampusExpertMembership"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

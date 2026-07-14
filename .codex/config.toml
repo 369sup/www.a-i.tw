@@ -1,0 +1,41 @@
+# Project-local Codex configuration.
+# Credentials, connector IDs, OAuth state, and user plugin cache remain host-managed.
+
+sandbox_mode = "workspace-write"
+# Root + nearest scoped AGENTS guidance must remain a small routing chain.
+project_doc_max_bytes = 16384
+
+[features]
+hooks = true
+
+[[hooks.SessionStart]]
+matcher = "startup|resume|compact"
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
+command_windows = "powershell -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
+timeout = 30
+statusMessage = "Checking pending Serena checkpoint"
+
+[[hooks.PreCompact]]
+matcher = "manual|auto"
+
+[[hooks.PreCompact.hooks]]
+type = "command"
+command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
+command_windows = "powershell -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
+timeout = 30
+statusMessage = "Requesting Serena checkpoint before compaction"
+
+[[hooks.Stop]]
+
+[[hooks.Stop.hooks]]
+type = "command"
+command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
+command_windows = "powershell -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
+timeout = 30
+statusMessage = "Evaluating Serena checkpoint policy"
+
+[sandbox_workspace_write]
+network_access = true

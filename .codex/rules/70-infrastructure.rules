@@ -1,0 +1,26 @@
+# Infrastructure and data command policy
+
+prefix_rule(
+    pattern = ["docker", "run"],
+    decision = "prompt",
+    justification = "Containers may mount the host, expose services, or access credentials.",
+)
+
+prefix_rule(
+    pattern = ["docker", "compose"],
+    decision = "prompt",
+    justification = "Compose may start, stop, or mutate local services and mounted data.",
+)
+
+prefix_rule(
+    pattern = ["prisma", "migrate"],
+    decision = "prompt",
+    justification = "Database migrations change schema and may be irreversible.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "db:migrate"],
+    decision = "prompt",
+    justification = "Database migration commands change persistent data structures.",
+)
+

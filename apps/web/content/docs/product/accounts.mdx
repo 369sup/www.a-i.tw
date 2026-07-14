@@ -1,0 +1,18 @@
+---
+title: 帳戶
+description: Account、namespace 與成員關係的目標邊界。
+---
+
+# 帳戶
+
+> Personal、Organization、Membership 與 Team 已具備 in-memory baseline；enterprise governance 仍是 Proposed。
+
+Account 是資源 owner 與 namespace 容器，可代表個人或組織。它可管理組織的 Membership 與 Team 關係，但不管理登入 credential、session 或 Repository 的資源角色。
+
+Repository 可以引用 Account 的穩定識別，但不複製 Account 成員清單或以路徑字串推導 owner。
+
+Profile 是 Account 的可見表示，可包含 display name、bio、location 與 website；它不能驗證
+Principal、建立 Session 或授予 Repository access。
+
+Team 只能包含 active organization Membership。Repository 透過最小 `TeamMembershipFactV1`
+查詢關係，並在自己的邊界內將 Team grant 轉成有效 Repository access。

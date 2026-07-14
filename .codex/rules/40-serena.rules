@@ -1,0 +1,22 @@
+# Serena command policy
+#
+# Serena MCP is started by `.codex/config.toml`. These policies cover only
+# direct CLI maintenance commands, not normal MCP calls.
+
+prefix_rule(
+    pattern = ["serena", "project", "create"],
+    decision = "prompt",
+    justification = "Creating a Serena project writes project metadata and can change which repository is indexed.",
+)
+
+prefix_rule(
+    pattern = ["serena", "project", "index"],
+    decision = "prompt",
+    justification = "Indexing writes Serena cache data; confirm the project root and ignore rules first.",
+)
+
+prefix_rule(
+    pattern = ["serena", "start-mcp-server"],
+    decision = "allow",
+    justification = "Starting the configured local Serena MCP server is a scoped development action.",
+)

@@ -1,0 +1,58 @@
+{
+  "context": "work-planning",
+  "group": "collaboration",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Projects",
+  "subdomain": {
+    "name": "work-planning",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Plan external work-item references without taking ownership of Issue truth.",
+  "firstUseCase": "Add an existing Issue reference to an account-owned Project.",
+  "sourceOfTruth": ["Project", "ProjectItem", "DraftItem"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-12"
+  },
+  "relationships": [
+    {
+      "upstream": "user-account",
+      "downstream": "work-planning",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "PersonalAccountDirectoryApiV1",
+      "consumerPort": "AccountOwnerDirectory",
+      "consumerAcl": "AccountOwnerDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "reject-non-owner",
+      "status": "current"
+    },
+    {
+      "upstream": "organization-participation",
+      "downstream": "work-planning",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "OrganizationParticipationApiV1",
+      "consumerPort": "AccountOwnerDirectory",
+      "consumerAcl": "AccountOwnerDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "reject-non-owner",
+      "status": "current"
+    },
+    {
+      "upstream": "work-tracking",
+      "downstream": "work-planning",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "IssueDirectoryApiV1",
+      "consumerPort": "IssueDirectory",
+      "consumerAcl": "IssueDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "reject-unknown-issue-reference",
+      "status": "current"
+    }
+  ],
+  "area": "repository-work"
+}

@@ -1,0 +1,7 @@
+{
+  "area": "assurance-support",
+  "group": "business-operations",
+  "purpose": "Group audit, compliance and support capabilities.",
+  "ownsRuntime": false,
+  "contexts": ["audit-compliance", "support-management"]
+}

@@ -1,0 +1,7 @@
+{
+  "area": "professional-programs",
+  "group": "programs",
+  "purpose": "Group Certification and Developer Program capabilities.",
+  "ownsRuntime": false,
+  "contexts": ["certification", "developer-program"]
+}

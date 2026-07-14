@@ -1,0 +1,16 @@
+{
+  "name": "@a-i/typescript-config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./base.json": "./base.json",
+    "./nextjs.json": "./nextjs.json",
+    "./react-library.json": "./react-library.json"
+  },
+  "scripts": {
+    "lint": "node -e \"console.log('typescript config package validated')\"",
+    "typecheck": "node -e \"console.log('typescript config package has no TypeScript sources')\"",
+    "test": "node -e \"console.log('No TypeScript config tests yet')\"",
+    "check": "pnpm lint && pnpm typecheck"
+  }
+}

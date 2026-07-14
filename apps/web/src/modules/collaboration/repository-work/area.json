@@ -1,0 +1,7 @@
+{
+  "area": "repository-work",
+  "group": "collaboration",
+  "purpose": "Group Repository governance, work tracking and work planning capabilities.",
+  "ownsRuntime": false,
+  "contexts": ["repository-governance", "work-tracking", "work-planning"]
+}

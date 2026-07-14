@@ -1,0 +1,35 @@
+---
+title: Platform world model
+description: Actor, scope, resource, relationship, decision and projection boundaries.
+---
+
+The product is not modeled as `Identity & Access > Account > Repository`.
+
+```text
+Relationships + Grants + Constraints + Credential + Request Facts
+                              ↓
+                     Effective Capability
+                              ↓
+Command(Action, Resource, Boundary) → Authorization Decision
+                              ↓ allow
+                     Domain Preconditions
+                              ↓ valid
+                  State Transition + Domain Events
+                              ↓
+             Audit / Webhook / Notification / Projection
+```
+
+Identity resolves and attributes the Actor. Account defines ownership and governance scopes. Repository and other
+resource contexts own their lifecycle and action decisions. Membership, Team access, ownership and grants are typed,
+directional facts published by their owners—not rows in a universal relationship service.
+
+Cross-cutting planes such as authentication, authorization, policy, entitlement, capability, events, notifications,
+search and audit describe responsibilities. They do not imply a central service or a new product context. Only planes
+with current runtime evidence are presented as implemented; Enterprise policy, entitlement, notification, search and
+audit remain deferred.
+
+Request processing uses a minimal envelope for viewer, actor, safe authentication metadata, correlation and active
+scope. A capability-owned resolver adds the current resource, canonical action and the resource owner's decision.
+It never loads the complete world into a shared context object. A product capability descriptor only maps a feature
+to a resource/action; it does not grant authority. The effective capability relation is evaluated before a concrete
+authorization decision, and an allowed command must still satisfy domain preconditions.

@@ -1,0 +1,30 @@
+import { existsSync, readFileSync } from "node:fs";
+
+const required = [
+  "docs/README.md",
+  "docs/ai-index.md",
+  "docs/glossary.md",
+  "docs/domains/context-map.md",
+  "docs/architecture/overview.md",
+  "docs/architecture/ddd-hexagonal-standard.md",
+  "docs/architecture/architecture-governance.json",
+  "docs/architecture-document-catalog.md",
+  "docs/decisions/README.md",
+  "docs/contracts/README.md",
+];
+
+const missing = required.filter((file) => !existsSync(file));
+if (missing.length > 0) {
+  console.error(`Missing canonical docs: ${missing.join(", ")}`);
+  process.exit(1);
+}
+
+const index = readFileSync("docs/ai-index.md", "utf8");
+if (!index.includes("唯一入口")) {
+  console.error(
+    "docs/ai-index.md must state that it is the single AI routing entrypoint.",
+  );
+  process.exit(1);
+}
+
+console.log("Documentation ownership checks passed.");

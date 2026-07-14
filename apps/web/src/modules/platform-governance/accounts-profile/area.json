@@ -1,0 +1,12 @@
+{
+  "area": "accounts-profile",
+  "group": "platform-governance",
+  "purpose": "Group user, organization, enterprise account and profile capabilities.",
+  "ownsRuntime": false,
+  "contexts": [
+    "user-account",
+    "organization-account",
+    "enterprise-account",
+    "profile-presence"
+  ]
+}

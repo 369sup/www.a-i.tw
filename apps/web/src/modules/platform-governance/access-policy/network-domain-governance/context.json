@@ -1,0 +1,23 @@
+{
+  "context": "network-domain-governance",
+  "group": "platform-governance",
+  "area": "access-policy",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Network and Domain Governance",
+  "subdomain": {
+    "name": "network-domain-governance",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own verified and approved domains, domain verification, IP allow lists and network access boundaries.",
+  "firstUseCase": null,
+  "sourceOfTruth": ["VerifiedDomain", "DomainVerification", "IpAllowList"],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

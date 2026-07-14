@@ -1,0 +1,7 @@
+{
+  "area": "apps-marketplace",
+  "group": "ecosystem",
+  "purpose": "Group application integration, webhook delivery and marketplace capabilities.",
+  "ownsRuntime": false,
+  "contexts": ["app-management", "webhook-delivery", "marketplace"]
+}

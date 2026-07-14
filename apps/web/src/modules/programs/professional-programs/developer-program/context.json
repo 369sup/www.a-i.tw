@@ -1,0 +1,27 @@
+{
+  "context": "developer-program",
+  "group": "programs",
+  "area": "professional-programs",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Developer Program",
+  "subdomain": {
+    "name": "developer-program",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own Developer Program applications, integration evidence, membership status, benefits and developer badges.",
+  "firstUseCase": null,
+  "sourceOfTruth": [
+    "DeveloperProgramApplication",
+    "DeveloperProgramMembership",
+    "DeveloperProgramBenefit"
+  ],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

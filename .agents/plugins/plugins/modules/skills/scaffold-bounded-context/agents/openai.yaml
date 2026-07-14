@@ -1,0 +1,6 @@
+interface:
+  display_name: "Scaffold Bounded Context"
+  short_description: "Generate the canonical fixed Context template"
+  default_prompt: "Use $scaffold-bounded-context at G4 to generate a Bounded Context after confirming G1-G3 approvals."
+policy:
+  allow_implicit_invocation: true

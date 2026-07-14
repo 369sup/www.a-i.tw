@@ -1,0 +1,26 @@
+# Testing and verification command policy
+
+prefix_rule(
+    pattern = ["pnpm", "test"],
+    decision = "allow",
+    justification = "Running repository tests is a non-publishing verification action.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "test:coverage"],
+    decision = "allow",
+    justification = "Generating local test coverage is a non-publishing verification action.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "check"],
+    decision = "allow",
+    justification = "Running repository checks is a non-publishing verification action.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "arch:check"],
+    decision = "allow",
+    justification = "Architecture validation is a required local repository gate.",
+)
+

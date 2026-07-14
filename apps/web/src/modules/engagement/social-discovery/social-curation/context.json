@@ -1,0 +1,36 @@
+{
+  "context": "social-curation",
+  "group": "engagement",
+  "area": "social-discovery",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Social Curation",
+  "subdomain": {
+    "name": "social-curation",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own authenticated User Repository star bookmark and interest relationships without owning Repository state, Watch subscriptions, notifications or activity feed.",
+  "firstUseCase": "An authenticated active User stars or unstars a Repository the User can read, then lists the User's own starred Repository references ordered by starredAt descending.",
+  "sourceOfTruth": ["RepositoryStar"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "repository-governance",
+      "downstream": "social-curation",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryParticipationApiV1",
+      "consumerPort": "RepositoryStarParticipation",
+      "consumerAcl": "RepositoryStarParticipationAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-inactive-or-forbidden-repository",
+      "status": "current"
+    }
+  ]
+}

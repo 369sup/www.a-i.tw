@@ -1,0 +1,36 @@
+{
+  "context": "enterprise-account",
+  "group": "platform-governance",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Enterprise Account",
+  "subdomain": {
+    "name": "enterprise-account",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Govern multiple Organizations with Enterprise-scoped affiliations and enforceable policy constraints without owning their resources.",
+  "firstUseCase": "Affiliate an Organization and restrict Public Repository creation and visibility changes.",
+  "sourceOfTruth": ["Enterprise", "EnterpriseOrganizationAffiliation"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-12"
+  },
+  "relationships": [
+    {
+      "upstream": "organization-account",
+      "downstream": "enterprise-account",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "OrganizationAccountDirectoryApiV1",
+      "consumerPort": "OrganizationAccountDirectory",
+      "consumerAcl": "OrganizationAccountDirectoryAdapter",
+      "consistency": "synchronous",
+      "failureMode": "reject-unavailable-or-inactive-organization",
+      "status": "current"
+    }
+  ],
+  "area": "accounts-profile"
+}

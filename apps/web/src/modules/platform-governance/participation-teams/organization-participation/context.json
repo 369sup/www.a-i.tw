@@ -1,0 +1,40 @@
+{
+  "context": "organization-participation",
+  "group": "platform-governance",
+  "area": "participation-teams",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Account Participation",
+  "subdomain": {
+    "name": "organization-participation",
+    "type": "core"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own Organization membership, invitations and Team participation without owning Organization identity.",
+  "firstUseCase": "Provision the founding Organization owner and manage Organization membership and Team participation.",
+  "sourceOfTruth": [
+    "OrganizationMembership",
+    "OrganizationInvitation",
+    "OrganizationTeam"
+  ],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "organization-account",
+      "downstream": "organization-participation",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "OrganizationAccountDirectoryApiV1",
+      "consumerPort": "OrganizationAccountDirectory",
+      "consumerAcl": "AppCompositionOrganizationAccountDirectory",
+      "consistency": "synchronous",
+      "failureMode": "reject-unavailable-or-inactive-organization",
+      "status": "current"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "group": "platform-governance",
+  "purpose": "Govern accounts, authentication, participation, authority and policy boundaries.",
+  "areas": [
+    "accounts-profile",
+    "authentication-identity",
+    "participation-teams",
+    "access-policy"
+  ]
+}

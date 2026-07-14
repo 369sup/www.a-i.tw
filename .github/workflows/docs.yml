@@ -1,0 +1,33 @@
+name: Documentation
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "apps/web/content/docs/**"
+      - "scripts/validation/check-docs.mjs"
+      - "scripts/validation/check-architecture-documents.mjs"
+      - "scripts/validation/check-links.mjs"
+      - "scripts/validation/check-workspaces.mjs"
+      - "scripts/validation/release-check.mjs"
+      - "SECURITY.md"
+      - "CONTRIBUTING.md"
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm docs:check
+      - run: pnpm release:check

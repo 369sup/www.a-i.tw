@@ -1,0 +1,35 @@
+{
+  "version": 7,
+  "mode": "target",
+  "canonicalTopology": "domain-group-domain-area-bounded-context-capability-template",
+  "boundedContextTemplateVersion": 2,
+  "domainGroups": [
+    "platform-governance",
+    "collaboration",
+    "engagement",
+    "ecosystem",
+    "business-operations",
+    "programs"
+  ],
+  "domainAreas": {
+    "platform-governance": [
+      "accounts-profile",
+      "authentication-identity",
+      "participation-teams",
+      "access-policy"
+    ],
+    "collaboration": ["repository-work", "community-knowledge"],
+    "engagement": ["social-discovery"],
+    "ecosystem": ["apps-marketplace"],
+    "business-operations": ["commercial", "assurance-support"],
+    "programs": ["education", "professional-programs"]
+  },
+  "legacyContexts": [],
+  "forbiddenSharedDirectoryNames": [
+    "shared",
+    "common",
+    "core",
+    "utils",
+    "helpers"
+  ]
+}

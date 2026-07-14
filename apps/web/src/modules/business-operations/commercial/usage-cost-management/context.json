@@ -1,0 +1,23 @@
+{
+  "context": "usage-cost-management",
+  "group": "business-operations",
+  "area": "commercial",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "planned",
+  "package": "@a-i/web",
+  "domain": "Usage and Cost Management",
+  "subdomain": {
+    "name": "usage-cost-management",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own metered usage, budgets, alerts, cost centers, allocations and spending projections independently of Organization membership.",
+  "firstUseCase": null,
+  "sourceOfTruth": ["UsageRecord", "Budget", "CostCenter"],
+  "runtimeEvidence": {
+    "status": "none"
+  },
+  "relationships": []
+}

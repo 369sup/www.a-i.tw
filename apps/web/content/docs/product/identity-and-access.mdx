@@ -1,0 +1,17 @@
+---
+title: 身分與存取
+description: Principal 與驗證情境的目標邊界。
+---
+
+# 身分與存取
+
+> Password mock Login 與 opaque browser Session 已具備 in-memory baseline；此頁不宣稱
+> passkey、SSO、2FA、device verification、production credential storage 或 provider 已完成。
+
+Identity & Access 負責辨識 Principal、驗證 credential，並提供最小的 authentication context。它不擁有 Account、Repository、資源角色或 resource-specific authorization decision。
+
+「已登入」不等於「可操作資源」；資源範圍的允許或拒絕由該資源的政策邊界決定。
+
+正式路徑為 Access → Authentication → Security Verification → Session → Identity Resolution →
+Active Account → Membership/Access → Personalization → Personal Dashboard。Profile 是 Account 的
+呈現面，不是這條登入路徑的必經步驟。

@@ -1,0 +1,19 @@
+{
+  "name": "@a-i/eslint-config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./base": "./base.mjs",
+    "./next": "./next.mjs"
+  },
+  "peerDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10"
+  },
+  "scripts": {
+    "lint": "node -e \"console.log('eslint config package validated')\"",
+    "typecheck": "node -e \"console.log('eslint config package has no TypeScript sources')\"",
+    "test": "node -e \"console.log('No eslint config tests yet')\"",
+    "check": "pnpm lint && pnpm typecheck"
+  }
+}

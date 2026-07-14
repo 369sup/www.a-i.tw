@@ -1,0 +1,12 @@
+{
+  "name": "@a-i/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "node -e \"console.log('No E2E specs yet; use test:e2e after defining an acceptance flow')\"",
+    "test:e2e": "playwright test --config ../../playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
+  }
+}

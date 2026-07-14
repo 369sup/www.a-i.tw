@@ -1,0 +1,26 @@
+# Release and production command policy
+
+prefix_rule(
+    pattern = ["vercel", "deploy"],
+    decision = "prompt",
+    justification = "Deployment changes external release state and may expose application changes.",
+)
+
+prefix_rule(
+    pattern = ["pnpm", "publish"],
+    decision = "forbidden",
+    justification = "This repository is not authorized for implicit package publication.",
+)
+
+prefix_rule(
+    pattern = ["npm", "publish"],
+    decision = "forbidden",
+    justification = "This repository is not authorized for implicit package publication.",
+)
+
+prefix_rule(
+    pattern = ["gh", "release", "create"],
+    decision = "prompt",
+    justification = "Creating a release publishes repository state and can trigger downstream automation.",
+)
+

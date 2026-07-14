@@ -1,0 +1,58 @@
+{
+  "context": "community-safety",
+  "group": "collaboration",
+  "area": "community-knowledge",
+  "boundaryType": "bounded-context",
+  "templateVersion": 2,
+  "kind": "product",
+  "lifecycle": "approved",
+  "package": "@a-i/web",
+  "domain": "Community Safety",
+  "subdomain": {
+    "name": "community-safety",
+    "type": "supporting"
+  },
+  "owner": "www.a-i.tw Product Team",
+  "problem": "Own temporary Repository interaction-limit rules and fail-closed non-Code interaction decisions without owning source content or access grants.",
+  "firstUseCase": "Activate and remove a one-day collaborators_only Interaction Limit for a public Repository and decide Issue or Discussion interactions from authoritative Repository access facts.",
+  "sourceOfTruth": ["RepositoryInteractionLimit"],
+  "runtimeEvidence": {
+    "status": "current",
+    "verifiedAt": "2026-07-14"
+  },
+  "relationships": [
+    {
+      "upstream": "repository-governance",
+      "downstream": "community-safety",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "RepositoryParticipationApiV1",
+      "consumerPort": "RepositorySafetyParticipation",
+      "consumerAcl": "RepositorySafetyParticipationAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-private-inactive-or-forbidden-repository",
+      "status": "current"
+    },
+    {
+      "upstream": "community-safety",
+      "downstream": "work-tracking",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "CommunitySafetyApiV1",
+      "consumerPort": "CommunityInteractionSafety",
+      "consumerAcl": "CommunityInteractionSafetyAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-interaction-decision",
+      "status": "current"
+    },
+    {
+      "upstream": "community-safety",
+      "downstream": "discussions",
+      "pattern": "open-host-service + published-language + anti-corruption-layer",
+      "contract": "CommunitySafetyApiV1",
+      "consumerPort": "CommunityInteractionSafety",
+      "consumerAcl": "CommunityInteractionSafetyAdapter",
+      "consistency": "synchronous",
+      "failureMode": "deny-unavailable-interaction-decision",
+      "status": "current"
+    }
+  ]
+}

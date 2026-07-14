@@ -1,0 +1,4 @@
+interface:
+  display_name: "Semantic Development Lifecycle"
+  short_description: "Run the repository semantic delivery gates"
+  default_prompt: "Use $semantic-development-lifecycle to execute the required semantic delivery gates for this change."
