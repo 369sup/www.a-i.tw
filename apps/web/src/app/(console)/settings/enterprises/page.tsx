@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 
 export default async function EnterprisesSettingsPage() {
-  await requireAuthentication();
+  await requireConsoleAuthentication();
   return (
     <main className="mx-auto max-w-4xl px-6 py-10">
       <p className="text-sm text-muted-foreground">Settings</p>

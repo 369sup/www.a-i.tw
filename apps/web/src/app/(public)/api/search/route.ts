@@ -1,6 +1,6 @@
 import { createFromSource } from "fumadocs-core/search/server";
 
-import { docsSource } from "@/src/app/(public)/docs/_lib/docs-source";
+import { docsSource } from "@/src/app/(public)/docs/docs-source-composition";
 
 export const revalidate = false;
 

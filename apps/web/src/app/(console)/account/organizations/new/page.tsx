@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { createAccountAction } from "@/src/app/(console)/repositories/_actions/actions";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { createAccountAction } from "@/src/app/(console)/repositories/repository-command-composition";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 
 export default async function NewOrganizationPage() {
-  await requireAuthentication();
+  await requireConsoleAuthentication();
   return (
     <main className="mx-auto max-w-xl px-6 py-10">
       <p className="text-sm text-muted-foreground">Account</p>

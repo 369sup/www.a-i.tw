@@ -9,8 +9,8 @@ import {
   CardTitle,
 } from "@a-i/shadcn/ui/card";
 import { getProductComposition } from "@/src/composition/product-composition";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
-import { resolveRepositoryCapabilityContext } from "../_lib/repository-capability-composition";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
+import { resolveRepositoryCapabilityContext } from "../repository-capability-composition";
 import {
   updateDiscussionAction,
   updateRepositoryAction,
@@ -18,14 +18,14 @@ import {
   updateIssueAction,
   updateInteractionLimitAction,
   updateRepositoryStarAction,
-} from "@/src/app/(console)/repositories/_actions/actions";
+} from "@/src/app/(console)/repositories/repository-command-composition";
 import {
   buttonClass,
-  EmptyState,
+  RepositoryEmptyState,
   fieldClass,
-  PanelHeading,
-  StatusMark,
-} from "@/src/app/(console)/repositories/_components/ui";
+  RepositoryManagementPanelHeading,
+  RepositoryDecisionMark,
+} from "@/src/modules/collaboration/repository-work/repository-governance/public-api";
 
 type Params = Promise<Record<string, string | string[] | undefined>>;
 export default async function InspectorSlot({
@@ -44,7 +44,7 @@ export default async function InspectorSlot({
     socialCuration,
   } = getProductComposition();
   const [session, principals, accountItems] = await Promise.all([
-    requireAuthentication(),
+    requireConsoleAuthentication(),
     identity.listPrincipals(),
     accounts.listAccounts(),
   ]);
@@ -91,7 +91,7 @@ export default async function InspectorSlot({
       : false;
   return (
     <div>
-      <PanelHeading
+      <RepositoryManagementPanelHeading
         icon={<ShieldCheck className="size-4" />}
         title="Context inspector"
       />
@@ -113,7 +113,7 @@ export default async function InspectorSlot({
               Read decision
             </p>
             <div className="flex items-center gap-2 text-sm font-medium">
-              <StatusMark allowed={result.decision.allowed} />
+              <RepositoryDecisionMark allowed={result.decision.allowed} />
               {result.decision.allowed ? "Allowed" : "Denied"}
             </div>
             <dl className="grid grid-cols-[6rem_1fr] gap-y-2 text-xs">
@@ -592,7 +592,7 @@ export default async function InspectorSlot({
           ) : null}
         </div>
       ) : (
-        <EmptyState
+        <RepositoryEmptyState
           title="Inspect a repository"
           body="Select a repository to see the effective access decision and resource context."
         />

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { DocsBody, DocsPage } from "fumadocs-ui/page";
-import { getMDXComponents } from "@/src/app/(public)/docs/_lib/mdx";
-import { docsSource } from "@/src/app/(public)/docs/_lib/docs-source";
+import { getMDXComponents } from "@/src/app/(public)/docs/docs-mdx-composition";
+import { docsSource } from "@/src/app/(public)/docs/docs-source-composition";
 
 export default async function Page({
   params,

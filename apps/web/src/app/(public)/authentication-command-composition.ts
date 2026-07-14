@@ -1,9 +1,12 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getProductComposition } from "@/src/composition/product-composition";
-import { SESSION_COOKIE } from "@/src/presentation/authentication/browser-session";
+import {
+  browserSessionToken,
+  clearBrowserSession,
+  establishBrowserSession,
+} from "@/src/modules/platform-governance/authentication-identity/authentication-security/public-api";
 
 const value = (formData: FormData, key: string) =>
   String(formData.get(key) ?? "").trim();
@@ -14,13 +17,7 @@ export async function loginAction(formData: FormData) {
       value(formData, "login"),
       value(formData, "password"),
     );
-    (await cookies()).set(SESSION_COOKIE, session.token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      expires: new Date(session.expiresAt),
-    });
+    await establishBrowserSession(session);
   } catch {
     redirect("/login?error=invalid-credentials");
   }
@@ -28,9 +25,8 @@ export async function loginAction(formData: FormData) {
 }
 
 export async function logoutAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE)?.value;
+  const token = await browserSessionToken();
   if (token) await getProductComposition().identity.revokeSession(token);
-  cookieStore.delete(SESSION_COOKIE);
+  await clearBrowserSession();
   redirect("/login");
 }

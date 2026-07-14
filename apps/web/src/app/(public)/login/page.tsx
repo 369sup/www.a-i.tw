@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
-import { loginAction } from "@/src/app/(public)/_actions/auth";
-import { currentAuthentication } from "@/src/presentation/authentication/browser-session";
+import { loginAction } from "@/src/app/(public)/authentication-command-composition";
+import { currentPublicAuthentication } from "@/src/app/(public)/public-session-composition";
 
 export default async function LoginPage({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  if (await currentAuthentication()) redirect("/");
+  if (await currentPublicAuthentication()) redirect("/repositories");
   const { error } = await searchParams;
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted/30 p-6">

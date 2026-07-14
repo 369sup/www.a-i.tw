@@ -12,11 +12,11 @@ import { Input } from "@a-i/shadcn/ui/input";
 import { Label } from "@a-i/shadcn/ui/label";
 import { Textarea } from "@a-i/shadcn/ui/textarea";
 import { getProductComposition } from "@/src/composition/product-composition";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
-import { registerGitHubAppAction } from "./actions";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
+import { registerGitHubAppAction } from "./app-registration-command-composition";
 
 export default async function GitHubAppsSettingsPage() {
-  const authentication = await requireAuthentication();
+  const authentication = await requireConsoleAuthentication();
   const registrations = await getProductComposition().appManagement.listOwned(
     authentication.principal.principalId,
   );

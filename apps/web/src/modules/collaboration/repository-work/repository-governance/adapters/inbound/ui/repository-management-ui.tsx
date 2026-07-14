@@ -20,7 +20,7 @@ export const buttonClass =
 export const quietButtonClass =
   "inline-flex h-9 items-center justify-center gap-2 rounded-md border bg-background px-3 text-sm font-medium hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring";
 
-export function PanelHeading({
+export function RepositoryManagementPanelHeading({
   icon,
   title,
   action,
@@ -40,14 +40,19 @@ export function PanelHeading({
   );
 }
 
-export function KindIcon({ kind }: { kind: "personal" | "organization" }) {
+export function AccountKindIcon({
+  kind,
+}: {
+  kind: "personal" | "organization";
+}) {
   return kind === "organization" ? (
     <Building2 className="size-4" />
   ) : (
     <UserRound className="size-4" />
   );
 }
-export function VisibilityIcon({
+
+export function RepositoryVisibilityIcon({
   visibility,
 }: {
   visibility: "public" | "private" | "internal";
@@ -59,7 +64,13 @@ export function VisibilityIcon({
   );
 }
 
-export function EmptyState({ title, body }: { title: string; body: string }) {
+export function RepositoryEmptyState({
+  title,
+  body,
+}: {
+  title: string;
+  body: string;
+}) {
   return (
     <div className="flex min-h-64 flex-col items-center justify-center px-6 text-center">
       <FolderGit2 className="mb-3 size-8 text-muted-foreground" />
@@ -69,11 +80,12 @@ export function EmptyState({ title, body }: { title: string; body: string }) {
   );
 }
 
-export function StatusMark({ allowed }: { allowed: boolean }) {
+export function RepositoryDecisionMark({ allowed }: { allowed: boolean }) {
   return allowed ? (
     <Check className="size-4 text-emerald-600" />
   ) : (
     <KeyRound className="size-4 text-rose-600" />
   );
 }
+
 export { Archive, ChevronRight, Plus, ShieldCheck, Link };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createRepositoryCapabilityContextResolver } from "./repository-capability-context";
+import { createRepositoryCapabilityContextResolver } from "../../application/use-cases/repository-capability-context";
 
 const principal = {
   principalId: "principal-1",
@@ -24,7 +24,6 @@ describe("Repository capability context", () => {
         resolve: async () => ({
           repositoryId: "repository-1",
           ownerAccountId: "account-org",
-          ownerHandle: "org",
           name: "planning",
           description: "",
           visibility: "private",
@@ -65,7 +64,6 @@ describe("Repository capability context", () => {
         resolve: async () => ({
           repositoryId: "repository-1",
           ownerAccountId: "account-other",
-          ownerHandle: "other",
           name: "planning",
           description: "",
           visibility: "private",

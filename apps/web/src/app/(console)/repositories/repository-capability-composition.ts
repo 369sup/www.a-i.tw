@@ -1,14 +1,14 @@
 import "server-only";
 
-import type { AuthenticationView } from "@/src/presentation/request-context/browser-request-envelope";
+import { getProductComposition } from "@/src/composition/product-composition";
 import {
   createRepositoryCapabilityContextResolver,
+  type RepositoryAuthenticationView,
   type RepositoryCapabilityKey,
-} from "./repository-capability-context";
-import { getProductComposition } from "@/src/composition/product-composition";
+} from "@/src/modules/collaboration/repository-work/repository-governance/public-api";
 
 export async function resolveRepositoryCapabilityContext(input: {
-  authentication: AuthenticationView;
+  authentication: RepositoryAuthenticationView;
   activeScopeAccountId: string;
   repositoryId: string;
   capabilityKey: RepositoryCapabilityKey;
@@ -26,8 +26,6 @@ export async function resolveRepositoryCapabilityContext(input: {
       },
     },
   );
-  return resolve({
-    ...input,
-    correlationId: crypto.randomUUID(),
-  });
+
+  return resolve({ ...input, correlationId: crypto.randomUUID() });
 }

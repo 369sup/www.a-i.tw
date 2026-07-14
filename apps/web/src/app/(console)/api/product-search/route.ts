@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 import { searchProductResources } from "@/src/composition/product-composition";
 
 export async function GET(request: Request) {
-  const authentication = await requireAuthentication();
+  const authentication = await requireConsoleAuthentication();
   const query = new URL(request.url).searchParams.get("q")?.trim() ?? "";
   if (!query) return NextResponse.json({ results: [] });
   const results = await searchProductResources(query, authentication.principal);

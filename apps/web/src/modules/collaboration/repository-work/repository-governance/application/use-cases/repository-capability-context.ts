@@ -1,9 +1,14 @@
-import {
-  createBrowserRequestEnvelope,
-  type AuthenticationView,
-  type PrincipalView,
-  type RequestEnvelopeV1,
-} from "@/src/presentation/request-context/browser-request-envelope";
+export type RepositoryPrincipalView = Readonly<{
+  principalId: string;
+  handle: string;
+  displayName: string;
+  status: "active" | "disabled";
+}>;
+
+export type RepositoryAuthenticationView = Readonly<{
+  principal: RepositoryPrincipalView;
+  authenticatedAt: string;
+}>;
 
 type AccountScopeView = Readonly<{
   accountId: string;
@@ -41,7 +46,21 @@ export type RepositoryCapabilityKey =
   "repository.overview" | "issue.read" | "issue.create" | "issue.manage";
 
 export type RepositoryCapabilityContextV1 = Readonly<{
-  envelope: RequestEnvelopeV1;
+  envelope: Readonly<{
+    viewer: RepositoryPrincipalView;
+    actor: RepositoryPrincipalView;
+    credential: Readonly<{
+      type: "browser-session";
+      method: "mock-password";
+      assurance: "single-factor";
+      authenticatedAt: string;
+    }>;
+    correlationId: string;
+    activeScope: Readonly<{
+      type: "personal" | "organization";
+      accountId: string;
+    }>;
+  }>;
   owner: AccountScopeView;
   organization?: AccountScopeView;
   repository: RepositoryView;
@@ -60,11 +79,11 @@ export interface AccountContextPort {
 export interface RepositoryContextPort {
   resolve(
     repositoryId: string,
-    principal: PrincipalView,
+    principal: RepositoryPrincipalView,
   ): Promise<RepositoryView | undefined>;
   authorize(input: {
     repositoryId: string;
-    principal: PrincipalView;
+    principal: RepositoryPrincipalView;
     action: RepositoryAction;
   }): Promise<RepositoryDecisionView>;
 }
@@ -83,15 +102,13 @@ export function createRepositoryCapabilityContextResolver(
   repositories: RepositoryContextPort,
 ) {
   return async function resolve(input: {
-    authentication: AuthenticationView;
+    authentication: RepositoryAuthenticationView;
     activeScopeAccountId: string;
     repositoryId: string;
     capabilityKey: RepositoryCapabilityKey;
     correlationId: string;
   }): Promise<RepositoryCapabilityContextV1> {
     const requestedAction = capabilities[input.capabilityKey];
-    if (!requestedAction) throw new Error("Unknown Repository capability.");
-
     const repository = await repositories.resolve(
       input.repositoryId,
       input.authentication.principal,
@@ -109,14 +126,21 @@ export function createRepositoryCapabilityContextResolver(
     });
 
     return {
-      envelope: createBrowserRequestEnvelope({
-        authentication: input.authentication,
+      envelope: {
+        viewer: input.authentication.principal,
+        actor: input.authentication.principal,
+        credential: {
+          type: "browser-session",
+          method: "mock-password",
+          assurance: "single-factor",
+          authenticatedAt: input.authentication.authenticatedAt,
+        },
         correlationId: input.correlationId,
         activeScope: {
           type: owner.kind === "organization" ? "organization" : "personal",
           accountId: owner.accountId,
         },
-      }),
+      },
       owner,
       organization: owner.kind === "organization" ? owner : undefined,
       repository,

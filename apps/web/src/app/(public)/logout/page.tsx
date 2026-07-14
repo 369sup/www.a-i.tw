@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { logoutAction } from "@/src/app/(public)/_actions/auth";
-import { currentAuthentication } from "@/src/presentation/authentication/browser-session";
+import { logoutAction } from "@/src/app/(public)/authentication-command-composition";
+import { currentPublicAuthentication } from "@/src/app/(public)/public-session-composition";
 
 export default async function LogoutPage() {
-  const authentication = await currentAuthentication();
+  const authentication = await currentPublicAuthentication();
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted/30 p-6">
       <section className="w-full max-w-md rounded-xl border bg-background p-6">

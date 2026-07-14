@@ -1,8 +1,10 @@
 "use server";
 
+// App Router binding for App Management-owned commands.
+
 import { revalidatePath } from "next/cache";
 import { getProductComposition } from "@/src/composition/product-composition";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 
 const optionalString = (value: FormDataEntryValue | null) => {
   const text = String(value ?? "").trim();
@@ -10,7 +12,7 @@ const optionalString = (value: FormDataEntryValue | null) => {
 };
 
 export async function registerGitHubAppAction(formData: FormData) {
-  const authentication = await requireAuthentication();
+  const authentication = await requireConsoleAuthentication();
   const description = optionalString(formData.get("description"));
   const callbackUrl = optionalString(formData.get("callbackUrl"));
   await getProductComposition().appManagement.register({

@@ -1,19 +1,19 @@
 import Link from "next/link";
 import { FolderGit2, Plus } from "lucide-react";
 import { getProductComposition } from "@/src/composition/product-composition";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 import {
   createRepositoryAction,
   updateRepositoryAction,
-} from "@/src/app/(console)/repositories/_actions/actions";
+} from "@/src/app/(console)/repositories/repository-command-composition";
 import {
   buttonClass,
-  EmptyState,
+  RepositoryEmptyState,
   fieldClass,
-  PanelHeading,
+  RepositoryManagementPanelHeading,
   quietButtonClass,
-  VisibilityIcon,
-} from "@/src/app/(console)/repositories/_components/ui";
+  RepositoryVisibilityIcon,
+} from "@/src/modules/collaboration/repository-work/repository-governance/public-api";
 
 type Params = Promise<Record<string, string | string[] | undefined>>;
 export default async function RepositoriesSlot({
@@ -23,7 +23,7 @@ export default async function RepositoriesSlot({
 }) {
   const query = await searchParams;
   const { accounts, repositories, teams } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const accountItems = await accounts.listAccounts();
   const accountId =
     typeof query.account === "string"
@@ -42,14 +42,14 @@ export default async function RepositoriesSlot({
   const selected = items.find((item) => item.repositoryId === selectedId);
   if (!account)
     return (
-      <EmptyState
+      <RepositoryEmptyState
         title="Choose an account"
         body="Select an account namespace before working with repositories."
       />
     );
   return (
     <div>
-      <PanelHeading
+      <RepositoryManagementPanelHeading
         icon={<FolderGit2 className="size-4" />}
         title={`${account.handle} / repositories`}
       />
@@ -65,7 +65,7 @@ export default async function RepositoriesSlot({
                 <span className="flex items-center justify-between gap-2">
                   <strong className="truncate">{item.name}</strong>
                   <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-                    <VisibilityIcon visibility={item.visibility} />
+                    <RepositoryVisibilityIcon visibility={item.visibility} />
                     {item.visibility}
                   </span>
                 </span>
@@ -244,7 +244,7 @@ export default async function RepositoriesSlot({
             </div>
           </article>
         ) : (
-          <EmptyState
+          <RepositoryEmptyState
             title="No repository selected"
             body="Create or select a repository in this account namespace."
           />

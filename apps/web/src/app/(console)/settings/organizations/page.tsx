@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 import { getProductComposition } from "@/src/composition/product-composition";
 
 export default async function OrganizationsSettingsPage() {
-  await requireAuthentication();
+  await requireConsoleAuthentication();
   const organizations = (
     await getProductComposition().accounts.listAccounts()
   ).filter((account) => account.kind === "organization");

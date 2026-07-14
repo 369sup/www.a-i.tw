@@ -4,15 +4,15 @@ import { getProductComposition } from "@/src/composition/product-composition";
 import {
   createAccountAction,
   updateTeamAction,
-} from "@/src/app/(console)/repositories/_actions/actions";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+} from "@/src/app/(console)/repositories/repository-command-composition";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 import {
   buttonClass,
   fieldClass,
-  KindIcon,
-  PanelHeading,
+  AccountKindIcon,
+  RepositoryManagementPanelHeading,
   quietButtonClass,
-} from "@/src/app/(console)/repositories/_components/ui";
+} from "@/src/modules/collaboration/repository-work/repository-governance/public-api";
 
 type Params = Promise<Record<string, string | string[] | undefined>>;
 export default async function AccountsSlot({
@@ -23,7 +23,7 @@ export default async function AccountsSlot({
   const query = await searchParams;
   const { identity, accounts, profiles, teams } = getProductComposition();
   const [session, principals, items] = await Promise.all([
-    requireAuthentication(),
+    requireConsoleAuthentication(),
     identity.listPrincipals(),
     accounts.listAccounts(),
   ]);
@@ -39,7 +39,7 @@ export default async function AccountsSlot({
       : [];
   return (
     <div>
-      <PanelHeading
+      <RepositoryManagementPanelHeading
         icon={<UserRound className="size-4" />}
         title="Account scopes"
       />
@@ -56,7 +56,7 @@ export default async function AccountsSlot({
             href={`/repositories?account=${account.accountId}`}
             className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm ${selected === account.accountId ? "bg-foreground text-background" : "hover:bg-muted"}`}
           >
-            <KindIcon kind={account.kind} />
+            <AccountKindIcon kind={account.kind} />
             <span className="min-w-0">
               <span className="block truncate font-medium">
                 {account.displayName}

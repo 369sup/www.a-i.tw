@@ -1,8 +1,10 @@
 "use server";
 
+// Final App Router binding for Context-owned repository console commands.
+
 import { revalidatePath } from "next/cache";
 import { getProductComposition } from "@/src/composition/product-composition";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) ?? "");
@@ -16,7 +18,7 @@ function repositoryVisibility(formData: FormData) {
 
 export async function createAccountAction(formData: FormData) {
   const { accounts } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   await accounts.create({
     principal: session.principal,
     handle: value(formData, "handle"),
@@ -29,7 +31,7 @@ export async function createAccountAction(formData: FormData) {
 
 export async function inviteOrganizationMemberAction(formData: FormData) {
   const { identity, memberships } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const invitee = (await identity.listPrincipals()).find(
     (principal) => principal.principalId === value(formData, "principalId"),
   );
@@ -43,7 +45,7 @@ export async function inviteOrganizationMemberAction(formData: FormData) {
 
 export async function acceptOrganizationInvitationAction(formData: FormData) {
   const { memberships } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   return memberships.accept({
     invitationId: value(formData, "invitationId"),
     principal: session.principal,
@@ -52,7 +54,7 @@ export async function acceptOrganizationInvitationAction(formData: FormData) {
 
 export async function removeOrganizationMemberAction(formData: FormData) {
   const { memberships } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   await memberships.remove({
     accountId: value(formData, "accountId"),
     principalId: value(formData, "principalId"),
@@ -63,7 +65,7 @@ export async function removeOrganizationMemberAction(formData: FormData) {
 
 export async function updateTeamAction(formData: FormData) {
   const { teams } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const intent = value(formData, "intent");
   if (intent === "create")
     await teams.create({
@@ -88,7 +90,7 @@ export async function updateTeamAction(formData: FormData) {
 
 export async function createRepositoryAction(formData: FormData) {
   const { repositories } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   await repositories.create({
     principal: session.principal,
     ownerAccountId: value(formData, "ownerAccountId"),
@@ -102,7 +104,7 @@ export async function createRepositoryAction(formData: FormData) {
 
 export async function updateRepositoryAction(formData: FormData) {
   const { repositories } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const repositoryId = value(formData, "repositoryId");
   const intent = value(formData, "intent");
   if (intent === "rename")
@@ -142,7 +144,7 @@ export async function updateRepositoryAction(formData: FormData) {
 
 export async function updateInteractionLimitAction(formData: FormData) {
   const { communitySafety } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const repositoryId = value(formData, "repositoryId");
   const intent = value(formData, "intent");
   if (intent === "activate")
@@ -162,7 +164,7 @@ export async function updateInteractionLimitAction(formData: FormData) {
 
 export async function updateRepositoryStarAction(formData: FormData) {
   const { socialCuration } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const repositoryId = value(formData, "repositoryId");
   const intent = value(formData, "intent");
   if (intent === "star")
@@ -175,7 +177,7 @@ export async function updateRepositoryStarAction(formData: FormData) {
 export async function updateIssueAction(formData: FormData) {
   const { identity, issues, notifications, subscriptions } =
     getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const intent = value(formData, "intent");
   if (intent === "create-issue") {
     const issue = await issues.createIssue({
@@ -242,7 +244,7 @@ export async function updateIssueAction(formData: FormData) {
 
 export async function updateDiscussionAction(formData: FormData) {
   const { discussions, notifications, subscriptions } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const intent = value(formData, "intent");
   if (intent === "create-discussion") {
     const discussion = await discussions.create({
@@ -295,7 +297,7 @@ export async function updateDiscussionAction(formData: FormData) {
 
 export async function updateRepositorySubscriptionAction(formData: FormData) {
   const { subscriptions } = getProductComposition();
-  const session = await requireAuthentication();
+  const session = await requireConsoleAuthentication();
   const mode = value(formData, "mode");
   if (
     mode !== "participating" &&

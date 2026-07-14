@@ -9,15 +9,15 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@a-i/shadcn/ui/empty";
-import { requireAuthentication } from "@/src/presentation/authentication/browser-session";
+import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 import { getProductComposition } from "@/src/composition/product-composition";
 import {
   triageNotificationAction,
   unsubscribeNotificationAction,
-} from "./actions";
+} from "./notification-command-composition";
 
 export default async function NotificationsPage() {
-  const authentication = await requireAuthentication();
+  const authentication = await requireConsoleAuthentication();
   const notifications = await getProductComposition().notifications.listInbox(
     authentication.principal.principalId,
   );
