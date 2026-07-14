@@ -194,3 +194,14 @@ those anti-rules.
 Before editing, read the Domain Group and Context owner files plus `context.json`; confirm owner, capability/use case,
 layer, Ports, Adapters, contract and consumers. Run focused tests, `pnpm arch:check`, runtime checks proportional to the
 change, `git diff --check`, and a focused diff.
+
+Before creating or moving a source artifact, classify it in this order: owning Context, approved capability or use case,
+architectural layer, tactical category, artifact role, consumers, and required contract. Derive the filename from the
+matching angle-bracket pattern above; existing nearby filenames and a passing checker do not override this contract.
+Transport-neutral view data belongs in `application/dto`, not `adapters/inbound/ui`. The inbound `ui` leaf contains only
+kebab-case `.tsx` UI adapters, and `server-actions` contains only kebab-case `.ts` transport adapters named for one
+explicit action. Do not create grouped catch-all files such as `form-adapter`, `actions`, `helpers`, or `utils`.
+
+Architecture checks prove only the rules they implement. When a normative rule is not mechanically enforced, review it
+directly against this file and either add the narrowest non-breaking guard with a regression test or record the
+unenforced legacy debt explicitly; never treat a green check as evidence that an unchecked naming rule was followed.

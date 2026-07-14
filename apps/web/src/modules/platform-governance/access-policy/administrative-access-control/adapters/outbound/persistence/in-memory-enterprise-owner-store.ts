@@ -1,4 +1,4 @@
-import type { EnterpriseOwnerStore } from "../../../application/ports/outbound/enterprise-owner-store.port";
+import type { EnterpriseOwnerStore } from "../../../application/ports/outbound/enterprise-owner-store-port";
 import type { EnterpriseOwnerAssignment } from "../../../domain/administrative-access-control/aggregates/enterprise-owner-assignment";
 
 export class InMemoryEnterpriseOwnerStore implements EnterpriseOwnerStore {

@@ -767,6 +767,36 @@ describe("cross-context import checker", () => {
     );
   });
 
+  it("rejects a non-TSX artifact in the inbound UI leaf", () => {
+    const { root, contextRoot } = writeCanonicalTopologyFixture();
+    writeFileSync(
+      join(contextRoot, "adapters/inbound/ui/view-model.ts"),
+      "export {};\n",
+    );
+
+    const result = inspectTopology(root);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(
+      "adapters/inbound/ui must contain only kebab-case .tsx files; found view-model.ts",
+    );
+  });
+
+  it("rejects an invalid server-action adapter filename", () => {
+    const { root, contextRoot } = writeCanonicalTopologyFixture();
+    writeFileSync(
+      join(contextRoot, "adapters/inbound/server-actions/form.adapter.ts"),
+      "export {};\n",
+    );
+
+    const result = inspectTopology(root);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(
+      "adapters/inbound/server-actions must contain only kebab-case .ts files; found form.adapter.ts",
+    );
+  });
+
   it("rejects simplifying the template by removing a mandatory directory", () => {
     const { root, contextRoot } = writeCanonicalTopologyFixture();
     rmSync(join(contextRoot, "domain/example/policies"), { recursive: true });

@@ -151,6 +151,24 @@ function checkLeafDirectory(contextRoot, relativePath) {
   }
 }
 
+function checkLeafFileConvention(contextRoot, relativePath, extension) {
+  const path = join(contextRoot, relativePath);
+  if (!existsSync(path)) return;
+
+  const kebabCaseFile = new RegExp(`^[a-z0-9]+(?:-[a-z0-9]+)*\\${extension}$`);
+  for (const entry of entries(path)) {
+    if (
+      entry.isFile() &&
+      entry.name !== ".gitkeep" &&
+      !kebabCaseFile.test(entry.name)
+    ) {
+      errors.push(
+        `${contextRoot}/${relativePath} must contain only kebab-case ${extension} files; found ${entry.name}.`,
+      );
+    }
+  }
+}
+
 function checkNamedHandlerDirectory(contextRoot, relativePath, kind) {
   const path = join(contextRoot, relativePath);
   if (!existsSync(path)) {
@@ -482,6 +500,12 @@ for (const groupName of legalDomainGroups) {
       for (const [path, children] of exactDirectoryChildren)
         checkExactDirectories(contextRoot, path, children);
       for (const leaf of fixedLeaves) checkLeafDirectory(contextRoot, leaf);
+      checkLeafFileConvention(contextRoot, "adapters/inbound/ui", ".tsx");
+      checkLeafFileConvention(
+        contextRoot,
+        "adapters/inbound/server-actions",
+        ".ts",
+      );
       checkNamedHandlerDirectory(
         contextRoot,
         "application/commands",

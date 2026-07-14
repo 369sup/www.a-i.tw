@@ -1,6 +1,6 @@
 import type { OrganizationAccountDirectoryApiV1 } from "@/src/modules/platform-governance/accounts-profile/organization-account/contracts/v1/public";
 
-import type { OrganizationAccountDirectory } from "../../../application/ports/outbound/organization-account-directory.port";
+import type { OrganizationAccountDirectory } from "../../../application/ports/outbound/organization-account-directory-port";
 
 export class OrganizationAccountDirectoryAdapter implements OrganizationAccountDirectory {
   constructor(private readonly accounts: OrganizationAccountDirectoryApiV1) {}

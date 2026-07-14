@@ -27,7 +27,7 @@
       "pattern": "open-host-service + published-language + anti-corruption-layer",
       "contract": "EnterpriseAccountDirectoryApiV1",
       "consumerPort": "EnterpriseDirectory",
-      "consumerAcl": "AppCompositionEnterpriseDirectory",
+      "consumerAcl": "AdministrativeEnterpriseDirectoryAdapter",
       "consistency": "synchronous",
       "failureMode": "reject-unavailable-enterprise",
       "status": "current"

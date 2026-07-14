@@ -1,25 +1,23 @@
 # Current Work State
 ## Objective
-Complete the approved GitHub non-Code 18-to-37 Context atomic migration without adding planned runtime capabilities.
+Correct the Enterprise settings slice so it follows the repository's Domain-Driven Modular Monolith, Hexagonal Architecture, public-boundary rules, and the normative tactical naming contract in apps/web/src/modules/AGENTS.md.
 ## Scope
-Six Domain Groups, twelve Domain Areas, thirty-seven physical Contexts; runtime ownership splits, mechanical renames, portfolio ledger, generator/checker, Context Map, and canonical docs.
+Enterprise Account, Administrative Access Control, Policy Governance, final App Router composition, Context Map metadata, canonical architecture documentation, tactical naming enforcement, focused tests, and Serena checkpoint only. Unrelated dirty work remains untouched.
 ## Confirmed Decisions
-Exactly 37 Contexts: 20 runtime and 17 planned. No compatibility aliases. Planned APIs are empty. Context Map contains runtime only. Serena MCP methods were not injected; global Serena command was corrected and the user explicitly authorized narrow native fallback.
+`public-api.ts` is the application-internal app-facing public boundary. `contracts/vN/public.ts` is the formal versioned language published to peer Contexts. Peer calls use a consumer-owned Application Port plus `adapters/outbound/integrations` ACL importing only the provider contract. The module topology and angle-bracket artifact names in `apps/web/src/modules/AGENTS.md` are normative; nearby legacy filenames and a green checker never override them. Before creating an artifact, classify owner, approved capability/use case, layer, tactical category, role, consumers, and contract.
 ## Completed
-All old Context roots removed. Account, Organization, Enterprise, Repository authorization, and Notifications/Subscriptions ownership split or merged. Runtime imports and contracts updated. Old IDs remain only in migration ledger and ADR history.
+Reduced the Enterprise route page to final composition; moved Context-owned UI and form mapping into inbound adapters; moved transport-neutral view models to `application/dto`; split server-action mapping into one explicitly named action per file; changed the task slice to kebab-case filenames without legacy `.port.ts` or `.adapter.ts` suffixes. Replaced direct Enterprise Application-service injection with consumer-owned Administrative and Policy ACL adapters over `EnterpriseAccountDirectoryApiV1`. Documented the two public surfaces. Added topology guards that require kebab-case `.tsx` files in inbound UI and kebab-case `.ts` files in server-actions, plus regression tests. Added an artifact-classification and green-check limitation rule to the module AGENTS contract.
 ## In Progress
 Final reporting only.
 ## Pending
-No implementation work remains. Do not stage, commit, push, deploy, or modify unrelated dirty files.
-## 2026-07-14 Topology Rule Follow-up
-User confirmed `.codex/logs` and `scripts/codex` are intentional repository areas. Updated the exact topology allowlists in `scripts/architecture/check-repository-topology.mjs` and the matching architecture-test fixture in `tests/architecture/src/dependency-rules.test.ts`. Serena diagnostics were clean for the TypeScript test and for 21 migration boundary files. Full `pnpm arch:check` passed, including 49/49 architecture tests; `git diff --check` passed.
+The repository still has legacy dotted tactical filenames outside this task slice. Do not mass-rename them incidentally; enforce additional leaf categories only through a scoped migration with regression tests. No change to closed templateVersion 2 is approved.
 ## Modified Files
-apps/web/src/modules portfolio and runtime; apps/web/src/composition/product-composition.ts; docs architecture/domain/product/evidence/roadmap; architecture scripts/tests; scaffold skill/generator; package.json. Global C:/Users/sup/.codex AGENTS.md and config.toml were also corrected outside Git.
+Task-owned changes are under `apps/web/src/app/(console)/settings/enterprises`; Enterprise Account inbound UI, server-actions, DTO, Port, integration adapter, public API and tests; Administrative Access Control Port/ACL/service/composition/tests/manifest; Policy Governance inbound UI/server-action, Ports/ACL/composition/public API/tests/manifest; `apps/web/src/composition/product-composition.ts`; `apps/web/src/modules/AGENTS.md`; `scripts/architecture/check-context-target-topology.mjs`; `tests/architecture/src/dependency-rules.test.ts`; `docs/architecture/context-internal-topology.md`; and `docs/domains/context-map.json`. Other dirty files pre-existed and remain unrelated.
 ## Git Anchor
-branch main; HEAD 5250de71c1d62e86f1cc8db9c04cde556312967d; dirty working tree with migration plus unrelated pre-existing Serena/plugin/Playwright changes.
+Branch: main. HEAD: 1f1fe2e7684de486e9221fa8e5f1854b674960bb. Working tree remains dirty with both this slice and unrelated pre-existing App Router, authentication, search, architecture, E2E, Playwright artifact, and Repository semantic changes.
 ## Validation
-37/20/17 count verified; planned API mismatch zero; web typecheck and 54 files/125 tests passed; docs:check passed; arch:check passed before final doc-only renames; turbo check/test passed; build passed; semgrep passed; git diff --check passed. pnpm check remains blocked only by 8 unrelated pre-existing formatting files.
+Serena diagnostics reported no errors for 22 changed Enterprise, Policy, Administrative ACL, composition, route, and architecture-test files. Web tests passed: 56 files, 129 tests. Typecheck passed. Next.js 16.2.10 production build passed with 28 routes. Full architecture check passed, including 85 architecture tests and the new naming regressions. docs:check passed. Earlier Semgrep completed with 0 findings across 490 targets. git diff --check passed and the focused diff was inspected.
 ## Known Risks
-Serena semantic MCP diagnostics were unavailable in this task. Large move diff appears as delete/add until staged by the user. Unrelated dirty files must remain untouched.
+The working tree contains substantial unrelated changes, so broad diff statistics are not task-isolated. The naming guard intentionally covers only the two exact leaf categories implicated by this deviation; broader legacy naming debt remains explicit rather than being silently rewritten.
 ## Next Action
-Report completion, validation evidence, formatting-only blocker, Serena fallback, and unrelated working-tree risk.
+For every new module artifact, read the nearest AGENTS contract first, classify it against the exact placeholder before editing, and distinguish unchecked natural-language rules from mechanically enforced rules.

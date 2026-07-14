@@ -7,7 +7,7 @@ import {
   createEnterprise,
   type Enterprise,
 } from "../../domain/enterprise-account/aggregates/enterprise";
-import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory.port";
+import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory-port";
 
 export interface EnterpriseStore {
   list(): Promise<Enterprise[]>;
@@ -19,6 +19,7 @@ export interface EnterpriseStore {
 }
 
 export interface EnterpriseAccountService extends EnterpriseAccountDirectoryApiV1 {
+  list(): Promise<EnterpriseSummaryV1[]>;
   create(input: { name: string }): Promise<EnterpriseSummaryV1>;
   affiliateOrganization(input: {
     enterpriseId: string;
@@ -40,6 +41,9 @@ export function createEnterpriseAccountService(
     ),
   });
   return {
+    async list() {
+      return (await store.list()).map(summary);
+    },
     async create(input) {
       const enterprise = createEnterprise({ id: nextId(), name: input.name });
       await store.save(enterprise);

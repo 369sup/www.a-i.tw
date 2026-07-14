@@ -2,8 +2,8 @@ import {
   defaultRepositoryVisibilityPolicy,
   type RepositoryVisibilityPolicy,
 } from "../../domain/policy-governance/aggregates/repository-visibility-policy";
-import type { PolicyEnterpriseDirectory } from "../ports/outbound/enterprise-directory.port";
-import type { RepositoryPolicyStore } from "../ports/outbound/repository-policy-store.port";
+import type { PolicyEnterpriseDirectory } from "../ports/outbound/enterprise-directory-port";
+import type { RepositoryPolicyStore } from "../ports/outbound/repository-policy-store-port";
 
 export function createPolicyGovernanceService(
   store: RepositoryPolicyStore,

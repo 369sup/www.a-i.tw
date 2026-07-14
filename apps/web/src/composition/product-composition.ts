@@ -42,12 +42,14 @@ import {
   OrganizationAccountDirectoryAdapter,
 } from "@/src/modules/platform-governance/accounts-profile/enterprise-account/composition";
 import {
+  AdministrativeEnterpriseDirectoryAdapter,
   createAdministrativeAccessService,
   InMemoryEnterpriseOwnerStore,
 } from "@/src/modules/platform-governance/access-policy/administrative-access-control/composition";
 import {
   createPolicyGovernanceService,
   InMemoryRepositoryPolicyStore,
+  PolicyEnterpriseDirectoryAdapter,
 } from "@/src/modules/platform-governance/access-policy/policy-governance/composition";
 import {
   CommunityInteractionSafetyAdapter as IssueCommunityInteractionSafetyAdapter,
@@ -295,13 +297,46 @@ function createProductComposition() {
   );
   const administrativeAccess = createAdministrativeAccessService(
     new InMemoryEnterpriseOwnerStore(),
+    new AdministrativeEnterpriseDirectoryAdapter(enterpriseAccounts),
     () => new Date(),
   );
   const policyGovernance = createPolicyGovernanceService(
     new InMemoryRepositoryPolicyStore(),
-    enterpriseAccounts,
+    new PolicyEnterpriseDirectoryAdapter(enterpriseAccounts),
   );
   const enterpriseGovernance = {
+    async listForPrincipal(principalId: string) {
+      const enterprises = await enterpriseAccounts.list();
+      const visible = await Promise.all(
+        enterprises.map(async (enterprise) =>
+          (await administrativeAccess.isEnterpriseOwner(
+            enterprise.enterpriseId,
+            principalId,
+          ))
+            ? {
+                ...enterprise,
+                repositoryVisibilityPolicy: await policyGovernance.get(
+                  enterprise.enterpriseId,
+                ),
+              }
+            : undefined,
+        ),
+      );
+      return visible.filter((enterprise) => enterprise !== undefined);
+    },
+    async resolveForPrincipal(enterpriseId: string, principalId: string) {
+      await administrativeAccess.requireEnterpriseOwner(
+        enterpriseId,
+        principalId,
+      );
+      const enterprise = await enterpriseAccounts.resolve(enterpriseId);
+      return (
+        enterprise && {
+          ...enterprise,
+          repositoryVisibilityPolicy: await policyGovernance.get(enterpriseId),
+        }
+      );
+    },
     async create(input: { name: string; actorPrincipalId: string }) {
       const enterprise = await enterpriseAccounts.create({ name: input.name });
       await administrativeAccess.assignFoundingOwner(

@@ -15,6 +15,7 @@ describe("enterprise account", () => {
       () => new Date("2026-07-12T00:00:00.000Z"),
     );
     const enterprise = await service.create({ name: "Analytical Enterprise" });
+    await expect(service.list()).resolves.toEqual([enterprise]);
     await expect(
       service.affiliateOrganization({
         enterpriseId: enterprise.enterpriseId,
