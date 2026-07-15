@@ -23,7 +23,7 @@ export async function requireBrowserAuthentication(
   identity: BrowserSessionIdentity,
 ) {
   const authentication = await currentBrowserAuthentication(identity);
-  if (!authentication) redirect("/login");
+  if (!authentication) redirect("/sign-in");
   return authentication;
 }
 

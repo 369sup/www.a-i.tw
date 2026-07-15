@@ -1,4 +1,4 @@
-import { InvalidSessionIdError } from "../errors/invalid-session-id.error";
+import { InvalidSessionIdError } from "../errors/invalid-session-id-error";
 
 declare const sessionIdBrand: unique symbol;
 

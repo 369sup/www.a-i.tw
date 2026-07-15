@@ -1,6 +1,6 @@
-import type { CredentialVerifier } from "../../../application/ports/outbound/credential-verifier.port";
-import type { PrincipalStore } from "../../../application/ports/outbound/principal-store.port";
-import type { SessionStore } from "../../../application/ports/outbound/session-store.port";
+import type { CredentialVerifier } from "../../../application/ports/outbound/credential-verifier-port";
+import type { PrincipalStore } from "../../../application/ports/outbound/principal-store-port";
+import type { SessionStore } from "../../../application/ports/outbound/session-store-port";
 import {
   createPrincipal,
   type Principal,

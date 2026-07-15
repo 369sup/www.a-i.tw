@@ -4,8 +4,8 @@ import {
   createTeam,
   removeTeamMember,
 } from "../../domain/organization-participation/entities/team";
-import { InvalidTeamIdError } from "../../domain/organization-participation/errors/invalid-team-id.error";
-import { InvalidTeamNameError } from "../../domain/organization-participation/errors/invalid-team-name.error";
+import { InvalidTeamIdError } from "../../domain/organization-participation/errors/invalid-team-id-error";
+import { InvalidTeamNameError } from "../../domain/organization-participation/errors/invalid-team-name-error";
 
 describe("Team value objects", () => {
   it("normalizes the organization-local Team name", () => {

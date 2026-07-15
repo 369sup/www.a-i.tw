@@ -1,4 +1,4 @@
-import { InvalidRepositoryAccessGrantError } from "../errors/invalid-repository-access-grant.error";
+import { InvalidRepositoryAccessGrantError } from "../errors/invalid-repository-access-grant-error";
 import {
   createRepositoryRole,
   type RepositoryRole,

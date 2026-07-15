@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createRepositoryStar } from "../../domain/social-curation/aggregates/repository-star";
-import { InvalidRepositoryStarError } from "../../domain/social-curation/errors/invalid-repository-star.error";
+import { InvalidRepositoryStarError } from "../../domain/social-curation/errors/invalid-repository-star-error";
 
 describe("Repository Star", () => {
   it("canonicalizes identities and records the creation instant", () => {

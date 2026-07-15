@@ -1,4 +1,4 @@
-import { InvalidRepositoryStarError } from "../errors/invalid-repository-star.error";
+import { InvalidRepositoryStarError } from "../errors/invalid-repository-star-error";
 
 export type StarredAt = string;
 

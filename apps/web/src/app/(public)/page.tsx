@@ -5,14 +5,14 @@ import { Button } from "@a-i/shadcn/ui/button";
 import { currentPublicAuthentication } from "@/src/app/(public)/public-session-composition";
 
 export default async function Home() {
-  if (await currentPublicAuthentication()) redirect("/repositories");
+  if (await currentPublicAuthentication()) redirect("/dashboard");
 
   return (
     <main className="min-h-screen bg-muted/30">
       <header className="flex h-16 items-center justify-between border-b bg-background px-6">
         <strong className="text-lg">a-i.tw</strong>
         <Button asChild>
-          <Link href="/login">
+          <Link href="/sign-in">
             <LogIn data-icon="inline-start" />
             Login
           </Link>

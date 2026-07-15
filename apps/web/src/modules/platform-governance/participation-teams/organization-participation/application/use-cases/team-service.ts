@@ -9,8 +9,8 @@ import {
   removeTeamMember,
   type Team,
 } from "../../domain/organization-participation/entities/team";
-import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory.port";
-import type { TeamStore } from "../ports/outbound/team-store.port";
+import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory-port";
+import type { TeamStore } from "../ports/outbound/team-store-port";
 import type { MembershipService } from "./membership-service";
 import type { AccountPrincipal } from "../ports/inbound/account-principal";
 

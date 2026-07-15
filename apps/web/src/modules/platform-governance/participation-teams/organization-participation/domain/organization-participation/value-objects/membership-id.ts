@@ -1,4 +1,4 @@
-import { InvalidMembershipIdError } from "../errors/invalid-membership-id.error";
+import { InvalidMembershipIdError } from "../errors/invalid-membership-id-error";
 
 declare const membershipIdBrand: unique symbol;
 

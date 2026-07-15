@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { InMemoryTeamStore } from "../../adapters/outbound/persistence/in-memory-team-store";
-import { InvalidTeamIdError } from "../../domain/organization-participation/errors/invalid-team-id.error";
+import { InvalidTeamIdError } from "../../domain/organization-participation/errors/invalid-team-id-error";
 
 describe("InMemoryTeamStore", () => {
   it("reconstructs Team seeds through Domain factories", async () => {

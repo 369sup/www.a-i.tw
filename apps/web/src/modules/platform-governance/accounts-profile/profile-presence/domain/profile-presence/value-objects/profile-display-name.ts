@@ -1,4 +1,4 @@
-import { InvalidProfileDisplayNameError } from "../errors/invalid-profile-display-name.error";
+import { InvalidProfileDisplayNameError } from "../errors/invalid-profile-display-name-error";
 
 declare const profileDisplayNameBrand: unique symbol;
 

@@ -6,13 +6,13 @@ import {
 } from "../../domain/discussions/aggregates/discussion";
 import type { DiscussionCategory } from "../../domain/discussions/aggregates/discussion-category";
 import type { DiscussionPrincipal } from "../ports/inbound/discussion-principal";
-import type { DiscussionCategoryStore } from "../ports/outbound/discussion-category-store.port";
-import type { DiscussionStore } from "../ports/outbound/discussion-store.port";
-import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety.port";
+import type { DiscussionCategoryStore } from "../ports/outbound/discussion-category-store-port";
+import type { DiscussionStore } from "../ports/outbound/discussion-store-port";
+import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety-port";
 import type {
   DiscussionParticipationAction,
   RepositoryDiscussionParticipation,
-} from "../ports/outbound/repository-discussion-participation.port";
+} from "../ports/outbound/repository-discussion-participation-port";
 
 export type DiscussionSummary = Readonly<{
   discussionId: string;

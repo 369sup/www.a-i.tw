@@ -1,4 +1,4 @@
-import { InvalidRepositoryIdError } from "../errors/invalid-repository-id.error";
+import { InvalidRepositoryIdError } from "../errors/invalid-repository-id-error";
 
 declare const repositoryIdBrand: unique symbol;
 

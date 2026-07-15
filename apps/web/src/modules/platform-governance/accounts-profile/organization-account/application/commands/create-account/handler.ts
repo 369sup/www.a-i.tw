@@ -1,9 +1,9 @@
 import type { OrganizationRefV1 } from "../../../contracts/v1/public";
 import { createOrganization } from "../../../domain/organization-account/aggregates/account";
-import type { CreateAccountUseCase } from "../../ports/inbound/create-account.use-case";
-import type { ProfileDirectory } from "../../ports/outbound/profile-directory.port";
-import type { AccountStore } from "../../ports/outbound/account-store.port";
-import type { OrganizationMembershipWriter } from "../../ports/outbound/organization-membership-writer.port";
+import type { CreateAccountUseCase } from "../../ports/inbound/create-account-use-case";
+import type { ProfileDirectory } from "../../ports/outbound/profile-directory-port";
+import type { AccountStore } from "../../ports/outbound/account-store-port";
+import type { OrganizationMembershipWriter } from "../../ports/outbound/organization-membership-writer-port";
 import type { CreateAccountCommand } from "./command";
 
 export function createCreateAccountHandler(

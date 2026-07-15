@@ -15,14 +15,14 @@ import {
   type Repository,
 } from "../../domain/repository-governance/aggregates/repository";
 import type { RepositoryPrincipal } from "../ports/inbound/repository-principal";
-import type { AccountDirectory } from "../ports/outbound/account-directory.port";
-import type { EnterpriseRepositoryGovernance } from "../ports/outbound/enterprise-repository-governance.port";
+import type { AccountDirectory } from "../ports/outbound/account-directory-port";
+import type { EnterpriseRepositoryGovernance } from "../ports/outbound/enterprise-repository-governance-port";
 import type {
   RepositoryAuthorization,
   RepositoryAuthorizationAction,
   RepositoryAuthorizationDecision,
   RepositoryAuthorizationRole,
-} from "../ports/outbound/repository-authorization.port";
+} from "../ports/outbound/repository-authorization-port";
 
 export interface RepositoryStore {
   list(): Promise<Repository[]>;
@@ -311,7 +311,7 @@ function toRef(repository: Repository): RepositoryRefV1 {
 
 function toAuthorizationResource(
   repository: Repository,
-): import("../ports/outbound/repository-authorization.port").RepositoryAuthorizationResource {
+): import("../ports/outbound/repository-authorization-port").RepositoryAuthorizationResource {
   return {
     repositoryId: repository.id,
     ownerAccountId: repository.owner.accountId,

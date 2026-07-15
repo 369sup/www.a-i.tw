@@ -19,14 +19,14 @@ export async function loginAction(formData: FormData) {
     );
     await establishBrowserSession(session);
   } catch {
-    redirect("/login?error=invalid-credentials");
+    redirect("/sign-in?error=invalid-credentials");
   }
-  redirect("/repositories");
+  redirect("/dashboard");
 }
 
 export async function logoutAction() {
   const token = await browserSessionToken();
   if (token) await getProductComposition().identity.revokeSession(token);
   await clearBrowserSession();
-  redirect("/login");
+  redirect("/sign-in");
 }

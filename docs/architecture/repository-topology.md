@@ -80,6 +80,9 @@ composition/component `.tsx` 檔名仍禁止。
 `icon.tsx`、`apple-icon.tsx`、`opengraph-image.tsx` 與 `twitter-image.tsx` 是 metadata image conventions，
 可用 JSX 產生圖像，但不得作為一般 UI component 或 product behavior 的容器。
 
+Root `manifest.ts`、`robots.ts` 與 `sitemap.ts` 是 Next.js metadata Route Handlers，只描述 web delivery metadata
+與公開 crawl surface；不得承載 product ownership、legal policy、visibility rule 或 authorization decision。
+
 ## Forbidden parallel structures
 
 - root `modules/`：產品 Context 唯一位置是 `apps/web/src/modules/`。

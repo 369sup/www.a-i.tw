@@ -1,4 +1,4 @@
-import type { SubscriptionStore } from "../../../application/ports/outbound/subscription-store.port";
+import type { SubscriptionStore } from "../../../application/ports/outbound/subscription-store-port";
 import type {
   ConversationSubscription,
   RepositoryWatch,

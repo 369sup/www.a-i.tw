@@ -1,23 +1,80 @@
 # Current Work State
 ## Objective
-Correct the Enterprise settings slice so it follows the repository's Domain-Driven Modular Monolith, Hexagonal Architecture, public-boundary rules, and the normative tactical naming contract in apps/web/src/modules/AGENTS.md.
+Build substantive GitHub non-Code vertical slices from approved use cases, with Account/Profile provisioning now recoverable across Context boundaries.
+
 ## Scope
-Enterprise Account, Administrative Access Control, Policy Governance, final App Router composition, Context Map metadata, canonical architecture documentation, tactical naming enforcement, focused tests, and Serena checkpoint only. Unrelated dirty work remains untouched.
+Canonical Use Case-first architecture documentation and the approved user-account first use case. No UI changes and no speculative Managed Account, suspension, event, or new contract semantics.
+
 ## Confirmed Decisions
-`public-api.ts` is the application-internal app-facing public boundary. `contracts/vN/public.ts` is the formal versioned language published to peer Contexts. Peer calls use a consumer-owned Application Port plus `adapters/outbound/integrations` ACL importing only the provider contract. The module topology and angle-bracket artifact names in `apps/web/src/modules/AGENTS.md` are normative; nearby legacy filenames and a green checker never override them. Before creating an artifact, classify owner, approved capability/use case, layer, tactical category, role, consumers, and contract.
+- No fixed Value Object-first, Entity-first, Contract-first, or Adapter-first order.
+- The canonical slice order starts with approved use case, acceptance/failure cases and invariants.
+- PersonalAccount is the Aggregate Root for the approved first slice.
+- UserAccountId, UserAccountHandle and PrincipalReference are required by the use case.
+- PersonalAccount owns an internal provisioning -> active transition.
+- Provisioning is never published through PersonalAccountRefV1 and is hidden from account queries.
+- ProfileDirectory.save is idempotent by accountId; retry reuses the provisioning Account and its id.
+- A retry must use the same canonical handle; different input is a provisioning conflict.
+- Principal input is normalized before uniqueness lookup, preventing whitespace variants from bypassing one-account-per-principal.
+- Existing seed Accounts reconstruct through createPersonalAccount then activatePersonalAccount.
+- Profile remains owned by profile-presence; there is no cross-Context Aggregate or database transaction.
+- Context7 Vitest v4.1.6 documentation was used as the closest documented version to installed v4.1.10 for rejected promises, fail-once mocks and call-count assertions.
+
 ## Completed
-Reduced the Enterprise route page to final composition; moved Context-owned UI and form mapping into inbound adapters; moved transport-neutral view models to `application/dto`; split server-action mapping into one explicitly named action per file; changed the task slice to kebab-case filenames without legacy `.port.ts` or `.adapter.ts` suffixes. Replaced direct Enterprise Application-service injection with consumer-owned Administrative and Policy ACL adapters over `EnterpriseAccountDirectoryApiV1`. Documented the two public surfaces. Added topology guards that require kebab-case `.tsx` files in inbound UI and kebab-case `.ts` files in server-actions, plus regression tests. Added an artifact-classification and green-check limitation rule to the module AGENTS contract.
+- Unified canonical development documentation around Use Case-first vertical slices.
+- Documented user-account actor, input, result, failures, source of truth and consistency.
+- Added UserAccountId, UserAccountHandle, PrincipalReference and specific errors.
+- Added internal provisioning state, retry validation and one-way activation behavior.
+- Updated User Account Application orchestration to persist provisioning, initialize Profile, activate and save.
+- Added failure/retry tests proving hidden partial state, stable Account id, two Profile attempts and final activation.
+- Added Principal normalization before lookup.
+
 ## In Progress
-Final reporting only.
+- Prior naming migration remains validated but unstaged and overlaps user-account Port filenames.
+
 ## Pending
-The repository still has legacy dotted tactical filenames outside this task slice. Do not mass-rename them incidentally; enforce additional leaf categories only through a scoped migration with regression tests. No change to closed templateVersion 2 is approved.
+- Audit Enterprise Account first use case and Team first use case using the same protocol.
+- Decide whether durable production persistence later needs an explicit worker/outbox around provisioning; current in-process retry semantics are correct for the approved in-memory slice.
+
 ## Modified Files
-Task-owned changes are under `apps/web/src/app/(console)/settings/enterprises`; Enterprise Account inbound UI, server-actions, DTO, Port, integration adapter, public API and tests; Administrative Access Control Port/ACL/service/composition/tests/manifest; Policy Governance inbound UI/server-action, Ports/ACL/composition/public API/tests/manifest; `apps/web/src/composition/product-composition.ts`; `apps/web/src/modules/AGENTS.md`; `scripts/architecture/check-context-target-topology.mjs`; `tests/architecture/src/dependency-rules.test.ts`; `docs/architecture/context-internal-topology.md`; and `docs/domains/context-map.json`. Other dirty files pre-existed and remain unrelated.
+- docs/architecture/ddd-hexagonal-standard.md
+- apps/web/src/modules/AGENTS.md
+- apps/web/src/modules/platform-governance/accounts-profile/organization-account/README.md
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/README.md
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/aggregates/personal-account.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/value-objects/user-account-id.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/value-objects/user-account-handle.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/value-objects/principal-reference.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-user-account-id-error.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-user-account-handle-error.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-principal-reference-error.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-personal-account-transition-error.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/personal-account-provisioning-conflict-error.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/application/use-cases/user-account-service.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/adapters/outbound/persistence/in-memory-user-account-store.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/tests/domain/personal-account.test.ts
+- apps/web/src/modules/platform-governance/accounts-profile/user-account/tests/application/account-profile.test.ts
+- .serena/memories/current-work-state.md
+
 ## Git Anchor
-Branch: main. HEAD: 1f1fe2e7684de486e9221fa8e5f1854b674960bb. Working tree remains dirty with both this slice and unrelated pre-existing App Router, authentication, search, architecture, E2E, Playwright artifact, and Repository semantic changes.
+- branch: main
+- HEAD: 7bf385cf6db8ffafb09c9b8c27356f3ce984111c
+- working tree: dirty; current slice, prior naming migration and unrelated user changes remain unstaged
+
 ## Validation
-Serena diagnostics reported no errors for 22 changed Enterprise, Policy, Administrative ACL, composition, route, and architecture-test files. Web tests passed: 56 files, 129 tests. Typecheck passed. Next.js 16.2.10 production build passed with 28 routes. Full architecture check passed, including 85 architecture tests and the new naming regressions. docs:check passed. Earlier Semgrep completed with 0 findings across 490 targets. git diff --check passed and the focused diff was inspected.
+- Serena diagnostics: zero on all changed TypeScript files.
+- Focused User Account tests: 2 files, 7 tests passed.
+- Full Web tests: 57 files, 135 tests passed.
+- @a-i/web typecheck passed.
+- @a-i/web build passed on Next.js 16.2.10 with 28 routes.
+- pnpm docs:check passed.
+- pnpm arch:check passed; 90 architecture tests passed.
+- @a-i/web lint completed with one unrelated existing warning in app/(console)/dashboard/page.tsx and zero errors.
+- git diff --check passed with only an existing CRLF normalization warning for current-work-state.
+
 ## Known Risks
-The working tree contains substantial unrelated changes, so broad diff statistics are not task-isolated. The naming guard intentionally covers only the two exact leaf categories implicated by this deviation; broader legacy naming debt remains explicit rather than being silently rewritten.
+- Durable multi-process delivery is not part of the approved in-memory slice; a future database-backed implementation may require an outbox/worker and lease/retry policy.
+- The large dirty working tree requires path-scoped staging and commits.
+- User-account Port rename files belong to the prior naming migration, not this semantic slice.
+
 ## Next Action
-For every new module artifact, read the nearest AGENTS contract first, classify it against the exact placeholder before editing, and distinguish unchecked natural-language rules from mechanically enforced rules.
+Audit and implement the approved Enterprise Account first use case, then correct Team aggregate classification based on its independent Store and transaction boundary.

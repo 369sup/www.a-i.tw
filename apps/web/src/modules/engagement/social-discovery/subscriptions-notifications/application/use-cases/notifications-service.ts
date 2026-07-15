@@ -1,10 +1,10 @@
-import type { NotificationStore } from "../ports/outbound/notification-store.port";
+import type { NotificationStore } from "../ports/outbound/notification-store-port";
 import {
   createNotification,
   triageNotification,
   type Notification,
 } from "../../domain/subscriptions-notifications/aggregates/notification";
-import { NotificationNotFoundError } from "../../domain/subscriptions-notifications/errors/notification-not-found.error";
+import { NotificationNotFoundError } from "../../domain/subscriptions-notifications/errors/notification-not-found-error";
 import type { NotificationTriageAction } from "../../domain/subscriptions-notifications/value-objects/notification-triage";
 
 export function createNotificationsService(

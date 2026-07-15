@@ -1,4 +1,4 @@
-import { InvalidProfileWebsiteError } from "../errors/invalid-profile-website.error";
+import { InvalidProfileWebsiteError } from "../errors/invalid-profile-website-error";
 
 declare const profileWebsiteBrand: unique symbol;
 

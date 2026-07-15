@@ -1,0 +1,23 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - paragraph [ref=e5]: a-i.tw
+      - generic [ref=e6]: 登入
+      - generic [ref=e7]: 驗證 User 身分並建立 Session。Organization 與 Enterprise 不會成為登入 Actor。
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Login
+          - textbox "Login" [ref=e12]
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic [ref=e15]: Password
+            - link "忘記密碼？" [ref=e16] [cursor=pointer]:
+              - /url: /forgot-password
+          - textbox "Password" [ref=e17]
+        - button "Login" [ref=e18]
+      - paragraph [ref=e19]: "Mock access: admin or grace / 123456"
+    - generic [ref=e20]:
+      - text: 還沒有帳號？
+      - link "查看註冊狀態" [ref=e21] [cursor=pointer]:
+        - /url: /sign-up

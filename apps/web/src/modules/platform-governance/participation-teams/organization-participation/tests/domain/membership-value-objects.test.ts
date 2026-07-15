@@ -7,9 +7,9 @@ import {
   issueMembershipInvitation,
   removeMembership,
 } from "../../domain/organization-participation/entities/membership";
-import { InvalidMembershipIdError } from "../../domain/organization-participation/errors/invalid-membership-id.error";
-import { InvalidMembershipInvitationIdError } from "../../domain/organization-participation/errors/invalid-membership-invitation-id.error";
-import { InvalidMembershipTransitionError } from "../../domain/organization-participation/errors/invalid-membership-transition.error";
+import { InvalidMembershipIdError } from "../../domain/organization-participation/errors/invalid-membership-id-error";
+import { InvalidMembershipInvitationIdError } from "../../domain/organization-participation/errors/invalid-membership-invitation-id-error";
+import { InvalidMembershipTransitionError } from "../../domain/organization-participation/errors/invalid-membership-transition-error";
 import {
   createMembershipInvitationExpiry,
   MEMBERSHIP_INVITATION_TTL_MS,

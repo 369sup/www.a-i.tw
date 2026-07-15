@@ -1,4 +1,4 @@
-import { InvalidAuthenticationMethodError } from "../errors/invalid-authentication-method.error";
+import { InvalidAuthenticationMethodError } from "../errors/invalid-authentication-method-error";
 
 export type AuthenticationMethod = "password";
 

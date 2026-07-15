@@ -13,9 +13,9 @@ import {
   type Session,
 } from "../../domain/authentication-security/entities/session";
 import { hasSessionExpired } from "../../domain/authentication-security/value-objects/session-expiry";
-import type { CredentialVerifier } from "../ports/outbound/credential-verifier.port";
-import type { PrincipalStore } from "../ports/outbound/principal-store.port";
-import type { SessionStore } from "../ports/outbound/session-store.port";
+import type { CredentialVerifier } from "../ports/outbound/credential-verifier-port";
+import type { PrincipalStore } from "../ports/outbound/principal-store-port";
+import type { SessionStore } from "../ports/outbound/session-store-port";
 
 export type BrowserSessionResult = Readonly<{
   token: string;

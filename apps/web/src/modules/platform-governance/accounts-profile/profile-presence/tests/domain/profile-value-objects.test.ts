@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { InvalidProfileBioError } from "../../domain/profile-presence/errors/invalid-profile-bio.error";
-import { InvalidProfileDisplayNameError } from "../../domain/profile-presence/errors/invalid-profile-display-name.error";
-import { InvalidProfileWebsiteError } from "../../domain/profile-presence/errors/invalid-profile-website.error";
+import { InvalidProfileBioError } from "../../domain/profile-presence/errors/invalid-profile-bio-error";
+import { InvalidProfileDisplayNameError } from "../../domain/profile-presence/errors/invalid-profile-display-name-error";
+import { InvalidProfileWebsiteError } from "../../domain/profile-presence/errors/invalid-profile-website-error";
 import {
   createProfileBio,
   PROFILE_BIO_MAX_LENGTH,

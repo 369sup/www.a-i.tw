@@ -4,8 +4,8 @@ import {
   type Project,
 } from "../../domain/work-planning/aggregates/project";
 import type { ProjectSummaryV1 } from "../../contracts/v1/public";
-import type { AccountOwnerDirectory } from "../ports/outbound/account-owner-directory.port";
-import type { IssueDirectory } from "../ports/outbound/issue-directory.port";
+import type { AccountOwnerDirectory } from "../ports/outbound/account-owner-directory-port";
+import type { IssueDirectory } from "../ports/outbound/issue-directory-port";
 export interface ProjectStore {
   list(ownerAccountId: string): Promise<Project[]>;
   find(id: string): Promise<Project | undefined>;

@@ -1,5 +1,5 @@
 import { activateMembership } from "../../domain/organization-participation/entities/membership";
-import type { MembershipStore } from "../ports/outbound/membership-store.port";
+import type { MembershipStore } from "../ports/outbound/membership-store-port";
 
 export function createFoundingMembershipWriter(store: MembershipStore) {
   return {

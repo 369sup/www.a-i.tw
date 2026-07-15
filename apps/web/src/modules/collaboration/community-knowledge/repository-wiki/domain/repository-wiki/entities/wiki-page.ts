@@ -1,4 +1,4 @@
-import { InvalidWikiPageError } from "../errors/invalid-wiki-page.error";
+import { InvalidWikiPageError } from "../errors/invalid-wiki-page-error";
 import {
   createWikiPageContent,
   type WikiPageContent,

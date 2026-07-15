@@ -1,4 +1,4 @@
-import { InvalidPrincipalStatusError } from "../errors/invalid-principal-status.error";
+import { InvalidPrincipalStatusError } from "../errors/invalid-principal-status-error";
 
 export type PrincipalStatus = "active" | "disabled";
 

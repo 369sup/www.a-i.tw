@@ -1,4 +1,4 @@
-import { InvalidWikiPageError } from "../errors/invalid-wiki-page.error";
+import { InvalidWikiPageError } from "../errors/invalid-wiki-page-error";
 
 export type WikiPageContent = string & { readonly __brand: "WikiPageContent" };
 

@@ -5,8 +5,8 @@ import type {
 import { defineAccountProfile } from "../../domain/profile-presence/entities/profile";
 import { createUpdateProfileHandler } from "../commands/update-profile/handler";
 import type { UpdateProfileCommand } from "../commands/update-profile/command";
-import type { ProfileAccountDirectory } from "../ports/outbound/account-directory.port";
-import type { ProfileStore } from "../ports/outbound/profile-store.port";
+import type { ProfileAccountDirectory } from "../ports/outbound/account-directory-port";
+import type { ProfileStore } from "../ports/outbound/profile-store-port";
 
 export interface ProfileService extends ProfileDirectoryApiV1 {
   resolve(accountId: string): Promise<AccountProfileV1 | undefined>;

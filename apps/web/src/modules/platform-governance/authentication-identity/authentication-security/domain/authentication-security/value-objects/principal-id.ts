@@ -1,4 +1,4 @@
-import { InvalidPrincipalIdError } from "../errors/invalid-principal-id.error";
+import { InvalidPrincipalIdError } from "../errors/invalid-principal-id-error";
 
 declare const principalIdBrand: unique symbol;
 

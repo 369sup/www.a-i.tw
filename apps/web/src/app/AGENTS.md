@@ -10,7 +10,12 @@ app/
 ├── README.md
 ├── favicon.ico
 ├── globals.css
-└── layout.tsx
+├── layout.tsx
+├── global-error.tsx  # optional root error boundary
+├── not-found.tsx     # optional root not-found UI
+├── manifest.ts       # optional root metadata route
+├── robots.ts         # optional root metadata route
+└── sitemap.ts        # optional root metadata route
 ```
 
 - Root entries MUST match this tree exactly. Routable segments MUST live below exactly one of `(public)` or `(console)`;
@@ -58,6 +63,8 @@ app/
 - `default.tsx` is limited to a parallel-route slot or the segment that owns parallel-route slots.
 - `global-error.tsx` and `global-not-found.tsx` follow their root-level Next.js placement rules. `global-not-found.tsx`,
   `unauthorized.tsx`, and `forbidden.tsx` must not be used without the corresponding supported Next.js configuration.
+- `manifest.ts`, `robots.ts`, and `sitemap.ts` are optional root metadata Route Handlers. They describe delivery metadata
+  and crawler behavior; they do not own product policy, authorization, or business semantics.
 - Custom composition and component TSX filenames remain forbidden.
 - `icon.tsx`, `apple-icon.tsx`, `opengraph-image.tsx`, and `twitter-image.tsx` are metadata image conventions; they may
   generate images with JSX but must not become general-purpose UI component containers.

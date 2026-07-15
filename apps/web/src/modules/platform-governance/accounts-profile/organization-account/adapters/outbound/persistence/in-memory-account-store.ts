@@ -1,4 +1,4 @@
-import type { AccountStore } from "../../../application/ports/outbound/account-store.port";
+import type { AccountStore } from "../../../application/ports/outbound/account-store-port";
 import {
   createOrganization,
   type Account,

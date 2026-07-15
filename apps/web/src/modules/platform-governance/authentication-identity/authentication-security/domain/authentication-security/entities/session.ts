@@ -1,4 +1,4 @@
-import { InvalidSessionTransitionError } from "../errors/invalid-session-transition.error";
+import { InvalidSessionTransitionError } from "../errors/invalid-session-transition-error";
 import {
   createAuthenticationAssurance,
   type AuthenticationAssurance,

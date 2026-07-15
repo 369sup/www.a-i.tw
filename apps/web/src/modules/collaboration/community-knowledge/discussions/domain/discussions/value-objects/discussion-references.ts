@@ -1,4 +1,4 @@
-import { InvalidDiscussionValueError } from "../errors/invalid-discussion-value.error";
+import { InvalidDiscussionValueError } from "../errors/invalid-discussion-value-error";
 
 export type DiscussionRepositoryRef = Readonly<{ repositoryId: string }>;
 export type DiscussionAuthorRef = Readonly<{ principalId: string }>;

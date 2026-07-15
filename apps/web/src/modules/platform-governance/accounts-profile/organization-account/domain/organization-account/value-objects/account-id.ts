@@ -1,4 +1,4 @@
-import { InvalidAccountIdError } from "../errors/invalid-account-id.error";
+import { InvalidAccountIdError } from "../errors/invalid-account-id-error";
 
 declare const accountIdBrand: unique symbol;
 

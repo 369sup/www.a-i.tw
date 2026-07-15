@@ -8,14 +8,15 @@ test("registers and lists a private GitHub App from developer settings", async (
   const homepageUrl = `https://example.com/apps/${suffix}`;
   const callbackUrl = `https://example.com/apps/${suffix}/callback`;
 
-  await page.goto("/login");
+  await page.goto("/sign-in");
   await page.getByLabel("Login").fill("admin");
   await page.getByLabel("Password").fill("123456");
   await page.getByRole("button", { name: "Login" }).click();
-  await expect(page).toHaveURL(/\/repositories/);
+  await expect(page).toHaveURL(/\/dashboard/);
 
   await page.getByRole("button", { name: "Open profile menu" }).click();
-  await page.getByRole("menuitem", { name: "GitHub Apps" }).click();
+  await page.getByRole("menuitem", { name: "Settings" }).click();
+  await page.getByRole("link", { name: /GitHub Apps/ }).click();
   await expect(page).toHaveURL(/\/settings\/apps$/);
   await expect(
     page.getByRole("heading", { name: "GitHub Apps" }),

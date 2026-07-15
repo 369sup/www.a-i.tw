@@ -5,9 +5,9 @@ import type {
 import type { Account } from "../../domain/organization-account/aggregates/account";
 import { createCreateAccountHandler } from "../commands/create-account/handler";
 import type { CreateAccountCommand } from "../commands/create-account/command";
-import type { ProfileDirectory } from "../ports/outbound/profile-directory.port";
-import type { AccountStore } from "../ports/outbound/account-store.port";
-import type { OrganizationMembershipWriter } from "../ports/outbound/organization-membership-writer.port";
+import type { ProfileDirectory } from "../ports/outbound/profile-directory-port";
+import type { AccountStore } from "../ports/outbound/account-store-port";
+import type { OrganizationMembershipWriter } from "../ports/outbound/organization-membership-writer-port";
 
 export interface AccountService {
   listAccounts(): Promise<OrganizationRefV1[]>;

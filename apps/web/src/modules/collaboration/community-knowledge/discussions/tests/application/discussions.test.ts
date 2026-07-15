@@ -18,7 +18,7 @@ function fixture(triagers: readonly string[] = [], interactionAllowed = true) {
     principal,
     action,
   }: Parameters<
-    import("../../application/ports/outbound/repository-discussion-participation.port").RepositoryDiscussionParticipation["allowed"]
+    import("../../application/ports/outbound/repository-discussion-participation-port").RepositoryDiscussionParticipation["allowed"]
   >[0]) =>
     principal.status === "active" &&
     (action !== "discussion:triage" ||

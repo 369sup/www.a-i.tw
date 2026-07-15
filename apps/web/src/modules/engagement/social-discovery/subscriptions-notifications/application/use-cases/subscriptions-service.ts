@@ -4,7 +4,7 @@ import {
   type RepositoryWatchMode,
   type WatchEventType,
 } from "../../domain/subscriptions-notifications/aggregates/subscription";
-import type { SubscriptionStore } from "../ports/outbound/subscription-store.port";
+import type { SubscriptionStore } from "../ports/outbound/subscription-store-port";
 
 export type SubscriptionRecipient = Readonly<{
   principalId: string;

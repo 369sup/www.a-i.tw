@@ -1,4 +1,4 @@
-import type { ProfileStore } from "../../../application/ports/outbound/profile-store.port";
+import type { ProfileStore } from "../../../application/ports/outbound/profile-store-port";
 import {
   defineAccountProfile,
   type AccountProfile,

@@ -14,8 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "www.a-i.tw",
-  description: "Domain-Driven Modular Monolith with Hexagonal Architecture",
+  metadataBase: new URL("https://www.a-i.tw"),
+  title: {
+    default: "www.a-i.tw",
+    template: "%s · www.a-i.tw",
+  },
+  description: "Collaborative software development and governance.",
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({

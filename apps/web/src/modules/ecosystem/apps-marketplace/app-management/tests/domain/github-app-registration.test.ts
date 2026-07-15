@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createGitHubAppRegistration } from "../../domain/app-registration/aggregates/github-app-registration";
-import { InvalidAppRegistrationError } from "../../domain/app-registration/errors/invalid-app-registration.error";
+import { InvalidAppRegistrationError } from "../../domain/app-registration/errors/invalid-app-registration-error";
 
 describe("GitHub App Registration", () => {
   it("creates a private Personal Account-owned registration", () => {

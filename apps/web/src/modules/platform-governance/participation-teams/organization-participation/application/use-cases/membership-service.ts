@@ -1,5 +1,5 @@
 import type { MembershipFactV1 } from "../../contracts/v1/public";
-import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory.port";
+import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory-port";
 import {
   acceptMembershipInvitation,
   activateMembership,
@@ -12,8 +12,8 @@ import {
 import { hasMembershipInvitationExpired } from "../../domain/organization-participation/value-objects/membership-invitation-expiry";
 import type { MembershipRole } from "../../domain/organization-participation/value-objects/membership-role";
 import type { AccountPrincipal } from "../ports/inbound/account-principal";
-import type { MembershipInvitationStore } from "../ports/outbound/membership-invitation-store.port";
-import type { MembershipStore } from "../ports/outbound/membership-store.port";
+import type { MembershipInvitationStore } from "../ports/outbound/membership-invitation-store-port";
+import type { MembershipStore } from "../ports/outbound/membership-store-port";
 
 export interface MembershipService {
   membership(

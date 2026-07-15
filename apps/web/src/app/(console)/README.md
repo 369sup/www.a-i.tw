@@ -9,8 +9,10 @@ and does not appear in URLs.
 
 ```text
 (console)/
+├── dashboard/   authenticated Personal Dashboard composition
 ├── account/     account-scoped creation flows
-├── settings/    organization and enterprise settings
+├── notifications/ recipient-scoped inbox
+├── settings/    navigation plus organization, enterprise and app settings
 └── repositories/ authenticated Repository management and parallel panels
 ```
 

@@ -24,3 +24,6 @@ Allowed TSX entrypoints below `app/**` are the Next.js conventions `page.tsx`, `
 `default.tsx` remains limited to parallel routes; global and experimental conventions must follow the installed Next.js
 version's placement and configuration requirements. Metadata image conventions generate route metadata and do not own
 general-purpose UI components.
+
+Root `manifest.ts`, `robots.ts`, and `sitemap.ts` are metadata Route Handlers. They describe web delivery metadata and
+the public crawl surface; they do not own product, legal, visibility, or authorization semantics.

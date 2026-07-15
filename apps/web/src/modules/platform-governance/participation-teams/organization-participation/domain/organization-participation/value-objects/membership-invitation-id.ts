@@ -1,4 +1,4 @@
-import { InvalidMembershipInvitationIdError } from "../errors/invalid-membership-invitation-id.error";
+import { InvalidMembershipInvitationIdError } from "../errors/invalid-membership-invitation-id-error";
 
 declare const membershipInvitationIdBrand: unique symbol;
 

@@ -1,4 +1,4 @@
-import { InvalidProfileBioError } from "../errors/invalid-profile-bio.error";
+import { InvalidProfileBioError } from "../errors/invalid-profile-bio-error";
 
 declare const profileBioBrand: unique symbol;
 

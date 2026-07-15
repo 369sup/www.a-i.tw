@@ -1,4 +1,4 @@
-import type { RepositoryInteractionLimitStore } from "../../../application/ports/outbound/repository-interaction-limit-store.port";
+import type { RepositoryInteractionLimitStore } from "../../../application/ports/outbound/repository-interaction-limit-store-port";
 import type { RepositoryInteractionLimit } from "../../../domain/community-safety/aggregates/repository-interaction-limit";
 
 export function createInMemoryRepositoryInteractionLimitStore(

@@ -3,7 +3,7 @@ import {
   createSearchDocument,
   matchesSearch,
 } from "../../domain/search-discovery/entities/search-document";
-import { InvalidSearchDocumentError } from "../../domain/search-discovery/errors/invalid-search-document.error";
+import { InvalidSearchDocumentError } from "../../domain/search-discovery/errors/invalid-search-document-error";
 import { createSearchQuery } from "../../domain/search-discovery/value-objects/search-query";
 
 describe("Search Document projection", () => {

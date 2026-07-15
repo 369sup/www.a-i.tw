@@ -10,10 +10,15 @@ result when a valid session exists; every data-producing use case still enforces
 ```text
 (public)/
 ├── page.tsx    public or session-aware home
-├── login/      authentication entry
+├── sign-in/    canonical authentication entry
+├── sign-up/    registration capability status
+├── forgot-password/, reset-password/, verify-email/  lifecycle capability status
+├── accept-invitation/ optionally authenticated membership transition
+├── privacy/, terms/, accessibility/  public policy and experience foundations
+├── search/     public documentation or authenticated product scope by Session
 ├── logout/     session termination
 ├── docs/       Fumadocs pages sourced from content/docs
-└── api/search-discovery/ public documentation search endpoint
+└── api/search/ public documentation search endpoint
 ```
 
 The route-group name does not appear in URLs. Product behavior remains in the owning Bounded Context; public MDX source

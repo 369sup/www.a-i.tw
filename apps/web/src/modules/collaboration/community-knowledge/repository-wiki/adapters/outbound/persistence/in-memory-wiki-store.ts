@@ -1,4 +1,4 @@
-import type { WikiStore } from "../../../application/ports/outbound/wiki-store.port";
+import type { WikiStore } from "../../../application/ports/outbound/wiki-store-port";
 import type { Wiki } from "../../../domain/repository-wiki/aggregates/wiki";
 
 export function createInMemoryWikiStore(seed: readonly Wiki[] = []): WikiStore {

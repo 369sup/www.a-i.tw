@@ -1,0 +1,60 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e26] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e27]
+    - generic [ref=e31]:
+      - button "Open issues overlay" [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: "0"
+          - generic [ref=e35]: "1"
+        - generic [ref=e36]: Issue
+      - button "Collapse issues badge" [ref=e37]
+  - alert [ref=e40]
+  - banner [ref=e41]:
+    - link "a-i.tw" [ref=e42] [cursor=pointer]:
+      - /url: /dashboard
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - heading "Product search" [level=2] [ref=e49]
+        - paragraph [ref=e50]: Search accessible product resources
+      - button "Ada Lovelace" [ref=e51]:
+        - generic [ref=e52]: A
+      - link "Notifications" [ref=e57] [cursor=pointer]:
+        - /url: /notifications
+      - button "Open profile menu" [ref=e61]:
+        - generic [ref=e62]: A
+  - main [ref=e64]:
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: Personal Dashboard · @ada
+        - heading "歡迎回來，Ada Lovelace" [level=1] [ref=e68]
+        - paragraph [ref=e69]: 這是依目前 Principal 組合的 consumer read model；Repository、Notification 與 Activity 仍由各自 owner 提供事實。
+      - link "Search" [ref=e70] [cursor=pointer]:
+        - /url: /search
+    - generic [ref=e74]:
+      - generic [ref=e75]:
+        - generic [ref=e76]: Visible repositories
+        - strong [ref=e84]: "2"
+      - generic [ref=e85]:
+        - generic [ref=e86]: Notification inbox
+        - strong [ref=e92]: "0"
+      - generic [ref=e93]:
+        - generic [ref=e94]: Activity feed items
+        - strong [ref=e97]: "0"
+    - generic [ref=e98]:
+      - generic [ref=e99]:
+        - heading "Repositories" [level=2] [ref=e100]
+        - link "Open repository management" [ref=e101] [cursor=pointer]:
+          - /url: /repositories
+      - generic [ref=e102]:
+        - link "research-notes A private space for early product research. private" [ref=e103] [cursor=pointer]:
+          - /url: /repositories?account=account-ada&repository=repository-notes
+          - generic [ref=e104]:
+            - strong [ref=e105]: research-notes
+            - generic [ref=e106]: A private space for early product research.
+          - generic [ref=e107]: private
+        - link "product-roadmap Planning and governance for the organization. public" [ref=e108] [cursor=pointer]:
+          - /url: /repositories?account=account-analytical&repository=repository-roadmap
+          - generic [ref=e109]:
+            - strong [ref=e110]: product-roadmap
+            - generic [ref=e111]: Planning and governance for the organization.
+          - generic [ref=e112]: public

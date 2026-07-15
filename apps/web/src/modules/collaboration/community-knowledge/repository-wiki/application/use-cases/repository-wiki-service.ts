@@ -5,8 +5,8 @@ import {
   findWikiPage,
 } from "../../domain/repository-wiki/aggregates/wiki";
 import type { RepositoryWikiPrincipal } from "../ports/inbound/repository-wiki-principal";
-import type { RepositoryWikiParticipation } from "../ports/outbound/repository-wiki-participation.port";
-import type { WikiStore } from "../ports/outbound/wiki-store.port";
+import type { RepositoryWikiParticipation } from "../ports/outbound/repository-wiki-participation-port";
+import type { WikiStore } from "../ports/outbound/wiki-store-port";
 
 export interface KnowledgeWikiService {
   createPage(input: {

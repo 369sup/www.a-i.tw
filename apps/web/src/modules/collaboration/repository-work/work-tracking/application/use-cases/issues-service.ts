@@ -14,11 +14,11 @@ import {
   type Label,
 } from "../../domain/work-tracking/entities/label";
 import type { IssuePrincipal } from "../ports/inbound/issue-principal";
-import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety.port";
+import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety-port";
 import type {
   IssueParticipationAction,
   RepositoryParticipation,
-} from "../ports/outbound/repository-participation.port";
+} from "../ports/outbound/repository-participation-port";
 
 export interface IssueStore {
   list(repositoryId: string): Promise<Issue[]>;

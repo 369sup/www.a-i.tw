@@ -1,4 +1,4 @@
-import { InvalidInteractionLimitError } from "../errors/invalid-interaction-limit.error";
+import { InvalidInteractionLimitError } from "../errors/invalid-interaction-limit-error";
 
 export type InteractionLimitKind = "collaborators_only";
 export type InteractionLimitExpiry = "one_day";

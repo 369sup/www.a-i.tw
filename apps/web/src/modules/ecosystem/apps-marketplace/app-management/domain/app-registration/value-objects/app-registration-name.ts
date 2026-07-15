@@ -1,4 +1,4 @@
-import { InvalidAppRegistrationError } from "../errors/invalid-app-registration.error";
+import { InvalidAppRegistrationError } from "../errors/invalid-app-registration-error";
 
 declare const appRegistrationName: unique symbol;
 export type AppRegistrationName = string & {

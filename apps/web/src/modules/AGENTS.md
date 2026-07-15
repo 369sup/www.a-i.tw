@@ -137,7 +137,9 @@ complete. It MUST be interpreted as follows:
 - Empty fixed directories, `.gitkeep`, `templateVersion` conformance and a passing topology check prove placement only.
   They do not prove that the Context has complete Domain semantics, use cases, Ports, Adapters, contracts or tests.
 - Do not create a Value Object, command, query, service, adapter or test merely to populate the template. Each artifact
-  requires approved semantics and evidence from an owned use case.
+  requires approved semantics and evidence from an owned use case. Derive the slice in the Use Case-first order owned
+  by `docs/architecture/ddd-hexagonal-standard.md`; there is no fixed Value Object-first, Entity-first or Contract-first
+  implementation sequence.
 
 Contexts are created only through `pnpm generate:context` after owner, Domain, strategic Subdomain, classification,
 problem, first use case and source of truth are approved. The primary Domain capability equals

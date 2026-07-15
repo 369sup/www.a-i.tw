@@ -1,4 +1,4 @@
-import { InvalidSessionExpiryError } from "../errors/invalid-session-expiry.error";
+import { InvalidSessionExpiryError } from "../errors/invalid-session-expiry-error";
 
 declare const sessionExpiryBrand: unique symbol;
 

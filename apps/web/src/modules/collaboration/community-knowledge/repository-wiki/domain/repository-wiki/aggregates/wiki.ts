@@ -1,5 +1,5 @@
-import { DuplicateWikiPageTitleError } from "../errors/duplicate-wiki-page-title.error";
-import { InvalidWikiPageError } from "../errors/invalid-wiki-page.error";
+import { DuplicateWikiPageTitleError } from "../errors/duplicate-wiki-page-title-error";
+import { InvalidWikiPageError } from "../errors/invalid-wiki-page-error";
 import { createWikiPage, type WikiPage } from "../entities/wiki-page";
 
 export type Wiki = Readonly<{

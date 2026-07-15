@@ -1,4 +1,4 @@
-import { InvalidTeamIdError } from "../errors/invalid-team-id.error";
+import { InvalidTeamIdError } from "../errors/invalid-team-id-error";
 
 declare const teamIdBrand: unique symbol;
 

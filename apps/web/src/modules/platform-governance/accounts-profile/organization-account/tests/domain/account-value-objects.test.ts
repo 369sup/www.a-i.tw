@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { InvalidAccountHandleError } from "../../domain/organization-account/errors/invalid-account-handle.error";
+import { InvalidAccountHandleError } from "../../domain/organization-account/errors/invalid-account-handle-error";
 import { createAccountHandle } from "../../domain/organization-account/value-objects/account-handle";
 import { createAccountId } from "../../domain/organization-account/value-objects/account-id";
 

@@ -29,7 +29,7 @@ export default async function NotificationsPage() {
           <h1 className="text-3xl font-semibold">Notifications</h1>
         </div>
         <Button asChild variant="outline">
-          <Link href="/">Back home</Link>
+          <Link href="/dashboard">Back to dashboard</Link>
         </Button>
       </div>
       {notifications.length === 0 ? (

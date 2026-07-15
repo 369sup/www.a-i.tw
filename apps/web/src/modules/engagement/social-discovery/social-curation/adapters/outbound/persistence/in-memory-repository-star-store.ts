@@ -1,4 +1,4 @@
-import type { RepositoryStarStore } from "../../../application/ports/outbound/repository-star-store.port";
+import type { RepositoryStarStore } from "../../../application/ports/outbound/repository-star-store-port";
 import type { RepositoryStar } from "../../../domain/social-curation/aggregates/repository-star";
 
 const keyOf = (principalId: string, repositoryId: string) =>

@@ -1,5 +1,5 @@
-import type { DiscussionCategoryStore } from "../../../application/ports/outbound/discussion-category-store.port";
-import type { DiscussionStore } from "../../../application/ports/outbound/discussion-store.port";
+import type { DiscussionCategoryStore } from "../../../application/ports/outbound/discussion-category-store-port";
+import type { DiscussionStore } from "../../../application/ports/outbound/discussion-store-port";
 import {
   createDiscussionCategory,
   type DiscussionCategory,

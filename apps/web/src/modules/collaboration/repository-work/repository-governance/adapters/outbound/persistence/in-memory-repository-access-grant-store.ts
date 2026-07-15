@@ -1,4 +1,4 @@
-import type { RepositoryAccessGrantStore } from "../../../application/ports/outbound/repository-access-grant-store.port";
+import type { RepositoryAccessGrantStore } from "../../../application/ports/outbound/repository-access-grant-store-port";
 import {
   createRepositoryAccessGrant,
   type RepositoryAccessGrant,

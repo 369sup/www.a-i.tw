@@ -1,4 +1,4 @@
-import { InvalidAccountHandleError } from "../errors/invalid-account-handle.error";
+import { InvalidAccountHandleError } from "../errors/invalid-account-handle-error";
 
 declare const accountHandleBrand: unique symbol;
 

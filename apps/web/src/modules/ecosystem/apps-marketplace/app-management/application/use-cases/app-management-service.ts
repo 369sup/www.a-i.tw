@@ -4,8 +4,8 @@ import type {
 } from "../../contracts/v1/public";
 import { createGitHubAppRegistration } from "../../domain/app-registration/aggregates/github-app-registration";
 import { appRegistrationNameKey } from "../../domain/app-registration/value-objects/app-registration-name";
-import type { AppRegistrationStore } from "../ports/outbound/app-registration-store.port";
-import type { PersonalAppOwnerDirectory } from "../ports/outbound/personal-app-owner-directory.port";
+import type { AppRegistrationStore } from "../ports/outbound/app-registration-store-port";
+import type { PersonalAppOwnerDirectory } from "../ports/outbound/personal-app-owner-directory-port";
 
 const toContract = (
   registration: GitHubAppRegistrationV1,

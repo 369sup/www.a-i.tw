@@ -1,4 +1,4 @@
-import { InvalidDiscussionValueError } from "../errors/invalid-discussion-value.error";
+import { InvalidDiscussionValueError } from "../errors/invalid-discussion-value-error";
 
 export type DiscussionState = "open" | "closed";
 

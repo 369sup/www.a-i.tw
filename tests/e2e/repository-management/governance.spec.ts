@@ -4,31 +4,36 @@ async function login(
   page: import("@playwright/test").Page,
   loginName = "admin",
 ) {
-  await page.goto("/login");
+  await page.goto("/sign-in");
   await page.getByLabel("Login").fill(loginName);
   await page.getByLabel("Password").fill("123456");
   await page.getByRole("button", { name: "Login" }).click();
+  await expect(page).toHaveURL(/\/dashboard/);
+  await page.goto("/repositories");
   await expect(page).toHaveURL(/\/repositories/);
 }
 
-test("rejects invalid credentials and supports Login to Profile to Logout", async ({
+test("rejects invalid credentials and supports Login to Dashboard to Logout", async ({
   page,
 }) => {
-  await page.goto("/repositories");
-  await expect(page).toHaveURL(/\/login$/);
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/sign-in$/);
   await page.getByLabel("Login").fill("admin");
   await page.getByLabel("Password").fill("wrong");
   await page.getByRole("button", { name: "Login" }).click();
   await expect(page.getByText("登入名稱或密碼不正確。")).toBeVisible();
-  await login(page);
-  await expect(page.getByText("Profile", { exact: true })).toBeVisible();
+  await page.getByLabel("Login").fill("admin");
+  await page.getByLabel("Password").fill("123456");
+  await page.getByRole("button", { name: "Login" }).click();
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.getByText("Personal Dashboard")).toBeVisible();
   await page.getByRole("button", { name: "Open profile menu" }).click();
   await page.getByRole("menuitem", { name: "Sign out" }).click();
   await page.getByRole("button", { name: "Confirm logout" }).click();
-  await expect(page).toHaveURL(/\/login$/);
-  await expect(page.getByRole("heading", { name: "登入" })).toBeVisible();
+  await expect(page).toHaveURL(/\/sign-in$/);
+  await expect(page.getByText("登入", { exact: true })).toBeVisible();
   await page.goto("/repositories");
-  await expect(page).toHaveURL(/\/login$/);
+  await expect(page).toHaveURL(/\/sign-in$/);
 });
 
 test("account and repository governance flows through all parallel repository slots", async ({

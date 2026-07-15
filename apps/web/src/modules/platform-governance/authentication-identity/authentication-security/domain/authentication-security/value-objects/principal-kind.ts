@@ -1,4 +1,4 @@
-import { InvalidPrincipalKindError } from "../errors/invalid-principal-kind.error";
+import { InvalidPrincipalKindError } from "../errors/invalid-principal-kind-error";
 
 export type PrincipalKind = "human" | "workload";
 

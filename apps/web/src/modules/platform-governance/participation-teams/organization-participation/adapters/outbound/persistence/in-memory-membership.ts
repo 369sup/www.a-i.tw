@@ -1,5 +1,5 @@
-import type { MembershipInvitationStore } from "../../../application/ports/outbound/membership-invitation-store.port";
-import type { MembershipStore } from "../../../application/ports/outbound/membership-store.port";
+import type { MembershipInvitationStore } from "../../../application/ports/outbound/membership-invitation-store-port";
+import type { MembershipStore } from "../../../application/ports/outbound/membership-store-port";
 import {
   acceptMembershipInvitation,
   activateMembership,

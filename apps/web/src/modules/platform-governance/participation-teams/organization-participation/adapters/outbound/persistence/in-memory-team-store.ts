@@ -1,4 +1,4 @@
-import type { TeamStore } from "../../../application/ports/outbound/team-store.port";
+import type { TeamStore } from "../../../application/ports/outbound/team-store-port";
 import {
   addTeamMember,
   createTeam,

@@ -9,10 +9,10 @@ import type {
 } from "../../contracts/v1/public";
 import { createRepositoryAccessGrant } from "../../domain/repository-governance/aggregates/repository-access-grant";
 import { decideRepositoryAccess } from "../../domain/repository-governance/policies/decide-repository-access";
-import type { AccountAuthorizationDirectory } from "../ports/outbound/account-authorization-directory.port";
-import type { IdentityDirectory } from "../ports/outbound/identity-directory.port";
-import type { RepositoryAccessGrantStore } from "../ports/outbound/repository-access-grant-store.port";
-import type { RepositoryAuthorization } from "../ports/outbound/repository-authorization.port";
+import type { AccountAuthorizationDirectory } from "../ports/outbound/account-authorization-directory-port";
+import type { IdentityDirectory } from "../ports/outbound/identity-directory-port";
+import type { RepositoryAccessGrantStore } from "../ports/outbound/repository-access-grant-store-port";
+import type { RepositoryAuthorization } from "../ports/outbound/repository-authorization-port";
 
 export type RepositoryAuthorizationService = RepositoryAuthorizationApiV1 &
   RepositoryAuthorization;

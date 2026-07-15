@@ -1,7 +1,7 @@
-import type { ConversationSubscriptionManagement } from "../ports/outbound/conversation-subscription-management.port";
-import type { NotificationStore } from "../ports/outbound/notification-store.port";
+import type { ConversationSubscriptionManagement } from "../ports/outbound/conversation-subscription-management-port";
+import type { NotificationStore } from "../ports/outbound/notification-store-port";
 import { triageNotification } from "../../domain/subscriptions-notifications/aggregates/notification";
-import { NotificationNotFoundError } from "../../domain/subscriptions-notifications/errors/notification-not-found.error";
+import { NotificationNotFoundError } from "../../domain/subscriptions-notifications/errors/notification-not-found-error";
 
 export function createUnsubscribeNotificationProcess(
   store: NotificationStore,

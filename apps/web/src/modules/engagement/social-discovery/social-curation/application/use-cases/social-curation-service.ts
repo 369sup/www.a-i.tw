@@ -5,8 +5,8 @@ import type {
 } from "../../contracts/v1/public";
 import { createRepositoryStar } from "../../domain/social-curation/aggregates/repository-star";
 import { createRepositoryStarKey } from "../../domain/social-curation/value-objects/repository-star-key";
-import type { RepositoryStarParticipation } from "../ports/outbound/repository-star-participation.port";
-import type { RepositoryStarStore } from "../ports/outbound/repository-star-store.port";
+import type { RepositoryStarParticipation } from "../ports/outbound/repository-star-participation-port";
+import type { RepositoryStarStore } from "../ports/outbound/repository-star-store-port";
 
 function requireActive(principal: SocialCurationPrincipalV1) {
   if (principal.status !== "active")

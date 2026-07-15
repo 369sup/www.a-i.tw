@@ -1,4 +1,4 @@
-import { InvalidRepositoryUrlError } from "../errors/invalid-repository-url.error";
+import { InvalidRepositoryUrlError } from "../errors/invalid-repository-url-error";
 
 declare const repositoryHomepageUrlBrand: unique symbol;
 

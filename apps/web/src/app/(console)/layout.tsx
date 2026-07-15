@@ -48,7 +48,7 @@ export default async function ConsoleLayout({
   return (
     <>
       <header className="flex h-15 items-center justify-between border-b bg-background px-4 lg:px-5">
-        <Link className="inline-flex items-center gap-2" href="/repositories">
+        <Link className="inline-flex items-center gap-2" href="/dashboard">
           <CircleDot className="size-7" />
           <span className="hidden text-sm font-semibold sm:inline">a-i.tw</span>
         </Link>
@@ -139,13 +139,19 @@ export default async function ConsoleLayout({
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
+                    <CircleDot />
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/repositories">
                     <FolderGit2 />
                     Repositories
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/settings/apps">
+                  <Link href="/settings">
                     <Settings />
                     Settings
                   </Link>

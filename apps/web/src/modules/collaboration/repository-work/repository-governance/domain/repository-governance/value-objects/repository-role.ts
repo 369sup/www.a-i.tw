@@ -1,4 +1,4 @@
-import { InvalidRepositoryRoleError } from "../errors/invalid-repository-role.error";
+import { InvalidRepositoryRoleError } from "../errors/invalid-repository-role-error";
 
 export const repositoryRoles = [
   "read",

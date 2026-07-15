@@ -1,4 +1,4 @@
-import { InvalidSearchQueryError } from "../errors/invalid-search-query.error";
+import { InvalidSearchQueryError } from "../errors/invalid-search-query-error";
 
 export type SearchQuery = Readonly<{
   value: string;

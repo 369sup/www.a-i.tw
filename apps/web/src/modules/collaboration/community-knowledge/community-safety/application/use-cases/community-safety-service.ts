@@ -10,8 +10,8 @@ import {
   removeRepositoryInteractionLimit,
   type RepositoryInteractionLimit,
 } from "../../domain/community-safety/aggregates/repository-interaction-limit";
-import type { RepositoryInteractionLimitStore } from "../ports/outbound/repository-interaction-limit-store.port";
-import type { RepositorySafetyParticipation } from "../ports/outbound/repository-safety-participation.port";
+import type { RepositoryInteractionLimitStore } from "../ports/outbound/repository-interaction-limit-store-port";
+import type { RepositorySafetyParticipation } from "../ports/outbound/repository-safety-participation-port";
 
 function toContract(
   limit: RepositoryInteractionLimit,

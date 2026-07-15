@@ -3,8 +3,8 @@ import {
   InMemoryPrincipalStore,
   MockCredentialVerifier,
 } from "../../adapters/outbound/persistence/in-memory-identity";
-import { InvalidPrincipalIdError } from "../../domain/authentication-security/errors/invalid-principal-id.error";
-import { InvalidPrincipalKindError } from "../../domain/authentication-security/errors/invalid-principal-kind.error";
+import { InvalidPrincipalIdError } from "../../domain/authentication-security/errors/invalid-principal-id-error";
+import { InvalidPrincipalKindError } from "../../domain/authentication-security/errors/invalid-principal-kind-error";
 
 describe("InMemoryPrincipalStore", () => {
   it("reconstructs Principal seeds through Domain factories", async () => {

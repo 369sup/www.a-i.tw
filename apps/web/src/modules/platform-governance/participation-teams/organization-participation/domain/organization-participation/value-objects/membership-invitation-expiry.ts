@@ -1,4 +1,4 @@
-import { InvalidMembershipInvitationExpiryError } from "../errors/invalid-membership-invitation-expiry.error";
+import { InvalidMembershipInvitationExpiryError } from "../errors/invalid-membership-invitation-expiry-error";
 
 declare const membershipInvitationExpiryBrand: unique symbol;
 

@@ -3,8 +3,8 @@ import {
   InMemoryMembershipInvitationStore,
   InMemoryMembershipStore,
 } from "../../adapters/outbound/persistence/in-memory-membership";
-import { InvalidMembershipIdError } from "../../domain/organization-participation/errors/invalid-membership-id.error";
-import { InvalidMembershipTransitionError } from "../../domain/organization-participation/errors/invalid-membership-transition.error";
+import { InvalidMembershipIdError } from "../../domain/organization-participation/errors/invalid-membership-id-error";
+import { InvalidMembershipTransitionError } from "../../domain/organization-participation/errors/invalid-membership-transition-error";
 
 describe("Membership persistence adapters", () => {
   it("maps Membership seeds through Domain construction", () => {

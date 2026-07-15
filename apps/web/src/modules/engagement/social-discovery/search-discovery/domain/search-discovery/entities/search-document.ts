@@ -1,4 +1,4 @@
-import { InvalidSearchDocumentError } from "../errors/invalid-search-document.error";
+import { InvalidSearchDocumentError } from "../errors/invalid-search-document-error";
 import type { SearchQuery } from "../value-objects/search-query";
 
 export const searchResourceTypes = [

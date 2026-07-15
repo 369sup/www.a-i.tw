@@ -11,7 +11,8 @@ Published language is limited to Account eligibility and Membership/Team relatio
 
 ## Current semantic foundation
 
-Create Account is the first Value Object-first vertical slice:
+Create Account is the first Use Case-driven vertical slice. Its acceptance and failure conditions require the following
+minimal Domain model; the Value Objects are consequences of those invariants, not the starting point:
 
 - `AccountId` is stable identity and is not derived from `AccountHandle`.
 - `AccountHandle` owns lowercase canonicalization and construction-time syntax validation; global uniqueness is enforced

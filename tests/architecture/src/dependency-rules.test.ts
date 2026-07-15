@@ -462,8 +462,11 @@ const repositoryAreaContract = {
       "global-not-found.tsx",
       "icon.tsx",
       "loading.tsx",
+      "manifest.ts",
       "not-found.tsx",
       "opengraph-image.tsx",
+      "robots.ts",
+      "sitemap.ts",
       "template.tsx",
       "twitter-image.tsx",
       "unauthorized.tsx",
@@ -796,6 +799,27 @@ describe("cross-context import checker", () => {
       "adapters/inbound/server-actions must contain only kebab-case .ts files; found form.adapter.ts",
     );
   });
+
+  it.each([
+    ["application/ports/outbound", "account.store.ts", ".ts"],
+    ["domain/example/errors", "invalid.value.ts", ".ts"],
+    ["contracts/v1/events", "example.created.ts", ".ts"],
+    ["tests/application", "example.service.test.ts", ".test.ts"],
+    ["composition", "example.module.ts", ".ts"],
+  ])(
+    "rejects dotted tactical filename %s/%s",
+    (relativePath, fileName, suffix) => {
+      const { root, contextRoot } = writeCanonicalTopologyFixture();
+      writeFileSync(join(contextRoot, relativePath, fileName), "export {};\n");
+
+      const result = inspectTopology(root);
+
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain(
+        `${relativePath} must contain only kebab-case ${suffix} files; found ${fileName}`,
+      );
+    },
+  );
 
   it("rejects simplifying the template by removing a mandatory directory", () => {
     const { root, contextRoot } = writeCanonicalTopologyFixture();
@@ -1183,6 +1207,21 @@ describe("closed repository area topology", () => {
       writeFileSync(
         join(root, "apps/web/src/app", fileName),
         "export default function Convention() { return null; }\n",
+      );
+
+      const result = inspectRepositoryAreas(root);
+
+      expect(result.status).toBe(0);
+    },
+  );
+
+  it.each(["manifest.ts", "robots.ts", "sitemap.ts"])(
+    "allows the root metadata route %s at app root",
+    (fileName) => {
+      const root = writeRepositoryAreaFixture();
+      writeFileSync(
+        join(root, "apps/web/src/app", fileName),
+        "export default function metadata() { return {}; }\n",
       );
 
       const result = inspectRepositoryAreas(root);

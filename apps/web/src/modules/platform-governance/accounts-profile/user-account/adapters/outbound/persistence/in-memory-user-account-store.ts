@@ -1,5 +1,6 @@
-import type { UserAccountStore } from "../../../application/ports/outbound/user-account-store.port";
+import type { UserAccountStore } from "../../../application/ports/outbound/user-account-store-port";
 import {
+  activatePersonalAccount,
   createPersonalAccount,
   type PersonalAccount,
 } from "../../../domain/user-account/aggregates/personal-account";
@@ -10,7 +11,7 @@ export class InMemoryUserAccountStore implements UserAccountStore {
     seed: readonly { id: string; handle: string; principalId: string }[] = [],
   ) {
     for (const item of seed) {
-      const account = createPersonalAccount(item);
+      const account = activatePersonalAccount(createPersonalAccount(item));
       this.accounts.set(account.id, account);
     }
   }

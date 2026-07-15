@@ -27,10 +27,71 @@ GitHub 非 Code semantic reconstruction 的 canonical sequence 由
 [`../roadmap/context-migration-roadmap.md`](../roadmap/context-migration-roadmap.md) 擁有。順序只核准下一個
 implementation gate，不代表後續 capability 已存在；每一步都必須重新滿足 Definition of Ready。
 
-每個核准 slice 必須 inside-out：先從 Ubiquitous Language 與 invariant 建立 Context-owned Value Objects，再
-形成 Entity／Aggregate 與 Domain errors，之後才建立 Command／Query、Ports、Adapters 與 composition。
-Value Object 不因名稱相同而跨 Context 共用；禁止 global ID／Name／Status／Role type 或
-ownership-free `shared/value-objects`。空目錄、type alias 數量或 adapter 搬遷都不能代替 semantic completeness。
+每個核准 slice 必須由已核准的 first use case 驅動，不採固定的 Value Object-first、Entity-first、
+Contract-first 或 Adapter-first 順序。先描述 actor、input、success result、failure conditions、需要保存的狀態與
+外部依賴，再從可驗證的 business invariants 推導 Aggregate boundary 及必要的 tactical artifacts。Value Object
+只在承載該 use case 的核心語意、正規化、相等性、範圍或 invariant，或需要消除可實際混用的 primitive
+obsession 時建立；不得只包裝 primitive、預測未核准需求，或把 Contract DTO／persistence record 當成 Domain
+Value Object。
+
+Value Object 不因名稱相同而跨 Context 共用；禁止 global ID／Name／Status／Role type 或 ownership-free
+`shared/value-objects`。空目錄、type alias 數量或 adapter 搬遷都不能代替 semantic completeness。
+
+### 1.1 First use case vertical-slice protocol
+
+實作前，`context.json` 必須已核准 owner、Domain、strategic Subdomain、classification、problem、first use case
+與 source of truth；Context owner 文件必須界定擁有的 language、data、transaction，以及明確不擁有的能力。
+First use case 規格至少記錄：
+
+1. actor 與 trigger；
+2. input 與 preconditions；
+3. successful state transition 與 result；
+4. failure conditions；
+5. 必須保存的 authoritative state；
+6. 所需外部 capability 與 consistency requirement。
+
+`context.json.firstUseCase` 保留簡短、機器可驗證的摘要；詳細行為與驗收條件由 Context `README.md`、
+Application use-case 文件或具名測試擁有，不把 manifest 擴張成實作規格。
+
+每個 slice 依下列因果順序推導，但以一條可執行流程迭代，不要求一次填滿所有 tactical category：
+
+```text
+approved use case
+  -> acceptance and failure cases
+    -> business invariants
+      -> Aggregate and transaction boundary
+        -> necessary Entity / Value Object / Policy / Specification / Domain Service
+          -> Aggregate behavior, Domain Error and Domain Event
+            -> inbound and outbound Ports
+              -> Application orchestration and DTOs
+                -> outbound and inbound Adapters
+                  -> Context composition
+                    -> app-facing public-api.ts
+                      -> peer contract only when a peer consumer exists
+                        -> architecture, integration and runtime verification
+```
+
+Tactical artifact 的選擇規則：
+
+- 具有 identity 與獨立 lifecycle，且位於某 Aggregate transaction boundary 內：Entity。
+- 由值定義、不可變，且承載本 use case 的 Domain 語意或 invariant：Value Object。
+- 保護同步一致性與 state transition：Aggregate／Aggregate Root。
+- 跨多個 Domain Object 的純決策或 predicate：Policy／Specification／Domain Service。
+- 協調 Application 流程或跨 Aggregate／Context 的長流程：Use Case／Process Manager。
+- Application 執行 use case 所需的外部能力：consumer-owned outbound Port。
+- Peer Context 必須長期依賴的可交換語言：provider-owned `contracts/vN` Published Language。
+
+沒有 peer consumer 時，不得為完整模板虛構 `contracts/v1` source；固定 contract leaves 以 `.gitkeep` 保留。
+存在 peer consumer 時，必須先核准 Context Map relationship，再建立 provider contract、consumer outbound Port
+與 consumer `adapters/outbound/integrations` ACL。Contract 使用 standalone DTO／schema，不輸出 Domain type、
+Application implementation 或 composition factory。
+
+Context 先完成自己的 composition，才由 `public-api.ts` 選擇性公開 app-facing facade 或 factory；
+`public-api.ts` 不得成為 Domain、Application、Adapter 或 peer contract 的總索引。
+
+測試隨 slice 建立，依 blast radius 演進：Domain invariant tests、Application use-case success/failure tests、
+Adapter mapping/reconstruction tests、必要時的 Contract compatibility tests、Architecture boundary tests，最後是
+Runtime integration tests。沒有對應 artifact 或 peer contract 時，不建立空測試來填滿分類。
 
 ## 2. Runtime structure
 

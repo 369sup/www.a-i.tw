@@ -2,7 +2,7 @@ import {
   createOrganizationAccountId,
   type OrganizationAccountId,
 } from "../value-objects/organization-account-id";
-import { InvalidMembershipTransitionError } from "../errors/invalid-membership-transition.error";
+import { InvalidMembershipTransitionError } from "../errors/invalid-membership-transition-error";
 import {
   createMembershipId,
   type MembershipId,

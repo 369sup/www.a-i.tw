@@ -1,4 +1,4 @@
-import { InvalidRepositoryNameError } from "../errors/invalid-repository-name.error";
+import { InvalidRepositoryNameError } from "../errors/invalid-repository-name-error";
 
 declare const repositoryNameBrand: unique symbol;
 

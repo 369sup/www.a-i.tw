@@ -1,4 +1,4 @@
-import { InvalidAuthenticationAssuranceError } from "../errors/invalid-authentication-assurance.error";
+import { InvalidAuthenticationAssuranceError } from "../errors/invalid-authentication-assurance-error";
 
 export type AuthenticationAssurance = "mock" | "single-factor" | "multi-factor";
 

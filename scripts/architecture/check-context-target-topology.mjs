@@ -151,11 +151,14 @@ function checkLeafDirectory(contextRoot, relativePath) {
   }
 }
 
-function checkLeafFileConvention(contextRoot, relativePath, extension) {
+function checkLeafFileConvention(contextRoot, relativePath, suffix) {
   const path = join(contextRoot, relativePath);
   if (!existsSync(path)) return;
 
-  const kebabCaseFile = new RegExp(`^[a-z0-9]+(?:-[a-z0-9]+)*\\${extension}$`);
+  const escapedSuffix = suffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const kebabCaseFile = new RegExp(
+    `^[a-z0-9]+(?:-[a-z0-9]+)*${escapedSuffix}$`,
+  );
   for (const entry of entries(path)) {
     if (
       entry.isFile() &&
@@ -163,7 +166,7 @@ function checkLeafFileConvention(contextRoot, relativePath, extension) {
       !kebabCaseFile.test(entry.name)
     ) {
       errors.push(
-        `${contextRoot}/${relativePath} must contain only kebab-case ${extension} files; found ${entry.name}.`,
+        `${contextRoot}/${relativePath} must contain only kebab-case ${suffix} files; found ${entry.name}.`,
       );
     }
   }
@@ -238,8 +241,10 @@ function checkContracts(contextRoot) {
       join(contextRoot, versionPath, "public.ts"),
       `${contextRoot}/${versionPath}/public.ts`,
     );
-    for (const category of ["commands", "queries", "events", "dto", "errors"])
+    for (const category of ["commands", "queries", "events", "dto", "errors"]) {
       checkLeafDirectory(contextRoot, `${versionPath}/${category}`);
+      checkLeafFileConvention(contextRoot, `${versionPath}/${category}`, ".ts");
+    }
     for (const file of entries(join(contextRoot, versionPath)).filter((entry) =>
       entry.isFile(),
     )) {
@@ -268,6 +273,7 @@ function checkComposition(contextRoot) {
       );
     }
   }
+  checkLeafFileConvention(contextRoot, "composition", ".ts");
 }
 
 const declaredDomainGroups = [...(registry.domainGroups ?? [])].sort();
@@ -485,11 +491,17 @@ for (const groupName of legalDomainGroups) {
               `domain/${entry.name}`,
               domainCategories,
             );
-            for (const category of domainCategories)
+            for (const category of domainCategories) {
               checkLeafDirectory(
                 contextRoot,
                 `domain/${entry.name}/${category}`,
               );
+              checkLeafFileConvention(
+                contextRoot,
+                `domain/${entry.name}/${category}`,
+                ".ts",
+              );
+            }
           }
         }
         if (hasValidCapability && !existsSync(join(domainRoot, capability)))
@@ -499,13 +511,18 @@ for (const groupName of legalDomainGroups) {
       }
       for (const [path, children] of exactDirectoryChildren)
         checkExactDirectories(contextRoot, path, children);
-      for (const leaf of fixedLeaves) checkLeafDirectory(contextRoot, leaf);
-      checkLeafFileConvention(contextRoot, "adapters/inbound/ui", ".tsx");
-      checkLeafFileConvention(
-        contextRoot,
-        "adapters/inbound/server-actions",
-        ".ts",
-      );
+      for (const leaf of fixedLeaves) {
+        checkLeafDirectory(contextRoot, leaf);
+        checkLeafFileConvention(
+          contextRoot,
+          leaf,
+          leaf === "adapters/inbound/ui"
+            ? ".tsx"
+            : leaf.startsWith("tests/")
+              ? ".test.ts"
+              : ".ts",
+        );
+      }
       checkNamedHandlerDirectory(
         contextRoot,
         "application/commands",

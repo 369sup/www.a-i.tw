@@ -1,6 +1,6 @@
 export { createIssuesService } from "../application/use-cases/issues-service";
-export { RepositoryParticipationAdapter } from "../adapters/outbound/integrations/repository-participation.adapter";
-export { CommunityInteractionSafetyAdapter } from "../adapters/outbound/integrations/community-interaction-safety.adapter";
+export { RepositoryParticipationAdapter } from "../adapters/outbound/integrations/repository-participation-adapter";
+export { CommunityInteractionSafetyAdapter } from "../adapters/outbound/integrations/community-interaction-safety-adapter";
 export {
   InMemoryIssueNumberSequence,
   InMemoryIssueStore,

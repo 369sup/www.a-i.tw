@@ -1,4 +1,4 @@
-import { InvalidRepositoryOwnerError } from "../errors/invalid-repository-owner.error";
+import { InvalidRepositoryOwnerError } from "../errors/invalid-repository-owner-error";
 
 export type RepositoryOwnerReference = Readonly<
   | { type: "personal-account"; accountId: string; login: string }

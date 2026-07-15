@@ -8,8 +8,8 @@ import {
   expireSession,
   revokeSession,
 } from "../../domain/authentication-security/entities/session";
-import { InvalidPrincipalIdError } from "../../domain/authentication-security/errors/invalid-principal-id.error";
-import { InvalidSessionIdError } from "../../domain/authentication-security/errors/invalid-session-id.error";
+import { InvalidPrincipalIdError } from "../../domain/authentication-security/errors/invalid-principal-id-error";
+import { InvalidSessionIdError } from "../../domain/authentication-security/errors/invalid-session-id-error";
 import { SESSION_TTL_MS } from "../../domain/authentication-security/value-objects/session-expiry";
 
 const authenticatedAt = "2026-07-14T00:00:00.000Z";

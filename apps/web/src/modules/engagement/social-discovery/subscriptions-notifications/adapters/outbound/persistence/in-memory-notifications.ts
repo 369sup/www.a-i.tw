@@ -1,4 +1,4 @@
-import type { NotificationStore } from "../../../application/ports/outbound/notification-store.port";
+import type { NotificationStore } from "../../../application/ports/outbound/notification-store-port";
 import type { Notification } from "../../../domain/subscriptions-notifications/aggregates/notification";
 export class InMemoryNotificationStore implements NotificationStore {
   private readonly items = new Map<string, Notification>();

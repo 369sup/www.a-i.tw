@@ -7,7 +7,7 @@ import {
   type Milestone,
 } from "../../domain/work-tracking/entities/issue-collaboration";
 import type { IssuePrincipal } from "../ports/inbound/issue-principal";
-import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety.port";
+import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety-port";
 export interface IssueCollaborationStore {
   comments(issueId: string): Promise<IssueComment[]>;
   saveComment(value: IssueComment): Promise<void>;
