@@ -27,3 +27,62 @@ reference from being confused with Account identity. A new Account starts `provi
 `PersonalAccountRefV1`.
 
 Managed Account provisioning, suspension transitions, recovery and authentication are not part of this slice.
+
+<!-- BEGIN:context-governance -->
+
+## Complete semantic governance
+
+### Product meaning and scope
+
+Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.
+
+This directory is the declared local ownership boundary for `PersonalAccount`. Its physical presence proves portfolio placement only; runtime completeness is determined separately by `lifecycle`, `runtimeEvidence`, implemented use cases and verification.
+
+### Lifecycle and principal use case
+
+- Lifecycle: `approved`.
+- Runtime evidence: `current`.
+- Principal use case: Create a personal account for an active principal and resolve its profile.
+
+### Source of truth
+
+- `PersonalAccount`
+
+### Language and invariants
+
+Ubiquitous language:
+
+- User Account
+- Personal Account
+- Managed User Account
+- username
+- account lifecycle
+
+Required invariants:
+
+- Personal and managed are control modes of a User Account, not peer account types.
+- A User Account is the actor-attribution boundary; Organization and Enterprise Accounts cannot sign in as users.
+
+### Collaboration
+
+- Consumes from `profile-presence` through `ProfileDirectoryApiV1` (synchronous, current).
+
+Navigation hierarchy is not a runtime dependency. Only versioned Published Language and consumer-owned Ports may cross a Context boundary.
+
+### Explicit exclusions
+
+- Credential or Session
+- Organization or Enterprise membership
+- resource authorization
+- Profile presentation
+
+Exclude commit identity, SSH keys and source-code contribution semantics.
+
+### Official evidence
+
+- Evidence status: Confirmed.
+- Evidence IDs: `A1`.
+- Canonical ledger: `docs/product/github-non-code-semantic-model.md#official-evidence-ledger`.
+
+Official evidence establishes product semantics and candidate ownership only. It does not approve runtime implementation, persistence, contracts or dependencies.
+<!-- END:context-governance -->

@@ -1,80 +1,25 @@
 # Current Work State
 ## Objective
-Build substantive GitHub non-Code vertical slices from approved use cases, with Account/Profile provisioning now recoverable across Context boundaries.
-
+Complete semantic governance documentation for all 37 GitHub non-Code candidate bounded Contexts.
 ## Scope
-Canonical Use Case-first architecture documentation and the approved user-account first use case. No UI changes and no speculative Managed Account, suspension, event, or new contract semantics.
-
+37 Context AGENTS.md and README.md files plus the centralized official evidence ledger; no runtime, manifest, API, Group, Area, or topology change.
 ## Confirmed Decisions
-- No fixed Value Object-first, Entity-first, Contract-first, or Adapter-first order.
-- The canonical slice order starts with approved use case, acceptance/failure cases and invariants.
-- PersonalAccount is the Aggregate Root for the approved first slice.
-- UserAccountId, UserAccountHandle and PrincipalReference are required by the use case.
-- PersonalAccount owns an internal provisioning -> active transition.
-- Provisioning is never published through PersonalAccountRefV1 and is hidden from account queries.
-- ProfileDirectory.save is idempotent by accountId; retry reuses the provisioning Account and its id.
-- A retry must use the same canonical handle; different input is a provisioning conflict.
-- Principal input is normalized before uniqueness lookup, preventing whitespace variants from bypassing one-account-per-principal.
-- Existing seed Accounts reconstruct through createPersonalAccount then activatePersonalAccount.
-- Profile remains owned by profile-presence; there is no cross-Context Aggregate or database transaction.
-- Context7 Vitest v4.1.6 documentation was used as the closest documented version to installed v4.1.10 for rejected promises, fail-once mocks and call-count assertions.
-
+Use centralized evidence IDs; preserve 20 runtime Contexts and 17 planned Contexts; planned Contexts publish no runtime API; physical placement does not prove runtime completeness.
 ## Completed
-- Unified canonical development documentation around Use Case-first vertical slices.
-- Documented user-account actor, input, result, failures, source of truth and consistency.
-- Added UserAccountId, UserAccountHandle, PrincipalReference and specific errors.
-- Added internal provisioning state, retry validation and one-way activation behavior.
-- Updated User Account Application orchestration to persist provisioning, initialize Profile, activate and save.
-- Added failure/retry tests proving hidden partial state, stable Account id, two Profile attempts and final activation.
-- Added Principal normalization before lookup.
-
+Added complete managed governance blocks to all 37 Context AGENTS.md and README.md files; added 15 official billing, Marketplace, Sponsors, and Support evidence IDs; documented Repository access runtime co-location versus canonical Authorization and Policy ownership.
 ## In Progress
-- Prior naming migration remains validated but unstaged and overlaps user-account Port filenames.
-
+None.
 ## Pending
-- Audit Enterprise Account first use case and Team first use case using the same protocol.
-- Decide whether durable production persistence later needs an explicit worker/outbox around provisioning; current in-process retry semantics are correct for the approved in-memory slice.
-
+User review only; no implementation work remains in the requested scope.
 ## Modified Files
-- docs/architecture/ddd-hexagonal-standard.md
-- apps/web/src/modules/AGENTS.md
-- apps/web/src/modules/platform-governance/accounts-profile/organization-account/README.md
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/README.md
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/aggregates/personal-account.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/value-objects/user-account-id.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/value-objects/user-account-handle.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/value-objects/principal-reference.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-user-account-id-error.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-user-account-handle-error.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-principal-reference-error.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/invalid-personal-account-transition-error.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/domain/user-account/errors/personal-account-provisioning-conflict-error.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/application/use-cases/user-account-service.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/adapters/outbound/persistence/in-memory-user-account-store.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/tests/domain/personal-account.test.ts
-- apps/web/src/modules/platform-governance/accounts-profile/user-account/tests/application/account-profile.test.ts
-- .serena/memories/current-work-state.md
-
+75 tracked files: 74 Context governance Markdown files and docs/product/github-non-code-semantic-model.md.
 ## Git Anchor
-- branch: main
-- HEAD: 7bf385cf6db8ffafb09c9b8c27356f3ce984111c
-- working tree: dirty; current slice, prior naming migration and unrelated user changes remain unstaged
-
+branch: main
+HEAD: a1f82c60dc7f979d79c123d7f6eac854e911be8e
+working tree: 75 modified tracked files, no staged or untracked files
 ## Validation
-- Serena diagnostics: zero on all changed TypeScript files.
-- Focused User Account tests: 2 files, 7 tests passed.
-- Full Web tests: 57 files, 135 tests passed.
-- @a-i/web typecheck passed.
-- @a-i/web build passed on Next.js 16.2.10 with 28 routes.
-- pnpm docs:check passed.
-- pnpm arch:check passed; 90 architecture tests passed.
-- @a-i/web lint completed with one unrelated existing warning in app/(console)/dashboard/page.tsx and zero errors.
-- git diff --check passed with only an existing CRLF normalization warning for current-work-state.
-
+Context audit: 37 total, 17 planned, 20 runtime, 0 duplicate source-of-truth declarations, 0 undefined evidence IDs. pnpm docs:check passed. pnpm arch:check passed including 90 architecture tests. Focused Prettier check passed. git diff --check passed.
 ## Known Risks
-- Durable multi-process delivery is not part of the approved in-memory slice; a future database-backed implementation may require an outbox/worker and lease/retry policy.
-- The large dirty working tree requires path-scoped staging and commits.
-- User-account Port rename files belong to the prior naming migration, not this semantic slice.
-
+Context7 returned limited detail for some planned commercial and support lifecycles; those documents remain explicitly Partial and planned. Temporary Repository support access remains pending dedicated official evidence. Repository access models are physically co-located in repository-governance due a completed merge but retain Authorization and Policy semantic ownership.
 ## Next Action
-Audit and implement the approved Enterprise Account first use case, then correct Team aggregate classification based on its independent Store and transaction boundary.
+Review the focused governance diff; promote no planned Context without an approved first use case and refreshed official evidence.

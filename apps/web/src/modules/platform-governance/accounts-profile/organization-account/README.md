@@ -39,3 +39,63 @@ The third inside-out slice owns Membership, Invitation and Team runtime values:
 
 Next approved Context sequence begins with Authentication & Federation. Do not add unapproved Team visibility,
 maintainer or hierarchy semantics, empty tactical artifacts, or Presentation mapping merely to populate the template.
+
+<!-- BEGIN:context-governance -->
+
+## Complete semantic governance
+
+### Product meaning and scope
+
+Own organizations, memberships, invitations, and organization teams without owning authentication, enterprise policy, or repository access grants.
+
+This directory is the declared local ownership boundary for `Organization`. Its physical presence proves portfolio placement only; runtime completeness is determined separately by `lifecycle`, `runtimeEvidence`, implemented use cases and verification.
+
+### Lifecycle and principal use case
+
+- Lifecycle: `approved`.
+- Runtime evidence: `current`.
+- Principal use case: Create an organization and manage its membership and teams.
+
+### Source of truth
+
+- `Organization`
+
+### Language and invariants
+
+Ubiquitous language:
+
+- Organization Account
+- organization handle
+- shared account
+- resource owner
+- organization lifecycle
+
+Required invariants:
+
+- An Organization is a shared account operated by User Accounts and cannot authenticate as a person.
+- Owning a resource does not transfer that resource's aggregate or lifecycle into this Context.
+
+### Collaboration
+
+- Consumes from `authentication-security` through `PrincipalRefV1` (synchronous, current).
+- Consumes from `profile-presence` through `ProfileDirectoryApiV1` (synchronous, current).
+
+Navigation hierarchy is not a runtime dependency. Only versioned Published Language and consumer-owned Ports may cross a Context boundary.
+
+### Explicit exclusions
+
+- Membership, invitation or Team
+- Repository or Project aggregate
+- Enterprise policy
+- user authentication
+
+Exclude repository content, Pull Requests and code-security administration.
+
+### Official evidence
+
+- Evidence status: Confirmed.
+- Evidence IDs: `A1`, `A2`, `A3`.
+- Canonical ledger: `docs/product/github-non-code-semantic-model.md#official-evidence-ledger`.
+
+Official evidence establishes product semantics and candidate ownership only. It does not approve runtime implementation, persistence, contracts or dependencies.
+<!-- END:context-governance -->

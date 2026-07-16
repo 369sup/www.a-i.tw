@@ -109,6 +109,11 @@ workflow。
 | Certification                    | certification catalog、exam registration／appointment and awarded credential lifecycle                           | training content、GitHub account profile                  |
 | Developer Program                | individual/company application、integration evidence、support contact and membership status                      | App Registration、API integration runtime                 |
 
+The physical portfolio currently co-locates `RepositoryRoleDefinition` and `RepositoryAccessGrant` with
+`repository-governance` as the dated result of the completed `authorization-policy` runtime merge. That placement is a
+runtime fact, not a change to the logical owner recorded above. New Repository access semantics require a boundary
+decision rather than treating physical co-location as semantic ownership.
+
 ## Accounts, people, organizations and enterprise
 
 | Concept                 | Definition and lifecycle / invariant                                                                                               | Classification                          | Unique owner           | Allowed relations                                                             | Forbidden attribution                                 | Evidence   | Status    |
@@ -341,6 +346,21 @@ Classroom must additionally prove that its first slice is useful without reposit
 | CERT1 | [About GitHub Certifications](https://docs.github.com/en/get-started/showcase-your-expertise-with-github-certifications/about-github-certifications)                                                         | certification offerings、completion、badge and certificate                    |
 | CERT2 | [Registering for a GitHub Certifications exam](https://docs.github.com/en/get-started/showcase-your-expertise-with-github-certifications/registering-for-a-github-certifications-exam)                       | registration、appointment window、identity and external provider lifecycle    |
 | DEV1  | [GitHub Developer Program](https://docs.github.com/en/integrations/concepts/github-developer-program)                                                                                                        | applicant types、integration evidence、support contact and membership         |
+| BILL1 | [How billing works](https://docs.github.com/en/billing/get-started/how-billing-works)                                                                                                                        | billing responsibility、account scope and payment lifecycle                   |
+| BILL2 | [Impact of plan changes](https://docs.github.com/en/billing/concepts/impact-of-plan-changes)                                                                                                                 | primary plan changes remain distinct from add-on subscriptions and usage      |
+| BILL3 | [Budgets and alerts](https://docs.github.com/en/billing/concepts/budgets-and-alerts)                                                                                                                         | budget scope、threshold and alert semantics                                   |
+| BILL4 | [Cost centers](https://docs.github.com/en/billing/concepts/cost-centers)                                                                                                                                     | cost-center assignment and cost-allocation scope                              |
+| MKT1  | [About GitHub Marketplace for apps](https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/about-github-marketplace-for-apps)                                                        | Marketplace discovery、publisher and listing purpose                          |
+| MKT2  | [Requirements for listing an app](https://docs.github.com/en/apps/github-marketplace/creating-apps-for-github-marketplace/requirements-for-listing-an-app)                                                   | listing eligibility、review and publication constraints                       |
+| MKT3  | [Handling new purchases and free trials](https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/handling-new-purchases-and-free-trials)                             | purchase、subscription and free-trial lifecycle                               |
+| MKT4  | [Handling plan changes](https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/handling-plan-changes)                                                               | Marketplace plan-change lifecycle                                             |
+| MKT5  | [Handling plan cancellations](https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/handling-plan-cancellations)                                                   | Marketplace cancellation lifecycle                                            |
+| SP1   | [About GitHub Sponsors](https://docs.github.com/en/sponsors/getting-started-with-github-sponsors/about-github-sponsors)                                                                                      | sponsor and sponsored-account product purpose                                 |
+| SP2   | [Managing sponsorship tiers](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/managing-your-sponsorship-tiers)                                                             | tier、benefit and recurring sponsorship configuration                         |
+| SP3   | [Managing payouts](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/managing-your-payouts-from-github-sponsors)                                                            | sponsored-account payout lifecycle                                            |
+| SP4   | [Tax information for GitHub Sponsors](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/tax-information-for-github-sponsors)                                                | tax-information obligations distinct from ordinary profile data               |
+| SUP1  | [About GitHub Support](https://docs.github.com/en/support/learning-about-github-support/about-github-support)                                                                                                | support availability and account/product support scope                        |
+| SUP2  | [Creating a support ticket](https://docs.github.com/en/support/contacting-github-support/creating-a-support-ticket)                                                                                          | ticket creation、priority and interaction lifecycle                           |
 
 ## Runtime gate
 
