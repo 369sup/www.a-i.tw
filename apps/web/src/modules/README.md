@@ -133,6 +133,26 @@ The matching agent constraints are in [`AGENTS.md`](AGENTS.md). The canonical ar
 [`docs/architecture/context-internal-topology.md`](../../../../docs/architecture/context-internal-topology.md), and
 `pnpm arch:check` enforces this topology.
 
+## Boundary guardrails summary
+
+This README remains a navigation and topology summary. Normative execution rules stay in `AGENTS.md`. The following
+summary prevents drift and ambiguity:
+
+- Ownership: Domain owns invariants and pure semantics; Application owns use cases, messages, DTOs, process managers
+    and Ports; adapters own transport/persistence/integration mapping; contracts own standalone Published Language.
+- Dependency direction: inbound adapters -> Application -> Domain, and outbound adapters implement Application-owned
+    outbound Ports. Cross-Context calls use consumer-owned Ports and ACL adapters, and may import only provider
+    `contracts/vN/public.ts`.
+- Entrypoints: `public-api.ts` is app-facing only; peer Contexts must not import it. Peer entrypoint is provider
+    `contracts/vN/public.ts`; final cross-Context assembly stays in `apps/web/src/composition`.
+- Forbidden escapes: no alternative layer names, no ownership-free shared/common/core/utils/helpers folders, no
+    source files in structural parents, no hand-created Contexts, no peer internal imports.
+- Anti-placeholder rule: do not create Value Objects, commands, queries, services, adapters, contracts, or tests only
+    to populate template categories.
+
+For implementation and review decisions, treat `AGENTS.md` as the authoritative contract and this section as its
+high-signal checklist.
+
 ## Canonical taxonomy and current runtime placement
 
 | Domain Group          | Domain Area               | Current runtime Contexts                                                              |
