@@ -30,20 +30,31 @@ async function readStdin() {
   return value;
 }
 
-function updateObservation(state, git) {
-  return { ...state, last_observed_work_hash: git.workHash };
-}
-
 function persistRequest({ paths, state, git, source, reason }) {
   const request = createCheckpointRequest({ git, reason, source });
   writeJsonAtomic(paths.request, request);
   writeJsonAtomic(paths.state, {
-    ...updateObservation(state, git),
-    last_request_time: request.requested_at,
+    ...state,
+    version: 2,
     pending_work_hash: git.workHash,
-    threshold_triggered: reason === "context-at-or-above-90-percent",
   });
   return request;
+}
+
+function readRequest(path) {
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+function pendingSource(request, fallback) {
+  return {
+    ...fallback,
+    event: request.source_event || fallback.event,
+    trigger: request.trigger || fallback.trigger,
+  };
 }
 
 async function handleHook() {
@@ -51,10 +62,9 @@ async function handleHook() {
   const git = collectGitState(source.cwd);
   const paths = statePaths(git.root);
   const state = loadState(paths.state);
+  const pending = readRequest(paths.request);
 
   if (source.event === "SessionStart") {
-    const pending = existsSync(paths.request);
-    writeJsonAtomic(paths.state, updateObservation(state, git));
     hookOutput(
       pending
         ? {
@@ -70,23 +80,51 @@ async function handleHook() {
     return;
   }
 
-  const result = evaluateCheckpointPolicy({ source, git, state });
-  const observed = updateObservation(state, git);
-
-  if (!result.checkpoint) {
-    writeJsonAtomic(paths.state, observed);
-    if (
-      (source.event === "PreCompact" || source.event === "Stop") &&
-      result.reason === "same-request-pending"
-    ) {
-      hookOutput({
-        continue: false,
-        stopReason: "Serena checkpoint request is still pending",
-        systemMessage:
-          "The turn remains open until current-work-state is written, read back, and the request is cleared.",
-      });
+  if (source.event === "Stop") {
+    if (!pending) {
+      hookOutput({ continue: true });
       return;
     }
+    if (pending.work_hash !== git.workHash) {
+      persistRequest({
+        paths,
+        state,
+        git,
+        source: pendingSource(pending, source),
+        reason: pending.reason,
+      });
+    }
+    hookOutput({
+      continue: false,
+      stopReason: "Serena checkpoint request is still pending",
+      systemMessage:
+        "The turn remains open until current-work-state is written, read back, and the request is cleared.",
+    });
+    return;
+  }
+
+  if (source.event === "PreCompact" && pending) {
+    if (pending.work_hash !== git.workHash) {
+      persistRequest({
+        paths,
+        state,
+        git,
+        source: pendingSource(pending, source),
+        reason: pending.reason,
+      });
+    }
+    hookOutput({
+      continue: false,
+      stopReason: "Serena checkpoint request is still pending",
+      systemMessage:
+        "Compaction remains paused until current-work-state is written, read back, and the request is cleared.",
+    });
+    return;
+  }
+
+  const result = evaluateCheckpointPolicy({ source, git, state });
+
+  if (!result.checkpoint) {
     hookOutput({ continue: true });
     return;
   }
@@ -127,27 +165,14 @@ async function handleSignal(signal) {
   const git = collectGitState(source.cwd);
   const paths = statePaths(git.root);
   const state = loadState(paths.state);
-  const parsedTokenCount = Number(option("--token-count"));
-  const parsedContextWindow = Number(option("--context-window"));
-  const tokenCount =
-    Number.isFinite(parsedTokenCount) && parsedTokenCount > 0
-      ? parsedTokenCount
-      : null;
-  const contextWindow =
-    Number.isFinite(parsedContextWindow) && parsedContextWindow > 0
-      ? parsedContextWindow
-      : null;
   const result = evaluateCheckpointPolicy({
     source,
     git,
     state,
     manualSignal: signal,
-    tokenCount,
-    contextWindow,
   });
 
   if (!result.checkpoint) {
-    writeJsonAtomic(paths.state, updateObservation(state, git));
     process.stdout.write(
       `${JSON.stringify({ checkpoint_requested: false, reason: result.reason }, null, 2)}\n`,
     );
@@ -183,6 +208,7 @@ async function handleCheckpoint() {
       state,
       workStateHash,
       storage: "serena",
+      reason: null,
     });
     process.stdout.write(
       `${JSON.stringify({ serena_saved: true, read_back_verified: true, memory: "current-work-state" }, null, 2)}\n`,

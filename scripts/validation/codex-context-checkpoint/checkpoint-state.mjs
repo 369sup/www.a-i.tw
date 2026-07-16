@@ -11,28 +11,22 @@ import {
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
-export const CHECKPOINT_THRESHOLD = 0.9;
-export const MINIMUM_INTERVAL_MS = 5 * 60 * 1000;
-export const MINIMUM_TOKEN_INCREASE_RATIO = 0.04;
-export const MINIMUM_CHANGED_FILES = 3;
-
 const CHECKPOINT_MEMORY_PATHS = new Set([
   ".serena/memories/project-overview.md",
   ".serena/memories/knowledge.md",
   ".serena/memories/current-work-state.md",
 ]);
 
-export function calculateUsage(tokenCount, contextWindow) {
-  if (
-    !Number.isFinite(tokenCount) ||
-    !Number.isFinite(contextWindow) ||
-    tokenCount < 0 ||
-    contextWindow <= 0
-  ) {
-    return { available: false, percentage: null };
-  }
-  return { available: true, percentage: tokenCount / contextWindow };
-}
+/**
+ * @typedef {object} CheckpointState
+ * @property {number} version
+ * @property {string | null} last_checkpoint_time
+ * @property {string | null} last_checkpoint_work_hash
+ * @property {string | null} last_checkpoint_work_state_hash
+ * @property {string | null} last_checkpoint_reason
+ * @property {string | null} last_checkpoint_storage
+ * @property {string | null} pending_work_hash
+ */
 
 function runGit(cwd, args) {
   const result = spawnSync("git", args, {
@@ -77,114 +71,58 @@ export function collectGitState(cwd) {
   };
 }
 
+/** @returns {CheckpointState} */
 export function emptyState() {
   return {
-    version: 1,
-    last_checkpoint_token_count: null,
+    version: 2,
     last_checkpoint_time: null,
     last_checkpoint_work_hash: null,
     last_checkpoint_work_state_hash: null,
     last_checkpoint_reason: null,
     last_checkpoint_storage: null,
-    last_observed_work_hash: null,
-    last_request_time: null,
     pending_work_hash: null,
-    threshold_triggered: false,
   };
 }
 
+/**
+ * @param {{
+ *   source: { event: string, trigger?: string | null },
+ *   git: { workHash: string },
+ *   state?: CheckpointState,
+ *   manualSignal?: string | null
+ * }} input
+ */
 export function evaluateCheckpointPolicy({
   source,
   git,
   state = emptyState(),
-  now = Date.now(),
-  tokenCount = null,
-  contextWindow = null,
   manualSignal = null,
 }) {
-  const usage = calculateUsage(tokenCount, contextWindow);
   const sameCheckpoint = state.last_checkpoint_work_hash === git.workHash;
   const samePending = state.pending_work_hash === git.workHash;
-  const lastActivity = Math.max(
-    Date.parse(state.last_checkpoint_time || 0) || 0,
-    Date.parse(state.last_request_time || 0) || 0,
-  );
-  const intervalElapsed = now - lastActivity >= MINIMUM_INTERVAL_MS;
-  const workChanged = state.last_observed_work_hash !== git.workHash;
-  const tokenIncrease =
-    usage.available && Number.isFinite(state.last_checkpoint_token_count)
-      ? tokenCount - state.last_checkpoint_token_count
-      : null;
-  const materialTokenIncrease =
-    usage.available && tokenIncrease !== null
-      ? tokenIncrease >= contextWindow * MINIMUM_TOKEN_INCREASE_RATIO
-      : false;
 
-  if (samePending)
-    return { checkpoint: false, reason: "same-request-pending", usage };
-
-  if (usage.available && usage.percentage >= CHECKPOINT_THRESHOLD) {
-    if (
-      !sameCheckpoint &&
-      (intervalElapsed || materialTokenIncrease || workChanged)
-    ) {
-      return {
-        checkpoint: true,
-        reason: "context-at-or-above-90-percent",
-        usage,
-      };
-    }
-    return { checkpoint: false, reason: "threshold-deduplicated", usage };
-  }
+  if (samePending) return { checkpoint: false, reason: "same-request-pending" };
 
   if (source.event === "PreCompact") {
     return sameCheckpoint
       ? {
           checkpoint: false,
           reason: "current-work-already-checkpointed",
-          usage,
         }
       : {
           checkpoint: true,
           reason: `before-${source.trigger || "unknown"}-compaction`,
-          usage,
         };
   }
 
   if (manualSignal) {
     if (sameCheckpoint && state.last_checkpoint_reason === manualSignal) {
-      return { checkpoint: false, reason: "manual-signal-deduplicated", usage };
+      return { checkpoint: false, reason: "manual-signal-deduplicated" };
     }
-    if (!intervalElapsed && sameCheckpoint)
-      return { checkpoint: false, reason: "minimum-interval", usage };
-    return { checkpoint: true, reason: manualSignal, usage };
+    return { checkpoint: true, reason: manualSignal };
   }
 
-  if (source.event === "Stop") {
-    if (source.stopHookActive)
-      return {
-        checkpoint: false,
-        reason: "stop-continuation-already-active",
-        usage,
-      };
-    if (!state.last_observed_work_hash) {
-      return {
-        checkpoint: false,
-        reason: "observation-baseline-created",
-        usage,
-      };
-    }
-    if (!workChanged || sameCheckpoint)
-      return { checkpoint: false, reason: "no-material-work-change", usage };
-    if (git.changedFiles < MINIMUM_CHANGED_FILES) {
-      return { checkpoint: false, reason: "below-cross-file-threshold", usage };
-    }
-    if (!intervalElapsed)
-      return { checkpoint: false, reason: "minimum-interval", usage };
-    return { checkpoint: true, reason: "cross-file-work-changed", usage };
-  }
-
-  return { checkpoint: false, reason: "phase-checkpoint-mode", usage };
+  return { checkpoint: false, reason: "no-explicit-checkpoint-request" };
 }
 
 export function statePaths(root) {
@@ -200,7 +138,17 @@ export function statePaths(root) {
 export function loadState(path) {
   if (!existsSync(path)) return emptyState();
   try {
-    return { ...emptyState(), ...JSON.parse(readFileSync(path, "utf8")) };
+    const value = JSON.parse(readFileSync(path, "utf8"));
+    return {
+      ...emptyState(),
+      last_checkpoint_time: value.last_checkpoint_time || null,
+      last_checkpoint_work_hash: value.last_checkpoint_work_hash || null,
+      last_checkpoint_work_state_hash:
+        value.last_checkpoint_work_state_hash || null,
+      last_checkpoint_reason: value.last_checkpoint_reason || null,
+      last_checkpoint_storage: value.last_checkpoint_storage || null,
+      pending_work_hash: value.pending_work_hash || null,
+    };
   } catch {
     return emptyState();
   }
@@ -239,6 +187,17 @@ export function createCheckpointRequest({
   };
 }
 
+/**
+ * @param {{
+ *   paths: ReturnType<typeof statePaths>,
+ *   git: ReturnType<typeof collectGitState>,
+ *   state: CheckpointState,
+ *   workStateHash: string,
+ *   storage: string,
+ *   reason: string | null,
+ *   now?: number
+ * }} input
+ */
 export function acknowledgeCheckpoint({
   paths,
   git,
@@ -246,7 +205,6 @@ export function acknowledgeCheckpoint({
   workStateHash,
   storage,
   reason,
-  tokenCount = null,
   now = Date.now(),
 }) {
   const request = existsSync(paths.request)
@@ -257,17 +215,12 @@ export function acknowledgeCheckpoint({
   }
   const next = {
     ...state,
-    last_checkpoint_token_count: Number.isFinite(tokenCount)
-      ? tokenCount
-      : null,
     last_checkpoint_time: new Date(now).toISOString(),
     last_checkpoint_work_hash: git.workHash,
     last_checkpoint_work_state_hash: workStateHash,
     last_checkpoint_reason: reason || request.reason,
     last_checkpoint_storage: storage,
-    last_observed_work_hash: git.workHash,
     pending_work_hash: null,
-    threshold_triggered: false,
   };
   writeJsonAtomic(paths.state, next);
   rmSync(paths.request, { force: true });

@@ -89,7 +89,7 @@ report unexecuted checks as passed.
 
 Memory 固定只有 `project-overview`、`knowledge` 與 `current-work-state`：分別負責 routing index、經驗證的非顯然 durable records，以及唯一 checkpoint。不得建立 per-Context、workflow、command、research 或 temporary memory。
 
-在重要實作／架構階段完成、跨檔案修改完成、context/task 切換、使用者暫停、即將 compaction、可見低 context 或決策開始遺失時建立 checkpoint。官方 hooks 未提供可靠 token percentage；不得解析 transcript/session JSONL 或猜測比例。`PreCompact` request 未完成前不得繼續 compaction。
+在重要實作／架構階段完成、context/task 切換或使用者暫停時，先以 `pnpm checkpoint:context -- --signal <reason>` 建立語意 request，再完成 checkpoint。`PreCompact` 會自行建立 request；`Stop` 只處理已存在的 request，不得以 token、時間或 dirty-file 數量猜測重要性。官方 hooks 未提供可靠 token percentage；不得解析 transcript/session JSONL 或猜測比例。`PreCompact` request 未完成前不得繼續 compaction。
 
 `current-work-state` 固定使用：
 

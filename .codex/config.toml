@@ -2,7 +2,7 @@
 # Credentials, connector IDs, OAuth state, and user plugin cache remain host-managed.
 
 # Root + nearest scoped AGENTS guidance must remain a small routing chain.
-project_doc_max_bytes = 16384
+project_doc_max_bytes = 65536
 
 [features]
 hooks = true
@@ -13,7 +13,7 @@ matcher = "startup|resume|compact"
 [[hooks.SessionStart.hooks]]
 type = "command"
 command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
-command_windows = "powershell -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
+command_windows = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
 timeout = 30
 statusMessage = "Checking pending Serena checkpoint"
 
@@ -23,7 +23,7 @@ matcher = "manual|auto"
 [[hooks.PreCompact.hooks]]
 type = "command"
 command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
-command_windows = "powershell -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
+command_windows = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
 timeout = 30
 statusMessage = "Requesting Serena checkpoint before compaction"
 
@@ -32,6 +32,6 @@ statusMessage = "Requesting Serena checkpoint before compaction"
 [[hooks.Stop.hooks]]
 type = "command"
 command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
-command_windows = "powershell -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
+command_windows = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
 timeout = 30
 statusMessage = "Evaluating Serena checkpoint policy"

@@ -1,23 +1,26 @@
 # Current Work State
 ## Objective
-Audit official Codex configuration, remove invalid repository-local surfaces, migrate user-level profiles and custom agent configuration, and establish reliable Python and TOML validation.
+Simplify and validate the Windows 11 Codex Desktop configuration for Git Bash, subagents, selected role plugins, eight MCP servers, and project checkpoint hooks.
 ## Scope
-.agents and .codex configuration, repository topology validation, C:\Users\sup\.codex profiles, Python PyYAML runtime.
+Global Codex AGENTS/config/custom agents plus repository Codex config, hook implementation, tests, and documentation.
 ## Confirmed Decisions
-Keep project-local environment.toml, lifecycle hooks, instruction budget, and repository-specific command rules. Keep user preferences, profiles, host MCP configuration, and custom agents under C:\Users\sup\.codex. Use Python tomllib for TOML, not Prettier.
+Use absolute cmd.exe plus npx.cmd for npm stdio MCPs, absolute uvx.exe for Python MCPs, Git Bash -c for interactive repository commands, and semantic checkpoint signals instead of token or dirty-file heuristics.
+Keep only OpenAI Developers, Modules, Product Design, Data Analytics, and Sales plugins. Use built-in Explorer plus custom implementer and reviewer agents.
 ## Completed
-Removed deprecated project prompts, repo profile templates, redundant plugin guidance, TOOL-ROUTING, and repo custom agent. Corrected marketplace source path and nonexistent Serena plugin references. Installed PyYAML 6.0.3. Added implementation, review, and release user profiles.
+Simplified global plugins, removed Node REPL and redundant custom reviewer, narrowed Filesystem to the repository, isolated browser MCPs, and configured Serena from cwd.
+Reworked hooks so PreCompact and explicit phase signals create requests, Stop blocks only an existing request, and SessionStart restores pending context.
+Validated TOML, MCP initialization and tools lists, hook launcher, hook tests, documentation checks, focused diff, and Serena diagnostics.
 ## In Progress
 None.
 ## Pending
-Restart Codex Desktop or open a new task to pick up user-level profile and agent changes.
+Restart Codex Desktop, review and trust project hooks, then validate custom agent selection in a new task because the current session cannot reload global configuration.
 ## Modified Files
-Repository Codex and agent governance files plus topology checker/tests; user-level profile files under C:\Users\sup\.codex.
+C:/Users/sup/.codex/AGENTS.md; C:/Users/sup/.codex/config.toml; C:/Users/sup/.codex/agents/implementer.toml; C:/Users/sup/.codex/agents/reviewer.toml; repository AGENTS.md; .codex/AGENTS.md; .codex/config.toml; scripts/README.md; scripts/validation/codex-context-checkpoint files.
 ## Git Anchor
-branch main; HEAD 012843029e8624d1b80d2f27e4f8521bf25e38bf; working tree contains pre-existing unrelated Serena, module, and product documentation changes plus this Codex configuration cleanup.
+Branch main at 138fa497f77cf998bad68b17cdb262a074abc23f. Working tree contains this task plus pre-existing README deletions and pre-existing .serena/project.yml changes that were preserved.
 ## Validation
-Official plugin validator passed; PyYAML import and pip check passed; all TOML parsed; Codex CLI 0.144.5 loaded all three profiles through mcp list; docs:check passed; arch:check passed; architecture tests 90 passed; hook tests 13 passed; git diff --check passed.
+Hook tests passed 11 of 11. pnpm docs:check passed. Eight requested MCP servers initialized and listed tools. Serena active project is www.a-i.tw; changed hook files have only baseline missing Node type-resolution diagnostics. git diff --check found no whitespace errors.
 ## Known Risks
-Project-local rules remain by design because moving www.a-i.tw-specific command restrictions globally would affect unrelated repositories. Empty .codex/agents discovery directory remains due a Windows process lock but contains no configuration.
+pnpm arch:topology remains blocked by pre-existing deletions of five repository README files. Codex Desktop restart is required to load global MCP, plugin, and custom-agent changes.
 ## Next Action
-Restart Codex Desktop, then verify the new task sees the user-level agent and selected profiles.
+Restart Codex Desktop, approve the project hooks, open a new task, and confirm implementer/reviewer plus the eight MCP servers are exposed.

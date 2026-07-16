@@ -31,6 +31,8 @@
 - Use local installed documentation first for version-sensitive frameworks, packages, SDKs, and APIs; use external official versioned docs only when local evidence is incomplete.
 - Repository config may declare trusted-project hooks and instruction-discovery settings. User preferences, profiles,
   host MCP commands, credentials, notifications, telemetry, and plugin state remain user-managed.
+- Windows project hooks use the verified absolute system PowerShell executable only as the lifecycle adapter;
+  interactive repository commands still use Git Bash `-c` and preserve the session cwd.
 - Custom agents must reference formal repository rules instead of duplicating or weakening them.
 
 ## Prohibited actions

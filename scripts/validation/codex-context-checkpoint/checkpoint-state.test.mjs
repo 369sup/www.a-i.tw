@@ -3,79 +3,19 @@ import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import {
-  CHECKPOINT_THRESHOLD,
-  calculateUsage,
-  emptyState,
-  evaluateCheckpointPolicy,
-} from "./checkpoint-state.mjs";
+import { emptyState, evaluateCheckpointPolicy } from "./checkpoint-state.mjs";
 import {
   validateCheckpointSummary,
   writeFallback,
 } from "./serena-memory-writer.mjs";
 
-const now = Date.parse("2026-07-14T00:10:00.000Z");
 const git = { workHash: "work-a", changedFiles: 4 };
 const source = { event: "ManualSignal", trigger: null, stopHookActive: false };
 
-test("below threshold does not request a checkpoint", () => {
-  const result = evaluateCheckpointPolicy({
-    source,
-    git,
-    tokenCount: 89,
-    contextWindow: 100,
-    now,
-  });
-  assert.equal(calculateUsage(89, 100).percentage < CHECKPOINT_THRESHOLD, true);
+test("ordinary events do not infer a checkpoint from repository changes", () => {
+  const result = evaluateCheckpointPolicy({ source, git });
   assert.equal(result.checkpoint, false);
-});
-
-test("at threshold requests exactly one checkpoint", () => {
-  const first = evaluateCheckpointPolicy({
-    source,
-    git,
-    tokenCount: 90,
-    contextWindow: 100,
-    now,
-  });
-  const duplicate = evaluateCheckpointPolicy({
-    source,
-    git,
-    tokenCount: 90,
-    contextWindow: 100,
-    now,
-    state: { ...emptyState(), pending_work_hash: "work-a" },
-  });
-  assert.equal(first.checkpoint, true);
-  assert.equal(duplicate.checkpoint, false);
-});
-
-test("material token or work growth permits a later checkpoint", () => {
-  const result = evaluateCheckpointPolicy({
-    source,
-    git,
-    tokenCount: 95,
-    contextWindow: 100,
-    now,
-    state: {
-      ...emptyState(),
-      last_checkpoint_token_count: 90,
-      last_checkpoint_time: "2026-07-14T00:09:00.000Z",
-      last_checkpoint_work_hash: "work-before",
-      last_observed_work_hash: "work-before",
-    },
-  });
-  assert.equal(result.checkpoint, true);
-});
-
-test("unavailable token data falls back safely to phase mode", () => {
-  const result = evaluateCheckpointPolicy({ source, git, now });
-  assert.deepEqual(calculateUsage(null, null), {
-    available: false,
-    percentage: null,
-  });
-  assert.equal(result.checkpoint, false);
-  assert.equal(result.reason, "phase-checkpoint-mode");
+  assert.equal(result.reason, "no-explicit-checkpoint-request");
 });
 
 test("PreCompact requests unless the same work was checkpointed", () => {
@@ -85,46 +25,53 @@ test("PreCompact requests unless the same work was checkpointed", () => {
     stopHookActive: false,
   };
   assert.equal(
-    evaluateCheckpointPolicy({ source: compact, git, now }).checkpoint,
+    evaluateCheckpointPolicy({ source: compact, git }).checkpoint,
     true,
   );
   assert.equal(
     evaluateCheckpointPolicy({
       source: compact,
       git,
-      now,
       state: { ...emptyState(), last_checkpoint_work_hash: "work-a" },
     }).checkpoint,
     false,
   );
 });
 
-test("cross-file work can checkpoint again after the debounce interval", () => {
-  const stop = { event: "Stop", trigger: null, stopHookActive: false };
+test("an explicit phase signal requests a checkpoint", () => {
   const result = evaluateCheckpointPolicy({
-    source: stop,
+    source,
     git,
-    now,
-    state: {
-      ...emptyState(),
-      last_checkpoint_time: "2026-07-14T00:04:00.000Z",
-      last_checkpoint_work_hash: "work-before",
-      last_observed_work_hash: "work-before",
-    },
+    manualSignal: "important-phase-completed",
   });
   assert.equal(result.checkpoint, true);
+  assert.equal(result.reason, "important-phase-completed");
 });
 
-test("Stop continuation does not create a checkpoint loop", () => {
-  const stop = { event: "Stop", trigger: null, stopHookActive: true };
+test("the same pending work does not create a second request", () => {
   const result = evaluateCheckpointPolicy({
-    source: stop,
+    source,
     git,
-    now,
-    state: { ...emptyState(), last_observed_work_hash: "work-before" },
+    state: { ...emptyState(), pending_work_hash: "work-a" },
+    manualSignal: "important-phase-completed",
   });
   assert.equal(result.checkpoint, false);
-  assert.equal(result.reason, "stop-continuation-already-active");
+  assert.equal(result.reason, "same-request-pending");
+});
+
+test("an acknowledged signal is deduplicated for unchanged work", () => {
+  const result = evaluateCheckpointPolicy({
+    source,
+    git,
+    state: {
+      ...emptyState(),
+      last_checkpoint_work_hash: "work-a",
+      last_checkpoint_reason: "important-phase-completed",
+    },
+    manualSignal: "important-phase-completed",
+  });
+  assert.equal(result.checkpoint, false);
+  assert.equal(result.reason, "manual-signal-deduplicated");
 });
 
 const validSummary = `# Current Work State

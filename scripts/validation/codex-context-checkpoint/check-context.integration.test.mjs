@@ -17,6 +17,12 @@ const projectTemplate = fileURLToPath(
   new URL("../../../.serena/project.yml", import.meta.url),
 );
 
+/**
+ * @param {string} command
+ * @param {string[]} args
+ * @param {import("node:child_process").SpawnSyncOptionsWithStringEncoding} [options]
+ * @param {number} [expectedStatus]
+ */
 function run(command, args, options = {}, expectedStatus = 0) {
   const result = spawnSync(command, args, {
     encoding: "utf8",
@@ -57,6 +63,7 @@ function createProject() {
   return root;
 }
 
+/** @param {string} root */
 function compactInput(root) {
   return JSON.stringify({
     session_id: "session-test",
@@ -68,6 +75,11 @@ function compactInput(root) {
   });
 }
 
+/**
+ * @param {string} root
+ * @param {string} event
+ * @param {Record<string, unknown>} [extra]
+ */
 function hookInput(root, event, extra = {}) {
   return JSON.stringify({
     session_id: "session-test",
@@ -147,7 +159,7 @@ test("PreCompact pauses, Serena writes and reads back, then compaction may retry
   );
 });
 
-test("Stop uses the official blocking fields and keeps a pending request blocked", () => {
+test("Stop only blocks a checkpoint created by an explicit phase signal", () => {
   const root = createProject();
   const sessionStart = JSON.parse(
     run(process.execPath, [script, "--hook"], {
@@ -162,22 +174,37 @@ test("Stop uses the official blocking fields and keeps a pending request blocked
   writeFileSync(join(root, "third.txt"), "changed\n", "utf8");
 
   const input = hookInput(root, "Stop", { stop_hook_active: false });
-  const first = JSON.parse(
+  const withoutRequest = JSON.parse(
     run(process.execPath, [script, "--hook"], { cwd: root, input }),
   );
-  assert.equal(first.continue, false);
-  assert.match(first.stopReason, /checkpoint required/i);
-  assert.match(first.systemMessage, /task-scoped verification/i);
-  assert.equal("decision" in first, false);
+  assert.equal(withoutRequest.continue, true);
 
-  const repeated = JSON.parse(
-    run(process.execPath, [script, "--hook"], {
+  const signal = JSON.parse(
+    run(process.execPath, [script, "--signal", "important-phase-completed"], {
       cwd: root,
-      input: hookInput(root, "Stop", { stop_hook_active: true }),
     }),
   );
-  assert.equal(repeated.continue, false);
-  assert.match(repeated.stopReason, /still pending/i);
+  assert.equal(signal.checkpoint_requested, true);
+
+  const withRequest = JSON.parse(
+    run(process.execPath, [script, "--hook"], {
+      cwd: root,
+      input,
+    }),
+  );
+  assert.equal(withRequest.continue, false);
+  assert.match(withRequest.stopReason, /still pending/i);
+
+  const resumed = JSON.parse(
+    run(process.execPath, [script, "--hook"], {
+      cwd: root,
+      input: hookInput(root, "SessionStart", { source: "resume" }),
+    }),
+  );
+  assert.match(
+    resumed.hookSpecificOutput.additionalContext,
+    /checkpoint is pending/i,
+  );
 });
 
 test("Serena failure saves the same summary to the local fallback", () => {
