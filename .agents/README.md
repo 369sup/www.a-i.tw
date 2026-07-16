@@ -10,7 +10,7 @@ The root structure below is closed and machine-enforced by `pnpm arch:topology`;
 
 ```text
 .agents/
-├── skills/                  # routing index and exceptional standalone skills
+├── skills/                  # official repository skill discovery path
 └── plugins/
     ├── marketplace.json     # canonical repository marketplace manifest
     └── plugins/
@@ -22,7 +22,7 @@ Related resources intentionally live elsewhere:
 
 | Resource                       | Owner                                   |
 | ------------------------------ | --------------------------------------- |
-| Agent role briefs and prompts  | `.codex/agents/`, `.codex/prompts/`     |
+| Custom subagent definitions    | user-level `$CODEX_HOME/agents/`        |
 | Semantic navigation memories   | `.serena/memories/`                     |
 | Product and architecture truth | `docs/`, Context manifests, code, tests |
 | Host plugins and credentials   | user/host-managed state                 |

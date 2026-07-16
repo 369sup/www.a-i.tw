@@ -20,106 +20,106 @@ apps/web/src/modules/
         ├── area.json
         │
         └── <bounded-context>/
-        ├── AGENTS.md
-        ├── README.md
-        ├── context.json
-        ├── public-api.ts
-        │
-        ├── domain/
-        │   └── <domain-capability>/
-        │       ├── aggregates/
-        │       │   └── <aggregate-root>.ts
-        │       ├── entities/
-        │       │   └── <entity>.ts
-        │       ├── value-objects/
-        │       │   └── <value-object>.ts
-        │       ├── domain-services/
-        │       │   └── <domain-service>.ts
-        │       ├── policies/
-        │       │   └── <domain-policy>.ts
-        │       ├── specifications/
-        │       │   └── <specification>.ts
-        │       ├── events/
-        │       │   └── <domain-event>.ts
-        │       └── errors/
-        │           └── <domain-error>.ts
-        │
-        ├── application/
-        │   ├── commands/
-        │   │   └── <command>/
-        │   │       ├── command.ts
-        │   │       └── handler.ts
-        │   ├── queries/
-        │   │   └── <query>/
-        │   │       ├── query.ts
-        │   │       └── handler.ts
-        │   ├── use-cases/
-        │   │   └── <use-case>.ts
-        │   ├── process-managers/
-        │   │   └── <process-manager>.ts
-        │   ├── dto/
-        │   │   └── <application-dto>.ts
-        │   └── ports/
-        │       ├── inbound/
-        │       │   └── <inbound-port>.ts
-        │       └── outbound/
-        │           └── <outbound-port>.ts
-        │
-        ├── contracts/
-        │   └── <contract-version>/
-        │       ├── public.ts
-        │       ├── commands/
-        │       │   └── <published-command>.ts
-        │       ├── queries/
-        │       │   └── <published-query>.ts
-        │       ├── events/
-        │       │   └── <integration-event>.ts
-        │       ├── dto/
-        │       │   └── <contract-dto>.ts
-        │       └── errors/
-        │           └── <contract-error>.ts
-        │
-        ├── adapters/
-        │   ├── inbound/
-        │   │   ├── http/
-        │   │   │   └── <http-adapter>.ts
-        │   │   ├── server-actions/
-        │   │   │   └── <server-action>.ts
-        │   │   ├── events/
-        │   │   │   └── <event-consumer>.ts
-        │   │   ├── jobs/
-        │   │   │   └── <job-adapter>.ts
-        │   │   └── ui/
-        │   │       └── <ui-adapter>.tsx
-        │   │
-        │   └── outbound/
-        │       ├── persistence/
-        │       │   ├── <repository-adapter>.ts
-        │       │   └── <persistence-mapper>.ts
-        │       ├── integrations/
-        │       │   └── <external-context-adapter>.ts
-        │       ├── messaging/
-        │       │   └── <message-publisher>.ts
-        │       ├── cache/
-        │       │   └── <cache-adapter>.ts
-        │       └── telemetry/
-        │           └── <telemetry-adapter>.ts
-        │
-        ├── composition/
-        │   ├── index.ts
-        │   └── <composition-module>.ts
-        │
-        └── tests/
+            ├── AGENTS.md
+            ├── README.md
+            ├── context.json
+            ├── public-api.ts
+            │
             ├── domain/
-            │   └── <domain-test>.test.ts
+            │   └── <domain-capability>/
+            │       ├── aggregates/
+            │       │   └── <aggregate-root>.ts
+            │       ├── entities/
+            │       │   └── <entity>.ts
+            │       ├── value-objects/
+            │       │   └── <value-object>.ts
+            │       ├── domain-services/
+            │       │   └── <domain-service>.ts
+            │       ├── policies/
+            │       │   └── <domain-policy>.ts
+            │       ├── specifications/
+            │       │   └── <specification>.ts
+            │       ├── events/
+            │       │   └── <domain-event>.ts
+            │       └── errors/
+            │           └── <domain-error>.ts
+            │
             ├── application/
-            │   └── <application-test>.test.ts
-            ├── adapters/
-            │   └── <adapter-test>.test.ts
+            │   ├── commands/
+            │   │   └── <command>/
+            │   │       ├── command.ts
+            │   │       └── handler.ts
+            │   ├── queries/
+            │   │   └── <query>/
+            │   │       ├── query.ts
+            │   │       └── handler.ts
+            │   ├── use-cases/
+            │   │   └── <use-case>.ts
+            │   ├── process-managers/
+            │   │   └── <process-manager>.ts
+            │   ├── dto/
+            │   │   └── <application-dto>.ts
+            │   └── ports/
+            │       ├── inbound/
+            │       │   └── <inbound-port>.ts
+            │       └── outbound/
+            │           └── <outbound-port>.ts
+            │
             ├── contracts/
-            │   └── <contract-test>.test.ts
-            └── architecture/
-                └── <boundary-test>.test.ts
+            │   └── <contract-version>/
+            │       ├── public.ts
+            │       ├── commands/
+            │       │   └── <published-command>.ts
+            │       ├── queries/
+            │       │   └── <published-query>.ts
+            │       ├── events/
+            │       │   └── <integration-event>.ts
+            │       ├── dto/
+            │       │   └── <contract-dto>.ts
+            │       └── errors/
+            │           └── <contract-error>.ts
+            │
+            ├── adapters/
+            │   ├── inbound/
+            │   │   ├── http/
+            │   │   │   └── <http-adapter>.ts
+            │   │   ├── server-actions/
+            │   │   │   └── <server-action>.ts
+            │   │   ├── events/
+            │   │   │   └── <event-consumer>.ts
+            │   │   ├── jobs/
+            │   │   │   └── <job-adapter>.ts
+            │   │   └── ui/
+            │   │       └── <ui-adapter>.tsx
+            │   │
+            │   └── outbound/
+            │       ├── persistence/
+            │       │   ├── <repository-adapter>.ts
+            │       │   └── <persistence-mapper>.ts
+            │       ├── integrations/
+            │       │   └── <external-context-adapter>.ts
+            │       ├── messaging/
+            │       │   └── <message-publisher>.ts
+            │       ├── cache/
+            │       │   └── <cache-adapter>.ts
+            │       └── telemetry/
+            │           └── <telemetry-adapter>.ts
+            │
+            ├── composition/
+            │   ├── index.ts
+            │   └── <composition-module>.ts
+            │
+            └── tests/
+                ├── domain/
+                │   └── <domain-test>.test.ts
+                ├── application/
+                │   └── <application-test>.test.ts
+                ├── adapters/
+                │   └── <adapter-test>.test.ts
+                ├── contracts/
+                │   └── <contract-test>.test.ts
+                └── architecture/
+                    └── <boundary-test>.test.ts
 ```
 
 A `planned` Context contains exactly `AGENTS.md`, `README.md`, `context.json`, and `public-api.ts`; it contains no runtime directories.
@@ -127,6 +127,11 @@ A non-`planned` Context contains those four files plus the six fixed directories
 
 These are the only two legal Context shapes. They are normative placement and ownership contracts, not claims that a
 Context implementation is complete. Interpret them as follows:
+
+- The closed portfolio invariant is exactly six Domain Groups, twelve Domain Areas and 37 physical Context descriptors:
+  20 runtime Contexts mirrored in `docs/domains/context-map.json` and 17 planned descriptors with
+  `runtimeEvidence.status: none`. A count change requires an accepted taxonomy decision plus matching manifests,
+  migration ledgers, catalogs and architecture tests.
 
 - Names without angle brackets are required structural directories or fixed files at the shown location.
 - Angle-bracket names are patterns and MUST NOT be created literally. They show the only permitted placement for an
@@ -196,6 +201,15 @@ Every module change also complies with `AR-001` through `AR-018` in
 `docs/architecture/ddd-hexagonal-standard.md`. A review must identify the affected closed impact scopes; a candidate
 capability, raw persistence record, internal VO, framework convenience or undocumented upstream behavior cannot waive
 those anti-rules.
+
+Runtime development is vertical-slice driven. Select one approved use case, refresh its official evidence, confirm its
+owner, source of truth, invariants, Ports, Published Language and consumers, then implement only the Domain,
+Application, Adapter, Composition and test artifacts required by that slice. Do not impose a portfolio-wide
+Contract-first, Value-Object-first, Entity-first, Adapter-first or fixed Context sequence.
+
+A planned descriptor may be promoted only after G1-G4 approval records a concrete first use case, accepted source of
+truth, current official evidence and explicit runtime relationships. Directory placement, a non-empty `public-api.ts`,
+or similarity to an existing Context is not promotion evidence.
 
 Before editing, read the Domain Group and Context owner files plus `context.json`; confirm owner, capability/use case,
 layer, Ports, Adapters, contract and consumers. Run focused tests, `pnpm arch:check`, runtime checks proportional to the

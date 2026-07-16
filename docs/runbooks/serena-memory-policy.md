@@ -68,7 +68,7 @@ The anchor is a recovery coordinate, not a copy of Git history or a diff.
 
 ## Autonomous use
 
-For supported code tasks, apply `.codex/TOOL-ROUTING.md`: semantic tools own symbols, implementations, references, whole-symbol edits, and diagnostics; native tools own prose, structured text, Git, commands, and validation. The activation prompt in `.serena/project.yml` provides a compact always-on reminder and never replaces root or nearer `AGENTS.md`.
+For supported code tasks, apply the user-level Codex tool routing and current-session capabilities: semantic tools own symbols, implementations, references, whole-symbol edits, and diagnostics; native tools own prose, structured text, Git, commands, and validation. The activation prompt in `.serena/project.yml` provides a compact always-on reminder and never replaces root or nearer `AGENTS.md`.
 
 Read only the role needed by the current event. Do not list and preload all memories as a routine startup ritual.
 

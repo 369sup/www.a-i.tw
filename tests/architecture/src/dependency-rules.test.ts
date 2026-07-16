@@ -365,16 +365,8 @@ const repositoryAreaContract = {
     files: ["AGENTS.md", "README.md"],
   },
   ".codex": {
-    directories: [
-      "agents",
-      "environments",
-      "logs",
-      "plugins",
-      "profiles",
-      "prompts",
-      "rules",
-    ],
-    files: ["AGENTS.md", "README.md", "TOOL-ROUTING.md", "config.toml"],
+    directories: ["agents", "environments", "logs", "rules"],
+    files: ["AGENTS.md", "README.md", "config.toml"],
   },
   ".github": {
     directories: ["ISSUE_TEMPLATE", "instructions", "workflows"],
@@ -516,7 +508,10 @@ function writeRepositoryAreaFixture() {
       name: "fixture-marketplace",
       plugins: repositoryPluginNames.map((name) => ({
         name,
-        source: { source: "local", path: `./plugins/${name}` },
+        source: {
+          source: "local",
+          path: `./.agents/plugins/plugins/${name}`,
+        },
       })),
     }),
   );
@@ -1070,7 +1065,9 @@ describe("closed repository area topology", () => {
     const result = inspectRepositoryAreas(root);
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("must use source.path ./plugins/modules");
+    expect(result.stderr).toContain(
+      "must use source.path ./.agents/plugins/plugins/modules",
+    );
   });
 
   it("rejects simplifying the closed package registry", () => {

@@ -50,7 +50,7 @@ UI / Infrastructure -> Application -> Domain
 - 語意順序為 `get_symbols_overview` → `find_symbol`／`find_declaration` → 必要的 implementations／references → 適當的 symbol-level edit → changed-file diagnostics。
 - Markdown、JSON、YAML、TOML、設定、Git、命令、literal 與不適合符號分析的局部修改使用原生搜尋與 patch 工具。
 - Cross-Context 修改前確認 owner、public contract、dependency direction 與 reference impact；memory 永遠不得覆蓋 runtime、manifest、test 或 canonical docs。
-- 完整工具選擇與 memory gate 由 `.codex/TOOL-ROUTING.md` 擁有，不在 prompts、AGENTS 或 memories 複製。
+- 完整工具選擇由使用者層級 Codex configuration 與當前 session 暴露能力擁有；repository 只保留專案邊界與 memory gate。
 
 ## Context routing
 

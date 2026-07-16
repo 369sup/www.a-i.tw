@@ -7,8 +7,8 @@ Read `docs/engineering/semantic-development-workflow.md` completely and execute 
 G0-G7 gates in order for every product behavior or architecture-boundary change.
 Do not scaffold before semantics, canonical documents, owner and path are approved.
 Do not implement Infrastructure or UI before Domain invariants and Application Ports.
-Use the existing `repo-explore-first`, `repo-docs-maintenance`,
-`serena-semantic`, `scaffold-bounded-context`,
+Use the existing `repo-explore-first`, `repo-docs-maintenance`, configured
+Serena semantic tools, `scaffold-bounded-context`,
 `architecture-boundary-audit`, and the official Vercel plugin's `verification` skill only at the gate where
 their responsibility applies. Report evidence for every completed gate and mark
 unmet gates as blocked instead of skipping them.

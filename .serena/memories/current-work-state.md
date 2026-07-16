@@ -1,63 +1,23 @@
 # Current Work State
-
 ## Objective
-
-Synchronize durable source context from the external Codex `MEMORY.md` registry into the three fixed Serena memories without merging or equating the systems.
-
+Audit official Codex configuration, remove invalid repository-local surfaces, migrate user-level profiles and custom agent configuration, and establish reliable Python and TOML validation.
 ## Scope
-
-- Updated `project-overview` with current routing and three-level module architecture.
-- Updated `knowledge` with separated organization-wide, architecture, environment, naming, ownership, and workflow categories.
-- Preserved this file as the only temporary implementation checkpoint.
-
+.agents and .codex configuration, repository topology validation, C:\Users\sup\.codex profiles, Python PyYAML runtime.
 ## Confirmed Decisions
-
-- `C:\Users\sup\.codex\memories\MEMORY.md` is source context only and was not modified.
-- Serena remains limited to `project-overview`, `knowledge`, and `current-work-state`.
-- Current repository evidence supersedes stale two-level topology, stale portfolio counts, historical checkout paths, and retired Serena memory names.
-- Stable facts were rewritten in organizational language; conversational, duplicate, speculative, and short-lived details were excluded.
-
+Keep project-local environment.toml, lifecycle hooks, instruction budget, and repository-specific command rules. Keep user preferences, profiles, host MCP configuration, and custom agents under C:\Users\sup\.codex. Use Python tomllib for TOML, not Prettier.
 ## Completed
-
-- Read the external registry and existing Serena memories.
-- Retained the authoritative root `D:\GitHub\www.a-i.tw`.
-- Retained current three-level topology and 6/12/37 physical portfolio with 20 runtime and 17 planned descriptors.
-- Retained durable Git Bash, Windows, checkpoint, naming, ownership, and scope-gating rules.
-- Removed obsolete two-level module topology and historical runtime-count framing from the distilled result.
-- Read back all three Serena memories and verified their separate roles and current terminology.
-
+Removed deprecated project prompts, repo profile templates, redundant plugin guidance, TOOL-ROUTING, and repo custom agent. Corrected marketplace source path and nonexistent Serena plugin references. Installed PyYAML 6.0.3. Added implementation, review, and release user profiles.
 ## In Progress
-
 None.
-
 ## Pending
-
-No memory synchronization work remains. Repository governance implementation changes from the preceding task remain uncommitted.
-
+Restart Codex Desktop or open a new task to pick up user-level profile and agent changes.
 ## Modified Files
-
-- Serena memories: `project-overview`, `knowledge`, `current-work-state`.
-- No external Codex memory file was modified by this synchronization.
-- The repository working tree still contains the previously completed governance-document and checker changes.
-
+Repository Codex and agent governance files plus topology checker/tests; user-level profile files under C:\Users\sup\.codex.
 ## Git Anchor
-
-- Branch: `main`
-- HEAD: `7455903b`
-- Working tree: governance documentation, manifest checker, and Serena current-work-state remain modified; no product runtime, Context Map, lifecycle, contract, or public API file was changed by the memory synchronization.
-
+branch main; HEAD 012843029e8624d1b80d2f27e4f8521bf25e38bf; working tree contains pre-existing unrelated Serena, module, and product documentation changes plus this Codex configuration cleanup.
 ## Validation
-
-- `project-overview`, `knowledge`, and `current-work-state` were all written and read back successfully.
-- The memories remain distinct from the external Codex memory system.
-- No stale two-level canonical topology or retired Serena memory role remains in the updated set.
-- Existing governance validation before this memory task: complete topology blocks preserved, 37/37 Context governance blocks, `pnpm docs:check`, manifest/template checks, and full architecture tests passed.
-
+Official plugin validator passed; PyYAML import and pip check passed; all TOML parsed; Codex CLI 0.144.5 loaded all three profiles through mcp list; docs:check passed; arch:check passed; architecture tests 90 passed; hook tests 13 passed; git diff --check passed.
 ## Known Risks
-
-- Portfolio counts and runtime status are time-sensitive; verify against manifests and ADR 0014 when reused.
-- Historical rollout summaries may contain stale OneDrive roots, two-level topology, retired memory names, or older Context counts.
-
+Project-local rules remain by design because moving www.a-i.tw-specific command restrictions globally would affect unrelated repositories. Empty .codex/agents discovery directory remains due a Windows process lock but contains no configuration.
 ## Next Action
-
-Resume repository work from this checkpoint or commit the existing governance changes only when explicitly requested.
+Restart Codex Desktop, then verify the new task sees the user-level agent and selected profiles.

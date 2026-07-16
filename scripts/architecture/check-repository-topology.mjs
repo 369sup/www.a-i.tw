@@ -8,16 +8,8 @@ const exactAreaEntries = {
     files: ["AGENTS.md", "README.md"],
   },
   ".codex": {
-    directories: [
-      "agents",
-      "environments",
-      "logs",
-      "plugins",
-      "profiles",
-      "prompts",
-      "rules",
-    ],
-    files: ["AGENTS.md", "README.md", "TOOL-ROUTING.md", "config.toml"],
+    directories: ["agents", "environments", "logs", "rules"],
+    files: ["AGENTS.md", "README.md", "config.toml"],
   },
   ".github": {
     directories: ["ISSUE_TEMPLATE", "instructions", "workflows"],
@@ -428,7 +420,7 @@ if (!existsSync(marketplacePath)) {
           errors.push(`Duplicate repository marketplace plugin: ${name}.`);
         }
         marketplaceNames.add(name);
-        const expectedSourcePath = `./plugins/${name}`;
+        const expectedSourcePath = `./.agents/plugins/plugins/${name}`;
         if (entry?.source?.source !== "local") {
           errors.push(
             `Repository marketplace plugin ${name} must use a local source.`,

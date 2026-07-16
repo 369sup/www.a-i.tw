@@ -19,14 +19,10 @@ The root structure documented here is closed and machine-enforced by `pnpm arch:
 | Path                             | Responsibility                                                        |
 | -------------------------------- | --------------------------------------------------------------------- |
 | `AGENTS.md`                      | repository-local Codex execution contract                             |
-| `config.toml`                    | reproducible project MCP, sandbox, and approval settings              |
-| `TOOL-ROUTING.md`                | detailed tool-selection guidance                                      |
+| `config.toml`                    | trusted-project instruction budget and lifecycle hooks                |
 | `rules/`                         | command execution safety only                                         |
-| `prompts/`                       | reusable task prompts                                                 |
-| `profiles/`                      | optional user-level profile templates; not automatically active       |
-| `agents/`                        | read-only agent role briefs                                           |
+| `agents/`                        | optional project-scoped custom-agent discovery point; currently empty |
 | App-generated files in `.codex/` | Codex Desktop generated local-environment configuration, when present |
-| `plugins/`                       | plugin boundary and host-integration policy                           |
 
 ## Efficient task format
 
@@ -39,7 +35,7 @@ Validation: focused command, then blast-radius expansion
 Delivery: edit, analysis, or review plus final report shape
 ```
 
-Prompts route to formal repository rules instead of copying them. Use relevant tools by intent: semantic tools for supported code-symbol work, native tools for Markdown/TOML/JSON/Git, and official versioned docs when local evidence is incomplete.
+Use relevant tools by intent: semantic tools for supported code-symbol work, native tools for Markdown/TOML/JSON/Git, and official versioned docs when local evidence is incomplete.
 
 Changes to Markdown or repository Codex configuration require formatting plus `pnpm docs:check`; command rules or executable integration changes also require their focused validation.
 

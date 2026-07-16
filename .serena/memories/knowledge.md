@@ -1,72 +1,139 @@
 # Distilled Knowledge
 
-## Purpose
-
-Store verified, reusable, non-obvious operating knowledge. Canonical repository sources remain authoritative. Remove a record when it becomes obsolete or cheap to reconstruct.
-
 ## Organization-Wide Rules
 
-- Confirm the real problem, owner, boundary, constraints, and smallest verifiable outcome before implementation.
-- Prefer the simplest cohesive solution with the fewest dependencies; do not broaden an approved slice into a roadmap.
-- Official GitHub product behavior is semantic evidence. UI navigation, routes, APIs, GraphQL types, storage layout, existing packages, and current code placement do not independently establish Domain ownership.
-- A topology, scaffold, green check, or physical directory proves placement only, not runtime completeness.
-- When canonical sources conflict with memory or historical rollout text, retain the newest confirmed runtime, manifest, test, ADR, or canonical-document fact.
+### K-20260716-semantic-evidence-precedence
+
+- Status: active
+- Tags: first-principles, official-evidence, ownership, scope
+- Scope: repository-wide product and architecture decisions
+- Claim: Official product behavior may establish semantics, but UI navigation, routes, APIs, GraphQL types, storage layout, existing packages, and physical code placement do not independently establish Domain ownership.
+- Invariant: Confirm the problem, unique owner, lifecycle, constraints, source of truth, and smallest verifiable outcome before implementation; newer runtime, manifest, test, ADR, or canonical-document evidence supersedes historical memory.
+- Symbols and relations: GitHub Docs informs `docs/product/github-non-code-semantic-model.md`; canonical owners constrain Context manifests and runtime.
+- Why retained: Ownership drift is easy when presentation or co-location is mistaken for semantic authority.
+- Evidence: `AGENTS.md`; `docs/product/github-non-code-semantic-model.md`; `docs/decisions/0014-complete-github-non-code-portfolio-taxonomy.md`.
+- Applies when: Classifying or changing GitHub non-Code product semantics.
+- Invalidated when: An accepted decision replaces the evidence hierarchy.
+- Last verified: 2026-07-16 against current canonical governance documents.
 
 ## Project Architecture
 
-- The complete tactical topology code block in `apps/web/src/modules/AGENTS.md` and `apps/web/src/modules/README.md` is a fixed Codex classification coordinate. Keep the paired blocks synchronized and do not abbreviate or replace them when clarifying lifecycle rules. [ad-hoc note]
-- Planned Contexts have four root files, `firstUseCase: null`, `runtimeEvidence.status: none`, no runtime relationships, no runtime directories, and an empty `public-api.ts`. Promotion requires an approved first use case, source of truth, refreshed official evidence, and explicit Context Map/runtime gates. [ad-hoc note]
-- Runtime development is approved-use-case vertical-slice driven. Do not impose Contract-first, Value-Object-first, Adapter-first, or fixed step-count implementation sequences. [ad-hoc note]
-- Canonical anti-rules are AR-001 through AR-018 in `docs/architecture/ddd-hexagonal-standard.md`; repository rules prohibit ownership-free product primitives, God Contexts, peer internal imports, cross-Context transactions, Domain framework/I/O dependencies, Application concrete-adapter dependencies, and projections as upstream truth. [ad-hoc note]
+### K-20260716-portfolio-and-promotion
+
+- Status: active
+- Tags: topology, portfolio, planned, runtime, promotion
+- Scope: `apps/web/src/modules`
+- Claim: The closed portfolio contains six Domain Groups, twelve Domain Areas, thirty-seven physical Context descriptors, twenty runtime Contexts, and seventeen planned descriptors; topology is placement and governance, not runtime completeness.
+- Invariant: Planned Contexts contain only `AGENTS.md`, `README.md`, `context.json`, and an empty `public-api.ts`; they have `firstUseCase: null`, `runtimeEvidence.status: none`, no runtime relationships, and no runtime directories.
+- Symbols and relations: `group.json` declares Areas; `area.json` declares Contexts; non-planned manifests are mirrored in `docs/domains/context-map.json`.
+- Why retained: Historical counts and scaffold completeness repeatedly caused incorrect implementation claims.
+- Evidence: `apps/web/src/modules/AGENTS.md`; `apps/web/src/modules/README.md`; ADR 0014; architecture checks.
+- Applies when: Planning, generating, promoting, reviewing, or counting Contexts.
+- Invalidated when: An accepted taxonomy decision and matching manifests, catalogs, migration ledgers, and tests change the portfolio.
+- Last verified: 2026-07-16; manifest count 37/20/17 and `pnpm arch:check` passed.
+
+### K-20260716-cross-context-boundary
+
+- Status: active
+- Tags: hexagonal, ports, acl, contracts, dependencies
+- Scope: all runtime Bounded Contexts
+- Claim: Cross-Context calls use a consumer-owned outbound Port, a consumer ACL under `adapters/outbound/integrations`, and provider `contracts/vN/public.ts`; final wiring belongs to `apps/web/src/composition`.
+- Invariant: Domain has no framework or I/O dependencies; Application never imports concrete adapters or peer internals; projections never become upstream transaction truth; `public-api.ts` is app-facing only.
+- Symbols and relations: Consumer Port is implemented by consumer ACL; ACL consumes provider Published Language; app composition wires Context composition entries.
+- Why retained: Dependency direction is distributed across manifests, contracts, adapters, and architecture checks and is costly to reconstruct during cross-Context work.
+- Evidence: `apps/web/src/modules/AGENTS.md`; `docs/architecture/ddd-hexagonal-standard.md`; `docs/domains/context-map.json`.
+- Applies when: Adding or changing a runtime relationship, contract, Port, adapter, or composition edge.
+- Invalidated when: An accepted architecture decision replaces the Ports and Adapters boundary.
+- Last verified: 2026-07-16; architecture relationship checks passed.
 
 ## Development Environment
 
-- Use Git Bash for Git, shell, and project commands on Windows. Do not mix PowerShell, CMD, and Bash syntax in one workflow.
-- For cwd-sensitive hooks use `bash -c`; `bash -lc` may move to the home directory and break repository detection.
-- Set `PYTHONUTF8=1` for Serena CLI validation to avoid cp950 encoding failures.
-- For read-only Git fingerprinting use `git -c core.safecrlf=false ...` when CRLF warnings would corrupt structured hook output.
-- Prefer lower-level checks when Windows wrappers fail for environmental reasons: focused tests, `pnpm docs:check`, `pnpm arch:check`, `pnpm build`, and `git diff --check`. Do not weaken rules or report unexecuted checks as passed.
-- Avoid Serena commands that create transient `.serena/logs/` inside the closed repository topology.
+### K-20260716-windows-serena-verification
+
+- Status: active
+- Tags: windows, git-bash, serena, checkpoint, verification
+- Scope: local Windows development and Codex/Serena workflows
+- Claim: Use Git Bash for Git, shell, and project commands; Serena CLI validation requires `PYTHONUTF8=1` on this host, and repository-sensitive hooks use `bash -c` rather than `bash -lc`.
+- Invariant: Do not mix shell syntaxes, weaken checks, or report unexecuted validation as passed. A Serena checkpoint succeeds only when write and exact read-back both succeed.
+- Symbols and relations: Host Serena executable is `C:\Users\sup\.local\bin\serena.exe`; checkpoint workflow is owned by `scripts/validation/codex-context-checkpoint`.
+- Why retained: PATH separation, cp950 encoding, cwd changes, and CRLF warnings cause failures that resemble product defects.
+- Evidence: `C:\Users\sup\.codex\config.toml`; `.codex/plugins/README.md`; checkpoint runbook and tests.
+- Applies when: Running Serena, hooks, checkpoints, Git, or repository checks on the configured Windows host.
+- Invalidated when: Host configuration or supported shell/checkpoint implementation changes.
+- Last verified: 2026-07-16; Serena 1.5.3 executable and absolute host configuration verified.
 
 ## Naming Conventions
 
-- `apps/web/src/modules/AGENTS.md` is normative for tactical placement and filenames; nearby legacy names and green checks do not override its natural-language rules. [ad-hoc note]
-- Before creating an artifact, classify owning Context, approved capability or use case, layer, tactical category, artifact role, consumers, and contract; derive the name from the matching placeholder. [ad-hoc note]
-- Use Context-owned immutable Value Objects; do not create global product `ID`, `Name`, `Status`, `Role`, `Scope`, or `Reference` primitives under `shared`, `common`, or `core`. [ad-hoc note]
-- Transport-neutral view data belongs in `application/dto`.
-- `adapters/inbound/ui` contains kebab-case `.tsx` UI adapters.
-- `adapters/inbound/server-actions` contains kebab-case `.ts` adapters named for one explicit action.
-- Do not create catch-all `helpers`, `utils`, `actions`, or grouped form-adapter files.
+### K-20260716-module-artifact-classification
+
+- Status: active
+- Tags: naming, placement, modules, dto, ui, server-actions
+- Scope: `apps/web/src/modules/**`
+- Claim: `apps/web/src/modules/AGENTS.md` is normative for tactical placement and filenames; nearby legacy names and green checks do not override unenforced natural-language rules.
+- Invariant: Before creating an artifact, classify owning Context, approved capability or use case, layer, tactical category, artifact role, consumers, and contract, then derive the filename from the matching placeholder.
+- Symbols and relations: Transport-neutral view data belongs in `application/dto`; inbound UI adapters are kebab-case `.tsx`; server-action adapters are kebab-case `.ts` files for one explicit action.
+- Why retained: Existing legacy names can pass incomplete checks and encourage new misplaced or catch-all artifacts.
+- Evidence: `apps/web/src/modules/AGENTS.md`; architecture naming and topology checks.
+- Applies when: Creating, moving, or renaming module artifacts.
+- Invalidated when: The module boundary contract changes and matching checks are updated.
+- Last verified: 2026-07-16 against the current module contract.
 
 ## Bounded-Context Ownership
 
-- Repository core owns identity, owner reference, profile, visibility, state, feature configuration, and lifecycle. Access grants, roles, permissions, and authorization decisions semantically belong to Authorization and Policy.
-- `RepositoryRoleDefinition` and `RepositoryAccessGrant` are currently physically co-located in `repository-governance`; this is runtime placement debt and does not transfer semantic ownership. [ad-hoc note]
-- `profile-presence` is the sole owner of User and Organization presentation state. Profile data cannot authenticate a Principal or determine Account eligibility. [ad-hoc note]
-- `organization-account` owns Organization identity and provisioning lifecycle only. Membership, Invitation, Team, and founding-owner writes belong to `organization-participation`. [ad-hoc note]
-- `enterprise-account` owns Enterprise identity, lifecycle, and Organization affiliation; it does not own Repository policy, administrative roles, Repository actions, or Organization membership. [ad-hoc note]
-- Organization onboarding that creates founding-owner Membership requires a separately approved cross-Context provisioning workflow with retry and failure semantics. [ad-hoc note]
-- Discussions owns Discussion, category, comments, and accepted-answer references. An accepted answer must be an active comment in the same Discussion, and the category must allow answers.
-- Repository participation for Discussions is consumed through its published participation contract and consumer ACL; Repository and Authorization do not own Discussion state.
-- Preserve `triage` as distinct from `read` and `write`; missing owner facts fail closed and must not create synthetic principals.
+### K-20260716-account-profile-participation-ownership
+
+- Status: active
+- Tags: account, profile, organization, participation, onboarding
+- Scope: `platform-governance/accounts-profile` and `platform-governance/participation-teams`
+- Claim: `profile-presence` solely owns User and Organization presentation state; Account Contexts own identity and lifecycle; `organization-participation` owns Membership, Invitation, Team, and founding-owner writes.
+- Invariant: Profile data does not authenticate a Principal or determine Account eligibility. `organization-account` must not persist participation state. Founding-owner onboarding is a cross-Context process with retry and failure semantics owned by `organization-participation`.
+- Symbols and relations: Account Contexts consume `ProfileDirectoryApiV1`; `OrganizationOnboardingProcess` consumes `OrganizationAccountApiV1`.
+- Why retained: Account, Profile, and Membership were previously collapsed into one workflow and can regress during onboarding work.
+- Evidence: Context manifests and governance files for `user-account`, `organization-account`, `profile-presence`, and `organization-participation`.
+- Applies when: Changing Account creation, Profile initialization, Organization onboarding, Membership, Invitation, or Team behavior.
+- Invalidated when: An accepted boundary decision and matching runtime migration changes these owners.
+- Last verified: 2026-07-16 against current manifests and Context Map relationships.
+
+### K-20260716-repository-authorization-ownership
+
+- Status: active
+- Tags: repository, authorization, access-grant, role, runtime-debt
+- Scope: Repository core and Authorization and Policy semantics
+- Claim: Repository core owns identity, Account owner reference, profile, visibility, state, feature configuration, and lifecycle; access grants, roles, permissions, and authorization decisions semantically belong to Authorization and Policy.
+- Invariant: Physical co-location of `RepositoryRoleDefinition` and `RepositoryAccessGrant` in `repository-governance` is current runtime placement debt and must not expand Repository semantic ownership without a boundary decision.
+- Symbols and relations: Repository publishes participation/resource facts; consumers use Published Language and ACLs; logical ownership remains recorded in the semantic inventory.
+- Why retained: Physical co-location repeatedly causes semantic owner drift.
+- Evidence: `docs/product/github-non-code-semantic-model.md`; `docs/domains/repository.md`; `repository-governance` governance files.
+- Applies when: Changing Repository access, roles, grants, permissions, or authorization wording.
+- Invalidated when: An accepted boundary change migrates runtime and updates the semantic inventory.
+- Last verified: 2026-07-16 against current semantic owner registry and runtime placement.
+
+### K-20260716-discussions-accepted-answer
+
+- Status: active
+- Tags: discussions, q-and-a, accepted-answer, triage
+- Scope: `collaboration/community-knowledge/discussions`
+- Claim: Discussions owns Discussion, category, comments, and accepted-answer references; an accepted answer must be an active comment in the same Discussion and the category must allow answers.
+- Invariant: Repository participation is consumed through the provider contract and a Discussions-owned ACL. Repository and Authorization do not own Discussion state. `triage` remains distinct from `read` and `write`, and missing owner facts fail closed.
+- Symbols and relations: Discussion command handlers consume Repository participation and Community Safety decisions through consumer-owned Ports.
+- Why retained: The accepted-answer and triage rules span Domain invariants and cross-Context authorization facts.
+- Evidence: Discussions manifest, governance files, focused tests, and dated Discussions implementation evidence.
+- Applies when: Changing Q&A categories, comments, answer selection, or Repository-scoped participation.
+- Invalidated when: Discussion Domain rules or provider contracts are intentionally replaced.
+- Last verified: 2026-07-16 against current Discussions runtime and governance documentation.
 
 ## Workflow Constraints
 
-- For supported code work, initialize Serena once, confirm active project configuration, inspect symbols and references before editing, and use changed-file diagnostics after semantic code changes.
-- Markdown, JSON, YAML, configuration, Git, and literal text changes use narrow native tools.
-- Exact context-token percentage is not available through official hooks. Do not infer it from transcript files or claim an exact 90% trigger.
-- Checkpointing is event-driven through official `SessionStart`, `PreCompact`, and `Stop` hooks.
-- When a matching checkpoint request is required, run `pnpm checkpoint:context -- --signal important-phase-completed` before piping the checkpoint to `pnpm checkpoint:context -- --checkpoint`.
-- A Serena checkpoint succeeds only when both `serena_saved: true` and `read_back_verified: true` are observed.
-- If the checkpoint reports `No checkpoint request matches the current work hash`, issue the signal and retry; do not bypass the gate.
-- When the user requests distillation before continuing or closing, checkpoint and read back before further product work or completion.
-- Verify hook triggers, checkpoint read-back, archive completion, tests, and diffs from actual output rather than expected behavior.
-- Green checks prove only implemented rules. If a natural-language constraint is unenforced, add the narrowest regression guard or record explicit legacy debt. [ad-hoc note]
+### K-20260716-vertical-slice-and-checkpoint
 
-## Maintenance
-
-Keep these categories separate. Merge duplicates, discard stale rollout counts and historical paths, and defer to current canonical repository evidence whenever validity changes.
-
-## Last Verified
-
-2026-07-16 using `C:\Users\sup\.codex\memories\MEMORY.md` as source context and the active repository as the conflict-resolution authority.
+- Status: active
+- Tags: vertical-slice, g1-g7, checkpoint, hooks, validation
+- Scope: implementation sequencing and cross-session continuity
+- Claim: Runtime development is driven by one approved use case, not by portfolio order or fixed Contract-first, Value-Object-first, Adapter-first, or step-count sequences.
+- Invariant: Refresh official evidence; approve owner, source of truth, first use case, invariants, Ports, contracts, and consumers; implement only the required vertical slice; validate by blast radius. Exact token percentage is unavailable, so checkpointing is event-driven through official lifecycle hooks.
+- Symbols and relations: Planned promotion uses G1-G4; implementation and verification complete G5-G7; `mem:current-work-state` is the only overwriteable checkpoint.
+- Why retained: Historical roadmap order and unsupported context-percentage assumptions caused unnecessary scope expansion and unreliable handoffs.
+- Evidence: `apps/web/src/modules/AGENTS.md`; `apps/web/src/modules/README.md`; `docs/roadmap/context-migration-roadmap.md`; Serena checkpoint runbook.
+- Applies when: Selecting a next slice, promoting a planned Context, pausing, compacting, or handing off work.
+- Invalidated when: Accepted workflow or hook capabilities change.
+- Last verified: 2026-07-16; docs and architecture checks passed after governance calibration.

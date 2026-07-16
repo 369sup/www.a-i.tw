@@ -8,7 +8,7 @@
       "name": "modules",
       "source": {
         "source": "local",
-        "path": "./plugins/modules"
+        "path": "./.agents/plugins/plugins/modules"
       },
       "policy": {
         "installation": "AVAILABLE",

@@ -36,18 +36,20 @@
 18. **Completed — Discussions Q&A slice**: Context-owned Category, Discussion and Comment values now protect
     Repository-scoped creation, commenting and accepted Answer selection. Discussion author or Repository `triage+`
     may mark an active Comment; the Context consumes Repository participation through its own Port/ACL and fails closed.
-19. **Research before implementation**: Knowledge, Community Safety, Social Graph, Notifications, Search,
-    Apps, Billing, Sponsors, Audit and Support must each pass G1-G3; no capability family automatically
-    becomes a Context and no universal Context Service is allowed.
-20. **Target Context sequence**: Knowledge → Community Safety → Social Graph → Subscription &
-    Notification → Search & Discovery → Integration Ecosystem → Identity Governance → Entitlement & Licensing →
-    Billing & Cost → Sponsorship → Audit & Compliance. Order may change only with documented product evidence.
+19. **Completed core research/runtime wave**: Knowledge, Community Safety, Social Curation, Subscription &
+    Notification, Search & Discovery and App Management passed their recorded gates. Billing, Sponsors, Support,
+    Webhook Delivery, Marketplace and the remaining planned descriptors still require independent G1-G4 approval;
+    no capability family automatically becomes runtime and no universal Context Service is allowed.
+20. **Current selection rule**: there is no fixed target Context sequence. Select one concrete product problem,
+    refresh official evidence, approve owner/source of truth/first use case, declare only the required contracts and
+    relationships, then implement the smallest vertical slice. Portfolio order and directory placement do not approve
+    runtime work.
 21. **Extraction gate**: only independent deployment, scaling, compliance,
     ownership or release-cadence evidence permits service/workspace extraction.
 
 Each step requires entry evidence, rollback, compatibility impact and exit verification.
 
-## Next Bounded Context development: Knowledge
+## Historical completed slice: Knowledge
 
 狀態：Current in-memory first slice / G1-G7 completed 2026-07-14
 
@@ -88,11 +90,11 @@ Knowledge application
 - Rollback before G4 is documentation-only. After G4, rollback removes only the uncomposed Knowledge slice and its
   declared Context Map edges; it must not alter Repository or Authorization contracts without compatibility review.
 
-## Next Bounded Context development: Community Safety
+## Historical completed slice: Community Safety
 
 狀態：Completed 2026-07-14 / G0-G7 passed
 
-The next proposed vertical slice avoids a synchronous Discussions ↔ Moderation cycle by starting with a
+The completed vertical slice avoided a synchronous Discussions ↔ Moderation cycle by starting with a
 Repository-scoped interaction rule rather than Conversation locking:
 
 > A Repository admin activates a one-day `collaborators_only` Interaction Limit for a public Repository; Issue and
@@ -111,11 +113,11 @@ contribution history.
 | G3    | Approve `collaboration/community-knowledge/community-safety`, Supporting classification, source of truth and first use case | Completed; generator inputs and fail-closed edges accepted   |
 | G4-G7 | Scaffold, implement inside-out, compose consumers and verify                                                                | Completed; 16-Context architecture and runtime checks passed |
 
-## Next Bounded Context development: Social Curation
+## Historical completed slice: Social Curation
 
 狀態：Current / G0-G7 completed
 
-The next proposed vertical slice keeps Star separate from Watch and Follow:
+The completed vertical slice keeps Star separate from Watch and Follow:
 
 > An authenticated active User stars or unstars a Repository that the User can read, then lists the User's own starred
 > Repository references ordered by `starredAt`.
@@ -167,10 +169,10 @@ the current Notification from the active Inbox and stops future conversation upd
 
 ## Complete portfolio follow-up
 
-The 6-Group／12-Area／35-candidate taxonomy in Accepted ADR 0014 is a portfolio-classification decision, not the next
-runtime wave. Its Programs candidates remain behind Knowledge、Community Safety and the approved core dependency sequence.
-The `programs` Group and Areas are governance-only reservations; no Programs Context is created until one use case
-independently passes G1-G3.
+The Accepted ADR 0014 portfolio contains six Groups, twelve Areas and 37 physical Context descriptors: 20 runtime and
+17 planned. This is a portfolio-classification decision, not an implementation queue. Planned Programs and product
+Contexts already have governance-only descriptor directories, but they remain outside the runtime Context Map and have
+no runtime directories or Published Language until one concrete use case independently passes G1-G4.
 
 ## Integration Ecosystem: App Registry first slice
 

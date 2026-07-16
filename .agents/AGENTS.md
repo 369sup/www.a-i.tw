@@ -6,7 +6,7 @@
 .agents/
 ├── plugins/
 │   ├── marketplace.json # canonical repository marketplace manifest
-│   └── plugins/         # repository-owned plugin sources
+│   └── plugins/         # repository-owned plugin sources referenced from repo root
 ├── skills/              # standalone-skill exceptions and routing index only
 ├── AGENTS.md
 └── README.md
@@ -26,7 +26,7 @@
 - Vendor-owned workflows available through official plugins MUST NOT be copied into repository-owned plugins or skills.
 - Every workflow has one narrow trigger, explicit inputs, bounded actions, outputs, owner, and verification.
 - Skills remain small, composable, and reference canonical docs or manifests rather than encoding product truth.
-- Repo marketplace entries use `./plugins/<plugin-name>` from the repository marketplace root and match the plugin manifest name.
+- Repo marketplace entries use a `./`-prefixed path resolved from the repository root and match the plugin manifest name.
 - Parallel work uses disjoint scopes; the primary agent owns integration and final verification.
 
 ## Prohibited actions

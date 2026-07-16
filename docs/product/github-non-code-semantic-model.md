@@ -67,9 +67,12 @@ programs/
 `engagement`／`ecosystem` 的分組分離與 `participation-teams` Area 的引入只改善 navigation，不能被解讀成 runtime
 dependency。Personal／Managed User 是 `user-account` 的控制模式；Organization／Enterprise participation 具有不同
 membership、team 與 affiliation lifecycle，才是待 G1-G3 驗證的 owner split。Programs 的 Group／Area 是
-governance-only reservation；七個候選 Context 全部是 Research，不得預先建立 Context directory。
+governance-only reservation；七個候選 Context 全部是 Research。其 planned descriptor directory 只固定
+已接受的 navigation／ownership boundary，不代表 runtime approval。
 
-目前 18 個 runtime Context 保留原 Context ID、Published Language 與行為，只遷移到 ADR 0014 的 primary Area。
+目前 20 個 runtime Context 保留原 Context ID、Published Language 與行為；其中 18 個為 Current，Activity Feed
+與 Audit & Compliance 為 in-memory prototype。其餘 17 個 physical descriptors 維持 `planned`，不得因已存在
+governance directory 而被視為 runtime、Current 或完整產品能力。
 候選 taxonomy 與現況 runtime 名稱不要求一對一；任何 rename、split 或 merge 仍須通過正式 boundary-change
 workflow。
 
