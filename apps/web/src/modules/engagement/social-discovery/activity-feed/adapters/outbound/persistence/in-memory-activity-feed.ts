@@ -1,13 +1,23 @@
-import type { FeedStore } from "../../../application/use-cases/activity-feed-service";
-import type { FeedItem } from "../../../domain/activity-feed/entities/feed-item";
+import type { FeedStore } from "../../../application/ports/outbound/feed-store";
+import {
+  createFeedItem,
+  type FeedItem,
+} from "../../../domain/activity-feed/entities/feed-item";
+
 export class InMemoryFeedStore implements FeedStore {
-  private readonly items: FeedItem[] = [];
-  async list(id: string) {
+  private readonly items: FeedItem[];
+
+  constructor(initial: readonly FeedItem[] = []) {
+    this.items = initial.map((item) => createFeedItem({ ...item }));
+  }
+
+  async list(recipientPrincipalId: string) {
     return this.items
-      .filter((x) => x.recipientPrincipalId === id)
+      .filter((item) => item.recipientPrincipalId === recipientPrincipalId)
       .sort((a, b) => b.occurredAt.localeCompare(a.occurredAt));
   }
-  async append(v: FeedItem) {
-    this.items.push(v);
+
+  async append(value: FeedItem) {
+    this.items.push(createFeedItem({ ...value }));
   }
 }

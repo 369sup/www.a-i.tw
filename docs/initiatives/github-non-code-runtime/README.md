@@ -1,6 +1,9 @@
 # GitHub non-code runtime expansion
 
-狀態：Approved / implementation in progress
+狀態：Historical / superseded by
+[`../github-non-code-37-context-prototypes/`](../github-non-code-37-context-prototypes/)
+
+This is retained only as migration history. Do not use its owner list, paths or progress state for current work.
 
 ## Outcome
 

@@ -12,6 +12,8 @@ const ledger = JSON.parse(
 const apply = process.argv.includes("--apply");
 
 if (!ledger) throw new Error("Portfolio migration ledger is missing.");
+// This executable ledger verifies the completed ADR 0014 migration baseline.
+// Current runtime/planned distribution is owned by manifests and the Context Map.
 const targets = [...ledger.runtimeTargets, ...ledger.plannedTargets];
 if (targets.length !== 37 || new Set(targets).size !== 37)
   throw new Error("Portfolio ledger must declare exactly 37 unique targets.");
@@ -67,6 +69,6 @@ if (errors.length) {
   process.exitCode = 1;
 } else {
   console.log(
-    `${apply ? "Apply verification" : "Dry run"} complete: 37 Contexts, 20 runtime, 17 planned.`,
+    `${apply ? "Apply verification" : "Dry run"} complete for historical ADR 0014 baseline: 37 Contexts, 20 runtime, 17 planned.`,
   );
 }

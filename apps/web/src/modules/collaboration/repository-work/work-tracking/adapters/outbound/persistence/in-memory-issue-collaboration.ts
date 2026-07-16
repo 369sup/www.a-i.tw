@@ -1,4 +1,4 @@
-import type { IssueCollaborationStore } from "../../../application/use-cases/issues-collaboration-service";
+import type { IssueCollaborationStore } from "../../../application/ports/outbound/issue-collaboration-store-port";
 import type {
   IssueComment,
   IssueDependency,

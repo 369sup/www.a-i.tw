@@ -7,7 +7,22 @@ export type AuditEntry = Readonly<{
   occurredAt: string;
 }>;
 export function createAuditEntry(value: AuditEntry) {
-  if (!value.action.trim() || !value.targetRef.trim())
-    throw new Error("Audit action and target are required.");
-  return Object.freeze(value);
+  if (
+    !value.id.trim() ||
+    !value.actorPrincipalId.trim() ||
+    !value.action.trim() ||
+    !value.targetRef.trim()
+  ) {
+    throw new Error("Audit identity, actor, action and target are required.");
+  }
+  if (Number.isNaN(Date.parse(value.occurredAt))) {
+    throw new Error("Audit occurrence time is invalid.");
+  }
+  return Object.freeze({
+    ...value,
+    id: value.id.trim(),
+    actorPrincipalId: value.actorPrincipalId.trim(),
+    action: value.action.trim(),
+    targetRef: value.targetRef.trim(),
+  });
 }

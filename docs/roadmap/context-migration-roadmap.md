@@ -169,10 +169,10 @@ the current Notification from the active Inbox and stops future conversation upd
 
 ## Complete portfolio follow-up
 
-The Accepted ADR 0014 portfolio contains six Groups, twelve Areas and 37 physical Context descriptors: 20 runtime and
-17 planned. This is a portfolio-classification decision, not an implementation queue. Planned Programs and product
-Contexts already have governance-only descriptor directories, but they remain outside the runtime Context Map and have
-no runtime directories or Published Language until one concrete use case independently passes G1-G4.
+At ADR 0014 acceptance, the portfolio contained six Groups, twelve Areas and 37 physical Context descriptors: 20
+runtime and 17 planned. This is historical migration evidence, not the current distribution or an implementation
+queue. ADR 0015 now governs evidence-led promotion; each still-planned Context remains outside the runtime Context Map
+and has no runtime directories or Published Language until one concrete use case independently passes G1-G4.
 
 ## Integration Ecosystem: App Registry first slice
 

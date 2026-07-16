@@ -7,7 +7,7 @@ Composition. These interaction modes are implemented with consumer-owned Applica
 adapters; they do not authorize internal imports.
 
 - Consumer Domain, Application, Contracts and Presentation know no provider Context.
-- Consumer Infrastructure integrations may import only provider `contracts/<subdomain>/public.ts`.
+- Consumer `adapters/outbound/integrations` may import only provider `contracts/vN/public.ts`.
 - Provider contracts contain primitive DTO/schema, callable facade types or versioned Integration Events, never Domain,
   use-case, repository or persistence types.
 - Domain Events remain internal. Published Integration Events are versioned and map to consumer-local Commands.

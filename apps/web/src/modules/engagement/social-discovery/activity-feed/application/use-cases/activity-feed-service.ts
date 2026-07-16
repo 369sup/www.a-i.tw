@@ -2,10 +2,8 @@ import {
   createFeedItem,
   type FeedItem,
 } from "../../domain/activity-feed/entities/feed-item";
-export interface FeedStore {
-  list(recipient: string): Promise<FeedItem[]>;
-  append(value: FeedItem): Promise<void>;
-}
+import type { FeedStore } from "../ports/outbound/feed-store";
+
 export function createActivityFeedService(
   store: FeedStore,
   nextId: () => string,

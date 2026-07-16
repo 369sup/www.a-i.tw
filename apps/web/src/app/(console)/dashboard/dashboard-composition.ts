@@ -15,6 +15,7 @@ export async function currentDashboard() {
     repositoryCount: repositories.length,
     notificationCount: notifications.length,
     activityCount: activity.length,
+    recentActivity: activity.slice(0, 5),
     recentRepositories: repositories.slice(0, 5),
   } as const;
 }

@@ -23,14 +23,17 @@
 - Status: active
 - Tags: topology, portfolio, planned, runtime, promotion
 - Scope: `apps/web/src/modules`
-- Claim: The closed portfolio contains six Domain Groups, twelve Domain Areas, thirty-seven physical Context descriptors, twenty runtime Contexts, and seventeen planned descriptors; topology is placement and governance, not runtime completeness.
+- Claim: The closed portfolio contains six Domain Groups, twelve Domain Areas and thirty-seven physical Context
+  descriptors. The current snapshot contains twenty-one runtime Contexts and sixteen planned descriptors; topology is
+  placement and governance, not runtime completeness.
 - Invariant: Planned Contexts contain only `AGENTS.md`, `README.md`, `context.json`, and an empty `public-api.ts`; they have `firstUseCase: null`, `runtimeEvidence.status: none`, no runtime relationships, and no runtime directories.
 - Symbols and relations: `group.json` declares Areas; `area.json` declares Contexts; non-planned manifests are mirrored in `docs/domains/context-map.json`.
 - Why retained: Historical counts and scaffold completeness repeatedly caused incorrect implementation claims.
-- Evidence: `apps/web/src/modules/AGENTS.md`; `apps/web/src/modules/README.md`; ADR 0014; architecture checks.
+- Evidence: `apps/web/src/modules/AGENTS.md`; `apps/web/src/modules/README.md`; ADR 0015; current manifests and Context Map.
 - Applies when: Planning, generating, promoting, reviewing, or counting Contexts.
-- Invalidated when: An accepted taxonomy decision and matching manifests, catalogs, migration ledgers, and tests change the portfolio.
-- Last verified: 2026-07-16; manifest count 37/20/17 and `pnpm arch:check` passed.
+- Invalidated when: A verified promotion changes the runtime/planned distribution, or an accepted taxonomy decision
+  changes the fixed 37-Context identity.
+- Last verified: 2026-07-17; manifest count 37/21/16, `pnpm arch:manifests` and `pnpm arch:cross-context` passed.
 
 ### K-20260716-cross-context-boundary
 
@@ -129,11 +132,18 @@
 - Status: active
 - Tags: vertical-slice, g1-g7, checkpoint, hooks, validation
 - Scope: implementation sequencing and cross-session continuity
-- Claim: Runtime development is driven by one approved use case, not by portfolio order or fixed Contract-first, Value-Object-first, Adapter-first, or step-count sequences.
-- Invariant: Refresh official evidence; approve owner, source of truth, first use case, invariants, Ports, contracts, and consumers; implement only the required vertical slice; validate by blast radius. Exact token percentage is unavailable, so checkpointing is event-driven through official lifecycle hooks.
+- Claim: Runtime development is driven by one approved use case and one Context per implementation task, not by
+  portfolio order or fixed Contract-first, Value-Object-first, Adapter-first, or step-count sequences. The short
+  initiative entry and target owner files are the default read set; the 37-row matrix is loaded only for portfolio
+  audit.
+- Invariant: Refresh official evidence; approve owner, source of truth, first use case, invariants, Ports, contracts,
+  and consumers; implement only the required vertical slice; validate changed files and focused tests per Context,
+  then run portfolio-level checks once per wave. Exact token percentage is unavailable, so checkpointing is
+  event-driven through official lifecycle hooks.
 - Symbols and relations: Planned promotion uses G1-G4; implementation and verification complete G5-G7; `mem:current-work-state` is the only overwriteable checkpoint.
 - Why retained: Historical roadmap order and unsupported context-percentage assumptions caused unnecessary scope expansion and unreliable handoffs.
-- Evidence: `apps/web/src/modules/AGENTS.md`; `apps/web/src/modules/README.md`; `docs/roadmap/context-migration-roadmap.md`; Serena checkpoint runbook.
+- Evidence: `apps/web/src/modules/AGENTS.md`; `docs/engineering/semantic-development-workflow.md`;
+  `docs/initiatives/github-non-code-37-context-prototypes/README.md`; Serena checkpoint runbook.
 - Applies when: Selecting a next slice, promoting a planned Context, pausing, compacting, or handing off work.
 - Invalidated when: Accepted workflow or hook capabilities change.
-- Last verified: 2026-07-16; docs and architecture checks passed after governance calibration.
+- Last verified: 2026-07-17; protocol reviewed against Wave 0/1 execution cost and current repository gates.

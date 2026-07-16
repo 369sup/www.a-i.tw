@@ -1,10 +1,52 @@
 # Network Domain Governance
 
-Lifecycle: `planned`
+Lifecycle: `prototype`
 
-Own verified and approved domains, domain verification, IP allow lists and network access boundaries.
+Own Enterprise DNS ownership verification independently of identity, authorization, organization-level domain
+policy, and network-origin enforcement.
 
-This directory materializes the accepted GitHub non-Code portfolio target. It is not runtime evidence. See the canonical semantic model and ADR 0014 before promotion.
+## Approved first use case
+
+An Enterprise owner starts a DNS TXT ownership challenge for one hostname and completes it only after the
+authoritative lookup matches the expected value. Missing, mismatched, or unavailable DNS remains retryable
+`pending`.
+
+## Source of truth
+
+- `DomainVerification`
+- `VerifiedDomain`
+
+The local prototype record is `_a-i-domain-verification.<domain>`. This is www.a-i.tw product behavior, not a claim
+about GitHub's record naming.
+
+## Boundaries and relationships
+
+- `enterprise-account` provides `EnterpriseAccountDirectoryApiV1` through the consumer-owned
+  `NetworkDomainEnterpriseDirectory` Port and `NetworkDomainEnterpriseDirectoryAdapter` ACL.
+- `administrative-access-control` provides `AdministrativeAccessApiV1` through the consumer-owned
+  `NetworkDomainAdministration` Port and `NetworkDomainAdministrationAdapter` ACL.
+- Concrete wiring remains in `apps/web/src/composition/product-composition.ts`.
+- This Context has no peer consumer, so `contracts/v1/public.ts` intentionally exposes no Published Language.
+
+## Invariants
+
+- Hostnames are trimmed, one trailing dot is removed, and ASCII DNS names are lowercased.
+- Root and `www` hostnames are distinct.
+- One Enterprise cannot start a second verification for the same canonical hostname.
+- Only an Enterprise owner can start, list, or complete a challenge.
+- Only a matching authoritative TXT answer transitions `pending` to `verified`.
+- DNS lookup failures never erase or verify the pending challenge.
+
+## Explicit exclusions
+
+Approved domains public preview, Organization-level verification, email policy, member-email projection, IP allow
+lists, continuous DNS monitoring, and Pages custom-domain security are not part of this slice.
+
+## Evidence
+
+Canonical evidence IDs: `A6`, `A11`. See
+`docs/product/github-non-code-semantic-model.md#official-evidence-ledger` and
+`docs/initiatives/github-non-code-37-context-prototypes/wave-1-enterprise-governance.md`.
 
 <!-- BEGIN:context-governance -->
 
@@ -12,57 +54,63 @@ This directory materializes the accepted GitHub non-Code portfolio target. It is
 
 ### Product meaning and scope
 
-Own verified and approved domains, domain verification, IP allow lists and network access boundaries.
+Own Enterprise domain ownership verification independently of identity, authorization and organization-level domain policy.
 
-This directory is the declared local ownership boundary for `VerifiedDomain`, `DomainVerification`, `IpAllowList`. Its physical presence proves portfolio placement only; runtime completeness is determined separately by `lifecycle`, `runtimeEvidence`, implemented use cases and verification.
+This directory is the declared local ownership boundary for `DomainVerification`, `VerifiedDomain`. Its physical
+presence and prototype implementation do not transfer authentication, authorization, organization-domain policy, IP
+allow-list, email-policy, or Pages custom-domain ownership into this Context.
 
 ### Lifecycle and principal use case
 
-- Lifecycle: `planned`.
-- Runtime evidence: `none`.
-- Principal use case: No first use case is approved. Promotion requires a concrete product outcome, acceptance criteria and refreshed official evidence.
+- Lifecycle: `prototype`.
+- Runtime evidence: `in-memory-prototype`.
+- Principal use case: An Enterprise owner starts and completes a DNS ownership challenge for one hostname.
 
 ### Source of truth
 
-- `VerifiedDomain`
 - `DomainVerification`
-- `IpAllowList`
+- `VerifiedDomain`
 
 ### Language and invariants
 
 Ubiquitous language:
 
+- Enterprise Domain Name
+- DNS TXT Challenge
+- Domain Verification
 - Verified Domain
-- Approved Domain
-- IP allow list
-- Network Boundary
-- access origin
+- authoritative DNS answer
 
 Required invariants:
 
-- Domain ownership and network-origin decisions have independent verification and enforcement lifecycles.
-- A network decision is an additional guard and cannot replace authentication or authorization.
+- Canonicalization trims, removes one trailing dot, and lowercases ASCII DNS names while preserving root and `www`
+  distinction.
+- Only an Enterprise owner can operate on an available Enterprise.
+- Missing, mismatched, or unavailable DNS answers preserve retryable `pending`; only a match creates verified state.
 
 ### Collaboration
 
-- No runtime relationship is approved. Candidate collaborations must not be imported or added to the Context Map before promotion.
+- Consumes from `enterprise-account` through `EnterpriseAccountDirectoryApiV1` (synchronous, prototype).
+- Consumes from `administrative-access-control` through `AdministrativeAccessApiV1` (synchronous, prototype).
 
-Navigation hierarchy is not a runtime dependency. Only versioned Published Language and consumer-owned Ports may cross a Context boundary.
+Navigation hierarchy is not a runtime dependency. Cross-Context calls use the consumer-owned Port and ACL named in
+`context.json`; this Context publishes no peer contract in the approved slice.
 
 ### Explicit exclusions
 
-- Credential
-- SAML or SCIM configuration
-- generic authorization role
-- Repository lifecycle
+- Approved-domain public preview
+- Organization-level domain verification
+- email policy and member-email projection
+- IP allow lists and continuous DNS monitoring
+- Pages custom-domain security
 
-Exclude private networking used solely by Codespaces, Actions runners or source-code infrastructure.
+The `_a-i-domain-verification.<domain>` challenge record is local prototype behavior, not GitHub record naming.
 
 ### Official evidence
 
-- Evidence status: Partial; candidate boundary requires dedicated domain and IP-allow-list evidence before promotion.
-- Evidence IDs: `A6`.
+- Evidence status: Confirmed for the approved first slice.
+- Evidence IDs: `A6`, `A11`.
 - Canonical ledger: `docs/product/github-non-code-semantic-model.md#official-evidence-ledger`.
 
-Official evidence establishes product semantics and candidate ownership only. It does not approve runtime implementation, persistence, contracts or dependencies.
+Official evidence establishes product semantics; implementation and verification remain independently evidenced.
 <!-- END:context-governance -->

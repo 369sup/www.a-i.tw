@@ -160,7 +160,7 @@ high-signal checklist.
 | `platform-governance` | `accounts-profile`        | `user-account`, `organization-account`, `enterprise-account`, `profile-presence`      |
 | `platform-governance` | `authentication-identity` | `authentication-security`                                                             |
 | `platform-governance` | `participation-teams`     | `organization-participation`                                                          |
-| `platform-governance` | `access-policy`           | `administrative-access-control`, `policy-governance`                                  |
+| `platform-governance` | `access-policy`           | `administrative-access-control`, `network-domain-governance`, `policy-governance`     |
 | `collaboration`       | `repository-work`         | `repository-governance`, `work-tracking`, `work-planning`                             |
 | `collaboration`       | `community-knowledge`     | `community-safety`, `discussions`, `repository-wiki`                                  |
 | `engagement`          | `social-discovery`        | `activity-feed`, `subscriptions-notifications`, `search-discovery`, `social-curation` |
@@ -170,19 +170,18 @@ high-signal checklist.
 | `programs`            | `education`               | none                                                                                  |
 | `programs`            | `professional-programs`   | none                                                                                  |
 
-The remaining 17 Contexts are planned descriptors only. A planned directory contains the four governance files, is not
+The remaining 16 Contexts are planned descriptors only. A planned directory contains the four governance files, is not
 registered in the runtime Context Map, and does not become runtime until explicit G1-G4 approval and promotion.
 
-| Domain Area               | Planned Contexts                                                                                                                   |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `authentication-identity` | `enterprise-identity-management`                                                                                                   |
-| `participation-teams`     | `enterprise-participation`                                                                                                         |
-| `access-policy`           | `network-domain-governance`                                                                                                        |
-| `apps-marketplace`        | `webhook-delivery`, `marketplace`                                                                                                  |
-| `commercial`              | `plan-entitlement-licensing`, `billing-payments`, `usage-cost-management`, `sponsorship`                                           |
-| `assurance-support`       | `support-management`                                                                                                               |
-| `education`               | `education-eligibility`, `campus-program`, `campus-experts`, `community-exchange`, `classroom-management`                           |
-| `professional-programs`   | `certification`, `developer-program`                                                                                               |
+| Domain Area               | Planned Contexts                                                                                          |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `authentication-identity` | `enterprise-identity-management`                                                                          |
+| `participation-teams`     | `enterprise-participation`                                                                                |
+| `apps-marketplace`        | `webhook-delivery`, `marketplace`                                                                         |
+| `commercial`              | `plan-entitlement-licensing`, `billing-payments`, `usage-cost-management`, `sponsorship`                  |
+| `assurance-support`       | `support-management`                                                                                      |
+| `education`               | `education-eligibility`, `campus-program`, `campus-experts`, `community-exchange`, `classroom-management` |
+| `professional-programs`   | `certification`, `developer-program`                                                                      |
 
 ## Next-work workflow
 

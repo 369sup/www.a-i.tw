@@ -1,5 +1,6 @@
-import type { ProjectStore } from "../../../application/use-cases/projects-service";
+import type { ProjectStore } from "../../../application/ports/outbound/project-store-port";
 import type { Project } from "../../../domain/work-planning/aggregates/project";
+
 export class InMemoryProjectStore implements ProjectStore {
   private readonly items = new Map<string, Project>();
   async list(owner: string) {

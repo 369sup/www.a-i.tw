@@ -2,7 +2,7 @@ import type {
   IssueNumberSequence,
   IssueStore,
   LabelStore,
-} from "../../../application/use-cases/issues-service";
+} from "../../../application/ports/outbound/issue-persistence-port";
 import type { Issue } from "../../../domain/work-tracking/aggregates/issue";
 import type { Label } from "../../../domain/work-tracking/entities/label";
 export class InMemoryIssueStore implements IssueStore {

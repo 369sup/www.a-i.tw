@@ -2,13 +2,8 @@ import {
   createAuditEntry,
   type AuditEntry,
 } from "../../domain/audit-compliance/entities/audit-entry";
-export interface AuditStore {
-  append(value: AuditEntry): Promise<void>;
-  query(input: {
-    actorPrincipalId?: string;
-    action?: string;
-  }): Promise<AuditEntry[]>;
-}
+import type { AuditStore } from "../ports/outbound/audit-store";
+
 export function createAuditService(
   store: AuditStore,
   nextId: () => string,

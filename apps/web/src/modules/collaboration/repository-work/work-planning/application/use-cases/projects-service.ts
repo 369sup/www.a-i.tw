@@ -6,11 +6,8 @@ import {
 import type { ProjectSummaryV1 } from "../../contracts/v1/public";
 import type { AccountOwnerDirectory } from "../ports/outbound/account-owner-directory-port";
 import type { IssueDirectory } from "../ports/outbound/issue-directory-port";
-export interface ProjectStore {
-  list(ownerAccountId: string): Promise<Project[]>;
-  find(id: string): Promise<Project | undefined>;
-  save(project: Project): Promise<void>;
-}
+import type { ProjectStore } from "../ports/outbound/project-store-port";
+
 export interface ProjectsService {
   create(input: {
     ownerAccountId: string;

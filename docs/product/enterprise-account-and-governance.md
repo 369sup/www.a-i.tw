@@ -22,6 +22,27 @@ Repository 建立或可見性變更。Enterprise 不直接擁有 Repository，Re
 Enterprise Membership、Enterprise Role、Enterprise Team、Managed User、Billing、License 與 Audit
 仍為 Deferred，且分屬後續獨立模型或 Context。
 
+## Approved Wave 1 prototype boundaries
+
+2026-07-16 核准三個獨立 prototype slices；核准不合併它們的 source of truth，也不把尚未通過 G4-G7 的
+Context 描述成 runtime：
+
+- Enterprise Identity Management：Enterprise owner 設定並先測試一個 personal-account Enterprise SAML
+  connection；`IdentityProviderConnection` 是 source of truth。
+- Enterprise Participation：Enterprise owner 建立一個 Enterprise Team、指派一個已 affiliated Organization，
+  並加入一個符合資格的 active Personal Account；不寫入 Organization Membership。
+- Network & Domain Governance：Enterprise owner 建立 DNS ownership challenge，只有 authoritative TXT
+  verifier 符合 expected value 時，`DomainVerification` 才由 `pending` 轉為 `verified` 並產生
+  `VerifiedDomain`。
+
+三者都透過 `EnterpriseAccountDirectoryApiV1` 驗證 Enterprise，並透過
+`AdministrativeAccessApiV1` 驗證 Enterprise owner。consumer Application 擁有 Ports，ACL 只能位於
+consumer `adapters/outbound/integrations`，concrete wiring 只能位於 app composition。
+
+詳細 use cases、failures、routes、exclusions 與 tests 由
+[`../initiatives/github-non-code-37-context-prototypes/wave-1-enterprise-governance.md`](../initiatives/github-non-code-37-context-prototypes/wave-1-enterprise-governance.md)
+擁有。
+
 官方來源：
 
 - <https://docs.github.com/en/admin/concepts/enterprise-fundamentals/enterprise-accounts>

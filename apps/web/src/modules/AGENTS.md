@@ -129,7 +129,7 @@ These are the only two legal Context shapes. They are normative placement and ow
 Context implementation is complete. Interpret them as follows:
 
 - The closed portfolio invariant is exactly six Domain Groups, twelve Domain Areas and 37 physical Context descriptors:
-  20 runtime Contexts mirrored in `docs/domains/context-map.json` and 17 planned descriptors with
+  21 runtime Contexts mirrored in `docs/domains/context-map.json` and 16 planned descriptors with
   `runtimeEvidence.status: none`. A count change requires an accepted taxonomy decision plus matching manifests,
   migration ledgers, catalogs and architecture tests.
 

@@ -29,7 +29,7 @@ official behavior and constraints
 ## Accepted complete product-suite navigation taxonomy
 
 若產品範圍從核心 GitHub 非 Code 協作平台擴張到 Education、Certifications 與 Developer Program，完整候選
-portfolio 採用 6 Groups、12 Areas、37 physical Context descriptors，其中 20 個具 runtime evidence、17 個維持
+portfolio 採用 6 Groups、12 Areas、37 physical Context descriptors，其中 21 個具 runtime evidence、16 個維持
 `planned`。此數量是 navigation／ownership inventory，並非完整產品能力聲明；[ADR 0014](../decisions/0014-complete-github-non-code-portfolio-taxonomy.md) 擁有 taxonomy
 decision，`context-topology-migration.json` 擁有 executable migration status。
 
@@ -70,8 +70,8 @@ membership、team 與 affiliation lifecycle，才是待 G1-G3 驗證的 owner sp
 governance-only reservation；七個候選 Context 全部是 Research。其 planned descriptor directory 只固定
 已接受的 navigation／ownership boundary，不代表 runtime approval。
 
-目前 20 個 runtime Context 保留原 Context ID、Published Language 與行為；其中 18 個為 Current，Activity Feed
-與 Audit & Compliance 為 in-memory prototype。其餘 17 個 physical descriptors 維持 `planned`，不得因已存在
+目前 21 個 runtime Context 保留原 Context ID、Published Language 與行為；其中 18 個為 Current，Activity Feed、
+Audit & Compliance 與 Network & Domain Governance 為 in-memory prototype。其餘 16 個 physical descriptors 維持 `planned`，不得因已存在
 governance directory 而被視為 runtime、Current 或完整產品能力。
 候選 taxonomy 與現況 runtime 名稱不要求一對一；任何 rename、split 或 merge 仍須通過正式 boundary-change
 workflow。
@@ -312,6 +312,9 @@ Classroom must additionally prove that its first slice is useful without reposit
 | A6    | [Identity and access management fundamentals](https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-identity-and-access-management)                  | personal-account SAML and managed-user federation/provisioning distinctions   |
 | A7    | [About two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/about-two-factor-authentication)                                        | factor, passkey and recovery semantics                                        |
 | A8    | [Recovering an account without 2FA credentials](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/recovering-your-account-if-you-lose-your-2fa-credentials) | recovery lifecycle and terminal loss condition                                |
+| A9    | [Configuring SAML single sign-on for your enterprise][evidence-a9]                                                                                                                                           | enterprise-owner SAML configuration and required SP-initiated test            |
+| A10   | [About teams in an enterprise][evidence-a10-about] and [Creating enterprise teams][evidence-a10-create]                                                                                                      | Enterprise Team membership, Organization access and documented limits         |
+| A11   | [Verifying or approving a domain for your enterprise][evidence-a11]                                                                                                                                          | Enterprise-owner DNS verification and pending propagation                     |
 | R1    | [Managing repository settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings)                                                         | Repository settings、visibility、access surface and mixed-scope caution       |
 | R2    | [Enabling features for a repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository)                                          | optional feature toggles without ownership transfer                           |
 | R3    | [Managing custom properties for repositories](https://docs.github.com/en/organizations/managing-organization-settings/managing-custom-properties-for-repositories-in-your-organization)                      | Organization schema、Repository values、required/default semantics            |
@@ -364,6 +367,11 @@ Classroom must additionally prove that its first slice is useful without reposit
 | SP4   | [Tax information for GitHub Sponsors](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/tax-information-for-github-sponsors)                                                | tax-information obligations distinct from ordinary profile data               |
 | SUP1  | [About GitHub Support](https://docs.github.com/en/support/learning-about-github-support/about-github-support)                                                                                                | support availability and account/product support scope                        |
 | SUP2  | [Creating a support ticket](https://docs.github.com/en/support/contacting-github-support/creating-a-support-ticket)                                                                                          | ticket creation、priority and interaction lifecycle                           |
+
+[evidence-a9]: https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/using-saml-for-enterprise-iam/configuring-saml-single-sign-on-for-your-enterprise
+[evidence-a10-about]: https://docs.github.com/en/enterprise-cloud@latest/enterprise-onboarding/setting-up-organizations-and-teams/about-teams-in-an-enterprise
+[evidence-a10-create]: https://docs.github.com/en/enterprise-cloud@latest/enterprise-onboarding/setting-up-organizations-and-teams/creating-teams
+[evidence-a11]: https://docs.github.com/en/enterprise-cloud@latest/admin/configuring-settings/configuring-user-applications-for-your-enterprise/verifying-or-approving-a-domain-for-your-enterprise
 
 ## Runtime gate
 

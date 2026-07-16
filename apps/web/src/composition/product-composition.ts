@@ -57,6 +57,11 @@ import {
   PolicyEnterpriseDirectoryAdapter,
 } from "@/src/modules/platform-governance/access-policy/policy-governance/composition";
 import {
+  createNetworkDomainGovernanceComposition,
+  NetworkDomainAdministrationAdapter,
+  NetworkDomainEnterpriseDirectoryAdapter,
+} from "@/src/modules/platform-governance/access-policy/network-domain-governance/composition";
+import {
   CommunityInteractionSafetyAdapter as IssueCommunityInteractionSafetyAdapter,
   createIssueCollaborationService,
   createIssuesService,
@@ -334,6 +339,13 @@ function createProductComposition() {
     new InMemoryRepositoryPolicyStore(),
     new PolicyEnterpriseDirectoryAdapter(enterpriseAccounts),
   );
+  const networkDomainGovernance = createNetworkDomainGovernanceComposition(
+    new NetworkDomainEnterpriseDirectoryAdapter(enterpriseAccounts),
+    new NetworkDomainAdministrationAdapter(administrativeAccess),
+    nextId("domain-verification"),
+    nextId("dns-token"),
+    () => new Date(),
+  );
   const enterpriseGovernance = {
     async listForPrincipal(principalId: string) {
       const enterprises = await enterpriseAccounts.list();
@@ -542,12 +554,30 @@ function createProductComposition() {
   };
   const search = createSearchService(new InMemorySearchIndex());
   const activityFeed = createActivityFeedService(
-    new InMemoryFeedStore(),
+    new InMemoryFeedStore([
+      {
+        id: "feed-welcome",
+        recipientPrincipalId: "principal-ada",
+        actorPrincipalId: "principal-grace",
+        verb: "updated",
+        subjectRef: "repository:repository-roadmap",
+        occurredAt: new Date(0).toISOString(),
+      },
+    ]),
     nextId("feed"),
     () => new Date(),
   );
   const audit = createAuditService(
-    new InMemoryAuditStore(),
+    new InMemoryAuditStore([
+      {
+        id: "audit-session-established",
+        actorPrincipalId: "principal-ada",
+        action: "browser_session.established",
+        targetRef: "principal:principal-ada",
+        result: "success",
+        occurredAt: new Date(0).toISOString(),
+      },
+    ]),
     nextId("audit"),
     () => new Date(),
   );
@@ -558,6 +588,7 @@ function createProductComposition() {
     memberships,
     teams,
     enterpriseGovernance,
+    networkDomainGovernance,
     appManagement,
     authorization,
     repositories,

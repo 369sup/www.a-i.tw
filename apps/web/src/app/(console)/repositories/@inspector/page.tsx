@@ -12,6 +12,7 @@ import { getProductComposition } from "@/src/composition/product-composition";
 import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
 import { resolveRepositoryCapabilityContext } from "../repository-capability-composition";
 import {
+  createWikiPageAction,
   updateDiscussionAction,
   updateRepositoryAction,
   updateRepositorySubscriptionAction,
@@ -19,6 +20,7 @@ import {
   updateInteractionLimitAction,
   updateRepositoryStarAction,
 } from "@/src/app/(console)/repositories/repository-command-composition";
+import { RepositoryWikiUi } from "@/src/modules/collaboration/community-knowledge/repository-wiki/public-api";
 import {
   buttonClass,
   RepositoryEmptyState,
@@ -40,6 +42,7 @@ export default async function InspectorSlot({
     repositories,
     issues,
     discussions,
+    knowledgeWiki,
     communitySafety,
     socialCuration,
   } = getProductComposition();
@@ -79,6 +82,18 @@ export default async function InspectorSlot({
         .list(repositoryId, session.principal)
         .catch(() => undefined)
     : undefined;
+  const wikiPageId =
+    typeof query.wikiPage === "string" ? query.wikiPage : undefined;
+  const wikiPage =
+    repositoryId && wikiPageId
+      ? await knowledgeWiki
+          .getPage({
+            repositoryId,
+            pageId: wikiPageId,
+            principal: session.principal,
+          })
+          .catch(() => undefined)
+      : undefined;
   const interactionLimit = repositoryId
     ? await communitySafety.get(repositoryId)
     : undefined;
@@ -456,6 +471,11 @@ export default async function InspectorSlot({
               </ul>
             </section>
           ) : null}
+          <RepositoryWikiUi
+            createPage={createWikiPageAction}
+            page={wikiPage}
+            repositoryId={result.repository.repositoryId}
+          />
           {conversation ? (
             <section className="space-y-4 border-t p-4">
               <h2 className="text-sm font-semibold">Discussions</h2>

@@ -1,6 +1,6 @@
 # ADR 0014: Complete GitHub non-Code portfolio taxonomy
 
-Status: Accepted — 2026-07-14
+Status: Superseded by ADR 0015 — 2026-07-16
 
 ## Context
 

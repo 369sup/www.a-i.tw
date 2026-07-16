@@ -1,6 +1,6 @@
 # Bounded Context catalog
 
-狀態：Current / approved runtime Contexts
+狀態：Current / runtime semantic ownership summary
 
 | Context                       | Purpose                                | Owns                                                                                  | Does not own                                      | Lifecycle |
 | ----------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------- | --------- |
@@ -12,6 +12,7 @@
 | Organization Participation    | Organization relationships             | Membership, Invitation and Organization Team                                          | Account lifecycle, Repository Role                | Approved  |
 | Administrative Access Control | administrative role assignment         | Enterprise and Organization administrative access facts                               | resource-specific action or policy                | Approved  |
 | Policy Governance             | enforceable governance constraints     | policy constraints and delegation                                                     | administrative role, resource lifecycle           | Approved  |
+| Network & Domain Governance   | Enterprise domain ownership proof      | prototype Domain Verification and Verified Domain state                               | identity, authorization, email policy, IP rules   | Prototype |
 | Repository                    | non-code product resource container    | identity, Account owner, profile, visibility, state, feature configuration, lifecycle | access grants, Issues, Projects, Webhooks, Stars  | Approved  |
 | Issues                        | repository-scoped issue tracking       | Issue, Issue Number, Label, Assignment                                                | Repository grants, Account roster                 | Approved  |
 | Projects                      | account-owned work planning            | Project, typed Issue reference, Draft Item                                            | Issue truth, Account membership                   | Approved  |
@@ -26,9 +27,8 @@
 | Activity Feed                 | recipient activity stream              | prototype Feed Item                                                                   | source resource truth                             | Prototype |
 | Audit                         | administrative evidence                | prototype Audit Entry                                                                 | durable audit evidence lifecycle                  | Prototype |
 
-Approved 產品 Context 的 owner 均為 `www.a-i.tw Product Team`。Activity Feed 與 Audit 只有
-in-memory prototype；App Installation、Marketplace、Billing、
-Sponsors 與 Support 仍是 Research／candidate。
+Approved 產品 Context 的 owner 均為 `www.a-i.tw Product Team`。Activity Feed、Audit 與 Network & Domain
+Governance 目前只有 in-memory prototype；其餘 16 個 planned descriptors 仍須獨立通過 promotion gate。
 
 完整 logical owner inventory（包含尚未 scaffold 的 Repository Governance、Knowledge、
 Community Safety、Subscription、Social Graph、App Registry／Installation、Webhook Delivery 等）由

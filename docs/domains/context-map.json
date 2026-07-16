@@ -288,6 +288,53 @@
       "area": "accounts-profile"
     },
     {
+      "context": "network-domain-governance",
+      "group": "platform-governance",
+      "area": "access-policy",
+      "boundaryType": "bounded-context",
+      "templateVersion": 2,
+      "kind": "product",
+      "lifecycle": "prototype",
+      "package": "@a-i/web",
+      "domain": "Network and Domain Governance",
+      "subdomain": {
+        "name": "network-domain-governance",
+        "type": "supporting"
+      },
+      "owner": "www.a-i.tw Product Team",
+      "problem": "Own Enterprise domain ownership verification independently of identity, authorization and organization-level domain policy.",
+      "firstUseCase": "An Enterprise owner starts and completes a DNS ownership challenge for one hostname.",
+      "sourceOfTruth": ["DomainVerification", "VerifiedDomain"],
+      "runtimeEvidence": {
+        "status": "in-memory-prototype",
+        "verifiedAt": "2026-07-16"
+      },
+      "relationships": [
+        {
+          "upstream": "enterprise-account",
+          "downstream": "network-domain-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "EnterpriseAccountDirectoryApiV1",
+          "consumerPort": "NetworkDomainEnterpriseDirectory",
+          "consumerAcl": "NetworkDomainEnterpriseDirectoryAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-unavailable-enterprise",
+          "status": "prototype"
+        },
+        {
+          "upstream": "administrative-access-control",
+          "downstream": "network-domain-governance",
+          "pattern": "open-host-service + published-language + anti-corruption-layer",
+          "contract": "AdministrativeAccessApiV1",
+          "consumerPort": "NetworkDomainAdministration",
+          "consumerAcl": "NetworkDomainAdministrationAdapter",
+          "consistency": "synchronous",
+          "failureMode": "reject-non-owner-or-unavailable-authority",
+          "status": "prototype"
+        }
+      ]
+    },
+    {
       "context": "organization-account",
       "group": "platform-governance",
       "boundaryType": "bounded-context",

@@ -356,8 +356,8 @@ for (const name of mapped.keys())
     errors.push(`${name} exists in the Context Map without a module.`);
 
 const expectedPhysicalContextCount = 37;
-const expectedRuntimeContextCount = 20;
-const expectedPlannedContextCount = 17;
+const expectedRuntimeContextCount = 21;
+const expectedPlannedContextCount = 16;
 if (discovered.length !== expectedPhysicalContextCount)
   errors.push(
     `Physical portfolio must contain exactly ${expectedPhysicalContextCount} Context descriptors.`,

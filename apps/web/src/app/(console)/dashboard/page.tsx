@@ -2,12 +2,12 @@ import Link from "next/link";
 import { Bell, FolderGit2, Search } from "lucide-react";
 import { Badge } from "@a-i/shadcn/ui/badge";
 import { Button } from "@a-i/shadcn/ui/button";
+import { ActivityFeedView } from "@/src/modules/engagement/social-discovery/activity-feed/public-api";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@a-i/shadcn/ui/card";
 import { currentDashboard } from "./dashboard-composition";
 
@@ -65,6 +65,10 @@ export default async function DashboardPage() {
             <strong className="text-3xl">{dashboard.activityCount}</strong>
           </CardContent>
         </Card>
+      </section>
+
+      <section className="mt-8">
+        <ActivityFeedView items={dashboard.recentActivity} />
       </section>
 
       <section className="mt-8">

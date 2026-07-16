@@ -2,16 +2,16 @@
 
 狀態：Current runtime summary; machine authority is `context-map.json`
 
-The physical portfolio contains 37 accepted Context descriptors under six Domain Groups and twelve Domain Areas. Only
-the 20 non-planned manifests mirrored in `context-map.json` are runtime Contexts; 18 are Current and Activity Feed plus
-Audit & Compliance remain in-memory prototypes. Placement is not runtime completeness.
+The physical portfolio contains 37 accepted Context descriptors under six Domain Groups and twelve Domain Areas. The
+21 non-planned manifests mirrored in `context-map.json` are runtime Contexts; 18 are Current and Activity Feed, Audit &
+Compliance, and Network & Domain Governance are in-memory prototypes. Placement is not runtime completeness.
 
 ## Ownership spine
 
 ```text
 Authentication Security
   -> User Account / Organization Account / Enterprise Account
-  -> Organization Participation / Administrative Access Control / Policy Governance
+  -> Organization Participation / Administrative Access Control / Policy Governance / Network & Domain Governance
   -> Repository Governance
   -> Work Tracking / Work Planning / Discussions / Repository Wiki / Community Safety
   -> Social Curation / Subscriptions & Notifications / Search / Activity Feed

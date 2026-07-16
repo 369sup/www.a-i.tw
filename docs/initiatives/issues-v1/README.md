@@ -1,6 +1,9 @@
 # Issues v1 semantic brief
 
-狀態：Current in-memory slice — G1-G7 verified
+狀態：Historical / superseded by the `work-tracking` Context and the
+[`../github-non-code-37-context-prototypes/`](../github-non-code-37-context-prototypes/) initiative
+
+This file records the original slice decision. Its `issues` path and progress wording are not current routing.
 
 ## Problem and outcome
 

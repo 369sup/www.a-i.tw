@@ -19,11 +19,14 @@ pnpm generate:context \
   --owner <owner> \
   --problem <approved-problem> \
   --first-use-case <approved-use-case> \
-  --source-of-truth <comma-separated-models>
+  --source-of-truth <comma-separated-models> \
+  --lifecycle prototype
 ```
 
 To promote an existing planned descriptor after G1-G3 approval, add `--promote true`. Promotion is allowed only when
-the directory contains exactly the four planned governance files and has no runtime evidence.
+the directory contains exactly the four planned governance files and has no runtime evidence. The generator preserves
+the approved governance/evidence documents, stages all six runtime roots, deduplicates Area and Context Map membership,
+and rolls back the descriptor and registries when promotion fails.
 
 The generator is the only authorized creation path. It creates the complete canonical tree in
 `apps/web/src/modules/AGENTS.md` under `apps/web/src/modules/<domain-group>/<domain-area>/<bounded-context>`, writes the manifest and

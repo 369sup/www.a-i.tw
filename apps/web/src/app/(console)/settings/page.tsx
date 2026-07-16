@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Building2, BuildingIcon, Settings2 } from "lucide-react";
+import { Building2, BuildingIcon, ScrollText, Settings2 } from "lucide-react";
 import {
   Card,
   CardDescription,
@@ -26,6 +26,12 @@ const destinations = [
     title: "GitHub Apps",
     description: "Personal Account 擁有的 App registration 管理入口。",
     icon: Settings2,
+  },
+  {
+    href: "/settings/audit",
+    title: "Audit evidence",
+    description: "目前 actor 的 append-only administrative evidence。",
+    icon: ScrollText,
   },
 ] as const;
 

@@ -32,7 +32,9 @@ Runtime, manifests, tests, root or nearer `AGENTS.md`, canonical `docs/`, and Gi
 - Dependency direction is `UI / Infrastructure -> Application -> Domain`.
 - Cross-Context collaboration uses a consumer-owned outbound Port, an ACL integration adapter, and provider `contracts/vN/public.ts`.
 - `public-api.ts` is app-facing and is not a peer-Context entrypoint.
-- The accepted portfolio contains six Domain Groups, twelve Domain Areas, thirty-seven physical Context descriptors, twenty runtime Contexts, and seventeen planned descriptors.
+- The accepted portfolio contains six Domain Groups, twelve Domain Areas and thirty-seven physical Context descriptors.
+  The current manifest snapshot contains twenty-one runtime Contexts and sixteen planned descriptors; ADR 0015 permits
+  the distribution to change one verified promotion at a time.
 
 ## Memory Map
 
@@ -47,4 +49,4 @@ Update this memory only when canonical routing, memory roles, authoritative root
 
 ## Last Verified
 
-2026-07-16 against the active repository, module governance contract, ADR 0014, current manifests, and Serena 1.5.3.
+2026-07-17 against the active repository, module governance contract, ADR 0015, current manifests and Context Map.

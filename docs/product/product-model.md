@@ -28,8 +28,8 @@ constrained by Relationships, Grants, Policy, Entitlement and Request Facts
 
 | Type                  | GitHub language                                                                                                                   | Architecture meaning                                      |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| Product Context       | The 20 Current／Prototype Contexts listed below, including split Account, Profile, Participation, policy and collaboration owners | Approved or prototype app-local owners                    |
-| Context candidate     | App Installation, Webhook Delivery, Marketplace, Billing, Sponsors, Support                                                       | Proposed until G1-G3 approves owner and first use case    |
+| Product Context       | The 21 Current／Prototype Contexts listed below, including split Account, Profile, Participation, policy and collaboration owners | Approved or prototype app-local owners                    |
+| Planned descriptor    | The remaining 16 accepted Context identities                                                                                      | Non-runtime until its exact G1-G3 gate approves promotion |
 | Relationship family   | Membership, Team membership, Follow, Star, Watch, Subscribe, Mention, Assignment                                                  | Owner-published directed facts                            |
 | Control plane         | Authentication, Authorization, Policy, Entitlement, Audit, Integration                                                            | Cross-cutting responsibility, not automatically a Context |
 | Governance boundary   | User/Organization/Enterprise account, Team, Repository, Project, Cost center, App installation                                    | Scope classification, not one aggregate type              |
@@ -48,6 +48,7 @@ constrained by Relationships, Grants, Policy, Entitlement and Request Facts
 | Organization Participation    | Membership, Invitation and Organization Team                                  |
 | Administrative Access Control | administrative role assignment                                                |
 | Policy Governance             | enforceable policy constraints and delegation                                 |
+| Network & Domain Governance   | prototype Enterprise DNS ownership verification                               |
 | Repository Governance         | Repository identity, ownership, visibility, state, features, roles and grants |
 | Work Tracking                 | Issue, Issue Number, state, Label, Assignment and Assignee                    |
 | Work Planning                 | Project and Project Item references                                           |
@@ -61,8 +62,8 @@ constrained by Relationships, Grants, Policy, Entitlement and Request Facts
 | Activity Feed                 | prototype recipient-scoped Feed Item                                          |
 | Audit & Compliance            | prototype administrative observation                                          |
 
-Everything else in the non-code catalog is Research or Proposed. Presence in GitHub does not make local
-runtime Current.
+Everything else in the non-code catalog remains non-runtime even when its G1-G3 semantics are approved. Presence in
+GitHub or approval of a future slice does not make local runtime Current.
 
 ## Target Context inventory
 
@@ -72,9 +73,8 @@ Identity Federation, Subscription versus Notification, and App Registry versus A
 Webhook Delivery. The authoritative logical owner inventory is maintained in
 [GitHub non-Code semantic model](github-non-code-semantic-model.md#semantic-owner-registry).
 
-This correction does not create runtime directories. Existing `authentication-security` and Account contexts contain only
-their approved current slices; every additional Context still requires independent owner, lifecycle, invariant, first-use-case
-and source-of-truth evidence.
+This correction does not create runtime directories. Existing runtime Contexts contain only their approved current or
+prototype slices; each of the remaining 16 planned descriptors still requires independent promotion and dated evidence.
 
 ### Complete product-suite scenario
 
@@ -83,9 +83,8 @@ Developer Program. Official documentation supports independent application/verif
 administration、exam/credential and program-membership lifecycles. The detailed canonical inventory therefore records an
 **Accepted 6-Group／12-Area／37-candidate portfolio taxonomy**.
 
-ADR 0014 supersedes ADR 0013's closed registry. The architecture control plane may migrate governance placement while
-preserving the fourteen Current Context IDs, Published Language and behavior. Programs remains Research: its governance
-parents may exist, but every Programs Context still requires independent G1-G3 approval.
+ADR 0015 supersedes ADR 0014's 20/17 target distribution while retaining its closed 37-Context identity. Programs
+descriptors remain planned and each still requires independent G1-G3 approval.
 
 ## Semantic reconstruction order
 

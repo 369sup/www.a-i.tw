@@ -4,6 +4,8 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  renameSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
@@ -21,8 +23,12 @@ const args = Object.fromEntries(
 );
 const lifecycle = args.lifecycle ?? "approved";
 const promote = args.promote === "true";
-if (!["approved", "planned"].includes(lifecycle))
-  throw new Error("--lifecycle must be approved or planned.");
+if (!["approved", "prototype", "planned"].includes(lifecycle))
+  throw new Error("--lifecycle must be approved, prototype, or planned.");
+if (promote && lifecycle === "planned")
+  throw new Error(
+    "--promote true cannot be combined with --lifecycle planned.",
+  );
 const required = [
   "context",
   "group",
@@ -180,15 +186,15 @@ if (lifecycle === "planned") {
     join(destination, "public-api.ts"),
     "// Planned bounded context.\n// No runtime API is published.\nexport {};\n",
   );
-  areaManifest.contexts = [...areaManifest.contexts, args.context].sort();
+  areaManifest.contexts = [
+    ...new Set([...areaManifest.contexts, args.context]),
+  ].sort();
   writeFileSync(areaManifestPath, `${JSON.stringify(areaManifest, null, 2)}\n`);
   console.log(
     `Created planned Context descriptor ${args.group}/${args.area}/${args.context}.`,
   );
   process.exit(0);
 }
-
-cpSync(template, destination, { recursive: true });
 
 function replacePlaceholders(directory) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -202,7 +208,10 @@ function replacePlaceholders(directory) {
         .replaceAll("__DOMAIN__", args.domain)
         .replaceAll("__SUBDOMAIN__", args.subdomain)
         .replaceAll("__TYPE__", args.type)
-        .replaceAll("__OWNER__", args.owner);
+        .replaceAll("__OWNER__", args.owner)
+        .replaceAll("**DOMAIN**", args.domain)
+        .replaceAll("**CONTEXT**", args.context)
+        .replaceAll("**OWNER**", args.owner);
       const enriched = content
         .replaceAll("__PROBLEM__", args.problem)
         .replaceAll("__FIRST_USE_CASE__", args["first-use-case"])
@@ -213,11 +222,6 @@ function replacePlaceholders(directory) {
   }
 }
 
-replacePlaceholders(destination);
-areaManifest.contexts = [
-  ...new Set([...areaManifest.contexts, args.context]),
-].sort();
-writeFileSync(areaManifestPath, `${JSON.stringify(areaManifest, null, 2)}\n`);
 const fixedDirectories = [
   ...[
     "aggregates",
@@ -257,19 +261,81 @@ const fixedDirectories = [
   "tests/contracts",
   "tests/architecture",
 ];
-for (const relative of fixedDirectories) {
-  const path = join(destination, relative);
-  mkdirSync(path, { recursive: true });
-  writeFileSync(join(path, ".gitkeep"), "");
-}
 
 const mapPath = join(root, "docs/domains/context-map.json");
-const map = JSON.parse(readFileSync(mapPath, "utf8"));
-const manifest = JSON.parse(
-  readFileSync(join(destination, "context.json"), "utf8"),
+const originalAreaManifest = readFileSync(areaManifestPath, "utf8");
+const originalMap = readFileSync(mapPath, "utf8");
+const stagingDestination = join(
+  areaRoot,
+  `.${args.context}.runtime-staging-${process.pid}`,
 );
-map.contexts.push(manifest);
-writeFileSync(mapPath, `${JSON.stringify(map, null, 2)}\n`);
+const backupDestination = join(
+  areaRoot,
+  `.${args.context}.planned-backup-${process.pid}`,
+);
+if (existsSync(stagingDestination) || existsSync(backupDestination))
+  throw new Error(`Stale promotion staging path exists for ${args.context}.`);
+
+const preservedGovernance = promote
+  ? new Map(
+      ["AGENTS.md", "README.md"].map((fileName) => [
+        fileName,
+        readFileSync(join(destination, fileName), "utf8"),
+      ]),
+    )
+  : new Map();
+let plannedBackedUp = false;
+let runtimeInstalled = false;
+
+try {
+  cpSync(template, stagingDestination, { recursive: true });
+  for (const [fileName, content] of preservedGovernance)
+    writeFileSync(join(stagingDestination, fileName), content);
+
+  replacePlaceholders(stagingDestination);
+  for (const relative of fixedDirectories) {
+    const path = join(stagingDestination, relative);
+    mkdirSync(path, { recursive: true });
+    writeFileSync(join(path, ".gitkeep"), "");
+  }
+
+  const manifest = JSON.parse(
+    readFileSync(join(stagingDestination, "context.json"), "utf8"),
+  );
+  const nextAreaManifest = {
+    ...areaManifest,
+    contexts: [...new Set([...areaManifest.contexts, args.context])].sort(),
+  };
+  const map = JSON.parse(originalMap);
+  map.contexts = [
+    ...map.contexts.filter((entry) => entry.context !== manifest.context),
+    manifest,
+  ].sort((left, right) => left.context.localeCompare(right.context));
+
+  if (promote) {
+    renameSync(destination, backupDestination);
+    plannedBackedUp = true;
+  }
+  renameSync(stagingDestination, destination);
+  runtimeInstalled = true;
+  writeFileSync(
+    areaManifestPath,
+    `${JSON.stringify(nextAreaManifest, null, 2)}\n`,
+  );
+  writeFileSync(mapPath, `${JSON.stringify(map, null, 2)}\n`);
+  if (existsSync(backupDestination))
+    rmSync(backupDestination, { recursive: true, force: true });
+} catch (error) {
+  if (runtimeInstalled && existsSync(destination))
+    rmSync(destination, { recursive: true, force: true });
+  if (plannedBackedUp && existsSync(backupDestination))
+    renameSync(backupDestination, destination);
+  if (existsSync(stagingDestination))
+    rmSync(stagingDestination, { recursive: true, force: true });
+  writeFileSync(areaManifestPath, originalAreaManifest);
+  writeFileSync(mapPath, originalMap);
+  throw error;
+}
 
 console.log(
   `Created capability-template Context ${args.group}/${args.area}/${args.context}. Run pnpm arch:check.`,

@@ -1,7 +1,7 @@
 # GitHub 產品模型分析：首批策略領域
 
 日期：2026-07-11
-狀態：Proposed / 尚待產品 owner 核准
+狀態：Historical research / superseded by current product owners and Context manifests
 
 ## 目的與範圍
 

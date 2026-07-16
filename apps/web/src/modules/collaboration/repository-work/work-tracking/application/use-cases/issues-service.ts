@@ -16,24 +16,15 @@ import {
 import type { IssuePrincipal } from "../ports/inbound/issue-principal";
 import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety-port";
 import type {
+  IssueNumberSequence,
+  IssueStore,
+  LabelStore,
+} from "../ports/outbound/issue-persistence-port";
+import type {
   IssueParticipationAction,
   RepositoryParticipation,
 } from "../ports/outbound/repository-participation-port";
 
-export interface IssueStore {
-  list(repositoryId: string): Promise<Issue[]>;
-  find(id: string): Promise<Issue | undefined>;
-  save(issue: Issue): Promise<void>;
-}
-export interface LabelStore {
-  list(repositoryId: string): Promise<Label[]>;
-  find(id: string): Promise<Label | undefined>;
-  findByName(repositoryId: string, name: string): Promise<Label | undefined>;
-  save(label: Label): Promise<void>;
-}
-export interface IssueNumberSequence {
-  next(repositoryId: string): Promise<number>;
-}
 export type IssueSummary = Readonly<{
   issueId: string;
   number: number;

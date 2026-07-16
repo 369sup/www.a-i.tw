@@ -6,6 +6,7 @@ import {
   Check,
   ChevronDown,
   CircleDot,
+  FolderKanban,
   FolderGit2,
   LogOut,
   Settings,
@@ -148,6 +149,12 @@ export default async function ConsoleLayout({
                   <Link href="/repositories">
                     <FolderGit2 />
                     Repositories
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/projects">
+                    <FolderKanban />
+                    Projects
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

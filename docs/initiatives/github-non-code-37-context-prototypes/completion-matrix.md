@@ -1,0 +1,46 @@
+# 37-Context prototype completion matrix
+
+狀態：Current delivery ledger / updated 2026-07-17
+
+Load this file only for a portfolio audit or delivery-status update. Runtime facts remain owned by each `context.json`,
+`docs/domains/context-map.json`, source, tests and dated evidence.
+
+| Context                                                                      | Manifest status                 | Evidence              | Implementation status                   | Web/evidence                                    |
+| ---------------------------------------------------------------------------- | ------------------------------- | --------------------- | --------------------------------------- | ----------------------------------------------- |
+| `business-operations/assurance-support/audit-compliance`                     | prototype / in-memory-prototype | `AU1`                 | Store Port, Domain and adapter repaired | `/settings/audit`; direct Playwright pending    |
+| `business-operations/assurance-support/support-management`                   | planned / none                  | `SUP1`, `SUP2`        | Pending Wave 3                          | Not started                                     |
+| `business-operations/commercial/billing-payments`                            | planned / none                  | `BILL1`, `BILL2`      | Pending Wave 2                          | Not started                                     |
+| `business-operations/commercial/plan-entitlement-licensing`                  | planned / none                  | `BILL1`, `BILL2`      | Pending Wave 2                          | Not started                                     |
+| `business-operations/commercial/sponsorship`                                 | planned / none                  | `SP1`-`SP4`           | Pending Wave 2                          | Not started                                     |
+| `business-operations/commercial/usage-cost-management`                       | planned / none                  | `BILL3`, `BILL4`      | Pending Wave 2                          | Not started                                     |
+| `collaboration/community-knowledge/community-safety`                         | approved / current              | `D2`, `A4`            | Wave 0 audit                            | Direct Playwright pending                       |
+| `collaboration/community-knowledge/discussions`                              | approved / current              | `D1`, `D2`            | Wave 0 audit                            | Direct Playwright exists                        |
+| `collaboration/community-knowledge/repository-wiki`                          | approved / current              | `K1`                  | Route consumer and adapter verified     | Playwright passed 2026-07-16                    |
+| `collaboration/repository-work/repository-governance`                        | approved / current              | `R1`-`R8`, `A1`, `A4` | Wave 0 audit                            | Direct Playwright exists                        |
+| `collaboration/repository-work/work-planning`                                | approved / current              | `P1`, `I5`            | Store Port, Domain and actions verified | Playwright passed 2026-07-16                    |
+| `collaboration/repository-work/work-tracking`                                | approved / current              | `I1`-`I5`             | Store Ports and Domain tests repaired   | Direct Playwright exists                        |
+| `ecosystem/apps-marketplace/app-management`                                  | approved / current              | `INT1`-`INT3`         | Wave 0 audit                            | Direct Playwright exists                        |
+| `ecosystem/apps-marketplace/marketplace`                                     | planned / none                  | `MKT1`-`MKT5`         | Pending Wave 3                          | Not started                                     |
+| `ecosystem/apps-marketplace/webhook-delivery`                                | planned / none                  | `W1`                  | Pending Wave 3                          | Not started                                     |
+| `engagement/social-discovery/activity-feed`                                  | prototype / in-memory-prototype | `ACT1`, `ACT2`        | Store Port, Domain and adapter repaired | Dashboard flow; direct Playwright pending       |
+| `engagement/social-discovery/search-discovery`                               | approved / current              | `S1`                  | Wave 0 audit                            | Direct Playwright exists                        |
+| `engagement/social-discovery/social-curation`                                | approved / current              | `ACT1`, `ACT2`        | Wave 0 audit                            | Direct Playwright exists                        |
+| `engagement/social-discovery/subscriptions-notifications`                    | approved / current              | `N1`-`N3`             | Wave 0 audit                            | Direct Playwright exists                        |
+| `platform-governance/access-policy/administrative-access-control`            | approved / current              | `A4`, `A5`            | Domain test gap repaired                | Direct Playwright pending                       |
+| `platform-governance/access-policy/network-domain-governance`                | prototype / in-memory-prototype | `A6`, `A11`           | G4-G7 completed 2026-07-16              | Playwright and dated evidence passed 2026-07-16 |
+| `platform-governance/access-policy/policy-governance`                        | approved / current              | `A5`, `A6`            | Domain test gap repaired                | Direct Playwright pending                       |
+| `platform-governance/accounts-profile/enterprise-account`                    | approved / current              | `A1`, `A5`, `A6`      | Wave 0 audit                            | Direct Playwright pending                       |
+| `platform-governance/accounts-profile/organization-account`                  | approved / current              | `A1`, `A2`            | Wave 0 audit                            | Direct Playwright exists                        |
+| `platform-governance/accounts-profile/profile-presence`                      | approved / current              | `ACT1`, `ACT2`        | Wave 0 audit                            | Direct Playwright pending                       |
+| `platform-governance/accounts-profile/user-account`                          | approved / current              | `A1`, `A6`            | Wave 0 audit                            | Direct Playwright pending                       |
+| `platform-governance/authentication-identity/authentication-security`        | approved / current              | `A6`-`A8`             | Wave 0 audit                            | Direct Playwright exists                        |
+| `platform-governance/authentication-identity/enterprise-identity-management` | planned / none                  | `A6`, `A9`            | Approved; next independent slice        | Not started                                     |
+| `platform-governance/participation-teams/enterprise-participation`           | planned / none                  | `A5`, `A6`, `A10`     | Approved; pending                       | Not started                                     |
+| `platform-governance/participation-teams/organization-participation`         | approved / current              | `A2`-`A4`             | Wave 0 audit                            | Direct Playwright pending                       |
+| `programs/education/campus-experts`                                          | planned / none                  | `EDU5`                | Pending Wave 4                          | Not started                                     |
+| `programs/education/campus-program`                                          | planned / none                  | `EDU3`                | Pending Wave 4                          | Not started                                     |
+| `programs/education/classroom-management`                                    | planned / none                  | `EDU4`                | Pending Wave 5                          | Not started                                     |
+| `programs/education/community-exchange`                                      | planned / none                  | `EDU6`                | Pending Wave 5                          | Not started                                     |
+| `programs/education/education-eligibility`                                   | planned / none                  | `EDU1`, `EDU2`        | Pending Wave 4                          | Not started                                     |
+| `programs/professional-programs/certification`                               | planned / none                  | `CERT1`, `CERT2`      | Pending Wave 5                          | Not started                                     |
+| `programs/professional-programs/developer-program`                           | planned / none                  | `DEV1`                | Pending Wave 5                          | Not started                                     |

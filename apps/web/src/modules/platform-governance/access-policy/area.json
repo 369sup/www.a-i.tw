@@ -5,7 +5,7 @@
   "ownsRuntime": false,
   "contexts": [
     "administrative-access-control",
-    "policy-governance",
-    "network-domain-governance"
+    "network-domain-governance",
+    "policy-governance"
   ]
 }

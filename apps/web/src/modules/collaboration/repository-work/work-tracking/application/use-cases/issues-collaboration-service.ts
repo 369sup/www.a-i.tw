@@ -2,22 +2,12 @@ import {
   createIssueComment,
   createIssueDependency,
   createMilestone,
-  type IssueComment,
-  type IssueDependency,
-  type Milestone,
 } from "../../domain/work-tracking/entities/issue-collaboration";
 import type { IssuePrincipal } from "../ports/inbound/issue-principal";
 import type { CommunityInteractionSafety } from "../ports/outbound/community-interaction-safety-port";
-export interface IssueCollaborationStore {
-  comments(issueId: string): Promise<IssueComment[]>;
-  saveComment(value: IssueComment): Promise<void>;
-  saveMilestone(value: Milestone): Promise<void>;
-  saveDependency(value: IssueDependency): Promise<void>;
-  dependencies(): Promise<IssueDependency[]>;
-}
-export interface IssueDirectory {
-  find(id: string): Promise<{ id: string; repositoryId: string } | undefined>;
-}
+import type { IssueCollaborationStore } from "../ports/outbound/issue-collaboration-store-port";
+import type { IssueDirectory } from "../ports/outbound/issue-persistence-port";
+
 export function createIssueCollaborationService(
   store: IssueCollaborationStore,
   issues: IssueDirectory,

@@ -3,8 +3,10 @@
 // Final App Router binding for Context-owned repository console commands.
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { getProductComposition } from "@/src/composition/product-composition";
 import { requireConsoleAuthentication } from "@/src/app/(console)/console-session-composition";
+import { createWikiPageFromForm } from "@/src/modules/collaboration/community-knowledge/repository-wiki/public-api";
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) ?? "");
@@ -293,6 +295,21 @@ export async function updateDiscussionAction(formData: FormData) {
       actor: session.principal,
     });
   revalidatePath("/repositories", "layout");
+}
+
+export async function createWikiPageAction(formData: FormData) {
+  const { knowledgeWiki } = getProductComposition();
+  const session = await requireConsoleAuthentication();
+  const page = await createWikiPageFromForm(
+    knowledgeWiki,
+    session.principal,
+    formData,
+  );
+  const repositoryId = value(formData, "repositoryId");
+  revalidatePath("/repositories", "layout");
+  redirect(
+    `/repositories?repository=${encodeURIComponent(repositoryId)}&wikiPage=${encodeURIComponent(page.pageId)}`,
+  );
 }
 
 export async function updateRepositorySubscriptionAction(formData: FormData) {
