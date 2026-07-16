@@ -9,7 +9,48 @@ const packageName = JSON.parse(
 const mapped = new Map(map.contexts.map((entry) => [entry.context, entry]));
 const errors = [];
 const discovered = [];
+const sourceOfTruthOwners = new Map();
 let plannedContextCount = 0;
+
+const governanceMarkerStart = "<!-- BEGIN:context-governance -->";
+const governanceMarkerEnd = "<!-- END:context-governance -->";
+const governanceHeadings = {
+  "AGENTS.md": [
+    "## Complete governance contract",
+    "### Status and problem boundary",
+    "### Owns",
+    "### Does not own",
+    "### Ubiquitous language",
+    "### Core invariants",
+    "### Allowed dependencies",
+    "### Non-Code boundary",
+    "### Change and promotion gate",
+    "### Official evidence",
+  ],
+  "README.md": [
+    "## Complete semantic governance",
+    "### Product meaning and scope",
+    "### Lifecycle and principal use case",
+    "### Source of truth",
+    "### Language and invariants",
+    "### Collaboration",
+    "### Explicit exclusions",
+    "### Official evidence",
+  ],
+};
+const plannedDescriptorRule =
+  "A `planned` Context contains exactly `AGENTS.md`, `README.md`, `context.json`, and `public-api.ts`; it contains no runtime directories.";
+const nonPlannedContextRule =
+  "A non-`planned` Context contains those four files plus the six fixed directories `domain`, `application`, `contracts`, `adapters`, `composition`, and `tests`.";
+const evidenceLedger = readFileSync(
+  "docs/product/github-non-code-semantic-model.md",
+  "utf8",
+);
+const definedEvidenceIds = new Set(
+  [...evidenceLedger.matchAll(/^\|\s*([A-Z]+\d+)\s*\|/gm)].map(
+    (match) => match[1],
+  ),
+);
 
 function sourceFiles(directory) {
   const files = [];
@@ -19,6 +60,53 @@ function sourceFiles(directory) {
     else if (/\.(?:ts|tsx)$/.test(entry.name)) files.push(path);
   }
   return files;
+}
+
+function governanceBlock(contextName, fileName, content) {
+  const startCount = content.split(governanceMarkerStart).length - 1;
+  const endCount = content.split(governanceMarkerEnd).length - 1;
+  if (startCount !== 1 || endCount !== 1) {
+    errors.push(
+      `${contextName} ${fileName} must contain exactly one managed governance block.`,
+    );
+    return "";
+  }
+  const start = content.indexOf(governanceMarkerStart);
+  const end = content.indexOf(governanceMarkerEnd, start);
+  if (end < start) {
+    errors.push(
+      `${contextName} ${fileName} governance markers are out of order.`,
+    );
+    return "";
+  }
+  const block = content.slice(start, end + governanceMarkerEnd.length);
+  for (const heading of governanceHeadings[fileName])
+    if (!block.includes(heading))
+      errors.push(
+        `${contextName} ${fileName} governance block is missing ${heading}.`,
+      );
+  return block;
+}
+
+function evidenceIds(block) {
+  const evidenceLine = block.match(/Evidence IDs:\s*([^\n]+)/)?.[1] ?? "";
+  return [...evidenceLine.matchAll(/`([A-Z]+\d+)`/g)].map((match) => match[1]);
+}
+
+function documentedDependencies(block) {
+  return [...block.matchAll(/Consumes from `([^`]+)` through `([^`]+)`/g)]
+    .map((match) => `${match[1]}|${match[2]}`)
+    .sort();
+}
+
+for (const file of [
+  "apps/web/src/modules/AGENTS.md",
+  "apps/web/src/modules/README.md",
+]) {
+  const content = readFileSync(file, "utf8");
+  for (const rule of [plannedDescriptorRule, nonPlannedContextRule])
+    if (!content.includes(rule))
+      errors.push(`${file} must state the canonical planned/runtime shapes.`);
 }
 
 for (const entry of readdirSync(root, { withFileTypes: true })) {
@@ -91,6 +179,14 @@ for (const { name, group, area, directory } of discovered) {
     manifest.sourceOfTruth.length === 0
   )
     errors.push(`${name} must declare sourceOfTruth.`);
+  for (const sourceOfTruth of manifest.sourceOfTruth ?? []) {
+    const existingOwner = sourceOfTruthOwners.get(sourceOfTruth);
+    if (existingOwner && existingOwner !== name)
+      errors.push(
+        `${sourceOfTruth} source of truth is declared by both ${existingOwner} and ${name}.`,
+      );
+    else sourceOfTruthOwners.set(sourceOfTruth, name);
+  }
   if (manifest.kind === "product") {
     const mapEntry = mapped.get(name);
     if (manifest.lifecycle === "planned") {
@@ -120,21 +216,81 @@ for (const { name, group, area, directory } of discovered) {
 
   const readme = readFileSync(join(directory, "README.md"), "utf8");
   const agentRules = readFileSync(join(directory, "AGENTS.md"), "utf8");
+  const readmeGovernance = governanceBlock(name, "README.md", readme);
+  const agentGovernance = governanceBlock(name, "AGENTS.md", agentRules);
   for (const [fileName, content] of [
-    ["README.md", readme],
-    ["AGENTS.md", agentRules],
+    ["README.md", readmeGovernance],
+    ["AGENTS.md", agentGovernance],
   ]) {
     if (!content.includes(manifest.problem))
-      errors.push(`${name} ${fileName} must contain the manifest problem.`);
+      errors.push(
+        `${name} ${fileName} governance block must contain the manifest problem.`,
+      );
+    if (!content.includes(`Lifecycle: \`${manifest.lifecycle}\``))
+      errors.push(
+        `${name} ${fileName} governance block must match manifest lifecycle.`,
+      );
+    if (
+      !content.includes(
+        `runtime evidence: \`${manifest.runtimeEvidence?.status}\``,
+      ) &&
+      !content.includes(
+        `Runtime evidence: \`${manifest.runtimeEvidence?.status}\``,
+      )
+    )
+      errors.push(
+        `${name} ${fileName} governance block must match manifest runtime evidence.`,
+      );
     for (const sourceOfTruth of manifest.sourceOfTruth ?? []) {
       if (!content.includes(`\`${sourceOfTruth}\``))
         errors.push(
-          `${name} ${fileName} must declare source-of-truth owner ${sourceOfTruth}.`,
+          `${name} ${fileName} governance block must declare source-of-truth owner ${sourceOfTruth}.`,
         );
     }
   }
-  if (manifest.firstUseCase && !readme.includes(manifest.firstUseCase))
-    errors.push(`${name} README.md must contain the manifest firstUseCase.`);
+  if (
+    manifest.firstUseCase &&
+    !readmeGovernance.includes(manifest.firstUseCase)
+  )
+    errors.push(
+      `${name} README.md governance block must contain the manifest firstUseCase.`,
+    );
+  if (
+    manifest.firstUseCase === null &&
+    !readmeGovernance.includes("No first use case is approved.")
+  )
+    errors.push(
+      `${name} planned README.md governance block must state that no first use case is approved.`,
+    );
+
+  const agentEvidenceIds = evidenceIds(agentGovernance);
+  const readmeEvidenceIds = evidenceIds(readmeGovernance);
+  if (!agentEvidenceIds.length || !readmeEvidenceIds.length)
+    errors.push(`${name} governance files must declare official Evidence IDs.`);
+  for (const evidenceId of new Set([...agentEvidenceIds, ...readmeEvidenceIds]))
+    if (!definedEvidenceIds.has(evidenceId))
+      errors.push(`${name} references undefined Evidence ID ${evidenceId}.`);
+  if (
+    JSON.stringify([...agentEvidenceIds].sort()) !==
+    JSON.stringify([...readmeEvidenceIds].sort())
+  )
+    errors.push(`${name} AGENTS.md and README.md Evidence IDs must match.`);
+
+  const expectedDependencies = (manifest.relationships ?? [])
+    .filter((relationship) => relationship.downstream === name)
+    .map((relationship) => `${relationship.upstream}|${relationship.contract}`)
+    .sort();
+  for (const [fileName, content] of [
+    ["README.md", readmeGovernance],
+    ["AGENTS.md", agentGovernance],
+  ])
+    if (
+      JSON.stringify(documentedDependencies(content)) !==
+      JSON.stringify(expectedDependencies)
+    )
+      errors.push(
+        `${name} ${fileName} documented dependencies must match context.json relationships.`,
+      );
 
   if (manifest.lifecycle !== "planned") {
     const integrationRoot = join(directory, "adapters/outbound/integrations");

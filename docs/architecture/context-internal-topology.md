@@ -2,12 +2,28 @@
 
 狀態：Accepted canonical / templateVersion 2 / ADR 0014 6 Groups、12 Areas、37 physical Contexts
 
-Domain Group 與 Domain Area 是 organizational navigation boundaries；Bounded Context 才是 language、ownership、
-runtime 與 consistency boundary。每個 Context 保留 ADR 0011 的 capability-oriented fixed template；ADR 0014
-接替 physical placement registry。六個 Groups 與十二個 Areas 是 closed taxonomy，不得加入 sub-Area、account type 或
-resource scope 目錄層。
+Domain Group 與 Domain Area 是 organizational navigation boundaries；Bounded Context 才是 language 與 semantic
+ownership boundary，只有非 `planned` Context 才擁有 implemented runtime、data 與 consistency boundary。每個
+非 `planned` Context 保留 ADR 0011 的 capability-oriented fixed template；ADR 0014 接替 physical placement
+registry。六個 Groups 與十二個 Areas 是 closed taxonomy，不得加入 sub-Area、account type 或 resource scope
+目錄層。
 
-## Canonical tree
+## Canonical shapes
+
+### Planned descriptor
+
+```text
+apps/web/src/modules/<domain-group>/<domain-area>/<bounded-context>/
+├── AGENTS.md
+├── README.md
+├── context.json
+└── public-api.ts
+```
+
+The planned `public-api.ts` publishes no runtime API and contains only the standard comments plus `export {};`. Planned
+Contexts have no runtime directory, first use case, Context Map relationship or composition.
+
+### Non-planned Context runtime template
 
 ```text
 apps/web/src/modules/<domain-group>/<domain-area>/<bounded-context>/
@@ -52,7 +68,8 @@ Angle-bracket names are patterns, never literal directories. The generator creat
 kebab-case names. Category directories are fixed leaves. `commands/` and `queries/` are the only tactical parents that
 accept named child directories, each with exactly its message and `handler.ts`. Contract versions use `v<number>`.
 
-Every fixed directory is created atomically and retained with `.gitkeep` when empty. A Domain Group contains only
+For a non-`planned` Context, every fixed directory is created atomically and retained with `.gitkeep` when empty. A
+Domain Group contains only
 `AGENTS.md`, `README.md`, `group.json`, and declared Areas. A Domain Area contains only `AGENTS.md`, `README.md`,
 `area.json`, and declared Contexts; both governance layers own no runtime. A Context root contains only the six fixed
 directories and its four owner/public files. Ownership-free `shared`, `common`, `core`, `utils`, and `helpers` remain

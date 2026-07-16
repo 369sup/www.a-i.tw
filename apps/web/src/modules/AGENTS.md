@@ -1,8 +1,9 @@
 # Module boundary contract
 
 This file applies to `apps/web/src/modules/**`. Domain Groups and Domain Areas are governance-only; each declared child
-Bounded Context owns language, runtime and data. The closed six-Group, twelve-Area registry and exact template are
-defined by `docs/architecture/context-internal-topology.md`, ADR 0011 and ADR 0014.
+Bounded Context is a semantic ownership boundary, while only a non-`planned` Context owns implemented runtime and data.
+The closed six-Group, twelve-Area registry and exact template are defined by
+`docs/architecture/context-internal-topology.md`, ADR 0011 and ADR 0014.
 
 ## Mandatory module topology
 
@@ -121,19 +122,20 @@ apps/web/src/modules/
                 └── <boundary-test>.test.ts
 ```
 
-This tree is a normative placement and ownership contract, not a claim that any Bounded Context implementation is
-complete. It MUST be interpreted as follows:
+A `planned` Context contains exactly `AGENTS.md`, `README.md`, `context.json`, and `public-api.ts`; it contains no runtime directories.
+A non-`planned` Context contains those four files plus the six fixed directories `domain`, `application`, `contracts`, `adapters`, `composition`, and `tests`.
+
+These are the only two legal Context shapes. They are normative placement and ownership contracts, not claims that a
+Context implementation is complete. Interpret them as follows:
 
 - Names without angle brackets are required structural directories or fixed files at the shown location.
 - Angle-bracket names are patterns and MUST NOT be created literally. They show the only permitted placement for an
   artifact when approved semantics require that artifact; they do not require a placeholder source file.
-- Every fixed structural directory exists even when it has no approved artifacts; retain an empty fixed directory with
-  `.gitkeep`.
 - A Domain Group contains only `AGENTS.md`, `README.md`, `group.json`, and child Areas declared by `group.json`.
 - A Domain Area contains only `AGENTS.md`, `README.md`, `area.json`, and child Contexts declared by `area.json`.
 - Domain Groups and Domain Areas own no runtime layer, Aggregate, Contract, table, transaction, composition or source.
-- A Bounded Context root contains only `AGENTS.md`, `README.md`, `context.json`, `public-api.ts`, and the six fixed
-  directories `domain`, `application`, `contracts`, `adapters`, `composition`, and `tests`.
+- In a non-`planned` Context, every fixed structural directory exists even when it has no approved artifacts; retain an
+  empty fixed directory with `.gitkeep`.
 - Empty fixed directories, `.gitkeep`, `templateVersion` conformance and a passing topology check prove placement only.
   They do not prove that the Context has complete Domain semantics, use cases, Ports, Adapters, contracts or tests.
 - Do not create a Value Object, command, query, service, adapter or test merely to populate the template. Each artifact
@@ -141,9 +143,11 @@ complete. It MUST be interpreted as follows:
   by `docs/architecture/ddd-hexagonal-standard.md`; there is no fixed Value Object-first, Entity-first or Contract-first
   implementation sequence.
 
-Contexts are created only through `pnpm generate:context` after owner, Domain, strategic Subdomain, classification,
-problem, first use case and source of truth are approved. The primary Domain capability equals
-`context.json.subdomain.name`.
+The accepted portfolio migration may materialize a `planned` descriptor only after its candidate problem, owner,
+strategic Subdomain, classification and candidate source of truth are approved. It has no first use case or runtime
+relationship. A new runtime Context is created through `pnpm generate:context`; promotion of an existing planned
+descriptor requires explicit G1-G4 approval, a concrete first use case and atomic materialization of the non-planned
+template. The primary Domain capability equals `context.json.subdomain.name`.
 
 ## Ownership
 

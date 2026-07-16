@@ -13,6 +13,7 @@
 | [`07-openai-research.md`](07-openai-research.md)                               | 規劃或修改 OpenAI API 整合，使用官方資料核實            |
 | [`08-release-readiness.md`](08-release-readiness.md)                           | 產出可發布前的證據、風險與待確認事項                    |
 | [`09-parallel-work.md`](09-parallel-work.md)                                   | 可獨立且可平行的調查、測試或審查工作                    |
+| [`10-product-design.md`](10-product-design.md)                                 | 依 Product Design 意圖做 audit、三方向或實作 handoff    |
 | [`11-semantic-development-lifecycle.md`](11-semantic-development-lifecycle.md) | 語意、文件、路徑、scaffold、inside-out 開發與驗證 gate  |
 | [`12-scaffold-bounded-context.md`](12-scaffold-bounded-context.md)             | 以 capability-oriented template v2 建立已核准的 Context |
 

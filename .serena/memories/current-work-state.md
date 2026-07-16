@@ -1,53 +1,63 @@
 # Current Work State
+
 ## Objective
-Implement the approved GitHub Non-Code DDD/Hexagonal calibration plan across canonical docs, Accounts/Profile boundaries, architecture guards, and Organization founding-owner onboarding.
+
+Synchronize durable source context from the external Codex `MEMORY.md` registry into the three fixed Serena memories without merging or equating the systems.
+
 ## Scope
-Canonical 6 Group / 12 Area / 37 descriptor governance; four Accounts/Profile runtime Contexts; Organization Participation onboarding; Context Map relationships; public API and architecture validation.
+
+- Updated `project-overview` with current routing and three-level module architecture.
+- Updated `knowledge` with separated organization-wide, architecture, environment, naming, ownership, and workflow categories.
+- Preserved this file as the only temporary implementation checkpoint.
+
 ## Confirmed Decisions
-- Portfolio topology is 37 physical descriptors, 20 runtime Contexts, and 17 planned descriptors; topology is not runtime completeness.
-- Account contracts own identity, handle, kind and status only; Profile & Presence owns displayName and presentation.
-- Account resolution and eligibility do not query Profile; app composition owns Account plus Profile view composition.
-- Organization founding-owner Membership is owned by Organization Participation and coordinated by an idempotent retryable process manager.
-- Runtime slices follow approved-use-case vertical slices, not a fixed Contract-first or Value-Object-first sequence.
+
+- `C:\Users\sup\.codex\memories\MEMORY.md` is source context only and was not modified.
+- Serena remains limited to `project-overview`, `knowledge`, and `current-work-state`.
+- Current repository evidence supersedes stale two-level topology, stale portfolio counts, historical checkout paths, and retired Serena memory names.
+- Stable facts were rewritten in organizational language; conversational, duplicate, speculative, and short-lived details were excluded.
+
 ## Completed
-- Removed Profile fields from Account Published Language and eliminated Account/Profile synchronous cycles.
-- Kept synchronous idempotent Profile initialization while making Profile updates local-Aggregate-only.
-- Added Organization onboarding state, process manager, combined consumer Port and provider-contract ACL.
-- Generalized relationship, contract, Port, ACL, cycle, ownership drift, count and public API guards.
-- Reconciled canonical product, DDD, Context Map and ownership documentation.
+
+- Read the external registry and existing Serena memories.
+- Retained the authoritative root `D:\GitHub\www.a-i.tw`.
+- Retained current three-level topology and 6/12/37 physical portfolio with 20 runtime and 17 planned descriptors.
+- Retained durable Git Bash, Windows, checkpoint, naming, ownership, and scope-gating rules.
+- Removed obsolete two-level module topology and historical runtime-count framing from the distilled result.
+- Read back all three Serena memories and verified their separate roles and current terminology.
+
 ## In Progress
+
 None.
+
 ## Pending
-No implementation work remains in this task. Do not stage or commit unless explicitly requested.
+
+No memory synchronization work remains. Repository governance implementation changes from the preceding task remain uncommitted.
+
 ## Modified Files
-- apps/web/src/modules/platform-governance/accounts-profile/**
-- apps/web/src/modules/platform-governance/participation-teams/organization-participation/**
-- apps/web/src/composition/product-composition.ts
-- scripts/architecture/check-context-manifests.mjs
-- scripts/architecture/check-package-exports.mjs
-- docs/architecture/ddd-hexagonal-standard.md
-- docs/domains/** and docs/product/product-model.md
-- related Repository, Work Tracking and Search boundary files
+
+- Serena memories: `project-overview`, `knowledge`, `current-work-state`.
+- No external Codex memory file was modified by this synchronization.
+- The repository working tree still contains the previously completed governance-document and checker changes.
+
 ## Git Anchor
-- Branch: main
-- HEAD: 82e7600681ded269f3d45e0ccdae4f030117faa1
-- Working tree: 115 changed or untracked entries, including pre-existing Account/Enterprise work; no stage, commit, push or cleanup performed.
+
+- Branch: `main`
+- HEAD: `7455903b`
+- Working tree: governance documentation, manifest checker, and Serena current-work-state remain modified; no product runtime, Context Map, lifecycle, contract, or public API file was changed by the memory synchronization.
+
 ## Validation
-- Focused Account/Profile/onboarding: 3 files, 7 tests passed.
-- Full web Vitest: 70 files, 157 tests passed.
-- Web typecheck passed.
-- Web lint: 0 errors, one pre-existing unused CardTitle warning in dashboard/page.tsx.
-- docs:check passed.
-- arch:check passed, including 90 architecture tests.
-- Semgrep passed: 0 findings across 527 targets.
-- Production build passed.
-- git diff --check passed.
-- All changed task files pass Prettier; full format:check remains blocked by 23 unrelated baseline files under .agents, .codex and .playwright-mcp.
-- Serena diagnostics returned no errors or warnings for key changed runtime files.
+
+- `project-overview`, `knowledge`, and `current-work-state` were all written and read back successfully.
+- The memories remain distinct from the external Codex memory system.
+- No stale two-level canonical topology or retired Serena memory role remains in the updated set.
+- Existing governance validation before this memory task: complete topology blocks preserved, 37/37 Context governance blocks, `pnpm docs:check`, manifest/template checks, and full architecture tests passed.
+
 ## Known Risks
-- Persistence remains in-memory; onboarding durability is process-correct but not production durable until a durable adapter and Outbox infrastructure are approved.
-- Managed User remains target responsibility of User Account but is not implemented.
-- Worktree contains substantial pre-existing uncommitted changes and must be reviewed as one combined diff before any commit.
-- Context consumption at the user's memory-update request: approximately 33k characters remained (user-reported; not an official token-percentage signal).
+
+- Portfolio counts and runtime status are time-sensitive; verify against manifests and ADR 0014 when reused.
+- Historical rollout summaries may contain stale OneDrive roots, two-level topology, retired memory names, or older Context counts.
+
 ## Next Action
-Review the combined working-tree diff, then choose whether to split and commit the approved calibration separately from pre-existing changes.
+
+Resume repository work from this checkpoint or commit the existing governance changes only when explicitly requested.

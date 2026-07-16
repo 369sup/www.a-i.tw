@@ -54,7 +54,6 @@ Canonical source-of-truth models declared by `context.json`:
 
 ### Allowed dependencies
 
-- Consumes from `authentication-security` through `PrincipalRefV1` (synchronous, current).
 - Consumes from `profile-presence` through `ProfileDirectoryApiV1` (synchronous, current).
 
 Cross-Context calls still require a consumer-owned Port, outbound integration ACL and provider `contracts/vN/public.ts`.

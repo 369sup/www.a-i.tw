@@ -1,7 +1,7 @@
 # Domain Groups, Domain Areas and Bounded Contexts
 
-`modules/` is the product runtime ownership map. The following tree completely describes the canonical placement
-topology; it is not an inventory of implemented artifacts and does not claim that any Bounded Context is complete:
+`modules/` is the product semantic-ownership portfolio and runtime-placement map. `AGENTS.md` owns normative execution
+rules; this README is navigation and current-state guidance. The canonical navigation shape is:
 
 ```text
 apps/web/src/modules/
@@ -118,16 +118,16 @@ apps/web/src/modules/
                 └── <boundary-test>.test.ts
 ```
 
-The tree is normative for placement. Literal names are required at the shown location. Angle-bracket names are patterns
-that MUST NOT be created literally: they identify the permitted location of an artifact when approved semantics require
-it, not a source file that must exist. Fixed structural directories remain present with `.gitkeep` when empty. Empty
-directories, `templateVersion` conformance and a passing topology check prove structural placement only; they do not
-prove complete Domain semantics, use cases, Ports, Adapters, contracts or tests. Artifacts must never be created merely
-to make a Context look complete.
+A `planned` Context contains exactly `AGENTS.md`, `README.md`, `context.json`, and `public-api.ts`; it contains no runtime directories.
+A non-`planned` Context contains those four files plus the six fixed directories `domain`, `application`, `contracts`, `adapters`, `composition`, and `tests`.
 
-A Domain Group and its Domain Areas are closed organizational/governance navigation layers and own no runtime; each
-declared Bounded Context owns its language, consistency, runtime, data, and contracts. Scope and account type remain
-manifest metadata, not additional directory levels. There is no `sub-area` or additional `hexagonal-layer` directory.
+The planned `public-api.ts` publishes only `export {}`. Non-planned Contexts retain empty fixed structural directories
+with `.gitkeep`; neither shape proves complete Domain semantics, use cases, Ports, Adapters, contracts or tests.
+
+A Domain Group and its Domain Areas are closed organizational/governance navigation layers and own no runtime. Each
+declared Bounded Context is a semantic ownership boundary; only a non-`planned` Context owns implemented runtime, data,
+consistency and contracts. Scope and account type remain manifest metadata, not additional directory levels. There is
+no `sub-area` or additional `hexagonal-layer` directory.
 
 The matching agent constraints are in [`AGENTS.md`](AGENTS.md). The canonical architecture decision is
 [`docs/architecture/context-internal-topology.md`](../../../../docs/architecture/context-internal-topology.md), and
@@ -139,16 +139,16 @@ This README remains a navigation and topology summary. Normative execution rules
 summary prevents drift and ambiguity:
 
 - Ownership: Domain owns invariants and pure semantics; Application owns use cases, messages, DTOs, process managers
-    and Ports; adapters own transport/persistence/integration mapping; contracts own standalone Published Language.
+  and Ports; adapters own transport/persistence/integration mapping; contracts own standalone Published Language.
 - Dependency direction: inbound adapters -> Application -> Domain, and outbound adapters implement Application-owned
-    outbound Ports. Cross-Context calls use consumer-owned Ports and ACL adapters, and may import only provider
-    `contracts/vN/public.ts`.
+  outbound Ports. Cross-Context calls use consumer-owned Ports and ACL adapters, and may import only provider
+  `contracts/vN/public.ts`.
 - Entrypoints: `public-api.ts` is app-facing only; peer Contexts must not import it. Peer entrypoint is provider
-    `contracts/vN/public.ts`; final cross-Context assembly stays in `apps/web/src/composition`.
+  `contracts/vN/public.ts`; final cross-Context assembly stays in `apps/web/src/composition`.
 - Forbidden escapes: no alternative layer names, no ownership-free shared/common/core/utils/helpers folders, no
-    source files in structural parents, no hand-created Contexts, no peer internal imports.
+  source files in structural parents, no hand-created Contexts, no peer internal imports.
 - Anti-placeholder rule: do not create Value Objects, commands, queries, services, adapters, contracts, or tests only
-    to populate template categories.
+  to populate template categories.
 
 For implementation and review decisions, treat `AGENTS.md` as the authoritative contract and this section as its
 high-signal checklist.
