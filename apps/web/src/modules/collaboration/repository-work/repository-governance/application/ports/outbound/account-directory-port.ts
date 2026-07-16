@@ -2,7 +2,6 @@ export type RepositoryOwnerEligibility = Readonly<{
   account: Readonly<{
     accountId: string;
     handle: string;
-    displayName: string;
     kind: "personal" | "organization";
     status: "active" | "suspended";
   }>;

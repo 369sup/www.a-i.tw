@@ -12,10 +12,7 @@ describe("Account Profile", () => {
     const service = createUserAccountService(
       new InMemoryUserAccountStore(),
       {
-        async resolve(accountId) {
-          return profiles.get(accountId);
-        },
-        async save(profile) {
+        async initialize(profile) {
           profiles.set(profile.accountId, profile);
         },
       },
@@ -44,18 +41,15 @@ describe("Account Profile", () => {
   it("resumes provisioning after Profile initialization fails", async () => {
     const store = new InMemoryUserAccountStore();
     const profiles = new Map<string, AccountProfileFact>();
-    const save = vi.fn(async (profile: AccountProfileFact) => {
+    const initialize = vi.fn(async (profile: AccountProfileFact) => {
       profiles.set(profile.accountId, profile);
     });
-    save.mockRejectedValueOnce(new Error("Profile unavailable."));
+    initialize.mockRejectedValueOnce(new Error("Profile unavailable."));
     const nextId = vi.fn(() => "account-1");
     const service = createUserAccountService(
       store,
       {
-        async resolve(accountId) {
-          return profiles.get(accountId);
-        },
-        save,
+        initialize,
       },
       nextId,
     );
@@ -75,9 +69,34 @@ describe("Account Profile", () => {
       status: "active",
     });
     expect(nextId).toHaveBeenCalledTimes(1);
-    expect(save).toHaveBeenCalledTimes(2);
-    await expect(store.findByPrincipal("principal-1")).resolves.toMatchObject(
-      { id: "account-1", status: "active" },
+    expect(initialize).toHaveBeenCalledTimes(2);
+    await expect(store.findByPrincipal("principal-1")).resolves.toMatchObject({
+      id: "account-1",
+      status: "active",
+    });
+  });
+
+  it("resolves Account truth without consulting Profile availability", async () => {
+    const initialize = vi.fn(async () => undefined);
+    const service = createUserAccountService(
+      new InMemoryUserAccountStore(),
+      { initialize },
+      () => "account-1",
     );
+    await service.create({
+      principalId: "principal-1",
+      handle: "Ada",
+      displayName: "Ada Lovelace",
+    });
+    initialize.mockRejectedValue(new Error("Profile unavailable."));
+
+    await expect(service.resolveByPrincipal("principal-1")).resolves.toEqual({
+      accountId: "account-1",
+      handle: "ada",
+      kind: "personal",
+      personalPrincipalId: "principal-1",
+      status: "active",
+    });
+    expect(initialize).toHaveBeenCalledTimes(1);
   });
 });

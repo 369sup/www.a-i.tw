@@ -2,10 +2,12 @@
 
 狀態：Current / approved for in-memory vertical slice
 
-Identity & Access、Account、Authorization & Policy 與 Repository 由 `www.a-i.tw Product Team` 擁有，並已核准為 runtime Bounded Context。Account 發布 Membership 與 Team facts；Authorization & Policy 擁有 Repository Access Grant／Role／Permission／decision；Repository 只透過 consumer Port／ACL 使用決策，核心仍只擁有資源 identity、Account owner、profile、visibility、state、feature configuration 與 lifecycle。
+Runtime ownership is declared by the 20 manifests mirrored in `context-map.json`; the 37 physical descriptors are a
+portfolio taxonomy, not 37 implemented capabilities. User、Organization、Enterprise、Profile and Organization
+Participation are separate Contexts. Membership／Team facts come from `organization-participation`; Account directory
+contracts publish Account identity and eligibility only.
 
-Issue、Label 與 Assignment 已由 `Issues` Bounded Context 擁有並具有 in-memory runtime；
-其 ADR、contract 與 Context Map edge
-核准前，不建立 runtime folder 或 manifest。
+Issue、Label 與 Assignment由 `work-tracking` 擁有。Planned descriptors不得進入 Context Map、被 composition
+組裝或包含 runtime directories；每個新 slice 仍須先通過 owner、first use case 與 source-of-truth gates。
 
 每個 context 必須記錄 responsibility、owner、in/out scope、aggregates、use cases、ports、contracts、upstream/downstream 與 boundary debt。

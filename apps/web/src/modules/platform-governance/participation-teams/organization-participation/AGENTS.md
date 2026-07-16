@@ -10,6 +10,10 @@ grouped by the declared capability; commands and queries use one named directory
 Temporary, prototype, scaffolded, migration, and test-only status never waive the fixed topology, dependency direction,
 manifest, Published Language, architecture check, or CI gate.
 
+Organization onboarding is owned by the Application process manager in this Context. Account provisioning is accessed
+through a consumer-owned Port/ACL; retries must reuse persisted process and Membership identities. App composition may
+wire the process but must never write Membership directly.
+
 <!-- BEGIN:context-governance -->
 
 ## Complete governance contract
@@ -51,7 +55,7 @@ Canonical source-of-truth models declared by `context.json`:
 
 ### Allowed dependencies
 
-- Consumes from `organization-account` through `OrganizationAccountDirectoryApiV1` (synchronous, current).
+- Consumes from `organization-account` through `OrganizationAccountApiV1` (synchronous, current).
 
 Cross-Context calls still require a consumer-owned Port, outbound integration ACL and provider `contracts/vN/public.ts`.
 

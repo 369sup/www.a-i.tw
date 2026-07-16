@@ -4,12 +4,12 @@ import { InMemoryProfileStore } from "../../adapters/outbound/persistence/in-mem
 
 describe("account profile", () => {
   it("keeps presentation data separate from account identity", async () => {
-    const accounts = {
-      async exists(accountId: string) {
-        return accountId === "a-1";
-      },
-    };
-    const service = createProfileService(accounts, new InMemoryProfileStore());
+    const service = createProfileService(new InMemoryProfileStore());
+    await service.initialize({
+      accountId: "a-1",
+      displayName: "Initial",
+      bio: "",
+    });
     await service.update({
       accountId: "a-1",
       displayName: "  Admin Profile  ",
@@ -23,22 +23,25 @@ describe("account profile", () => {
     });
   });
 
-  it("rejects updates for an unknown account before persistence", async () => {
-    const service = createProfileService(
-      {
-        async exists() {
-          return false;
-        },
-      },
-      new InMemoryProfileStore(),
-    );
+  it("initializes idempotently and rejects conflicting initialization", async () => {
+    const service = createProfileService(new InMemoryProfileStore());
+    const input = { accountId: "a-1", displayName: "Profile", bio: "" };
 
+    await expect(service.initialize(input)).resolves.toMatchObject(input);
+    await expect(service.initialize(input)).resolves.toMatchObject(input);
+    await expect(
+      service.initialize({ ...input, displayName: "Different" }),
+    ).rejects.toThrow("already initialized");
+  });
+
+  it("rejects updates when no Profile Aggregate has been initialized", async () => {
+    const service = createProfileService(new InMemoryProfileStore());
     await expect(
       service.update({
         accountId: "missing",
         displayName: "Missing",
         bio: "",
       }),
-    ).rejects.toThrow("Account not found.");
+    ).rejects.toThrow("Profile not found.");
   });
 });

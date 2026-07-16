@@ -1,7 +1,6 @@
 export type PersonalAccountRefV1 = Readonly<{
   accountId: string;
   handle: string;
-  displayName: string;
   kind: "personal";
   status: "active" | "suspended";
   personalPrincipalId: string;

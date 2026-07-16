@@ -6,6 +6,8 @@ const errors = [];
 const internalImport =
   /from\s+["'][^"']*\/(?:domain|application|adapters|composition)\//u;
 const wildcardExport = /export\s+\*\s+from/u;
+const forbiddenPublicApiExport =
+  /from\s+["'][^"']*\/(?:domain|application\/(?:commands|queries|ports)|adapters\/outbound)\//u;
 
 for (const group of readdirSync(root, { withFileTypes: true })) {
   if (!group.isDirectory()) continue;
@@ -25,10 +27,17 @@ for (const group of readdirSync(root, { withFileTypes: true })) {
         errors.push(
           `${group.name}/${area.name}/${child.name} is missing public-api.ts.`,
         );
-      else if (wildcardExport.test(readFileSync(publicApi, "utf8")))
-        errors.push(
-          `${group.name}/${area.name}/${child.name} public-api.ts must use explicit exports.`,
-        );
+      else {
+        const publicApiSource = readFileSync(publicApi, "utf8");
+        if (wildcardExport.test(publicApiSource))
+          errors.push(
+            `${group.name}/${area.name}/${child.name} public-api.ts must use explicit exports.`,
+          );
+        if (forbiddenPublicApiExport.test(publicApiSource))
+          errors.push(
+            `${group.name}/${area.name}/${child.name} public-api.ts leaks Domain, internal Application messages/Ports, or outbound Adapters.`,
+          );
+      }
 
       if (manifest.lifecycle === "planned") continue;
 

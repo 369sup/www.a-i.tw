@@ -7,6 +7,5 @@ export type AccountProfileFact = Readonly<{
 }>;
 
 export interface ProfileDirectory {
-  resolve(accountId: string): Promise<AccountProfileFact | undefined>;
-  save(profile: AccountProfileFact): Promise<void>;
+  initialize(profile: AccountProfileFact): Promise<void>;
 }

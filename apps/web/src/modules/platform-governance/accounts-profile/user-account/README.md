@@ -4,7 +4,7 @@ Strategic subdomain `user-account` (`core`); owner www.a-i.tw Product Team.
 
 ## First approved use case
 
-An active Principal creates one Personal Account and resolves the presentation Profile initialized for that Account.
+An active Principal creates one Personal Account and initializes the presentation Profile for that Account.
 
 - Actor: an active authenticated Principal.
 - Input: a proposed User Account id, handle and display name plus the authoritative Principal reference.
@@ -34,7 +34,7 @@ Managed Account provisioning, suspension transitions, recovery and authenticatio
 
 ### Product meaning and scope
 
-Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.
+Own Personal and Managed User Account identity and lifecycle without owning presentation Profile, organization participation, or authentication.
 
 This directory is the declared local ownership boundary for `PersonalAccount`. Its physical presence proves portfolio placement only; runtime completeness is determined separately by `lifecycle`, `runtimeEvidence`, implemented use cases and verification.
 
@@ -42,7 +42,7 @@ This directory is the declared local ownership boundary for `PersonalAccount`. I
 
 - Lifecycle: `approved`.
 - Runtime evidence: `current`.
-- Principal use case: Create a personal account for an active principal and resolve its profile.
+- Principal use case: Create a Personal Account for an active Principal, initialize its Profile, and activate the Account.
 
 ### Source of truth
 

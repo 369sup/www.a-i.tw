@@ -12,32 +12,21 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
-  "problem": "Own organizations, memberships, invitations, and organization teams without owning authentication, enterprise policy, or repository access grants.",
-  "firstUseCase": "Create an organization and manage its membership and teams.",
-  "sourceOfTruth": ["Organization"],
+  "problem": "Own Organization Account identity and lifecycle without owning presentation Profile, Membership, Team, authentication, policy, or resource access grants.",
+  "firstUseCase": "Create an Organization Account for an active Principal, initialize its Profile, and activate the Account.",
+  "sourceOfTruth": ["OrganizationAccount"],
   "runtimeEvidence": {
     "status": "current",
-    "verifiedAt": "2026-07-14"
+    "verifiedAt": "2026-07-16"
   },
   "relationships": [
-    {
-      "upstream": "authentication-security",
-      "downstream": "organization-account",
-      "pattern": "open-host-service + published-language + anti-corruption-layer",
-      "contract": "PrincipalRefV1",
-      "consumerPort": "OrganizationPrincipal",
-      "consumerAcl": "AppCompositionPrincipalMapper",
-      "consistency": "synchronous",
-      "failureMode": "reject-inactive-principal",
-      "status": "current"
-    },
     {
       "upstream": "profile-presence",
       "downstream": "organization-account",
       "pattern": "open-host-service + published-language + anti-corruption-layer",
       "contract": "ProfileDirectoryApiV1",
       "consumerPort": "ProfileDirectory",
-      "consumerAcl": "AppCompositionProfileDirectory",
+      "consumerAcl": "ProfileDirectoryAdapter",
       "consistency": "synchronous",
       "failureMode": "reject-unavailable-profile",
       "status": "current"

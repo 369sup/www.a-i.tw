@@ -1,7 +1,6 @@
 export type OrganizationRefV1 = Readonly<{
   accountId: string;
   handle: string;
-  displayName: string;
   kind: "organization";
   status: "active" | "suspended";
 }>;
@@ -17,3 +16,21 @@ export interface OrganizationAccountDirectoryApiV1 {
     accountId: string,
   ): Promise<OrganizationEligibilityV1 | undefined>;
 }
+
+export type ProvisionOrganizationAccountV1 = Readonly<{
+  principal: Readonly<{
+    principalId: string;
+    status: "active" | "disabled";
+  }>;
+  handle: string;
+  displayName: string;
+}>;
+
+export interface OrganizationAccountProvisioningApiV1 {
+  provision(input: ProvisionOrganizationAccountV1): Promise<OrganizationRefV1>;
+}
+
+export interface OrganizationAccountApiV1
+  extends
+    OrganizationAccountDirectoryApiV1,
+    OrganizationAccountProvisioningApiV1 {}

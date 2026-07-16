@@ -17,8 +17,7 @@ export function EnterpriseAdministrationEmptyState() {
         </EmptyMedia>
         <EmptyTitle>No enterprise accounts</EmptyTitle>
         <EmptyDescription>
-          Create an enterprise to centrally govern organizations and repository
-          policy.
+          Create an enterprise to centrally govern affiliated organizations.
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>

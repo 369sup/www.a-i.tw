@@ -12,11 +12,11 @@ import { EnterpriseOrganizationAffiliationCard } from "./enterprise-organization
 export function EnterpriseAdministrationView({
   model,
   actions,
-  policyControl,
+  supplementalControls,
 }: {
   model: EnterpriseAdministrationViewModel;
   actions: EnterpriseAdministrationActions;
-  policyControl?: ReactNode;
+  supplementalControls?: ReactNode;
 }) {
   return (
     <main className="mx-auto flex w-full min-w-0 max-w-6xl flex-col gap-8 px-6 py-10">
@@ -25,8 +25,8 @@ export function EnterpriseAdministrationView({
           <p className="text-sm text-muted-foreground">Settings</p>
           <h1 className="text-3xl font-semibold">Enterprises</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Centrally govern organizations and non-Code repository visibility
-            policy. Enterprise accounts do not own repositories directly.
+            Centrally govern affiliated organizations. Enterprise accounts do
+            not own organization resources directly.
           </p>
         </div>
         <Button asChild variant="outline">
@@ -46,7 +46,7 @@ export function EnterpriseAdministrationView({
               affiliateOrganization={actions.affiliateOrganization}
               enterprise={model.selected}
             />
-            {policyControl}
+            {supplementalControls}
           </div>
         ) : (
           <EnterpriseAdministrationEmptyState />

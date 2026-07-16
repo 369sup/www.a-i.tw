@@ -1,9 +1,9 @@
 import type { SearchResult } from "../dto/search-result";
+import type { SearchDocumentInput } from "../dto/search-document-input";
 import type { SearchIndex } from "../ports/outbound/search-index";
 import {
   createSearchDocument,
   matchesSearch,
-  type SearchDocumentInput,
 } from "../../domain/search-discovery/entities/search-document";
 import { createSearchQuery } from "../../domain/search-discovery/value-objects/search-query";
 

@@ -133,8 +133,8 @@ Consumer Outbound Adapter ---> Provider contracts/vN/public.ts
 App server composition ---> Context composition/public-api
 ```
 
-Membership/Team slice 的 mapping 是：repository-console form／Server Action 為 inbound adapter；Account
-Application 擁有 invite／accept／remove Membership、manage Team use cases 與 store Ports；Account
+Membership/Team slice 的 mapping 是：repository-console form／Server Action 為 inbound adapter；Organization Participation
+Application 擁有 invite／accept／remove Membership、manage Team use cases 與 store Ports；Organization Participation
 Domain 擁有 Invitation、Membership 與 Team invariants；in-memory stores 為 outbound adapters；
 product composition 是唯一 wiring root。Authorization & Policy 透過 consumer-owned Ports／ACL
 消費 `MembershipFactV1`、`TeamMembershipFactV1` 與 active Principal facts，並擁有 Repository Access Grant、
@@ -164,20 +164,20 @@ Published Language。
 
 以下 impact scope 是 architecture review、tests、Semgrep 與文件審查共用的封閉枚舉：
 
-| Scope          | Meaning                                                        |
-| -------------- | -------------------------------------------------------------- |
-| `semantics`    | Ubiquitous Language、invariant、owner 與概念區分               |
-| `topology`     | Domain Group、Bounded Context、目錄與 runtime status           |
-| `domain`       | Value Object、Entity、Aggregate、Domain service／policy        |
-| `application`  | Command、Query、use case、process manager 與 Ports             |
-| `contract`     | versioned Published Language 與 Context Map relationship       |
-| `adapter`      | inbound/outbound mapping、persistence、integration、messaging  |
-| `composition`  | concrete adapter selection、lifecycle 與 cross-Context wiring  |
-| `presentation` | route、Server Action、UI、view model 與 request mapping        |
-| `data`         | source of truth、persistence record、projection 與 consistency |
-| `status`       | Current／Prototype／Research／Proposed 與 dated evidence       |
-| `verification` | Domain/Application/architecture/security tests 與 build        |
-| `docs-memory`  | canonical 文件、Serena navigation 與 Codex durable note        |
+| Scope          | Meaning                                                           |
+| -------------- | ----------------------------------------------------------------- |
+| `semantics`    | Ubiquitous Language、invariant、owner 與概念區分                  |
+| `topology`     | Domain Group、Domain Area、Bounded Context、目錄與 runtime status |
+| `domain`       | Value Object、Entity、Aggregate、Domain service／policy           |
+| `application`  | Command、Query、use case、process manager 與 Ports                |
+| `contract`     | versioned Published Language 與 Context Map relationship          |
+| `adapter`      | inbound/outbound mapping、persistence、integration、messaging     |
+| `composition`  | concrete adapter selection、lifecycle 與 cross-Context wiring     |
+| `presentation` | route、Server Action、UI、view model 與 request mapping           |
+| `data`         | source of truth、persistence record、projection 與 consistency    |
+| `status`       | Current／Prototype／Research／Proposed 與 dated evidence          |
+| `verification` | Domain/Application/architecture/security tests 與 build           |
+| `docs-memory`  | canonical 文件、Serena navigation 與 Codex durable note           |
 
 | Rule     | Normative anti-rule                                                                                                 | Impact scopes                                              | Required enforcement                                                                  |
 | -------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------- |
@@ -222,8 +222,8 @@ Technical package 不得反向 import `apps/**`；app-local composition、route 
 ## 7. Architecture document control
 
 Business layers remain inside each app-local Bounded Context. The canonical placement is one machine-declared Domain
-Group, then one Bounded Context, then the complete fixed layer template. Strategic Subdomain remains manifest metadata
-and does not create another directory level.
+Group, then one declared Domain Area, then one Bounded Context and its fixed layer template. Strategic Subdomain remains
+manifest metadata and does not create another directory level.
 
 [`architecture-governance.json`](architecture-governance.json) 恰好登錄 30 個 required
 concerns。文件類型的最低內容：

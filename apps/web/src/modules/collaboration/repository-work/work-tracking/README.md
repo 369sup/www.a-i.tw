@@ -53,7 +53,6 @@ Required invariants:
 
 ### Collaboration
 
-- Consumes from `authentication-security` through `PrincipalRefV1` (synchronous, current).
 - Consumes from `repository-governance` through `RepositoryParticipationApiV1` (synchronous, current).
 - Consumes from `community-safety` through `CommunitySafetyApiV1` (synchronous, current).
 

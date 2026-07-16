@@ -25,4 +25,42 @@ describe("enterprise account", () => {
       organizationAccountIds: ["account-organization"],
     });
   });
+
+  it("rejects unavailable and already-affiliated Organizations", async () => {
+    const store = new InMemoryEnterpriseStore();
+    const service = createEnterpriseAccountService(
+      store,
+      {
+        async resolve(organizationAccountId: string) {
+          return organizationAccountId === "active-org"
+            ? { organizationAccountId, status: "active" }
+            : undefined;
+        },
+      },
+      (() => {
+        let id = 0;
+        return () => `enterprise-${++id}`;
+      })(),
+      () => new Date("2026-07-16T00:00:00.000Z"),
+    );
+    const first = await service.create({ name: "First" });
+    const second = await service.create({ name: "Second" });
+
+    await expect(
+      service.affiliateOrganization({
+        enterpriseId: first.enterpriseId,
+        organizationAccountId: "missing",
+      }),
+    ).rejects.toThrow("Active Organization Account not found");
+    await service.affiliateOrganization({
+      enterpriseId: first.enterpriseId,
+      organizationAccountId: "active-org",
+    });
+    await expect(
+      service.affiliateOrganization({
+        enterpriseId: second.enterpriseId,
+        organizationAccountId: "active-org",
+      }),
+    ).rejects.toThrow("already governed");
+  });
 });

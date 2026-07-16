@@ -1,8 +1,8 @@
-# Enterprise Governance Context rules
+# Enterprise Account Context rules
 
-Owner: www.a-i.tw Product Team. Organize each layer by declared subdomain. Peer Context dependencies originate only from consumer
-Infrastructure integrations and use this Context's `contracts/<subdomain>/public.ts`. `public-api.ts` and
-`composition/index.ts` are reserved for app server composition. Ownership-free shared directories are forbidden.
+Owner: www.a-i.tw Product Team. Enterprise Account owns identity, lifecycle and Organization affiliation only. It must
+not own Organization resources, administrative roles, policy constraints or Repository actions. Peer dependencies use
+consumer outbound integration adapters and provider `contracts/<version>/public.ts`; app wiring uses Context composition.
 
 <!-- BEGIN:context-governance -->
 
@@ -12,7 +12,7 @@ Infrastructure integrations and use this Context's `contracts/<subdomain>/public
 
 - Lifecycle: `approved`; runtime evidence: `current`.
 - Owner: www.a-i.tw Product Team.
-- Problem: Govern multiple Organizations with Enterprise-scoped affiliations and enforceable policy constraints without owning their resources.
+- Problem: Own Enterprise Account identity, lifecycle, and Organization affiliations without owning Organization resources, administrative roles, or policy constraints.
 - Evidence status: Confirmed.
 
 ### Owns

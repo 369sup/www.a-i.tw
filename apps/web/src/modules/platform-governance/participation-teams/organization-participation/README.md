@@ -2,6 +2,13 @@
 
 Strategic subdomain `organization-participation` (`core`); owner www.a-i.tw Product Team.
 
+## Founding owner onboarding
+
+`OrganizationOnboardingProcess` owns the cross-Context workflow. It provisions Organization identity through the
+consumer-owned `OrganizationAccountOnboardingGateway`, persists its own process state, then creates one founding Owner
+Membership. A failed Membership write records the Account id and failure so the same Principal/handle request retries
+without creating another Account or Membership. Organization Account never writes participation state directly.
+
 <!-- BEGIN:context-governance -->
 
 ## Complete semantic governance
@@ -41,7 +48,7 @@ Required invariants:
 
 ### Collaboration
 
-- Consumes from `organization-account` through `OrganizationAccountDirectoryApiV1` (synchronous, current).
+- Consumes from `organization-account` through `OrganizationAccountApiV1` (synchronous, current).
 
 Navigation hierarchy is not a runtime dependency. Only versioned Published Language and consumer-owned Ports may cross a Context boundary.
 

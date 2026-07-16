@@ -7,16 +7,10 @@ import {
   createEnterprise,
   type Enterprise,
 } from "../../domain/enterprise-account/aggregates/enterprise";
+import { EnterpriseNotFoundError } from "../../domain/enterprise-account/errors/enterprise-not-found-error";
+import { OrganizationAffiliationUnavailableError } from "../../domain/enterprise-account/errors/organization-affiliation-unavailable-error";
+import type { EnterpriseStore } from "../ports/outbound/enterprise-store-port";
 import type { OrganizationAccountDirectory } from "../ports/outbound/organization-account-directory-port";
-
-export interface EnterpriseStore {
-  list(): Promise<Enterprise[]>;
-  find(enterpriseId: string): Promise<Enterprise | undefined>;
-  findByOrganization(
-    organizationAccountId: string,
-  ): Promise<Enterprise | undefined>;
-  save(enterprise: Enterprise): Promise<void>;
-}
 
 export interface EnterpriseAccountService extends EnterpriseAccountDirectoryApiV1 {
   list(): Promise<EnterpriseSummaryV1[]>;
@@ -51,17 +45,21 @@ export function createEnterpriseAccountService(
     },
     async affiliateOrganization(input) {
       const enterprise = await store.find(input.enterpriseId);
-      if (!enterprise) throw new Error("Enterprise not found.");
+      if (!enterprise) throw new EnterpriseNotFoundError();
       const organization = await organizations.resolve(
         input.organizationAccountId,
       );
       if (!organization || organization.status !== "active")
-        throw new Error("Active Organization Account not found.");
+        throw new OrganizationAffiliationUnavailableError(
+          "Active Organization Account not found.",
+        );
       const existing = await store.findByOrganization(
         input.organizationAccountId,
       );
       if (existing && existing.id !== enterprise.id)
-        throw new Error("Organization is already governed by an Enterprise.");
+        throw new OrganizationAffiliationUnavailableError(
+          "Organization is already governed by an Enterprise.",
+        );
       const updated = affiliateOrganization(
         enterprise,
         input.organizationAccountId,

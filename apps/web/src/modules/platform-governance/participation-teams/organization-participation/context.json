@@ -22,18 +22,18 @@
   ],
   "runtimeEvidence": {
     "status": "current",
-    "verifiedAt": "2026-07-14"
+    "verifiedAt": "2026-07-16"
   },
   "relationships": [
     {
       "upstream": "organization-account",
       "downstream": "organization-participation",
       "pattern": "open-host-service + published-language + anti-corruption-layer",
-      "contract": "OrganizationAccountDirectoryApiV1",
-      "consumerPort": "OrganizationAccountDirectory",
-      "consumerAcl": "AppCompositionOrganizationAccountDirectory",
+      "contract": "OrganizationAccountApiV1",
+      "consumerPort": "OrganizationAccountOnboardingGateway",
+      "consumerAcl": "OrganizationAccountOnboardingAdapter",
       "consistency": "synchronous",
-      "failureMode": "reject-unavailable-or-inactive-organization",
+      "failureMode": "persist-failed-onboarding-and-retry-without-duplicate-account-or-owner",
       "status": "current"
     }
   ]

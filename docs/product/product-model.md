@@ -26,43 +26,50 @@ constrained by Relationships, Grants, Policy, Entitlement and Request Facts
 
 ## Semantic classification
 
-| Type                  | GitHub language                                                                                                                                                                   | Architecture meaning                                      |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| Product Context       | Identity & Access, Account, Authorization & Policy, Enterprise Governance, Repository, Issues, Projects, Discussions, Notifications, Search, App Management, Activity Feed, Audit | Approved or prototype app-local owners                    |
-| Context candidate     | App Installation, Webhook Delivery, Marketplace, Billing, Sponsors, Support                                                                                                       | Proposed until G1-G3 approves owner and first use case    |
-| Relationship family   | Membership, Team membership, Follow, Star, Watch, Subscribe, Mention, Assignment                                                                                                  | Owner-published directed facts                            |
-| Control plane         | Authentication, Authorization, Policy, Entitlement, Audit, Integration                                                                                                            | Cross-cutting responsibility, not automatically a Context |
-| Governance boundary   | User/Organization/Enterprise account, Team, Repository, Project, Cost center, App installation                                                                                    | Scope classification, not one aggregate type              |
-| Experience surface    | Profile, Dashboard, Feed, Inbox, Explore, Command Palette, Web, Mobile                                                                                                            | Consumer-facing route or read model                       |
-| Architecture language | Port, Adapter, ACL, query result, view model, projection, composition root                                                                                                        | Never promoted into GitHub product language               |
+| Type                  | GitHub language                                                                                                                   | Architecture meaning                                      |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Product Context       | The 20 Current／Prototype Contexts listed below, including split Account, Profile, Participation, policy and collaboration owners | Approved or prototype app-local owners                    |
+| Context candidate     | App Installation, Webhook Delivery, Marketplace, Billing, Sponsors, Support                                                       | Proposed until G1-G3 approves owner and first use case    |
+| Relationship family   | Membership, Team membership, Follow, Star, Watch, Subscribe, Mention, Assignment                                                  | Owner-published directed facts                            |
+| Control plane         | Authentication, Authorization, Policy, Entitlement, Audit, Integration                                                            | Cross-cutting responsibility, not automatically a Context |
+| Governance boundary   | User/Organization/Enterprise account, Team, Repository, Project, Cost center, App installation                                    | Scope classification, not one aggregate type              |
+| Experience surface    | Profile, Dashboard, Feed, Inbox, Explore, Command Palette, Web, Mobile                                                            | Consumer-facing route or read model                       |
+| Architecture language | Port, Adapter, ACL, query result, view model, projection, composition root                                                        | Never promoted into GitHub product language               |
 
 ## Current runtime
 
-| Context                | Current ownership                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------------------------- |
-| Identity & Access      | Principal, authentication identity, credential verification and in-memory Session                       |
-| Account                | Personal/Organization Account, Profile, Membership, Invitation and Organization Team                    |
-| Enterprise Governance  | Enterprise, Organization affiliation, owner assignment and Repository visibility policy                 |
-| Authorization & Policy | Repository Role, Repository Access Grant and non-Code Authorization Decision                            |
-| Repository             | Repository identity, Account ownership, profile, visibility, state, feature configuration and lifecycle |
-| Issues                 | Issue, Issue Number, open/closed state, Label, Assignment and Assignee                                  |
-| Projects               | Project and Project Item references                                                                     |
-| Discussions            | Repository Q&A Category, Discussion, Comment and accepted Answer                                        |
-| Notifications          | Prototype Notification and Inbox state                                                                  |
-| Search                 | Prototype non-code Search Document and Result Set                                                       |
-| App Management         | Personal Account-owned private GitHub App Registration                                                  |
-| Activity Feed          | Prototype recipient-scoped Feed Item                                                                    |
-| Audit                  | Prototype administrative observation                                                                    |
+| Context                       | Current ownership                                                             |
+| ----------------------------- | ----------------------------------------------------------------------------- |
+| Authentication Security       | Principal, authentication identity, credential verification and Session       |
+| User Account                  | Personal Account identity and lifecycle; Managed User remains a later slice   |
+| Organization Account          | Organization identity and lifecycle without Profile or participation          |
+| Enterprise Account            | Enterprise identity, lifecycle and Organization affiliation                   |
+| Profile & Presence            | Account presentation independently of Account identity                        |
+| Organization Participation    | Membership, Invitation and Organization Team                                  |
+| Administrative Access Control | administrative role assignment                                                |
+| Policy Governance             | enforceable policy constraints and delegation                                 |
+| Repository Governance         | Repository identity, ownership, visibility, state, features, roles and grants |
+| Work Tracking                 | Issue, Issue Number, state, Label, Assignment and Assignee                    |
+| Work Planning                 | Project and Project Item references                                           |
+| Discussions                   | Repository Q&A Category, Discussion, Comment and accepted Answer              |
+| Repository Wiki               | Wiki and Wiki Page state without exposing Git-backed storage                  |
+| Community Safety              | Repository interaction limits and decisions                                   |
+| Social Curation               | Repository Star state                                                         |
+| Subscriptions & Notifications | separate subscription and Inbox lifecycles                                    |
+| Search & Discovery            | non-Code Search Document Projection and query                                 |
+| App Management                | Personal Account-owned private GitHub App Registration                        |
+| Activity Feed                 | prototype recipient-scoped Feed Item                                          |
+| Audit & Compliance            | prototype administrative observation                                          |
 
 Everything else in the non-code catalog is Research or Proposed. Presence in GitHub does not make local
 runtime Current.
 
 ## Target Context inventory
 
-There is no fixed Context count. Earlier planning used a 19-Context convenience map, but official lifecycle and ownership
-evidence requires distinctions that the count merged, including Authentication versus Identity Federation, Subscription
-versus Notification, and App Registry versus App Installation／Authorization versus Webhook Delivery. The authoritative
-logical owner inventory is maintained in
+ADR 0014 fixes the current physical portfolio at 37 descriptors, while logical owners may still change only through new
+official lifecycle and ownership evidence. Earlier convenience maps merged distinctions including Authentication versus
+Identity Federation, Subscription versus Notification, and App Registry versus App Installation／Authorization versus
+Webhook Delivery. The authoritative logical owner inventory is maintained in
 [GitHub non-Code semantic model](github-non-code-semantic-model.md#semantic-owner-registry).
 
 This correction does not create runtime directories. Existing `authentication-security` and Account contexts contain only
@@ -74,7 +81,7 @@ and source-of-truth evidence.
 The referenced product-model discussion also covers GitHub Education、Campus Program、Classroom、Certifications and
 Developer Program. Official documentation supports independent application/verification、institution partnership、course
 administration、exam/credential and program-membership lifecycles. The detailed canonical inventory therefore records an
-**Accepted 6-Group／12-Area／35-candidate portfolio taxonomy**.
+**Accepted 6-Group／12-Area／37-candidate portfolio taxonomy**.
 
 ADR 0014 supersedes ADR 0013's closed registry. The architecture control plane may migrate governance placement while
 preserving the fourteen Current Context IDs, Published Language and behavior. Programs remains Research: its governance
@@ -83,17 +90,18 @@ parents may exist, but every Programs Context still requires independent G1-G3 a
 ## Semantic reconstruction order
 
 The target is reconstructed from Ubiquitous Language and invariants, not from routes, adapters or empty template
-directories. Within each approved slice the implementation order is fixed:
+directories. Within each approved slice the implementation order is causal rather than a fixed tactical checklist:
 
 ```text
-official non-code behavior evidence
+approved use case and official non-code behavior evidence
+→ acceptance and failure cases
 → Ubiquitous Language and invariants
-→ Context-owned Value Objects
-→ Entity / Aggregate and Domain errors
-→ Domain tests
+→ Aggregate and transaction boundary
+→ only the necessary tactical Domain artifacts and tests
 → named Command / Query and Application Ports
+→ peer contract only for an approved consumer relationship
 → outbound and inbound Adapters
-→ server composition and Presentation
+→ Context and app composition, app-facing API, Presentation and runtime verification
 ```
 
 Value Objects are immutable, compare by value, validate or canonicalize at construction, and belong to exactly one
@@ -103,8 +111,8 @@ Language; internal Domain Value Objects never cross that boundary directly.
 
 The first implementation wave is the ownership and resource spine already backed by approved runtime evidence:
 
-1. **Account & Profile**: `AccountId`, `AccountHandle`, `AccountKind`, `AccountStatus`, then Profile, Membership,
-   Invitation and Team values. The first complete use case is Create Account.
+1. **Account & Profile**: User Account and Organization Account own identity, handle, kind and lifecycle. Profile &
+   Presence owns presentation. Organization Participation separately owns Membership, Invitation and Team.
 2. **Authentication**: Principal identity/status, authentication method and Session identity/expiry; browser tokens and
    cookies remain Application/Adapter concerns. Identity Federation is a separate lifecycle and requires its own gate.
 3. **Repository**: Repository identity/name-with-owner, Personal Account or Organization ownership, profile,
@@ -112,8 +120,8 @@ The first implementation wave is the ownership and resource spine already backed
    decisions belong to the approved Authorization & Policy Context and are consumed through a Repository-owned Port.
 4. **Issue Management**: repository-scoped Issue Number, state, title, Label name/color, Assignee, Milestone and
    dependency values.
-5. **Project Planning and Enterprise Governance**: account-owned Project item/field values and Enterprise-owned policy
-   constraints.
+5. **Project Planning and Enterprise Account**: Work Planning owns Project item/field values; Enterprise Account owns
+   Enterprise identity and Organization affiliation. Policy constraints remain in Policy Governance.
 
 Only after those approved Contexts have real Domain/Application/Adapter slices does research proceed according to the
 dependency order in the detailed inventory. Research sequence never merges owners and never makes a target Current; each

@@ -265,12 +265,12 @@
         "type": "core"
       },
       "owner": "www.a-i.tw Product Team",
-      "problem": "Govern multiple Organizations with Enterprise-scoped affiliations and enforceable policy constraints without owning their resources.",
-      "firstUseCase": "Affiliate an Organization and restrict Public Repository creation and visibility changes.",
+      "problem": "Own Enterprise Account identity, lifecycle, and Organization affiliations without owning Organization resources, administrative roles, or policy constraints.",
+      "firstUseCase": "Create an Enterprise Account and affiliate one active Organization Account.",
       "sourceOfTruth": ["Enterprise", "EnterpriseOrganizationAffiliation"],
       "runtimeEvidence": {
         "status": "current",
-        "verifiedAt": "2026-07-12"
+        "verifiedAt": "2026-07-16"
       },
       "relationships": [
         {
@@ -301,32 +301,21 @@
         "type": "core"
       },
       "owner": "www.a-i.tw Product Team",
-      "problem": "Own organizations, memberships, invitations, and organization teams without owning authentication, enterprise policy, or repository access grants.",
-      "firstUseCase": "Create an organization and manage its membership and teams.",
-      "sourceOfTruth": ["Organization"],
+      "problem": "Own Organization Account identity and lifecycle without owning presentation Profile, Membership, Team, authentication, policy, or resource access grants.",
+      "firstUseCase": "Create an Organization Account for an active Principal, initialize its Profile, and activate the Account.",
+      "sourceOfTruth": ["OrganizationAccount"],
       "runtimeEvidence": {
         "status": "current",
-        "verifiedAt": "2026-07-14"
+        "verifiedAt": "2026-07-16"
       },
       "relationships": [
-        {
-          "upstream": "authentication-security",
-          "downstream": "organization-account",
-          "pattern": "open-host-service + published-language + anti-corruption-layer",
-          "contract": "PrincipalRefV1",
-          "consumerPort": "OrganizationPrincipal",
-          "consumerAcl": "AppCompositionPrincipalMapper",
-          "consistency": "synchronous",
-          "failureMode": "reject-inactive-principal",
-          "status": "current"
-        },
         {
           "upstream": "profile-presence",
           "downstream": "organization-account",
           "pattern": "open-host-service + published-language + anti-corruption-layer",
           "contract": "ProfileDirectoryApiV1",
           "consumerPort": "ProfileDirectory",
-          "consumerAcl": "AppCompositionProfileDirectory",
+          "consumerAcl": "ProfileDirectoryAdapter",
           "consistency": "synchronous",
           "failureMode": "reject-unavailable-profile",
           "status": "current"
@@ -358,18 +347,18 @@
       ],
       "runtimeEvidence": {
         "status": "current",
-        "verifiedAt": "2026-07-14"
+        "verifiedAt": "2026-07-16"
       },
       "relationships": [
         {
           "upstream": "organization-account",
           "downstream": "organization-participation",
           "pattern": "open-host-service + published-language + anti-corruption-layer",
-          "contract": "OrganizationAccountDirectoryApiV1",
-          "consumerPort": "OrganizationAccountDirectory",
-          "consumerAcl": "AppCompositionOrganizationAccountDirectory",
+          "contract": "OrganizationAccountApiV1",
+          "consumerPort": "OrganizationAccountOnboardingGateway",
+          "consumerAcl": "OrganizationAccountOnboardingAdapter",
           "consistency": "synchronous",
-          "failureMode": "reject-unavailable-or-inactive-organization",
+          "failureMode": "persist-failed-onboarding-and-retry-without-duplicate-account-or-owner",
           "status": "current"
         }
       ]
@@ -430,7 +419,7 @@
       "sourceOfTruth": ["AccountProfile"],
       "runtimeEvidence": {
         "status": "current",
-        "verifiedAt": "2026-07-14"
+        "verifiedAt": "2026-07-16"
       },
       "relationships": []
     },
@@ -656,12 +645,12 @@
         "type": "core"
       },
       "owner": "www.a-i.tw Product Team",
-      "problem": "Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.",
-      "firstUseCase": "Create a personal account for an active principal and resolve its profile.",
+      "problem": "Own Personal and Managed User Account identity and lifecycle without owning presentation Profile, organization participation, or authentication.",
+      "firstUseCase": "Create a Personal Account for an active Principal, initialize its Profile, and activate the Account.",
       "sourceOfTruth": ["PersonalAccount"],
       "runtimeEvidence": {
         "status": "current",
-        "verifiedAt": "2026-07-14"
+        "verifiedAt": "2026-07-16"
       },
       "relationships": [
         {
@@ -670,7 +659,7 @@
           "pattern": "open-host-service + published-language + anti-corruption-layer",
           "contract": "ProfileDirectoryApiV1",
           "consumerPort": "ProfileDirectory",
-          "consumerAcl": "AppCompositionProfileDirectory",
+          "consumerAcl": "ProfileDirectoryAdapter",
           "consistency": "synchronous",
           "failureMode": "reject-unavailable-profile",
           "status": "current"
@@ -764,17 +753,6 @@
         "verifiedAt": "2026-07-12"
       },
       "relationships": [
-        {
-          "upstream": "authentication-security",
-          "downstream": "work-tracking",
-          "pattern": "open-host-service + published-language",
-          "contract": "PrincipalRefV1",
-          "consumerPort": "IssuePrincipal",
-          "consumerAcl": "AppCompositionPrincipalMapper",
-          "consistency": "synchronous",
-          "failureMode": "deny-inactive-principal",
-          "status": "current"
-        },
         {
           "upstream": "repository-governance",
           "downstream": "work-tracking",

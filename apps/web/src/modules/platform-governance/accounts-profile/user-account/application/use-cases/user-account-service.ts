@@ -18,17 +18,13 @@ export function createUserAccountService(
   ): Promise<PersonalAccountRefV1 | undefined> => {
     const account = await store.findAccount(accountId);
     if (!account || account.status === "provisioning") return undefined;
-    const profile = await profiles.resolve(accountId);
-    return profile
-      ? {
-          accountId: account.id,
-          handle: account.handle,
-          displayName: profile.displayName,
-          kind: "personal",
-          status: account.status,
-          personalPrincipalId: account.principalId,
-        }
-      : undefined;
+    return {
+      accountId: account.id,
+      handle: account.handle,
+      kind: "personal",
+      status: account.status,
+      personalPrincipalId: account.principalId,
+    };
   };
   return {
     async listAccounts() {
@@ -76,13 +72,10 @@ export function createUserAccountService(
         bio: "",
       };
       if (!existing) await store.saveAccount(account);
-      await profiles.save(profile);
+      await profiles.initialize(profile);
       const activated = activatePersonalAccount(account);
       await store.saveAccount(activated);
       return (await toRef(activated.id))!;
-    },
-    async profile(accountId: string) {
-      return profiles.resolve(accountId);
     },
   };
 }

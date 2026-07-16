@@ -1,21 +1,24 @@
 import type { AccountStore } from "../../../application/ports/outbound/account-store-port";
 import {
-  createOrganization,
-  type Account,
-} from "../../../domain/organization-account/aggregates/account";
+  rehydrateOrganizationAccount,
+  type OrganizationAccount,
+} from "../../../domain/organization-account/aggregates/organization-account";
 
 type AccountSeed = Readonly<{
   id: string;
   handle: string;
   kind: "organization";
-  status?: "active";
+  status?: "provisioning" | "active" | "suspended";
 }>;
 
 export class InMemoryAccountStore implements AccountStore {
-  private readonly accounts = new Map<string, Account>();
+  private readonly accounts = new Map<string, OrganizationAccount>();
   constructor(seed: readonly AccountSeed[] = []) {
     seed.forEach((item) => {
-      const account = createOrganization(item);
+      const account = rehydrateOrganizationAccount({
+        ...item,
+        status: item.status ?? "active",
+      });
       this.accounts.set(account.id, account);
     });
   }
@@ -28,7 +31,7 @@ export class InMemoryAccountStore implements AccountStore {
   async findByHandle(handle: string) {
     return [...this.accounts.values()].find((item) => item.handle === handle);
   }
-  async save(account: Account) {
+  async save(account: OrganizationAccount) {
     this.accounts.set(account.id, account);
   }
 }

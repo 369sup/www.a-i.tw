@@ -1,16 +1,16 @@
 import type { ProfileStore } from "../../../application/ports/outbound/profile-store-port";
 import {
-  defineAccountProfile,
+  initializeAccountProfile,
   type AccountProfile,
-  type DefineAccountProfileInput,
-} from "../../../domain/profile-presence/entities/profile";
+  type AccountProfileInput,
+} from "../../../domain/profile-presence/aggregates/account-profile";
 
 export class InMemoryProfileStore implements ProfileStore {
   private readonly profiles = new Map<string, AccountProfile>();
 
-  constructor(seed: readonly DefineAccountProfileInput[] = []) {
+  constructor(seed: readonly AccountProfileInput[] = []) {
     seed.forEach((item) => {
-      const profile = defineAccountProfile(item);
+      const profile = initializeAccountProfile(item);
       this.profiles.set(profile.accountId, profile);
     });
   }

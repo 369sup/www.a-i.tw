@@ -6,14 +6,14 @@
 `context-map.json`、Context manifest 與驗證證據共同判定；Proposed extension 不得被
 route 或程式碼視為已核准需求。
 
-| 策略領域                                    | Context 候選                     | 主要責任                                                                              | 明確不擁有                                             | 分類                 |
-| ------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------- |
-| [Identity & Access](identity-and-access.md) | `authentication-security`        | Principal、Credential、authentication factor、Session、recovery                       | Account、Membership、Repository access decision        | Generic / Supporting |
-| Account & Profile                           | existing `account` first slice   | Personal／Managed User Account、Profile、Account lifecycle                            | Membership、Team、Enterprise policy、authentication    | Supporting           |
-| Organization Directory                      | target; not scaffolded           | Organization、Membership、Invitation、Outside Collaborator、Team                      | Repository Role、Enterprise policy                     | Supporting           |
-| Enterprise Governance                       | target; partial runtime evidence | Enterprise、Organization affiliation、enterprise policy/role assignment               | direct Repository ownership、Organization content      | Supporting           |
-| Authorization & Policy                      | target; not scaffolded           | Permission、Role／Grant assignment、policy evaluation、authorization decision         | authentication、Repository lifecycle                   | Generic / Supporting |
-| [Repository](repository.md)                 | `repository`                     | identity、Account owner、profile、visibility、state、feature configuration、lifecycle | Principal、Team、access grant、Issue、Project、Webhook | Core candidate       |
+| 策略領域                                    | Context 候選                 | 主要責任                                                                               | 明確不擁有                                             | 分類                 |
+| ------------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------- |
+| [Identity & Access](identity-and-access.md) | `authentication-security`    | Principal、Credential、authentication factor、Session、recovery                        | Account、Membership、Repository access decision        | Generic / Supporting |
+| Accounts & Profile                          | four split runtime Contexts  | User／Organization／Enterprise identity plus separately owned Profile presentation     | Membership、Team、policy、authentication               | Core / Supporting    |
+| Organization Participation                  | `organization-participation` | Membership、Invitation、Outside Collaborator、Organization Team                        | Account lifecycle、Repository Role、Enterprise Team    | Core                 |
+| Enterprise governance controls              | split runtime Contexts       | Enterprise affiliation、administrative access and policy constraints by separate owner | direct Repository ownership、Organization content      | Supporting           |
+| Authorization & Policy                      | target; not scaffolded       | Permission、Role／Grant assignment、policy evaluation、authorization decision          | authentication、Repository lifecycle                   | Generic / Supporting |
+| [Repository](repository.md)                 | `repository`                 | identity、Account owner、profile、visibility、state、feature configuration、lifecycle  | Principal、Team、access grant、Issue、Project、Webhook | Core candidate       |
 
 共同命名與禁止用語在 [`ubiquitous-language.md`](ubiquitous-language.md)，關係、契約方向與 ACL 在
 [`context-map.md`](context-map.md)。完整 logical owner inventory 由

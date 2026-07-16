@@ -18,7 +18,7 @@ manifest, Published Language, architecture check, or CI gate.
 
 - Lifecycle: `approved`; runtime evidence: `current`.
 - Owner: www.a-i.tw Product Team.
-- Problem: Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.
+- Problem: Own Personal and Managed User Account identity and lifecycle without owning presentation Profile, organization participation, or authentication.
 - Evidence status: Confirmed.
 
 ### Owns

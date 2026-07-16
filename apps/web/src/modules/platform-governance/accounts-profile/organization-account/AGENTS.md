@@ -1,7 +1,7 @@
-# account bounded context
+# Organization Account bounded context
 
 - Owner: `www.a-i.tw Product Team`.
-- Domain: `Account Management`; subdomain: `account` (`core`).
+- Domain: `Organization Account`; subdomain: `organization-account` (`core`).
 - Keep the package's public exports deliberately empty until an approved use
   case or published language requires one.
 - Add a Context Map relationship and a versioned contract before importing a
@@ -11,13 +11,9 @@
   safety invariant, not an undocumented GitHub limit.
 - Persistence seeds and mappers must construct Account/Profile values through Domain factories. Contracts keep
   primitive Published Language and must not export internal branded Value Objects.
-- Membership Invitation expiry is seven days from issue. Only a pending invitation may be accepted, expired or
-  cancelled; acceptance is restricted to the invited Principal and cannot occur at or after expiry.
-- Membership role/status and Invitation status are Account-owned closed vocabularies. Do not reuse Principal, Team or
-  Repository lifecycle/role values.
-- Team identity is distinct from its canonical name. Team member collections contain unique Account-owned
-  `MembershipId` references; Application orchestration must require an active Organization Membership.
-- Do not add Team visibility, maintainer or hierarchy semantics without an approved use case and canonical evidence.
+- Membership, Invitation and Team state belongs to `organization-participation` and must not be written here.
+- A failed Profile initialization leaves an internal provisioning Account; public queries must hide it and the same
+  canonical handle must retry with the same Account identity.
 
 <!-- BEGIN:context-governance -->
 
@@ -27,14 +23,14 @@
 
 - Lifecycle: `approved`; runtime evidence: `current`.
 - Owner: www.a-i.tw Product Team.
-- Problem: Own organizations, memberships, invitations, and organization teams without owning authentication, enterprise policy, or repository access grants.
+- Problem: Own Organization Account identity and lifecycle without owning presentation Profile, Membership, Team, authentication, policy, or resource access grants.
 - Evidence status: Confirmed.
 
 ### Owns
 
 Canonical source-of-truth models declared by `context.json`:
 
-- `Organization`
+- `OrganizationAccount`
 
 ### Does not own
 

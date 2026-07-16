@@ -3,22 +3,27 @@ import "server-only";
 import {
   createUserAccountService,
   InMemoryUserAccountStore,
+  ProfileDirectoryAdapter as UserProfileDirectoryAdapter,
 } from "@/src/modules/platform-governance/accounts-profile/user-account/composition";
 import {
+  createProfileDirectoryService,
   createProfileService,
   InMemoryProfileStore,
 } from "@/src/modules/platform-governance/accounts-profile/profile-presence/composition";
 import {
   createAccountService,
   InMemoryAccountStore,
+  ProfileDirectoryAdapter as OrganizationProfileDirectoryAdapter,
 } from "@/src/modules/platform-governance/accounts-profile/organization-account/composition";
 import {
-  createFoundingMembershipWriter,
   createMembershipService,
+  createOrganizationOnboardingProcess,
   createTeamService,
   InMemoryMembershipInvitationStore,
   InMemoryMembershipStore,
+  InMemoryOrganizationOnboardingStore,
   InMemoryTeamStore,
+  OrganizationAccountOnboardingAdapter,
 } from "@/src/modules/platform-governance/participation-teams/organization-participation/composition";
 import {
   createIdentityAccessService,
@@ -157,11 +162,7 @@ function createProductComposition() {
       bio: "Organization governance and product planning.",
     },
   ]);
-  const profileDirectoryApi = {
-    resolve: (accountId: string) => profileStore.find(accountId),
-    save: (profile: Parameters<typeof profileStore.save>[0]) =>
-      profileStore.save(profile),
-  };
+  const profileDirectoryApi = createProfileDirectoryService(profileStore);
   const personalAccounts = createUserAccountService(
     new InMemoryUserAccountStore([
       {
@@ -175,7 +176,7 @@ function createProductComposition() {
         principalId: "principal-grace",
       },
     ]),
-    profileDirectoryApi,
+    new UserProfileDirectoryAdapter(profileDirectoryApi),
     nextId("account"),
   );
   const accountStore = new InMemoryAccountStore([
@@ -198,17 +199,29 @@ function createProductComposition() {
   ]);
   const organizations = createAccountService(
     accountStore,
-    profileDirectoryApi,
-    createFoundingMembershipWriter(membershipStore),
+    new OrganizationProfileDirectoryAdapter(profileDirectoryApi),
     nextId("account"),
+  );
+  const accountProfiles = createProfileService(profileStore);
+  const organizationAccountDirectoryApi = {
+    resolve: (id: string) => organizations.resolve(id),
+    eligibility: (id: string) => organizations.eligibility(id),
+  };
+  const organizationOnboardingGateway =
+    new OrganizationAccountOnboardingAdapter({
+      ...organizationAccountDirectoryApi,
+      provision: (input) => organizations.provision(input),
+    });
+  const organizationOnboarding = createOrganizationOnboardingProcess(
+    organizationOnboardingGateway,
+    organizationOnboardingGateway,
+    membershipStore,
+    new InMemoryOrganizationOnboardingStore(),
     nextId("membership"),
     () => new Date(),
   );
-  const organizationDirectoryForParticipation = {
-    resolve: (accountId: string) => organizations.resolve(accountId),
-  };
   const memberships = createMembershipService(
-    organizationDirectoryForParticipation,
+    organizationOnboardingGateway,
     membershipStore,
     new InMemoryMembershipInvitationStore(),
     nextId("membership"),
@@ -216,31 +229,16 @@ function createProductComposition() {
     () => new Date(),
   );
   const teams = createTeamService(
-    organizationDirectoryForParticipation,
+    organizationOnboardingGateway,
     memberships,
     new InMemoryTeamStore(),
     nextId("team"),
-  );
-  const accountProfiles = createProfileService(
-    {
-      async exists(accountId) {
-        return Boolean(
-          (await personalAccounts.resolve(accountId)) ??
-          (await organizations.resolve(accountId)),
-        );
-      },
-    },
-    profileStore,
   );
   const personalAccountDirectoryApi = {
     resolve: (id: string) => personalAccounts.resolve(id),
     resolveByPrincipal: (principalId: string) =>
       personalAccounts.resolveByPrincipal(principalId),
     eligibility: (id: string) => personalAccounts.eligibility(id),
-  };
-  const organizationAccountDirectoryApi = {
-    resolve: (id: string) => organizations.resolve(id),
-    eligibility: (id: string) => organizations.eligibility(id),
   };
   const organizationParticipationApi = {
     membership: (accountId: string, principalId: string) =>
@@ -252,22 +250,45 @@ function createProductComposition() {
   };
   const accounts = {
     async listAccounts() {
-      return [
+      const accountReferences = [
         ...(await personalAccounts.listAccounts()),
         ...(await organizations.listAccounts()),
       ];
+      return Promise.all(
+        accountReferences.map(async (account) => ({
+          ...account,
+          displayName:
+            (await accountProfiles.resolve(account.accountId))?.displayName ??
+            account.handle,
+        })),
+      );
     },
     async resolve(id: string) {
-      return (
+      const account =
         (await personalAccounts.resolve(id)) ??
-        (await organizations.resolve(id))
-      );
+        (await organizations.resolve(id));
+      if (!account) return undefined;
+      return {
+        ...account,
+        displayName:
+          (await accountProfiles.resolve(account.accountId))?.displayName ??
+          account.handle,
+      };
     },
     async eligibility(id: string) {
-      return (
+      const eligibility =
         (await personalAccounts.eligibility(id)) ??
-        (await organizations.eligibility(id))
-      );
+        (await organizations.eligibility(id));
+      if (!eligibility) return undefined;
+      return {
+        ...eligibility,
+        account: {
+          ...eligibility.account,
+          displayName:
+            (await accountProfiles.resolve(eligibility.account.accountId))
+              ?.displayName ?? eligibility.account.handle,
+        },
+      };
     },
     async create(input: {
       principal: { principalId: string; status: "active" | "disabled" };
@@ -275,13 +296,22 @@ function createProductComposition() {
       displayName: string;
       kind: "personal" | "organization";
     }) {
-      return input.kind === "personal"
-        ? personalAccounts.create({
-            principalId: input.principal.principalId,
-            handle: input.handle,
-            displayName: input.displayName,
-          })
-        : organizations.create({ ...input, kind: "organization" });
+      const account =
+        input.kind === "personal"
+          ? await personalAccounts.create({
+              principalId: input.principal.principalId,
+              handle: input.handle,
+              displayName: input.displayName,
+            })
+          : (
+              await organizationOnboarding.onboard({
+                principal: input.principal,
+                handle: input.handle,
+                displayName: input.displayName,
+              })
+            ).account;
+      const created = account;
+      return { ...created, displayName: input.displayName.trim() };
     },
   };
   const profiles = {

@@ -145,6 +145,23 @@ App route import Context internals，即使 TypeScript 能解析也都是 bounda
 跨 root 的能力都必須明確選擇上述兩個公開面之一。新增 `schemas/`、`application.ts`、`latest.ts` 等 contract
 類別屬於 templateVersion migration，必須另經 ADR 與 checker 更新，不能以局部檔案繞過固定模板。
 
+### Common anti-confusion guardrails
+
+以下配對用於避免術語重疊解讀；若衝突，依 ownership table、dependency rules 與 Context Map 關係裁決：
+
+| Pair | Must mean | Must not mean |
+| --- | --- | --- |
+| Inbound Port vs Contract | Inbound Port 是 Context 內 Use Case 介面；Contract 是跨 Context 發布語言。 | 以 Contract 取代本地 inbound Port，或把 inbound Port 當 peer entrypoint。 |
+| Facade vs Port | Facade 是 app-facing 或 contract-facing 呼叫面；Port 是 Application 擁有的能力需求/提供介面。 | 以 Facade 取代 Port ownership，或在 Domain 依賴 Facade。 |
+| Persistence Mapper vs Contract Mapper | Persistence mapper 僅在 `adapters/outbound/persistence` 映射 storage model。Contract 映射屬 Published Language/ACL 映射。 | 把 persistence record 直接當 contract DTO，或把 contract 映射放進 Domain。 |
+| HTTP DTO vs Application DTO vs Contract DTO | HTTP DTO 屬 inbound transport mapping；Application DTO 屬 use-case input/result；Contract DTO 屬版本化 Published Language。 | 讓 HTTP payload 直接流入 Domain，或以 Application DTO 充當 peer contract。 |
+| Domain Service vs Use Case | Domain Service 是純 Domain decision/predicate；Use Case 是 Application orchestration。 | 把 workflow/adapter coordination 放進 Domain Service。 |
+| Policy vs Specification | 兩者都屬純 Domain predicate；Policy 偏決策規則，Specification 偏可組合判定條件。 | 在其中任一者放 I/O、transport、authorization adapter 邏輯。 |
+| Process Manager vs Domain Event Handler | Process Manager 只負責跨步驟、跨 Aggregate/Context 的長流程協調。Domain Event handler 僅處理 Context 內部事件反應。 | 把一般短流程 orchestration 放進 process-managers，或把 integration 流程塞進 Domain event handler。 |
+
+補充：Application layer 的對外跨 Context 協作永遠先由 consumer-owned outbound Port 建模，再由 outbound
+integration adapter 對接 provider `contracts/vN/public.ts`；不得直接以 Facade 或 handler 跳過 Port。
+
 ## Enforcement
 
 `context-topology-migration.json` is in target mode with `boundedContextTemplateVersion: 2` and no legacy Contexts.

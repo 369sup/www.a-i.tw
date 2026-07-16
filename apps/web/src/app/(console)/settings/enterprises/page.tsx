@@ -21,7 +21,7 @@ export default async function EnterprisesSettingsPage({
         affiliateOrganization: affiliateOrganizationAction,
       }}
       model={model.enterprise}
-      policyControl={
+      supplementalControls={
         model.repositoryPolicy ? (
           <EnterpriseRepositoryPolicyCard
             model={model.repositoryPolicy}

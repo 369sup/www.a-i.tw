@@ -1,12 +1,31 @@
-import type { EnterpriseStore } from "../../../application/use-cases/enterprise-account-service";
-import type { Enterprise } from "../../../domain/enterprise-account/aggregates/enterprise";
+import type { EnterpriseStore } from "../../../application/ports/outbound/enterprise-store-port";
+import {
+  rehydrateEnterprise,
+  type Enterprise,
+} from "../../../domain/enterprise-account/aggregates/enterprise";
+
+type EnterpriseSeed = Readonly<{
+  id: string;
+  name: string;
+  status?: "active";
+  organizationAffiliations?: readonly {
+    organizationAccountId: string;
+    affiliatedAt: string;
+  }[];
+}>;
 
 export class InMemoryEnterpriseStore implements EnterpriseStore {
   private readonly enterprises = new Map<string, Enterprise>();
 
-  constructor(seed: readonly Enterprise[] = []) {
-    for (const enterprise of seed)
+  constructor(seed: readonly EnterpriseSeed[] = []) {
+    for (const item of seed) {
+      const enterprise = rehydrateEnterprise({
+        ...item,
+        status: item.status ?? "active",
+        organizationAffiliations: item.organizationAffiliations ?? [],
+      });
       this.enterprises.set(enterprise.id, enterprise);
+    }
   }
 
   async list() {

@@ -8,5 +8,5 @@ export type AccountProfileV1 = Readonly<{
 
 export interface ProfileDirectoryApiV1 {
   resolve(accountId: string): Promise<AccountProfileV1 | undefined>;
-  save(profile: AccountProfileV1): Promise<void>;
+  initialize(profile: AccountProfileV1): Promise<AccountProfileV1>;
 }

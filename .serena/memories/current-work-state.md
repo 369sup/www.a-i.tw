@@ -1,25 +1,53 @@
 # Current Work State
 ## Objective
-Complete semantic governance documentation for all 37 GitHub non-Code candidate bounded Contexts.
+Implement the approved GitHub Non-Code DDD/Hexagonal calibration plan across canonical docs, Accounts/Profile boundaries, architecture guards, and Organization founding-owner onboarding.
 ## Scope
-37 Context AGENTS.md and README.md files plus the centralized official evidence ledger; no runtime, manifest, API, Group, Area, or topology change.
+Canonical 6 Group / 12 Area / 37 descriptor governance; four Accounts/Profile runtime Contexts; Organization Participation onboarding; Context Map relationships; public API and architecture validation.
 ## Confirmed Decisions
-Use centralized evidence IDs; preserve 20 runtime Contexts and 17 planned Contexts; planned Contexts publish no runtime API; physical placement does not prove runtime completeness.
+- Portfolio topology is 37 physical descriptors, 20 runtime Contexts, and 17 planned descriptors; topology is not runtime completeness.
+- Account contracts own identity, handle, kind and status only; Profile & Presence owns displayName and presentation.
+- Account resolution and eligibility do not query Profile; app composition owns Account plus Profile view composition.
+- Organization founding-owner Membership is owned by Organization Participation and coordinated by an idempotent retryable process manager.
+- Runtime slices follow approved-use-case vertical slices, not a fixed Contract-first or Value-Object-first sequence.
 ## Completed
-Added complete managed governance blocks to all 37 Context AGENTS.md and README.md files; added 15 official billing, Marketplace, Sponsors, and Support evidence IDs; documented Repository access runtime co-location versus canonical Authorization and Policy ownership.
+- Removed Profile fields from Account Published Language and eliminated Account/Profile synchronous cycles.
+- Kept synchronous idempotent Profile initialization while making Profile updates local-Aggregate-only.
+- Added Organization onboarding state, process manager, combined consumer Port and provider-contract ACL.
+- Generalized relationship, contract, Port, ACL, cycle, ownership drift, count and public API guards.
+- Reconciled canonical product, DDD, Context Map and ownership documentation.
 ## In Progress
 None.
 ## Pending
-User review only; no implementation work remains in the requested scope.
+No implementation work remains in this task. Do not stage or commit unless explicitly requested.
 ## Modified Files
-75 tracked files: 74 Context governance Markdown files and docs/product/github-non-code-semantic-model.md.
+- apps/web/src/modules/platform-governance/accounts-profile/**
+- apps/web/src/modules/platform-governance/participation-teams/organization-participation/**
+- apps/web/src/composition/product-composition.ts
+- scripts/architecture/check-context-manifests.mjs
+- scripts/architecture/check-package-exports.mjs
+- docs/architecture/ddd-hexagonal-standard.md
+- docs/domains/** and docs/product/product-model.md
+- related Repository, Work Tracking and Search boundary files
 ## Git Anchor
-branch: main
-HEAD: a1f82c60dc7f979d79c123d7f6eac854e911be8e
-working tree: 75 modified tracked files, no staged or untracked files
+- Branch: main
+- HEAD: 82e7600681ded269f3d45e0ccdae4f030117faa1
+- Working tree: 115 changed or untracked entries, including pre-existing Account/Enterprise work; no stage, commit, push or cleanup performed.
 ## Validation
-Context audit: 37 total, 17 planned, 20 runtime, 0 duplicate source-of-truth declarations, 0 undefined evidence IDs. pnpm docs:check passed. pnpm arch:check passed including 90 architecture tests. Focused Prettier check passed. git diff --check passed.
+- Focused Account/Profile/onboarding: 3 files, 7 tests passed.
+- Full web Vitest: 70 files, 157 tests passed.
+- Web typecheck passed.
+- Web lint: 0 errors, one pre-existing unused CardTitle warning in dashboard/page.tsx.
+- docs:check passed.
+- arch:check passed, including 90 architecture tests.
+- Semgrep passed: 0 findings across 527 targets.
+- Production build passed.
+- git diff --check passed.
+- All changed task files pass Prettier; full format:check remains blocked by 23 unrelated baseline files under .agents, .codex and .playwright-mcp.
+- Serena diagnostics returned no errors or warnings for key changed runtime files.
 ## Known Risks
-Context7 returned limited detail for some planned commercial and support lifecycles; those documents remain explicitly Partial and planned. Temporary Repository support access remains pending dedicated official evidence. Repository access models are physically co-located in repository-governance due a completed merge but retain Authorization and Policy semantic ownership.
+- Persistence remains in-memory; onboarding durability is process-correct but not production durable until a durable adapter and Outbox infrastructure are approved.
+- Managed User remains target responsibility of User Account but is not implemented.
+- Worktree contains substantial pre-existing uncommitted changes and must be reviewed as one combined diff before any commit.
+- Context consumption at the user's memory-update request: approximately 33k characters remained (user-reported; not an official token-percentage signal).
 ## Next Action
-Review the focused governance diff; promote no planned Context without an approved first use case and refreshed official evidence.
+Review the combined working-tree diff, then choose whether to split and commit the approved calibration separately from pre-existing changes.

@@ -12,12 +12,12 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
-  "problem": "Govern multiple Organizations with Enterprise-scoped affiliations and enforceable policy constraints without owning their resources.",
-  "firstUseCase": "Affiliate an Organization and restrict Public Repository creation and visibility changes.",
+  "problem": "Own Enterprise Account identity, lifecycle, and Organization affiliations without owning Organization resources, administrative roles, or policy constraints.",
+  "firstUseCase": "Create an Enterprise Account and affiliate one active Organization Account.",
   "sourceOfTruth": ["Enterprise", "EnterpriseOrganizationAffiliation"],
   "runtimeEvidence": {
     "status": "current",
-    "verifiedAt": "2026-07-12"
+    "verifiedAt": "2026-07-16"
   },
   "relationships": [
     {

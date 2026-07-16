@@ -12,12 +12,12 @@
     "type": "core"
   },
   "owner": "www.a-i.tw Product Team",
-  "problem": "Own personal and managed account identity, public profile, and account lifecycle without owning organization membership or authentication.",
-  "firstUseCase": "Create a personal account for an active principal and resolve its profile.",
+  "problem": "Own Personal and Managed User Account identity and lifecycle without owning presentation Profile, organization participation, or authentication.",
+  "firstUseCase": "Create a Personal Account for an active Principal, initialize its Profile, and activate the Account.",
   "sourceOfTruth": ["PersonalAccount"],
   "runtimeEvidence": {
     "status": "current",
-    "verifiedAt": "2026-07-14"
+    "verifiedAt": "2026-07-16"
   },
   "relationships": [
     {
@@ -26,7 +26,7 @@
       "pattern": "open-host-service + published-language + anti-corruption-layer",
       "contract": "ProfileDirectoryApiV1",
       "consumerPort": "ProfileDirectory",
-      "consumerAcl": "AppCompositionProfileDirectory",
+      "consumerAcl": "ProfileDirectoryAdapter",
       "consistency": "synchronous",
       "failureMode": "reject-unavailable-profile",
       "status": "current"

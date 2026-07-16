@@ -27,17 +27,6 @@
   },
   "relationships": [
     {
-      "upstream": "authentication-security",
-      "downstream": "work-tracking",
-      "pattern": "open-host-service + published-language",
-      "contract": "PrincipalRefV1",
-      "consumerPort": "IssuePrincipal",
-      "consumerAcl": "AppCompositionPrincipalMapper",
-      "consistency": "synchronous",
-      "failureMode": "deny-inactive-principal",
-      "status": "current"
-    },
-    {
       "upstream": "repository-governance",
       "downstream": "work-tracking",
       "pattern": "open-host-service + published-language + anti-corruption-layer",

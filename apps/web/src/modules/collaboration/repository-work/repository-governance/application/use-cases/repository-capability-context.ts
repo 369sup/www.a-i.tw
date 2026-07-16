@@ -13,7 +13,6 @@ export type RepositoryAuthenticationView = Readonly<{
 type AccountScopeView = Readonly<{
   accountId: string;
   handle: string;
-  displayName: string;
   kind: "personal" | "organization";
   status: "active" | "suspended";
 }>;

@@ -2,16 +2,16 @@
 
 狀態：Baseline / reviewed 2026-07-12
 
-| Subdomain                                                                                                            | Context               | Class          | Change driver                      | Build / buy / integrate |
-| -------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------- | ---------------------------------- | ----------------------- |
-| Authentication mechanism                                                                                             | Identity & Access     | Generic        | provider and assurance             | Integrate behind Ports  |
-| Identity policy                                                                                                      | Identity & Access     | Supporting     | attribution/session rules          | Build                   |
-| Account ownership                                                                                                    | Account               | Supporting     | ownership and namespace            | Build                   |
-| Organization relationships                                                                                           | Account               | Core extension | Membership and Team lifecycle      | Build                   |
-| Enterprise governance                                                                                                | Enterprise Governance | Core           | cross-Organization policy boundary | Build                   |
-| Repository governance                                                                                                | Repository            | Core           | product differentiation            | Build                   |
-| Work tracking candidate                                                                                              | Issues candidate      | Core extension | Issue lifecycle and responsibility | Build after approval    |
-| Membership and Team are classified runtime extensions. Enterprise governance is                                      |
-| an approved Core subdomain; Identity Governance, Billing, Entitlement, Audit and Repository transfer remain separate |
-| deferred boundaries.                                                                                                 |
-| Reclassification requires Product owner review and an ADR when boundaries change.                                    |
+| Subdomain                                                                                                                    | Context                    | Class          | Change driver                      | Build / buy / integrate |
+| ---------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------------- | ---------------------------------- | ----------------------- |
+| Authentication mechanism                                                                                                     | Identity & Access          | Generic        | provider and assurance             | Integrate behind Ports  |
+| Identity policy                                                                                                              | Identity & Access          | Supporting     | attribution/session rules          | Build                   |
+| Account ownership                                                                                                            | Account                    | Supporting     | ownership and namespace            | Build                   |
+| Organization relationships                                                                                                   | Organization Participation | Core extension | Membership and Team lifecycle      | Build                   |
+| Enterprise account affiliation                                                                                               | Enterprise Account         | Core           | cross-Organization affiliation     | Build                   |
+| Repository governance                                                                                                        | Repository                 | Core           | product differentiation            | Build                   |
+| Work tracking candidate                                                                                                      | Issues candidate           | Core extension | Issue lifecycle and responsibility | Build after approval    |
+| Membership and Team are classified runtime extensions. Enterprise Account is                                                 |
+| an approved Core subdomain; policy, Identity Governance, Billing, Entitlement, Audit and Repository transfer remain separate |
+| deferred boundaries.                                                                                                         |
+| Reclassification requires Product owner review and an ADR when boundaries change.                                            |
