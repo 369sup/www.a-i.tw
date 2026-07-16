@@ -57,7 +57,7 @@ agent 不可用時由 primary agent 保留此 gate。
 - 固定模板：capability-oriented Domain、Application、Contracts、Adapters、Composition 與 Tests 一次建立。
 - Cross-context：consumer Application Port + consumer `adapters/outbound/integrations` ACL + provider
   `contracts/vN/public.ts`。
-- Reusable scaffold：`.agents/plugins/plugins/<plugin>/skills/<owner>/assets`。
+- Reusable scaffold：`plugins/<plugin>/skills/<owner>/assets`。
 - Next.js route／Server Action：inbound adapter；不得擁有 business rule。
 - Concrete adapter wiring：只在 `apps/web/src/composition`。
 - 不得新增 root `templates`、`modules` 或 ownership-free horizontal layer。
@@ -112,14 +112,14 @@ worktree；agent 不可用時由 primary agent 執行相同驗證。
 | Surface           | Responsibility                                                                                                                          |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | `.agents`         | 執行 repository routing、semantic lifecycle 與 approved Context scaffold                                                                |
-| `~/.codex/agents` | 個人 `product-researcher`、`architect`、`documenter`、`implementer`、`test-engineer`、`reviewer`、`security-reviewer`、`verifier` roles |
-| `.codex`          | 每個 task 的 Session Guard、順序與禁止越級規則                                                                                          |
+| `.codex/agents`   | 專案 `product-researcher`、`architect`、`documenter`、`implementer`、`test-engineer`、`reviewer`、`security-reviewer`、`verifier` roles |
+| `.codex`          | 每個 task 的 Session Guard、順序、MCP、hooks 與禁止越級規則                                                                             |
 | `.github`         | PR／feature intake 必須提供各 gate evidence                                                                                             |
 | `.semgrep`        | 靜態阻擋 framework-in-Domain、layer inversion 與敏感模式                                                                                |
 | `.serena`         | 符號影響分析、diagnostics 與驗證後主動維護的精簡導航 memory                                                                             |
 
-Custom agents 是 host-level execution aid，不是 repository source of truth。沒有安裝個人 agents 的 host 仍由 primary
-agent 完成所有 gate，不得降低 workflow、architecture、security、documentation 或 verification 要求。
+Custom agents 是 project-scoped execution aid，不是 repository source of truth。若 agent 無法載入，primary agent
+仍須完成所有 gate，不得降低 workflow、architecture、security、documentation 或 verification 要求。
 
 任何工具規則與 runtime／Context Map／canonical docs 衝突時，以 runtime evidence、Context
 Map manifest 與 canonical architecture standard 為準。

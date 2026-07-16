@@ -1,7 +1,7 @@
 # Serena command policy
 #
-# Serena MCP is started by `.codex/config.toml`. These policies cover only
-# direct CLI maintenance commands, not normal MCP calls.
+# Serena remains a user-level MCP registered through Serena's official Codex setup.
+# These policies cover direct CLI maintenance commands, not normal MCP calls.
 
 prefix_rule(
     pattern = ["serena", "project", "create"],

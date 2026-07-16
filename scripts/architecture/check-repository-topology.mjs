@@ -68,6 +68,10 @@ const exactAreaEntries = {
     ],
     files: ["AGENTS.md", "README.md"],
   },
+  plugins: {
+    directories: ["modules"],
+    files: ["AGENTS.md", "README.md"],
+  },
   scripts: {
     directories: ["architecture", "codex", "validation"],
     files: ["AGENTS.md", "README.md"],
@@ -117,6 +121,7 @@ const requiredRoots = [
   "apps",
   "docs",
   "packages",
+  "plugins",
   "scripts",
   "tests",
 ];
@@ -373,7 +378,7 @@ for (const packageEntry of readdirSync("packages", { withFileTypes: true })) {
     );
   }
 }
-const repositoryPluginRoot = ".agents/plugins/plugins";
+const repositoryPluginRoot = "plugins";
 for (const plugin of readdirSync(repositoryPluginRoot, {
   withFileTypes: true,
 })) {
@@ -420,7 +425,7 @@ if (!existsSync(marketplacePath)) {
           errors.push(`Duplicate repository marketplace plugin: ${name}.`);
         }
         marketplaceNames.add(name);
-        const expectedSourcePath = `./.agents/plugins/plugins/${name}`;
+        const expectedSourcePath = `./plugins/${name}`;
         if (entry?.source?.source !== "local") {
           errors.push(
             `Repository marketplace plugin ${name} must use a local source.`,

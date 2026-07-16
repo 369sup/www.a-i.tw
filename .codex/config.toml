@@ -1,37 +1,47 @@
-# Project-local Codex configuration.
-# Credentials, connector IDs, OAuth state, and user plugin cache remain host-managed.
+#:schema https://developers.openai.com/codex/config-schema.json
 
-# Root + nearest scoped AGENTS guidance must remain a small routing chain.
+# Project-local Codex configuration. Personal model, UI, notification,
+# authentication, profile, marketplace state, and host-owned runtime settings
+# remain in the user-level configuration.
+
 project_doc_max_bytes = 65536
 
 [features]
-hooks = true
+multi_agent = true
 
-[[hooks.SessionStart]]
-matcher = "startup|resume|compact"
+[agents]
+max_threads = 4
+max_depth = 1
+interrupt_message = true
 
-[[hooks.SessionStart.hooks]]
-type = "command"
-command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
-command_windows = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
-timeout = 30
-statusMessage = "Checking pending Serena checkpoint"
+[agents.architect]
+description = "Analyze repository architecture and ownership boundaries."
+config_file = "./agents/architect.toml"
 
-[[hooks.PreCompact]]
-matcher = "manual|auto"
+[agents.documenter]
+description = "Maintain canonical repository documentation."
+config_file = "./agents/documenter.toml"
 
-[[hooks.PreCompact.hooks]]
-type = "command"
-command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
-command_windows = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
-timeout = 30
-statusMessage = "Requesting Serena checkpoint before compaction"
+[agents.implementer]
+description = "Implement the smallest confirmed repository change."
+config_file = "./agents/implementer.toml"
 
-[[hooks.Stop]]
+[agents.product-researcher]
+description = "Research official product behavior and semantic ownership."
+config_file = "./agents/product-researcher.toml"
 
-[[hooks.Stop.hooks]]
-type = "command"
-command = 'node "$(git rev-parse --show-toplevel)/scripts/validation/codex-context-checkpoint/check-context.mjs" --hook'
-command_windows = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -Command \"$root = git rev-parse --show-toplevel; node (Join-Path $root 'scripts/validation/codex-context-checkpoint/check-context.mjs') --hook\""
-timeout = 30
-statusMessage = "Evaluating Serena checkpoint policy"
+[agents.reviewer]
+description = "Review correctness, regressions, security, and test gaps."
+config_file = "./agents/reviewer.toml"
+
+[agents.security-reviewer]
+description = "Review attack paths, authorization, data exposure, and supply-chain risks."
+config_file = "./agents/security-reviewer.toml"
+
+[agents.test-engineer]
+description = "Build focused tests for approved behavior."
+config_file = "./agents/test-engineer.toml"
+
+[agents.verifier]
+description = "Independently execute and classify repository validation."
+config_file = "./agents/verifier.toml"

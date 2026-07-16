@@ -94,10 +94,12 @@ ignore_all_files_in_gitignore: true
 initial_prompt: >-
   For supported code tasks, use Serena before native text reads: check the current
   configuration once, read project-overview only for routing, current-work-state only
-  when resuming, and knowledge only for relevant distilled facts. Inspect symbols
-  then
-  implementations/references before edits, prefer whole-symbol operations when
-  appropriate, and run diagnostics after code changes. Use native tools for docs,
+  when resuming, and knowledge only for relevant distilled facts. Start with
+  get_symbols_overview, address definitions through find_symbol name_path or
+  find_declaration, then inspect only required implementations and references.
+  Do not begin semantic code work with full-file reads or repository-wide text
+  search. Prefer whole-symbol operations when appropriate, and run changed-file
+  diagnostics plus reference checks after code changes. Use native tools for docs,
   config, Git, commands, and non-symbol text. Repository rules, code, tests,
   manifests, and canonical docs override memory.
 

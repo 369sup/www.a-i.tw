@@ -78,8 +78,8 @@ pnpm checkpoint:context -- --status
 
 ## Activation and maintenance
 
-Project hooks are loaded from `.codex/config.toml` only in a trusted project. On first use, review and trust their exact
-definitions through Codex `/hooks`, then start a new session or restart the client so the config is loaded.
+Lifecycle hooks and host shell launchers are user-managed. A personal Codex hook may call this repository's checkpoint
+entrypoint after confirming the current Git root contains it; otherwise use the commands above directly.
 
 - Stable memory names: `project-overview`, `knowledge`, and `current-work-state`.
 - Every checkpoint updates `current-work-state`; update `project-overview` only when routing changes and `knowledge` only when a verified durable record passes the admission gate.

@@ -4,7 +4,7 @@
 
 ```text
 .codex/
-├── agents/        # role briefs
+├── agents/        # project-scoped role briefs registered by config.toml
 ├── environments/  # reproducible project environment descriptors
 ├── rules/         # command-execution policy only
 ├── AGENTS.md
@@ -29,10 +29,9 @@
 
 - Prefer semantic tools for supported code symbols, references, implementations, diagnostics, and semantic refactors. Use precise text search and patch tools for prose, structured text, configuration, Git, and content that does not benefit from symbol analysis; mixed tasks must reconcile code and documentation evidence.
 - Use local installed documentation first for version-sensitive frameworks, packages, SDKs, and APIs; use external official versioned docs only when local evidence is incomplete.
-- Repository config may declare trusted-project hooks and instruction-discovery settings. User preferences, profiles,
-  host MCP commands, credentials, notifications, telemetry, and plugin state remain user-managed.
-- Windows project hooks use the verified absolute system PowerShell executable only as the lifecycle adapter;
-  interactive repository commands still use Git Bash `-c` and preserve the session cwd.
+- Repository config may declare project agents and instruction-discovery settings. User preferences, profiles,
+  host-specific MCP launchers, lifecycle hooks, shell paths, credentials, notifications, telemetry, and plugin state
+  remain user-managed.
 - Custom agents must reference formal repository rules instead of duplicating or weakening them.
 
 ## Prohibited actions

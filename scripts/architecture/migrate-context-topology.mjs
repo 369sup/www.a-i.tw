@@ -224,7 +224,7 @@ function rewriteKnownPaths(forward) {
     "docs",
     "tests",
     "scripts/architecture",
-    ".agents/plugins/plugins/modules/skills/scaffold-bounded-context",
+    "plugins/modules/skills/scaffold-bounded-context",
   ])
     walk(join(root, directory), files);
   const replacements = sourceReplacements(forward);

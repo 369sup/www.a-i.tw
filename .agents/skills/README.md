@@ -1,6 +1,6 @@
 # Repository skill routing
 
-Repository-owned skills are distributed through plugins under `.agents/plugins/plugins/`:
+Repository-owned skills are distributed through plugins under `plugins/`:
 
 | Plugin    | Skills                                                                                                                          |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------- |

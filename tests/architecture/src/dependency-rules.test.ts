@@ -426,7 +426,7 @@ const repositoryAreaContract = {
     files: ["AGENTS.md", "README.md"],
   },
   plugins: {
-    directories: ["modules", "serena"],
+    directories: ["modules"],
     files: ["AGENTS.md", "README.md"],
   },
   scripts: {
@@ -470,7 +470,7 @@ const repositoryAreaContract = {
   },
 } as const;
 
-const repositoryPluginNames = ["modules", "serena"] as const;
+const repositoryPluginNames = ["modules"] as const;
 
 function writeRepositoryAreaFixture() {
   const root = mkdtempSync(join(tmpdir(), "www-ai-repository-topology-"));
@@ -494,7 +494,7 @@ function writeRepositoryAreaFixture() {
     );
   }
   for (const pluginName of repositoryPluginNames) {
-    const pluginRoot = join(root, ".agents", "plugins", "plugins", pluginName);
+    const pluginRoot = join(root, "plugins", pluginName);
     mkdirSync(join(pluginRoot, ".codex-plugin"), { recursive: true });
     mkdirSync(join(pluginRoot, "skills"), { recursive: true });
     writeFileSync(
@@ -510,7 +510,7 @@ function writeRepositoryAreaFixture() {
         name,
         source: {
           source: "local",
-          path: `./.agents/plugins/plugins/${name}`,
+          path: `./plugins/${name}`,
         },
       })),
     }),
@@ -1066,7 +1066,7 @@ describe("closed repository area topology", () => {
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain(
-      "must use source.path ./.agents/plugins/plugins/modules",
+      "must use source.path ./plugins/modules",
     );
   });
 
@@ -1296,7 +1296,7 @@ describe("closed repository area topology", () => {
   it("rejects a plugin without its machine-readable manifest", () => {
     const root = writeRepositoryAreaFixture();
     rmSync(
-      join(root, ".agents/plugins/plugins/modules/.codex-plugin/plugin.json"),
+      join(root, "plugins/modules/.codex-plugin/plugin.json"),
     );
 
     const result = inspectRepositoryAreas(root);

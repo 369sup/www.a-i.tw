@@ -16,12 +16,12 @@ import { fileURLToPath } from "node:url";
 
 const sourceRoot = join(
   dirname(fileURLToPath(import.meta.url)),
-  "../../../../../../..",
+  "../../../../..",
 );
 const generatorRelativePath =
-  ".agents/plugins/plugins/modules/skills/scaffold-bounded-context/scripts/generate.mjs";
+  "plugins/modules/skills/scaffold-bounded-context/scripts/generate.mjs";
 const templateRelativePath =
-  ".agents/plugins/plugins/modules/skills/scaffold-bounded-context/assets/bounded-context-fixed-template";
+  "plugins/modules/skills/scaffold-bounded-context/assets/bounded-context-fixed-template";
 const contextPath =
   "apps/web/src/modules/platform-governance/authentication-identity/example-context";
 

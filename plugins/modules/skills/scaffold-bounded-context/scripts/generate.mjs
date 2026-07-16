@@ -13,7 +13,7 @@ import { join } from "node:path";
 const root = process.cwd();
 const template = join(
   root,
-  ".agents/plugins/plugins/modules/skills/scaffold-bounded-context/assets/bounded-context-fixed-template",
+  "plugins/modules/skills/scaffold-bounded-context/assets/bounded-context-fixed-template",
 );
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((pairs, value, index, values) => {
