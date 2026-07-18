@@ -37,7 +37,7 @@
     "react-resizable-panels": "^4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "3.8.0",
+    "recharts": "3.9.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0",
     "vaul": "^1.1.2",
