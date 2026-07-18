@@ -51,7 +51,7 @@
     "@testing-library/user-event": "14.6.1",
     "@vitejs/plugin-react": "5.1.2",
     "@vitest/coverage-v8": "4.1.10",
-    "dependency-cruiser": "18.0.0",
+    "dependency-cruiser": "18.1.0",
     "eslint": "^9",
     "eslint-config-prettier": "10.1.8",
     "jsdom": "28.1.0",
